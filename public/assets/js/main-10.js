@@ -122,16 +122,19 @@ const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="#" data-tickets a
 const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
 
 const IG_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
-const igLink = h => { h = String(h).replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/.*$/, "");
-  return `<a class="ig-link" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener" onclick="event.stopPropagation()">${IG_ICON}<span>@${esc(h)}</span></a>`; };
+// One Instagram icon next to each athlete's name; opens their profile without closing the match.
+const igIcon = x => {
+  if (!x || !x.instagram) return "";
+  const h = String(x.instagram).replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/[/?#].*$/, "");
+  return `<a class="ig-icon" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener" aria-label="${esc(full(x))} on Instagram" title="@${esc(h)}">${IG_ICON}</a>`;
+};
 
 const STATS = [
   ["Country", x => x.country ? COUNTRIES[x.country] : ""],
   ["Age", x => x.age],
   ["Height", x => x.height],
   ["Weight", x => x.weight],
-  ["Achievements", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")],
-  ["Instagram", x => x.instagram ? igLink(x.instagram) : ""]
+  ["Achievements", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")]
 ];
 
 const nameBlock = (x, side) => x
@@ -147,9 +150,9 @@ const detailHTML = (a, b, division, arm) => {
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
-        <span class="bd-name bd-name-a">${esc(full(a))}</span>
+        <span class="bd-name bd-name-a">${esc(full(a))}${igIcon(a)}</span>
         <span class="bd-div">${esc(division)}</span>
-        <span class="bd-name bd-name-b">${esc(full(b))}</span>
+        <span class="bd-name bd-name-b">${igIcon(b)}${esc(full(b))}</span>
       </div>
       <div class="bd-body">
         <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
@@ -214,7 +217,7 @@ const toggleBout = card => {
   }, 380);
 };
 $$(".bout-card.can-open").forEach(card => {
-  card.addEventListener("click", () => toggleBout(card));
+  card.addEventListener("click", e => { if (e.target.closest("a")) return; toggleBout(card); });
   card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleBout(card); } });
 });
 
