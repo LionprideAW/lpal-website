@@ -26,7 +26,7 @@ const MAIN_EVENT = {
   b: null
 };
 
-// photo = file name (without .webp). Chest-up crop in assets/img/bust/, full body in assets/img/athletes/.
+// photo = file name (without .webp). Chest-up crop in assets/img/bust-v2/, full body in assets/img/athletes-v2/. When photos change, save them in a new folder name (e.g. -v3) so browsers load the new ones.
 //         null = black silhouette.
 // country = code from COUNTRIES.
 // Optional, shown when a match is clicked: age, height, weight, achievements
@@ -113,8 +113,8 @@ function tick() {
 tick(); setInterval(tick, 1000);
 
 /* ---------- fight card (UFC-style list, click to expand) ---------- */
-const bust = p => p ? `assets/img/bust/${p}.webp` : "assets/img/bust/silhouette-athlete.webp";
-const body = p => p ? `assets/img/athletes/${p}.webp` : "assets/img/silhouette-athlete.webp";
+const bust = p => p ? `assets/img/bust-v2/${p}.webp` : "assets/img/bust-v2/silhouette-athlete.webp";
+const body = p => p ? `assets/img/athletes-v2/${p}.webp` : "assets/img/silhouette-athlete.webp";
 const flag = c => c ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="22" height="16" loading="lazy" onerror="this.remove()">` : "";
 const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x.country] || "")}</span>` : "";
 const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="#" data-tickets aria-disabled="true">Buy tickets</a>`;
@@ -185,8 +185,8 @@ const mainHTML = boutHTML({
   a: me.a, b: me.b, main: true, division: me.title, arm: me.arm,
   label: `<span class="tag tag-red">Main event</span> ${esc(me.title)}`,
   sub: `<span class="b-reveal">${esc(me.reveal)}</span>`,
-  imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust/silhouette-a.webp",
-  imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust/silhouette-b.webp"
+  imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust-v2/silhouette-a.webp",
+  imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-b.webp"
 });
 
 $("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
