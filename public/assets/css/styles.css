@@ -104,6 +104,9 @@ section{scroll-margin-top:76px}
 .hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 28%,rgba(0,0,0,.15) 55%,rgba(0,0,0,.85) 100%)}
 .hero-content{position:absolute;left:0;right:0;bottom:clamp(36px,7vh,80px);text-align:center;padding:0 16px}
 .hero-kicker{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.14em;font-size:clamp(13px,1.3vw,16px)}
+.hero-logo{margin:0 auto;width:min(560px,74vw)}
+.hero-logo img{width:100%;height:auto;filter:drop-shadow(0 6px 24px rgba(0,0,0,.55))}
+.hero-date{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(18px,2.2vw,28px);margin-top:14px;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 .hero-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(60px,10vw,150px);line-height:.88;letter-spacing:.01em;margin-top:6px}
 .hero-sub{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:clamp(15px,1.6vw,20px);margin-top:8px}
 .hero-actions{display:flex;justify-content:center;gap:12px;margin-top:24px;flex-wrap:wrap}
@@ -119,8 +122,10 @@ section{scroll-margin-top:76px}
 .kicker{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--red)}
 .event-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
   padding-bottom:24px;border-bottom:1px solid var(--line)}
+.event-title img{width:min(420px,78vw);height:auto;display:block}
 .event-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(52px,7vw,96px);line-height:.9;margin-top:4px}
-.event-meta{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-2);margin-top:6px}
+.event-meta{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin-top:14px;font-size:clamp(20px,2.2vw,28px);line-height:1.2;display:flex;flex-wrap:wrap;gap:0 12px}
+.event-meta .sep{color:var(--red)}
 .countdown{display:flex;gap:8px}
 .cd{background:var(--ink);color:#fff;width:clamp(64px,7vw,86px);padding:10px 0 8px;text-align:center}
 .cd span{display:block;font-family:var(--display);font-size:clamp(38px,4.4vw,54px);line-height:1;font-variant-numeric:tabular-nums}
