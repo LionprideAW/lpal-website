@@ -1,6 +1,6 @@
 /* ==========================================================
    LPAL site script
-   To update the site, edit SETTINGS and MATCHES below.
+   To update the site, edit SETTINGS, MAIN_EVENT and MATCHES below.
    ========================================================== */
 
 const SETTINGS = {
@@ -11,40 +11,50 @@ const SETTINGS = {
   ticketsUrl: ""
 };
 
-// photo = file in assets/img/athletes/ (without .webp). null = black silhouette.
-// text  = short description shown next to the match (optional).
-const MAIN_EVENT = {
-  title: "World title match",
-  reveal: "Announced 30 October"
+// Country codes (ISO 2 letters) -> name shown under the athlete
+const COUNTRIES = {
+  at: "Austria", bg: "Bulgaria", de: "Germany", fr: "France", ge: "Georgia",
+  gr: "Greece", it: "Italy", lt: "Lithuania", lv: "Latvia", ma: "Morocco",
+  rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey"
 };
 
+// Main event: fill in a/b on 30 October (same format as the matches below).
+const MAIN_EVENT = {
+  title: "LPAL World Title Match",
+  reveal: "Announced 30 October",
+  a: null,
+  b: null
+};
+
+// photo = file name in assets/img/bust/ (without .webp). null = black silhouette.
+// country = code from COUNTRIES. text = optional short description.
 const MATCHES = [
-  { a: { first: "Luka", last: "Tsinadze", photo: "luka-tsinadze" },
-    b: { first: "Nemanja", last: "Grujic", photo: "nemanja-grujic" },
+  { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze" },
+    b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
     division: "Middleweight 95kg", arm: "Right arm" },
-  { a: { first: "Sandris", last: "Sedis", photo: "sandris-sedis" },
-    b: { first: "Avtandil", last: "Tutberidze", photo: "avtandil-tutberidze" },
+  { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis" },
+    b: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze" },
     division: "Heavyweight 115kg", arm: "Left arm" },
-  { a: { first: "Rachid", last: "Ellouah", photo: null },
-    b: { first: "", last: "Black Buffalo", photo: "black-buffalo" },
+  { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: null },
+    b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo" },
     division: "Middleweight 95kg", arm: "Right arm" },
-  { a: { first: "Philipp", last: "Stahlhofen", note: "70KG", photo: null },
-    b: { first: "Reza", last: "Motamedi", note: "115KG", photo: null },
+  { a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: null },
+    b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null },
     division: "Heavyweight 115kg", arm: "", special: "David vs Goliath" },
-  { a: { first: "Ellen B.", last: "Åkesson", photo: "ellen-akesson" },
-    b: { first: "Ivana", last: "Hradská", photo: "ivana-hradska" },
+  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson" },
+    b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },
-  { a: { first: "Denis", last: "Gruber", photo: null },
-    b: { first: "Gabriele", last: "Giurdanella", photo: "gabriele-giurdanella" },
+  { a: { first: "Denis", last: "Gruber", country: "at", photo: null },
+    b: { first: "Gabriele", last: "Giurdanella", country: "it", photo: "gabriele-giurdanella" },
     division: "Middleweight 95kg", arm: "Right arm" },
-  { a: { first: "Allan", last: "Barberis", photo: "allan-barberis" },
-    b: { first: "Nikolay", last: "Tsankov", photo: "nikolay-tsankov" },
+  { a: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis" },
+    b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov" },
     division: "Super Heavyweight 115kg+", arm: "" },
-  { a: { first: "Ellen B.", last: "Åkesson", photo: "ellen-akesson" },
-    b: { first: "Megan", last: "Stone", photo: "megan-stone" },
+  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson" },
+    b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone" },
     division: "Women's Heavyweight 70kg", arm: "Left arm" },
-  { a: { first: "Gocha", last: "Sitchinava", photo: "gocha-sitchinava" },
-    b: { first: "Tunahan", last: "İlaslan", photo: "tunahan-ilaslan" },
+  { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava" },
+    b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan" },
     division: "Lightweight 77kg", arm: "Left arm" }
 ];
 
@@ -98,88 +108,52 @@ function tick() {
 }
 tick(); setInterval(tick, 1000);
 
-/* ---------- fight card carousel ---------- */
-const img = p => p ? `assets/img/athletes/${p}.webp` : "assets/img/silhouette-athlete.webp";
-const ticketsBtn = `<a class="btn btn-ghost-dark" href="#" data-tickets aria-disabled="true">Buy tickets</a>`;
-const watchBtn = `<a class="btn btn-red" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
+/* ---------- fight card (UFC-style list) ---------- */
+const bust = p => p ? `assets/img/bust/${p}.webp` : "assets/img/bust/silhouette-athlete.webp";
+const flag = c => c ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="22" height="16" loading="lazy" onerror="this.remove()">` : "";
+const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x.country] || "")}</span>` : "";
+const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="#" data-tickets aria-disabled="true">Buy tickets</a>`;
+const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
 
-const mainSlide = `
-  <article class="slide slide-main" aria-label="Main event">
-    <div class="stage">
-      <div class="stage-ath stage-a"><img src="assets/img/silhouette-a.webp" alt="Main event athlete to be announced"></div>
-      <div class="stage-ath stage-b"><img src="assets/img/silhouette-b.webp" alt="Main event athlete to be announced"></div>
-      <div class="me-center">
-        <span class="tag tag-red">Main event</span>
-        <h3>${esc(MAIN_EVENT.title)}</h3>
-        <p class="me-q">??? vs ???</p>
+const nameBlock = (x, side) => x
+  ? `<div class="b-name b-name-${side}">${x.first ? `<span class="b-first">${esc(x.first)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
+  : `<div class="b-name b-name-${side}"><span class="b-first">To be announced</span><span class="b-last b-tba">TBA</span></div>`;
+
+const boutHTML = ({ a, b, label, sub, imgA, imgB, main, idx }) => `
+  <li class="bout${main ? " bout-main" : ""}">
+    <div class="bout-card">
+      <p class="bout-label">${label}</p>
+      <div class="bout-row">
+        <div class="b-photo b-photo-a"><img src="${imgA}" alt="${a ? esc(full(a)) : "Main event athlete to be announced"}" loading="lazy"></div>
+        ${nameBlock(a, "a")}
+        <span class="b-vs">vs</span>
+        ${nameBlock(b, "b")}
+        <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : "Main event athlete to be announced"}" loading="lazy"></div>
+      </div>
+      <div class="bout-bar">
+        <div class="b-country">${country(a)}</div>
+        <div class="b-mid">${sub}</div>
+        <div class="b-country b-country-b">${country(b)}</div>
       </div>
     </div>
-    <div class="info">
-      <p class="info-kicker">Main event</p>
-      <h3 class="info-title">LPAL ${esc(MAIN_EVENT.title)}</h3>
-      <div class="info-tags"><span class="tag tag-red">${esc(MAIN_EVENT.reveal)}</span></div>
-      <p class="info-text">Two athletes, one LPAL world title. The names are revealed on 30 October. Follow us on Instagram to see it first.</p>
-      <div class="info-actions">${watchBtn}${ticketsBtn}<p class="soon">Tickets on sale soon</p></div>
-    </div>
-  </article>`;
+    <div class="bout-actions">${watchBtn}${ticketsBtn}</div>
+  </li>`;
 
-const matchSlide = (m, i) => `
-  <article class="slide" aria-label="Match ${i + 1}: ${esc(full(m.a))} vs ${esc(full(m.b))}">
-    <div class="stage">
-      <div class="stage-ath stage-a"><img src="${img(m.a.photo)}" alt="${esc(full(m.a))}" loading="lazy"></div>
-      <div class="stage-ath stage-b"><img src="${img(m.b.photo)}" alt="${esc(full(m.b))}" loading="lazy"></div>
-      <div class="stage-shade"></div>
-      <div class="stage-names">
-        <div class="sn sn-a">${m.a.first ? `<span class="sn-first">${esc(m.a.first)}</span>` : ""}<span class="sn-last">${esc(m.a.last)}</span>${m.a.note ? `<span class="sn-note">${esc(m.a.note)}</span>` : ""}</div>
-        <span class="sn-vs">VS</span>
-        <div class="sn sn-b">${m.b.first ? `<span class="sn-first">${esc(m.b.first)}</span>` : ""}<span class="sn-last">${esc(m.b.last)}</span>${m.b.note ? `<span class="sn-note">${esc(m.b.note)}</span>` : ""}</div>
-      </div>
-    </div>
-    <div class="info">
-      <p class="info-kicker">Match ${i + 1}${m.special ? ` &middot; “${esc(m.special)}”` : ""}</p>
-      <h3 class="info-title">${esc(m.a.last)} <span class="vs">vs</span> ${esc(m.b.last)}</h3>
-      <div class="info-tags"><span class="tag">${esc(m.division)}</span>${m.arm ? `<span class="tag">${esc(m.arm)}</span>` : ""}</div>
-      ${m.text ? `<p class="info-text">${esc(m.text)}</p>` : ""}
-      <div class="info-actions">${watchBtn}${ticketsBtn}<p class="soon">Tickets on sale soon</p></div>
-    </div>
-  </article>`;
-
-const slides = $("#slides");
-slides.innerHTML = mainSlide + MATCHES.map(matchSlide).join("");
-const slideEls = $$(".slide", slides);
-const total = slideEls.length;
-
-const chipLabels = ["Main event", ...MATCHES.map(m => `${m.a.last} vs ${m.b.last}`)];
-$("#chips").innerHTML = chipLabels.map((l, i) => `<button class="chip" data-i="${i}">${esc(l)}</button>`).join("");
-const chips = $$(".chip");
-
-let current = 0;
-const goTo = i => {
-  i = Math.max(0, Math.min(total - 1, i));
-  slides.scrollTo({ left: slideEls[i].offsetLeft - slides.offsetLeft, behavior: "smooth" });
-};
-const update = () => {
-  const i = Math.round(slides.scrollLeft / slides.clientWidth);
-  if (i === current && chips[i].classList.contains("active")) return;
-  current = i;
-  $("#card-count").textContent = i === 0 ? "Main event" : `Match ${i} / ${total - 1}`;
-  $("#prev").disabled = i === 0;
-  $("#next").disabled = i === total - 1;
-  chips.forEach((c, k) => c.classList.toggle("active", k === i));
-  const chip = chips[i];
-  chip.parentElement.scrollTo({ left: chip.offsetLeft - chip.parentElement.offsetLeft - 40, behavior: "smooth" });
-};
-slides.addEventListener("scroll", () => requestAnimationFrame(update), { passive: true });
-window.addEventListener("resize", () => goTo(current));
-$("#prev").addEventListener("click", () => goTo(current - 1));
-$("#next").addEventListener("click", () => goTo(current + 1));
-chips.forEach(c => c.addEventListener("click", () => goTo(+c.dataset.i)));
-slides.addEventListener("keydown", e => {
-  if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); }
-  if (e.key === "ArrowLeft") { e.preventDefault(); goTo(current - 1); }
+const me = MAIN_EVENT;
+const mainHTML = boutHTML({
+  a: me.a, b: me.b, main: true,
+  label: `<span class="tag tag-red">Main event</span> ${esc(me.title)}`,
+  sub: `<span class="b-reveal">${esc(me.reveal)}</span>`,
+  imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust/silhouette-a.webp",
+  imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust/silhouette-b.webp"
 });
-chips[0].classList.add("active");
-current = -1; update();
+
+$("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
+  a: m.a, b: m.b, idx: i,
+  label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
+  sub: `Match ${i + 1}`,
+  imgA: bust(m.a.photo), imgB: bust(m.b.photo)
+})).join("");
 
 /* ---------- tickets (inactive until a link is set) ---------- */
 const toast = $("#toast");
@@ -195,6 +169,5 @@ $$("[data-tickets]").forEach(a => {
     a.addEventListener("click", e => { e.preventDefault(); showToast("Tickets on sale soon"); });
   }
 });
-if (SETTINGS.ticketsUrl) $$(".soon").forEach(s => s.remove());
 
 $("#year").textContent = new Date().getFullYear();
