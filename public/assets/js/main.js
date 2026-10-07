@@ -26,8 +26,12 @@ const MAIN_EVENT = {
   b: null
 };
 
-// photo = file name in assets/img/bust/ (without .webp). null = black silhouette.
-// country = code from COUNTRIES. text = optional short description.
+// photo = file name (without .webp). Chest-up crop in assets/img/bust/, full body in assets/img/athletes/.
+//         null = black silhouette.
+// country = code from COUNTRIES.
+// Optional, shown when a match is clicked: age, height, weight, achievements
+//   e.g. age: 27, height: "185 cm", weight: "95 kg", achievements: ["European Champion 2024", "LPAL 2 winner"]
+// A row only appears once at least one of the two athletes has that value.
 const MATCHES = [
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze" },
     b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
@@ -108,28 +112,64 @@ function tick() {
 }
 tick(); setInterval(tick, 1000);
 
-/* ---------- fight card (UFC-style list) ---------- */
+/* ---------- fight card (UFC-style list, click to expand) ---------- */
 const bust = p => p ? `assets/img/bust/${p}.webp` : "assets/img/bust/silhouette-athlete.webp";
+const body = p => p ? `assets/img/athletes/${p}.webp` : "assets/img/silhouette-athlete.webp";
 const flag = c => c ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="22" height="16" loading="lazy" onerror="this.remove()">` : "";
 const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x.country] || "")}</span>` : "";
 const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="#" data-tickets aria-disabled="true">Buy tickets</a>`;
 const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
 
+const STATS = [
+  ["Country", x => x.country ? COUNTRIES[x.country] : ""],
+  ["Age", x => x.age],
+  ["Height", x => x.height],
+  ["Weight", x => x.weight],
+  ["Achievements", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")]
+];
+
 const nameBlock = (x, side) => x
   ? `<div class="b-name b-name-${side}">${x.first ? `<span class="b-first">${esc(x.first)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
   : `<div class="b-name b-name-${side}"><span class="b-first">To be announced</span><span class="b-last b-tba">TBA</span></div>`;
 
-const boutHTML = ({ a, b, label, sub, imgA, imgB, main, idx }) => `
-  <li class="bout${main ? " bout-main" : ""}">
-    <div class="bout-card">
-      <p class="bout-label">${label}</p>
-      <div class="bout-row">
-        <div class="b-photo b-photo-a"><img src="${imgA}" alt="${a ? esc(full(a)) : "Main event athlete to be announced"}" loading="lazy"></div>
-        ${nameBlock(a, "a")}
-        <span class="b-vs">vs</span>
-        ${nameBlock(b, "b")}
-        <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : "Main event athlete to be announced"}" loading="lazy"></div>
+const detailHTML = (a, b, division, arm) => {
+  const rows = STATS.map(([label, get]) => {
+    const va = get(a) || "", vb = get(b) || "";
+    if (!va && !vb) return "";
+    return `<tr><td class="sa">${label === "Country" ? esc(va) : va || "&ndash;"}</td><th>${label}</th><td class="sb">${label === "Country" ? esc(vb) : vb || "&ndash;"}</td></tr>`;
+  }).join("") + (arm ? `<tr><td class="sa">${esc(arm)}</td><th>Arm</th><td class="sb">${esc(arm)}</td></tr>` : "");
+  return `
+    <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
+      <div class="bd-head">
+        <span class="bd-name bd-name-a">${esc(full(a))}</span>
+        <span class="bd-div">${esc(division)}</span>
+        <span class="bd-name bd-name-b">${esc(full(b))}</span>
       </div>
+      <div class="bd-body">
+        <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
+        <table class="bd-stats"><tbody>${rows}</tbody></table>
+        <div class="bd-photo bd-photo-b"><img src="${body(b.photo)}" alt="" loading="lazy"></div>
+      </div>
+    </div></div>`;
+};
+
+const boutHTML = ({ a, b, label, sub, imgA, imgB, main, division, arm }) => {
+  const canOpen = a && b;
+  return `
+  <li class="bout${main ? " bout-main" : ""}">
+    <div class="bout-card${canOpen ? " can-open" : ""}"${canOpen ? ` role="button" tabindex="0" aria-expanded="false" aria-label="Show details: ${esc(full(a))} vs ${esc(full(b))}"` : ""}>
+      ${canOpen ? `<span class="b-expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>` : ""}
+      <div class="bout-compact"><div>
+        <p class="bout-label">${label}</p>
+        <div class="bout-row">
+          <div class="b-photo b-photo-a"><img src="${imgA}" alt="${a ? esc(full(a)) : "Main event athlete to be announced"}" loading="lazy"></div>
+          ${nameBlock(a, "a")}
+          <span class="b-vs">vs</span>
+          ${nameBlock(b, "b")}
+          <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : "Main event athlete to be announced"}" loading="lazy"></div>
+        </div>
+      </div></div>
+      ${canOpen ? detailHTML(a, b, division, arm) : ""}
       <div class="bout-bar">
         <div class="b-country">${country(a)}</div>
         <div class="b-mid">${sub}</div>
@@ -138,10 +178,11 @@ const boutHTML = ({ a, b, label, sub, imgA, imgB, main, idx }) => `
     </div>
     <div class="bout-actions">${watchBtn}${ticketsBtn}</div>
   </li>`;
+};
 
 const me = MAIN_EVENT;
 const mainHTML = boutHTML({
-  a: me.a, b: me.b, main: true,
+  a: me.a, b: me.b, main: true, division: me.title, arm: me.arm,
   label: `<span class="tag tag-red">Main event</span> ${esc(me.title)}`,
   sub: `<span class="b-reveal">${esc(me.reveal)}</span>`,
   imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust/silhouette-a.webp",
@@ -149,11 +190,27 @@ const mainHTML = boutHTML({
 });
 
 $("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
-  a: m.a, b: m.b, idx: i,
+  a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: `Match ${i + 1}`,
   imgA: bust(m.a.photo), imgB: bust(m.b.photo)
 })).join("");
+
+const toggleBout = card => {
+  const open = !card.classList.contains("open");
+  $$(".bout-card.open").forEach(c => { if (c !== card) { c.classList.remove("open"); c.setAttribute("aria-expanded", "false"); $(".bout-detail", c).setAttribute("aria-hidden", "true"); } });
+  card.classList.toggle("open", open);
+  card.setAttribute("aria-expanded", open);
+  $(".bout-detail", card).setAttribute("aria-hidden", !open);
+  if (open) setTimeout(() => {
+    const r = card.getBoundingClientRect();
+    if (r.top < 80 || r.bottom > window.innerHeight) window.scrollBy({ top: r.top - 90, behavior: "smooth" });
+  }, 380);
+};
+$$(".bout-card.can-open").forEach(card => {
+  card.addEventListener("click", () => toggleBout(card));
+  card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleBout(card); } });
+});
 
 /* ---------- tickets (inactive until a link is set) ---------- */
 const toast = $("#toast");
