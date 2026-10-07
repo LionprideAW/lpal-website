@@ -1,11 +1,9 @@
-/assets/img/*
-  Cache-Control: public, max-age=604800
-/assets/video/*
-  Cache-Control: public, max-age=604800
-/assets/css/*
-  Cache-Control: public, max-age=300
-/assets/js/*
-  Cache-Control: public, max-age=300
+/
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/assets/*
+  Cache-Control: public, max-age=86400
 /*
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
