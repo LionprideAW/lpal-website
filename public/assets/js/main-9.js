@@ -29,7 +29,8 @@ const MAIN_EVENT = {
 // photo = file name (without .webp). Chest-up crop in assets/img/bust-v2/, full body in assets/img/athletes-v2/. When photos change, save them in a new folder name (e.g. -v3) so browsers load the new ones.
 //         null = black silhouette.
 // country = code from COUNTRIES.
-// Optional, shown when a match is clicked: age, height, weight, achievements
+// Optional, shown when a match is clicked: instagram, age, height, weight, achievements
+//   instagram: "handle" (without @), e.g. instagram: "lpal_athlete"
 //   e.g. age: 27, height: "185 cm", weight: "95 kg", achievements: ["European Champion 2024", "LPAL 2 winner"]
 // A row only appears once at least one of the two athletes has that value.
 const MATCHES = [
@@ -120,12 +121,17 @@ const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x
 const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="#" data-tickets aria-disabled="true">Buy tickets</a>`;
 const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
 
+const IG_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
+const igLink = h => { h = String(h).replace(/^@/, "").replace(/^https?:\/\/(www\.)?instagram\.com\//, "").replace(/\/.*$/, "");
+  return `<a class="ig-link" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener" onclick="event.stopPropagation()">${IG_ICON}<span>@${esc(h)}</span></a>`; };
+
 const STATS = [
   ["Country", x => x.country ? COUNTRIES[x.country] : ""],
   ["Age", x => x.age],
   ["Height", x => x.height],
   ["Weight", x => x.weight],
-  ["Achievements", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")]
+  ["Achievements", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")],
+  ["Instagram", x => x.instagram ? igLink(x.instagram) : ""]
 ];
 
 const nameBlock = (x, side) => x
