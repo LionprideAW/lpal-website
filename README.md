@@ -2,6 +2,7 @@
 
 Website of the Lion Pride Armwrestling League, hosted on Cloudflare Pages.
 
-- Fight card, event date and ticket link: top of `assets/js/main.js`
-- Styles: `assets/css/styles.css`
-- Images: `assets/img/` (athlete photos in `assets/img/athletes/`)
+- Fight card, event date and ticket link: top of `public/assets/js/main.js`
+- Styles: `public/assets/css/styles.css`
+- Images: `public/assets/img/` (athlete photos in `public/assets/img/athletes/`)
+- Deploy: Cloudflare builds from this repo with `npx wrangler deploy` (settings in `wrangler.jsonc`)
