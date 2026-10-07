@@ -86,6 +86,37 @@ const setMenu = open => {
 menuBtn.addEventListener("click", () => setMenu(menu.hidden));
 $$("a", menu).forEach(a => a.addEventListener("click", () => setMenu(false)));
 
+/* ---------- sliding red line in the top bar ---------- */
+const bar = $(".bar");
+const line = $(".nav-line");
+const brand = $(".brand");
+const moveLine = (el, w) => {
+  const b = bar.getBoundingClientRect(), r = el.getBoundingClientRect();
+  const width = w ?? r.width;
+  line.style.width = width + "px";
+  line.style.transform = `translateX(${r.left - b.left + (r.width - width) / 2}px)`;
+};
+const LOGO_W = 34;
+const restLine = () => moveLine(brand, LOGO_W);
+$$(".nav-left .nav-link").forEach(a => {
+  a.addEventListener("mouseenter", () => { moveLine(a); $$(".nav-link").forEach(x => x.classList.toggle("is-hot", x === a)); });
+  a.addEventListener("focus", () => moveLine(a));
+});
+brand.addEventListener("mouseenter", restLine);
+$(".nav-left").addEventListener("mouseleave", () => { restLine(); $$(".nav-link").forEach(x => x.classList.remove("is-hot")); });
+// on load: draw the line in from the centre of the logo
+line.classList.add("no-anim"); moveLine(brand, 0); line.getBoundingClientRect();
+line.classList.remove("no-anim");
+setTimeout(restLine, 350);
+// keep it under the logo while the bar resizes (scroll) and on window resize
+let raf;
+const follow = () => { cancelAnimationFrame(raf); const t0 = performance.now();
+  const step = t => { if (!$(".nav-left:hover")) { line.classList.add("no-anim"); restLine(); } if (t - t0 < 650) raf = requestAnimationFrame(step); else line.classList.remove("no-anim"); };
+  raf = requestAnimationFrame(step); };
+let wasScrolled = header.classList.contains("scrolled");
+window.addEventListener("scroll", () => { const s2 = header.classList.contains("scrolled"); if (s2 !== wasScrolled) { wasScrolled = s2; follow(); } }, { passive: true });
+window.addEventListener("resize", () => { line.classList.add("no-anim"); restLine(); setTimeout(() => line.classList.remove("no-anim"), 50); });
+
 /* ---------- opener video (lighter file on phones) ---------- */
 const video = $("#opener");
 video.src = window.matchMedia("(max-width: 820px)").matches
