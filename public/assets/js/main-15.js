@@ -57,7 +57,7 @@ const MATCHES = [
     division: "Super Heavyweight 115kg+", arm: "Right arm" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" },
-    division: "Women's Heavyweight 70kg", arm: "Left arm" },
+    division: "Women's Middleweight 70kg", arm: "Left arm" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11" },
     b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" },
     division: "Lightweight 77kg", arm: "Left arm" }
