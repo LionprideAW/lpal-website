@@ -227,4 +227,12 @@ $$("[data-tickets]").forEach(a => {
   }
 });
 
+/* ---------- retry photos that failed to load (e.g. mid-update) ---------- */
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || img.dataset.retried || img.classList.contains("flag")) return;
+  img.dataset.retried = "1";
+  img.src = img.src.split("?")[0] + "?r=" + Date.now();
+}, true);
+
 $("#year").textContent = new Date().getFullYear();
