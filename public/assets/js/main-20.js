@@ -5,7 +5,7 @@
 
 const SETTINGS = {
   // Event start, Cologne time (CET = +01:00 in January)
-  eventStart: "2027-01-09T19:00:00+01:00",
+  eventStart: "2027-01-09T17:00:00+01:00",
   watchUrl: "https://kick.com/lionpridearmwrestling",
   // Ticket shop link. While empty, BUY TICKETS stays inactive.
   ticketsUrl: ""
