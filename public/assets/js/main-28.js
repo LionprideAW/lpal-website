@@ -460,19 +460,19 @@ document.addEventListener("error", e => {
 }, true);
 
 /* ==========================================================
-   PRIDE STORIES. Newest first. Photo = 9:16 image in assets/img/stories/.
+   PRIDE STORIES. Newest first. Photo = 4:5 image (864x1080) in assets/img/stories/.
    text: paragraphs separated by a blank line.
    ========================================================== */
 const STORIES = [
-  { id: "lpal4-cologne", tag: "Upcoming", date: "2026-10-08", photo: "lpal4-cologne.jpg",
-    title: "LPAL 4 comes to Cologne",
-    text: "On 9 January 2027 the Lion Pride Armwrestling League goes to Germany for the biggest night in league history.\n\nNine matches, five divisions and an LPAL World Championship main event. Every match streams live and free on Kick." },
-  { id: "belt-reveal", tag: "World title", date: "2026-01-31", photo: "belt-reveal.jpg",
-    title: "The belt is real",
-    text: "At LPAL 3 in Vienna we revealed the LPAL World Championship belt for the first time.\n\nIn Cologne, two athletes pull for it. The main event is announced on 30 October." },
-  { id: "watch-free", tag: "Watch", date: "2025-05-03", photo: "watch-free.jpg",
-    title: "Every match, free",
-    text: "Missed a match? Every LPAL 1, 2 and 3 match is on our YouTube channel, and you can watch them right here on the event pages.\n\nLPAL 4 streams live and free on Kick." }
+  { id: "ellen-signs", tag: "Signing", date: "2026-10-09", photo: "ellen-signs.jpg",
+    title: "Ellen B. Åkesson signs with LPAL",
+    text: "Former WWE athlete and Sweden's Strongest Woman Ellen B. Åkesson is officially an LPAL athlete." },
+  { id: "ellen-two-opponents", tag: "History", date: "2026-10-09", photo: "ellen-two-opponents.jpg",
+    title: "Two opponents, one night",
+    text: "Ellen B. Åkesson will be the first woman ever to pull against two different opponents at the same event.\n\nBoth opponents are elite WAF athletes. The matches will be revealed soon." },
+  { id: "world-title-match", tag: "World title", date: "2026-10-09", photo: "world-title-match.jpg",
+    title: "The first LPAL World Title Match",
+    text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 30 October." }
 ];
 const STORY_MS = 7000;
 
