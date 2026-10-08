@@ -540,10 +540,26 @@ body.no-scroll{overflow:hidden}
 }
 @media (prefers-reduced-motion:reduce){.sv.swap #sv-img,.sv.swap .sv-text>*{animation:none}}
 
-/* featured content: dark grey cards */
-.feat-main,.ig-card{background:#262626;color:#f2f2f2}
-.feat-body p:not(.feat-tag),.ig-text,.ig-caption{color:#d6d6d6}
-.feat-tag,.ig-sub,.ig-meta,.ig-more{color:#9a9a9a}
-.ig-name,.ig-stat{color:#fff}
-.ig-follow{color:#5aa9ff}
-.ig-avatar img{background:#fff}
+
+/* instagram: window in a window (post embed inside the white card) */
+.ig-card{padding:22px 24px 24px}
+.ig-card>.ig-logo{width:16px;height:16px;color:#8a8a8a;display:block}
+.ig-headline{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(26px,2.2vw,32px);line-height:1;margin:10px 0 16px}
+.ig-embed{border:1px solid #dbdbdb;border-radius:12px;padding:16px;background:#fff}
+.ig-embed .ig-head{align-items:flex-start}
+.ig-embed .ig-avatar{width:40px;height:40px}
+.ig-embed .ig-name{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ig-embed .ig-who{min-width:0;flex:1}
+.ig-verified{width:14px;height:14px;flex:0 0 auto}
+.ig-embed .ig-sub{font-size:13px;color:#262626}
+.ig-embed .ig-follow{color:#0095f6;font-family:inherit;font-weight:700;font-size:13px;text-transform:none;letter-spacing:0}
+.ig-mark{margin-left:auto;color:#262626;width:22px;height:22px;flex:0 0 auto}
+.ig-mark svg{width:22px;height:22px}
+.ig-embed .ig-caption{margin:12px 0 12px;font-size:14px;color:#262626}
+.ig-embed .ig-post{margin:0;border-radius:8px;width:auto;max-width:100%}
+.ig-embed .ig-date{margin-top:12px;font-size:12px;color:#8a8a8a}
+.ig-embed .ig-meta{margin:8px 0 0}
+.ig-card .ig-thumbs{margin:16px 0}
+.ig-thumbs a{border-radius:6px}
+.bout-detail{overflow:hidden}
+html,body{overflow-x:clip}

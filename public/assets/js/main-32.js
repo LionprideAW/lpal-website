@@ -664,21 +664,27 @@ if (igBox) {
       const short = cap.length > 170 ? cap.slice(0, 170).replace(/\s+\S*$/, "") + "…" : cap;
       const likes = typeof p.likeCount === "number" ? `<span class="ig-stat">${HEART}${num(p.likeCount)}</span>` : "";
       const comments = typeof p.commentsCount === "number" ? `<span class="ig-stat">${BUBBLE}${num(p.commentsCount)}</span>` : "";
+      const IG_LOGO = `<svg class="ig-logo" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
       igBox.innerHTML = `
-        <div class="ig-head">
-          <span class="ig-avatar"><img src="${esc(avatar)}" alt=""></span>
-          <div class="ig-who">
-            <p class="ig-name">${esc(user)}</p>
-            <p class="ig-sub">Instagram</p>
+        ${IG_LOGO}
+        <h3 class="ig-headline">Latest on Instagram</h3>
+        <article class="ig-embed">
+          <div class="ig-head">
+            <span class="ig-avatar"><img src="${esc(avatar)}" alt=""></span>
+            <div class="ig-who">
+              <p class="ig-name">${esc(user)}</p>
+              <p class="ig-sub">Instagram &middot; <a class="ig-follow" href="${IG.profile}" target="_blank" rel="noopener">Follow</a></p>
+            </div>
+            <a class="ig-mark" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener" aria-label="Open on Instagram">${IG_LOGO}</a>
           </div>
-          <a class="ig-follow" href="${IG.profile}" target="_blank" rel="noopener">Follow</a>
-        </div>
-        <a class="ig-post" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener">
-          <img src="${esc(pic(p))}" alt="${esc(short || "Latest LPAL Instagram post")}" loading="lazy">
-          ${p.mediaType === "VIDEO" ? `<span class="ig-play" aria-hidden="true">${PLAY_ICON}</span>` : ""}
-        </a>
-        ${cap ? `<p class="ig-caption" data-full="${esc(cap)}">${esc(short)}${cap.length > short.length ? ` <button class="ig-more">more</button>` : ""}</p>` : ""}
-        <div class="ig-meta">${likes}${comments}<span class="ig-date">${esc(fmtDate(p.timestamp))}</span></div>
+          ${cap ? `<p class="ig-caption" data-full="${esc(cap)}">${esc(short)}${cap.length > short.length ? ` <button class="ig-more">more</button>` : ""}</p>` : ""}
+          <a class="ig-post" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener">
+            <img src="${esc(pic(p))}" alt="${esc(short || "Latest LPAL Instagram post")}" loading="lazy">
+            ${p.mediaType === "VIDEO" ? `<span class="ig-play" aria-hidden="true">${PLAY_ICON}</span>` : ""}
+          </a>
+          <p class="ig-date">${esc(fmtDate(p.timestamp))}</p>
+          <div class="ig-meta">${likes}${comments}</div>
+        </article>
         ${posts.length > 1 ? `<div class="ig-thumbs">${posts.slice(1, 4).map(q => `<a href="${esc(q.permalink || IG.profile)}" target="_blank" rel="noopener"><img src="${esc(thumb(q))}" alt="LPAL Instagram post" loading="lazy"></a>`).join("")}</div>` : ""}
         <a class="btn btn-ig btn-sm" href="${IG.profile}" target="_blank" rel="noopener">View more on Instagram</a>`;
       const more = $(".ig-more", igBox);
