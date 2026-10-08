@@ -322,3 +322,61 @@ section{scroll-margin-top:76px}
 .nav-link.is-hot{color:var(--red)}
 .site-header.scrolled .nav-link.is-hot{color:#fff}
 @media (prefers-reduced-motion:reduce){.nav-line{transition:none}}
+
+/* ==========================================================
+   PAST EVENT PAGE (LPAL 2 results)
+   ========================================================== */
+.ev-hero{position:relative;height:min(78svh,56.25vw);min-height:440px;overflow:hidden;background:#000;color:#fff}
+.ev-hero picture,.ev-hero-img{position:absolute;inset:0;width:100%;height:100%}
+.ev-hero-img{object-fit:cover;object-position:60% 40%;animation:evZoom 9s ease-out both}
+@keyframes evZoom{from{transform:scale(1.08)}to{transform:scale(1)}}
+.ev-hero-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,.05) 35%,rgba(0,0,0,.25) 60%,rgba(0,0,0,.9) 100%)}
+.ev-hero-content{position:absolute;left:0;right:0;bottom:clamp(30px,6vh,70px)}
+.ev-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(72px,11vw,160px);line-height:.85;margin-top:6px}
+.ev-meta{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:clamp(18px,2.2vw,28px);margin-top:12px;display:flex;flex-wrap:wrap;gap:0 12px}
+.ev-meta .sep{color:var(--red)}
+.ev-intro{max-width:760px;margin:0 auto;text-align:center;color:var(--ink-2);font-size:17px;line-height:1.6}
+.ev-intro p+p{margin-top:10px}
+
+/* result rows: winner tag, greyed loser, score */
+.result .bout-card{box-shadow:none}
+.b-photo{position:relative}
+.b-photo.is-loser img{filter:grayscale(.85);opacity:.55}
+.win-tag{position:absolute;top:8px;left:50%;transform:translateX(-50%);z-index:2;background:var(--red);color:#fff;
+  font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:12px;padding:3px 9px}
+.b-name.is-winner .b-last{color:var(--ink)}
+.result .b-name:not(.is-winner) .b-last{color:#9a9a9a}
+.score{font-family:var(--display);font-size:clamp(40px,4vw,56px);line-height:1;display:flex;align-items:baseline;justify-content:center;gap:6px;color:#b5b5b5;min-width:110px;padding:0 10px}
+.result .b-last{font-size:clamp(26px,2.5vw,38px)}
+.result .b-long .b-last{font-size:clamp(22px,2vw,30px)}
+.score .s-win{color:var(--red)}
+.score .s-sep{font-size:.7em;color:var(--muted)}
+.bout-actions .btn svg{width:16px;height:16px}
+.yt-link{font-family:var(--cond);font-weight:700;font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);text-align:center}
+.yt-link:hover{color:var(--red)}
+
+/* video pop-up */
+.video-modal{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.86);display:grid;place-items:center;padding:16px;opacity:0;transition:opacity .25s ease}
+.video-modal.show{opacity:1}
+.video-modal[hidden]{display:none}
+.vm-box{width:min(1100px,100%);transform:scale(.96);transition:transform .3s var(--ease)}
+.video-modal.show .vm-box{transform:none}
+.vm-head{display:flex;align-items:center;gap:16px;color:#fff;margin-bottom:10px}
+.vm-title{font-family:var(--display);font-size:clamp(24px,3vw,36px);text-transform:uppercase;line-height:1;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vm-yt{font-family:var(--cond);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#ccc}
+.vm-yt:hover{color:#fff}
+.vm-close{width:44px;height:44px;font-size:34px;line-height:1;color:#fff;border:1px solid rgba(255,255,255,.4)}
+.vm-close:hover{background:var(--red);border-color:var(--red)}
+.vm-frame{position:relative;aspect-ratio:16/9;background:#000}
+.vm-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+body.no-scroll{overflow:hidden}
+
+@media (max-width:600px){
+  .score{grid-area:vs;align-self:center;font-size:32px;gap:3px;min-width:0;padding:0 4px}
+  .result .b-last{font-size:clamp(18px,5.6vw,24px);overflow-wrap:anywhere}
+  .result .b-long .b-last{font-size:clamp(15px,4.4vw,19px)}
+  .result .bout-row{grid-template-areas:"pa vs pb" "na . nb"}
+  .win-tag{font-size:10px;padding:2px 6px;top:4px}
+  .vm-yt{display:none}
+  .ev-intro{font-size:15px}
+}

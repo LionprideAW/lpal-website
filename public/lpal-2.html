@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>LPAL | Lion Pride Armwrestling League</title>
-<meta name="description" content="Lion Pride Armwrestling League. Elite armwrestling live from Cologne, Germany on 9 January 2027. Fight card, countdown and free livestream.">
+<title>LPAL 2 Results | Lion Pride Armwrestling League</title>
+<meta name="description" content="LPAL 2 results: every match from 3 May 2025 at Stage3, Vienna, with winners, scores and full match videos.">
 <meta name="theme-color" content="#ffffff">
-<meta property="og:title" content="LPAL | Lion Pride Armwrestling League">
-<meta property="og:description" content="LPAL 4 · 9 January 2027 · Cologne, Germany. Full fight card and free livestream.">
-<meta property="og:image" content="assets/img/opener-poster.jpg">
+<meta property="og:title" content="LPAL 2 Results | Lion Pride Armwrestling League">
+<meta property="og:description" content="3 May 2025 · Stage3, Vienna. Winners, scores and full match videos.">
+<meta property="og:image" content="assets/img/events/lpal2-hero.jpg">
 <link rel="icon" type="image/png" href="assets/img/favicon.png">
 <link rel="apple-touch-icon" href="assets/img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +16,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles-16.css">
 </head>
-<body>
+<body class="page-event">
 
 <!-- ================= HEADER ================= -->
 <header class="site-header" id="site-header">
@@ -26,10 +26,10 @@
 
     <nav class="nav nav-left" aria-label="Main">
       <div class="has-drop">
-        <a href="#event" class="nav-link" aria-haspopup="true">Events</a>
+        <a href="./#event" class="nav-link" aria-haspopup="true">Events</a>
         <div class="drop" role="menu">
           <p class="drop-label">Upcoming</p>
-          <a href="#event" class="drop-item drop-feature" role="menuitem">
+          <a href="./#event" class="drop-item drop-feature" role="menuitem">
             <span class="drop-title">LPAL 4</span>
             <span class="drop-sub">Sat 9 Jan 2027 &middot; Cologne, Germany</span>
           </a>
@@ -39,11 +39,11 @@
           <a href="https://www.youtube.com/@LionPrideArmwrestlingLeague" target="_blank" rel="noopener" class="drop-item" role="menuitem"><span class="drop-title">LPAL 1</span><span class="drop-sub">Watch replays</span></a>
         </div>
       </div>
-      <a href="#event" class="nav-link">Athletes</a>
-      <a href="#event" class="nav-link">News</a>
+      <a href="./#event" class="nav-link">Athletes</a>
+      <a href="./#event" class="nav-link">News</a>
     </nav>
 
-    <a class="brand" href="#top" aria-label="LPAL home">
+    <a class="brand" href="./" aria-label="LPAL home">
       <img class="logo logo-dark" src="assets/img/logo-black.png" alt="Lion Pride Armwrestling League">
       <img class="logo logo-light" src="assets/img/logo-white.png" alt="" aria-hidden="true">
     </a>
@@ -55,11 +55,11 @@
   </div>
 
   <div class="mobile-menu" id="mobile-menu" hidden>
-    <a href="#event">Upcoming event</a>
+    <a href="./#event">Upcoming event</a>
     <a href="lpal-2">LPAL 2 results <small>Vienna 2025</small></a>
     <a href="https://www.youtube.com/@LionPrideArmwrestlingLeague" target="_blank" rel="noopener">Past events <small>LPAL 1 &middot; 3</small></a>
-    <a href="#event">Athletes</a>
-    <a href="#event">News</a>
+    <a href="./#event">Athletes</a>
+    <a href="./#event">News</a>
     <div class="mm-actions">
       <a href="#" class="btn btn-ghost-dark" data-tickets aria-disabled="true">Buy tickets</a>
       <a href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener" class="btn btn-red">Watch event</a>
@@ -69,45 +69,29 @@
 
 <main id="top">
 
-  <!-- ================= HERO VIDEO ================= -->
-  <section class="hero" aria-label="LPAL opener">
-    <video class="hero-video" id="opener" autoplay muted loop playsinline preload="metadata" poster="assets/img/opener-poster.jpg"></video>
-    <div class="hero-shade"></div>
-    <div class="hero-content">
-      <h1 class="hero-logo"><img src="assets/img/logo-lpal4.webp" alt="LPAL 4, Lion Pride Armwrestling League"></h1>
-      <p class="hero-date">Saturday 9 January 2027 &middot; Cologne, Germany</p>
-      <p class="hero-sub">Main event: World title match</p>
-      <div class="hero-actions">
-        <a class="btn btn-red" href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener">Watch event</a>
-        <a class="btn btn-white" href="#event">View fight card</a>
-      </div>
+  <!-- ================= EVENT HERO ================= -->
+  <section class="ev-hero" aria-label="LPAL 2">
+    <picture>
+      <source media="(max-width: 820px)" srcset="assets/img/events/lpal2-hero-sm.jpg">
+      <img class="ev-hero-img" src="assets/img/events/lpal2-hero.jpg" alt="LPAL 2 on stage at Stage3, Vienna">
+    </picture>
+    <div class="ev-hero-shade"></div>
+    <div class="wrap ev-hero-content">
+      <p class="hero-kicker">Past event &middot; Results</p>
+      <h1 class="ev-title">LPAL 2</h1>
+      <p class="ev-meta"><span>Saturday, 3 May 2025</span><span class="sep">&middot;</span><span>Stage3, Vienna, Austria</span></p>
     </div>
-    <button class="sound-btn" id="sound-btn" aria-label="Turn sound on">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path class="x" d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" fill="none"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
-    </button>
   </section>
 
-  <!-- ================= UPCOMING EVENT ================= -->
-  <section class="event" id="event">
+  <!-- ================= RESULTS ================= -->
+  <section class="event results-sec">
     <div class="wrap">
-      <div class="event-head">
-        <div>
-          <p class="kicker">Upcoming event</p>
-          <h2 class="event-title"><img src="assets/img/logo-lpal4-black.webp" alt="LPAL 4"></h2>
-          <p class="event-meta"><span>Saturday, 9 January 2027</span><span class="sep">&middot;</span><span>Cologne, Germany</span></p>
-        </div>
-        <div class="countdown" id="countdown" aria-label="Time until the event">
-          <div class="cd"><span data-cd="d">00</span><small>Days</small></div>
-          <div class="cd"><span data-cd="h">00</span><small>Hrs</small></div>
-          <div class="cd"><span data-cd="m">00</span><small>Min</small></div>
-          <div class="cd"><span data-cd="s">00</span><small>Sec</small></div>
-        </div>
+      <div class="ev-intro">
+        <p>The LPAL 2 event was organized on 3 May 2025 at Stage3 in the heart of Vienna, Austria. Ten matches across seven weight classes, with athletes from eleven countries: some of them former world champions, some the future stars of the sport.</p>
+        <p>Click <strong>Watch match</strong> on any match to see the full fight.</p>
       </div>
-
-      <div class="card-nav">
-        <p class="card-label">Fight card</p>
-      </div>
-      <ol class="bouts" id="bouts"></ol>
+      <div class="card-nav"><p class="card-label">Results</p></div>
+      <ol class="bouts" id="results" data-event="lpal-2"></ol>
     </div>
   </section>
 
@@ -115,23 +99,35 @@
   <section class="follow">
     <div class="wrap follow-inner">
       <div>
-        <p class="kicker">Lion Pride Armwrestling League</p>
-        <h2 class="follow-title">Every match. Live and free.</h2>
-        <p class="follow-text">Watch LPAL 4 in Cologne live on Kick, and catch every match from LPAL 1, 2 and 3 on YouTube.</p>
+        <p class="kicker">Next up</p>
+        <h2 class="follow-title">LPAL 4 &middot; Cologne</h2>
+        <p class="follow-text">Saturday 9 January 2027. Watch it live and free on Kick.</p>
       </div>
       <div class="follow-actions">
-        <a class="btn btn-red" href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener">Watch on Kick</a>
-        <a class="btn btn-ghost-dark" href="https://www.youtube.com/@LionPrideArmwrestlingLeague" target="_blank" rel="noopener">Replays on YouTube</a>
+        <a class="btn btn-red" href="./#event">See the fight card</a>
+        <a class="btn btn-ghost-dark" href="https://www.youtube.com/@LionPrideArmwrestlingLeague" target="_blank" rel="noopener">All replays on YouTube</a>
       </div>
     </div>
   </section>
 
 </main>
 
+<!-- ================= VIDEO POP-UP ================= -->
+<div class="video-modal" id="video-modal" role="dialog" aria-modal="true" aria-label="Match video" hidden>
+  <div class="vm-box">
+    <div class="vm-head">
+      <p class="vm-title"></p>
+      <a class="vm-yt" href="#" target="_blank" rel="noopener">Open on YouTube</a>
+      <button class="vm-close" aria-label="Close video">&times;</button>
+    </div>
+    <div class="vm-frame"></div>
+  </div>
+</div>
+
 <!-- ================= FOOTER ================= -->
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <a href="#top" aria-label="Back to top"><img class="footer-logo" src="assets/img/logo-white.png" alt="Lion Pride Armwrestling League" loading="lazy"></a>
+    <a href="./" aria-label="Back to top"><img class="footer-logo" src="assets/img/logo-white.png" alt="Lion Pride Armwrestling League" loading="lazy"></a>
     <div class="socials">
       <a href="https://www.instagram.com/lion_pride_armwrestling_league/" target="_blank" rel="noopener" aria-label="Instagram">
         <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>

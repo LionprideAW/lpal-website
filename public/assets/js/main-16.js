@@ -15,7 +15,8 @@ const SETTINGS = {
 const COUNTRIES = {
   at: "Austria", bg: "Bulgaria", de: "Germany", fr: "France", ge: "Georgia",
   gr: "Greece", it: "Italy", lt: "Lithuania", lv: "Latvia", ma: "Morocco",
-  rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey"
+  rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey",
+  cz: "Czech Republic", hu: "Hungary", mk: "North Macedonia", pl: "Poland"
 };
 
 // Main event: fill in a/b on 30 October (same format as the matches below).
@@ -119,6 +120,7 @@ window.addEventListener("resize", () => { line.classList.add("no-anim"); restLin
 
 /* ---------- opener video (lighter file on phones) ---------- */
 const video = $("#opener");
+if (video) {
 video.src = window.matchMedia("(max-width: 820px)").matches
   ? "assets/video/lpal-opener-mobile.mp4" : "assets/video/lpal-opener.mp4";
 video.play().catch(() => {});
@@ -129,6 +131,7 @@ soundBtn.addEventListener("click", () => {
   soundBtn.classList.toggle("on", !video.muted);
   soundBtn.setAttribute("aria-label", video.muted ? "Turn sound on" : "Turn sound off");
 });
+}
 
 /* ---------- countdown ---------- */
 const target = new Date(SETTINGS.eventStart).getTime();
@@ -142,7 +145,7 @@ function tick() {
   cdEl("d").textContent = pad(d); cdEl("h").textContent = pad(h);
   cdEl("m").textContent = pad(m); cdEl("s").textContent = pad(Math.floor(t / 1e3));
 }
-tick(); setInterval(tick, 1000);
+if ($("#countdown")) { tick(); setInterval(tick, 1000); }
 
 /* ---------- fight card (UFC-style list, click to expand) ---------- */
 const bust = p => p ? `assets/img/bust-v2/${p}.webp` : "assets/img/bust-v2/silhouette-athlete.webp";
@@ -229,7 +232,7 @@ const mainHTML = boutHTML({
   imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-b.webp"
 });
 
-$("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
+if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: `Match ${i + 1}`,
@@ -251,6 +254,113 @@ $$(".bout-card.can-open").forEach(card => {
   card.addEventListener("click", e => { if (e.target.closest("a")) return; toggleBout(card); });
   card.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggleBout(card); } });
 });
+
+/* ==========================================================
+   PAST EVENTS: results with winner, score and a WATCH MATCH button
+   winner: "a" or "b".  score: [a, b].  video: YouTube video ID.
+   ========================================================== */
+const PAST_EVENTS = {
+  "lpal-2": {
+    photos: "assets/img/lpal2",
+    matches: [
+      { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis" },
+        b: { first: "Peter", last: "Celes", country: "sk", photo: "peter-celes" },
+        winner: "a", score: [3, 0], division: "Light Heavyweight 105kg", arm: "Right arm", video: "WA-kChIg_D4" },
+      { a: { first: "Toms", last: "Rozits", country: "lv", photo: "toms-rozits" },
+        b: { first: "Kersten", last: "Mercieca", country: "it", photo: "kersten-mercieca" },
+        winner: "a", score: [3, 0], division: "Welterweight 85kg", arm: "Right arm", video: "VDsGK5NLwNM" },
+      { a: { first: "Nemanja", last: "Milanovic", country: "rs", photo: "nemanja-milanovic" },
+        b: { first: "Ethan", last: "Lovei", country: "fr", photo: "ethan-lovei" },
+        winner: "a", score: [3, 2], division: "Lightweight 75kg", arm: "Right arm", video: "SyzrYnhGD8A" },
+      { a: { first: "Ivana", last: "Pitakova", country: "sk", photo: "ivana-pitakova" },
+        b: { first: "Susie", last: "Ann", country: "lv", photo: "susie-ann" },
+        winner: "a", score: [3, 0], division: "Women's Open Weight 75kg+", arm: "Right arm", video: "iXb3Q3IYwaA" },
+      { a: { first: "Nora", last: "Krasnyánszki", country: "hu", photo: "nora-krasnyanszki" },
+        b: { first: "Paulina", last: "Janoszka", country: "pl", photo: "paulina-janoszka" },
+        winner: "a", score: [3, 0], division: "Women's Middleweight 70kg", arm: "Right arm", video: "etP-cVN9gCk" },
+      { a: { first: "Bastien", last: "Cervelli", country: "fr", photo: "bastien-cervelli" },
+        b: { first: "Martin", last: "Minarovic", country: "cz", photo: "martin-minarovic" },
+        winner: "a", score: [3, 0], division: "Light Heavyweight 105kg", arm: "Right arm", video: "0FUdFXk0DJs" },
+      { a: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov" },
+        b: { first: "Predrag", last: "Djordjevic", country: "rs", photo: "predrag-djordjevic" },
+        winner: "a", score: [3, 0], division: "Heavyweight 115kg", arm: "Right arm", video: "BFxa20HYhQg" },
+      { a: { first: "Ivan", last: "Serafimovski", country: "mk", photo: "ivan-serafimovski" },
+        b: { first: "Mattia", last: "Vezzola", country: "it", photo: "mattia-vezzola" },
+        winner: "b", score: [1, 3], division: "Welterweight 85kg", arm: "Right arm", video: "EC7kBAMLYhI" },
+      { a: { first: "Nemanja", last: "Vedjic", country: "rs", photo: "nemanja-vedjic" },
+        b: { first: "Michel", last: "Neumann", country: "de", photo: "michel-neumann" },
+        winner: "a", score: [3, 1], division: "Light Heavyweight 105kg", arm: "Right arm", video: "03wBP72gMvo" },
+      { a: { first: "Viachaslau", last: "Kuksa", country: "pl", photo: "viachaslau-kuksa" },
+        b: { first: "Veljko", last: "Petrovic", country: "rs", photo: "veljko-petrovic" },
+        winner: "a", score: [3, 1], division: "Middleweight 95kg", arm: "Right arm", video: "ahemjSufVao" }
+    ]
+  }
+};
+
+const PLAY_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor"/></svg>`;
+const resultHTML = (m, i, dir) => {
+  const side = (x, k) => {
+    const won = m.winner === k;
+    return { won, photo: `<div class="b-photo b-photo-${k}${won ? "" : " is-loser"}">${won ? `<span class="win-tag">Win</span>` : ""}<img src="${dir}/bust/${x.photo}.webp" alt="${esc(full(x))}" loading="lazy"></div>` };
+  };
+  const A = side(m.a, "a"), B = side(m.b, "b");
+  return `
+  <li class="bout result">
+    <div class="bout-card">
+      <p class="bout-label">${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}</p>
+      <div class="bout-row">
+        ${A.photo}
+        ${nameBlock(m.a, "a").replace('class="b-name', `class="b-name${A.won ? " is-winner" : ""}${m.a.last.length > 9 ? " b-long" : ""}`)}
+        <div class="score" aria-label="Score ${m.score[0]} to ${m.score[1]}">
+          <span class="${A.won ? "s-win" : ""}">${m.score[0]}</span><span class="s-sep">:</span><span class="${B.won ? "s-win" : ""}">${m.score[1]}</span>
+        </div>
+        ${nameBlock(m.b, "b").replace('class="b-name', `class="b-name${B.won ? " is-winner" : ""}${m.b.last.length > 9 ? " b-long" : ""}`)}
+        ${B.photo}
+      </div>
+      <div class="bout-bar">
+        <div class="b-country">${country(m.a)}</div>
+        <div class="b-mid">Match ${i + 1}</div>
+        <div class="b-country b-country-b">${country(m.b)}</div>
+      </div>
+    </div>
+    <div class="bout-actions">
+      <button class="btn btn-red btn-sm" data-video="${esc(m.video)}" data-title="${esc(m.a.last)} vs ${esc(m.b.last)}">${PLAY_ICON}Watch match</button>
+      <a class="yt-link" href="https://www.youtube.com/watch?v=${encodeURIComponent(m.video)}" target="_blank" rel="noopener">Open on YouTube</a>
+    </div>
+  </li>`;
+};
+
+const resultsEl = $("#results");
+if (resultsEl) {
+  const ev = PAST_EVENTS[resultsEl.dataset.event];
+  resultsEl.innerHTML = ev.matches.map((m, i) => resultHTML(m, i, ev.photos)).join("");
+}
+
+/* ---------- video pop-up (plays the YouTube match on the site) ---------- */
+const modal = $("#video-modal");
+if (modal) {
+  const frame = $(".vm-frame", modal), title = $(".vm-title", modal), yt = $(".vm-yt", modal);
+  let lastFocus;
+  const openVideo = (id, t) => {
+    lastFocus = document.activeElement;
+    frame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0" title="${esc(t)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>`;
+    title.textContent = t; yt.href = `https://www.youtube.com/watch?v=${encodeURIComponent(id)}`;
+    modal.hidden = false; document.body.classList.add("no-scroll");
+    requestAnimationFrame(() => modal.classList.add("show"));
+    $(".vm-close", modal).focus();
+  };
+  const closeVideo = () => {
+    modal.classList.remove("show"); document.body.classList.remove("no-scroll");
+    setTimeout(() => { modal.hidden = true; frame.innerHTML = ""; }, 250);
+    if (lastFocus) lastFocus.focus();
+  };
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-video]"); if (b) { e.preventDefault(); openVideo(b.dataset.video, b.dataset.title); }
+  });
+  $(".vm-close", modal).addEventListener("click", closeVideo);
+  modal.addEventListener("click", e => { if (e.target === modal) closeVideo(); });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !modal.hidden) closeVideo(); });
+}
 
 /* ---------- tickets (inactive until a link is set) ---------- */
 const toast = $("#toast");
@@ -275,4 +385,4 @@ document.addEventListener("error", e => {
   img.src = img.src.split("?")[0] + "?r=" + Date.now();
 }, true);
 
-$("#year").textContent = new Date().getFullYear();
+if ($("#year")) $("#year").textContent = new Date().getFullYear();
