@@ -261,6 +261,44 @@ $$(".bout-card.can-open").forEach(card => {
    winner: "a" or "b".  score: [a, b].  video: YouTube video ID.
    ========================================================== */
 const PAST_EVENTS = {
+  "lpal-1": {
+    photos: "assets/img/lpal1",
+    matches: [
+      { a: { first: "Petros", last: "Peridis", country: "gr", photo: "petros-peridis" },
+        b: { first: "Kevin", last: "Berberich", country: "de", photo: "kevin-berberich" },
+        winner: "a", score: [3, 2], division: "Lightweight 75kg", arm: "Right arm", video: "bOixpPwSWy8" },
+      { a: { first: "Christos", last: "Zablaras", country: "gr", photo: "christos-zablaras" },
+        b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
+        winner: "b", score: [0, 3], division: "Light Heavyweight 105kg", arm: "Right arm", video: "T1hlA9g3A2k" },
+      { a: { first: "Gabor", last: "Szakacs", country: "hu", photo: "gabor-szakacs" },
+        b: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber" },
+        winner: "b", score: [1, 3], division: "Middleweight 95kg", arm: "Right arm", video: "zyAUEWteMMQ" },
+      { a: { first: "Vaclav", last: "Vaculovic", country: "cz", photo: "vaclav-vaculovic" },
+        b: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis" },
+        winner: "b", score: [1, 3], division: "Heavyweight 115kg", arm: "Right arm", video: "QKLZJDTkuhA" },
+      { a: { first: "Simon", last: "Polak", country: "cz", photo: "simon-polak" },
+        b: { first: "Emil", last: "Faccoli", country: "it", photo: "emil-faccoli" },
+        winner: "a", score: [3, 1], division: "Middleweight 95kg", arm: "Left arm", video: "OZtcUOuPgY8" },
+      { a: { first: "Oleksandr", last: "Bezkorovainyi", country: "at", photo: "oleksandr-bezkorovainyi" },
+        b: { first: "Mario", last: "Lukic", country: "at", photo: "mario-lukic" },
+        winner: "b", score: [2, 3], division: "Middleweight 95kg", arm: "Right arm", video: "gIekkJu395I" },
+      { a: { first: "Hristo", last: "Delidzhakov", country: "bg", photo: "hristo-delidzhakov" },
+        b: { first: "Slobodan", last: "Novakovic", country: "rs", photo: "slobodan-novakovic" },
+        winner: "a", score: [4, 1], division: "Welterweight 85kg", arm: "Right arm", video: "eCpqZvqmJtE", note: "All 5 rounds pulled" },
+      { a: { first: "Markus", last: "Liebminger", country: "at", photo: "markus-liebminger" },
+        b: { first: "Andrija", last: "Simic", country: "hr", photo: "andrija-simic" },
+        winner: "b", score: [0, 3], division: "Super Heavyweight 115kg+", arm: "Left arm", video: "VsEUoZWVB9U" },
+      { a: { first: "Engelbert", last: "Staudacher", country: "at", photo: "engelbert-staudacher" },
+        b: { first: "Marko", last: "Lakicevic", country: "rs", photo: "marko-lakicevic" },
+        winner: "b", score: [0, 3], division: "Welterweight 85kg", arm: "Right arm", video: "QFPpFpWw7oM" },
+      { a: { first: "Ivan", last: "Gregoricka", country: "cz", photo: "ivan-gregoricka" },
+        b: { first: "David", last: "Bogdan", country: "rs", photo: "david-bogdan" },
+        winner: "a", score: [3, 0], division: "Lightweight 75kg", arm: "Left arm", video: "stttLCWFuJg" },
+      { a: { first: "Martin", last: "Hentschel", country: "at", photo: "martin-hentschel" },
+        b: { first: "Veljko", last: "Stanojevic", country: "rs", photo: "veljko-stanojevic" },
+        winner: "a", score: [3, 0], division: "Super Heavyweight 115kg+", arm: "Right arm", video: "uN6M7CYc5ro" }
+    ]
+  },
   "lpal-2": {
     photos: "assets/img/lpal2",
     matches: [
@@ -343,7 +381,7 @@ const resultHTML = (m, i, dir) => {
   return `
   <li class="bout result">
     <div class="bout-card">
-      <p class="bout-label">${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}</p>
+      <p class="bout-label">${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.note ? ` &middot; <span class="b-special">${esc(m.note)}</span>` : ""}</p>
       <div class="bout-row">
         ${A.photo}
         ${nameBlock(m.a, "a").replace('class="b-name', `class="b-name${A.won ? " is-winner" : ""}${m.a.last.length > 9 ? " b-long" : ""}`)}

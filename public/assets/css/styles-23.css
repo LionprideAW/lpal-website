@@ -396,3 +396,15 @@ body.no-scroll{overflow:hidden}
   .belt-img{min-height:0;aspect-ratio:16/10}
   .belt-text{padding:22px 20px 26px}
 }
+
+/* portrait poster hero (LPAL 1) */
+.ev-hero-poster{height:auto;min-height:0;padding:clamp(100px,12vw,140px) 0 clamp(40px,5vw,64px)}
+.evp-bg{position:absolute;inset:-40px;background-size:cover;background-position:center;filter:blur(30px) brightness(.35) saturate(.8);transform:scale(1.1)}
+.evp-inner{position:relative;display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,4vw,64px);align-items:center}
+.evp-poster{width:clamp(220px,28vw,400px);height:auto;box-shadow:0 24px 60px rgba(0,0,0,.6);animation:evZoom 1.2s var(--ease) both}
+.evp-lead{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.14em;color:#d8b23a;margin-top:18px;font-size:15px}
+@media (max-width:760px){
+  .evp-inner{grid-template-columns:1fr;justify-items:center;text-align:center}
+  .evp-inner .ev-meta{justify-content:center}
+  .evp-poster{width:min(78vw,340px)}
+}
