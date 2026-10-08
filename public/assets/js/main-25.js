@@ -459,4 +459,64 @@ document.addEventListener("error", e => {
   img.src = img.src.split("?")[0] + "?r=" + Date.now();
 }, true);
 
+/* ==========================================================
+   INSTAGRAM FEED (Behold). Tries the JSON feed and draws UFC-style
+   post cards; falls back to the Behold widget, then to the follow card.
+   ========================================================== */
+const IG = {
+  feedId: "y1zs5Nh5ujrxm99MwNEU",
+  profile: "https://www.instagram.com/lion_pride_armwrestling_league/",
+  username: "lion_pride_armwrestling_league"
+};
+const igBox = $("#ig-feed");
+if (igBox) {
+  const fmtDate = t => { try { return new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return ""; } };
+  const num = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "K" : String(n);
+  const pic = p => (p.sizes && (p.sizes.large || p.sizes.medium || p.sizes.full) || {}).mediaUrl || p.thumbnailUrl || p.mediaUrl || "";
+  const thumb = p => (p.sizes && (p.sizes.small || p.sizes.medium) || {}).mediaUrl || p.thumbnailUrl || p.mediaUrl || "";
+  const HEART = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.5-9.2C1 8.4 3.2 5 6.6 5c2 0 3.4 1.1 4.4 2.5C12 6.1 13.4 5 15.4 5 18.8 5 21 8.4 19.5 11.8 17.5 16.4 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
+  const BUBBLE = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 1 3.3 6.5L3 20l1.5-4A8 8 0 0 1 4 12z" fill="none" stroke="currentColor" stroke-width="2"/></svg>`;
+  const showWidget = () => {
+    igBox.classList.add("ig-has-widget");
+    const w = document.createElement("div"); w.className = "ig-widget";
+    w.innerHTML = `<behold-widget feed-id="${IG.feedId}"></behold-widget>`;
+    igBox.insertBefore(w, igBox.querySelector(".btn-ig"));
+    const sc = document.createElement("script"); sc.type = "module"; sc.src = "https://w.behold.so/widget.js";
+    document.head.append(sc);
+  };
+  fetch(`https://feeds.behold.so/${IG.feedId}`)
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(data => {
+      const posts = (Array.isArray(data) ? data : data.posts || []).filter(p => p && (p.mediaUrl || p.thumbnailUrl || p.sizes));
+      if (!posts.length) throw new Error("empty");
+      const user = data.username || IG.username;
+      const avatar = data.profilePictureUrl || "assets/img/favicon-lpal-512.png";
+      const p = posts[0];
+      const cap = String(p.prunedCaption || p.caption || "").trim();
+      const short = cap.length > 170 ? cap.slice(0, 170).replace(/\s+\S*$/, "") + "…" : cap;
+      const likes = typeof p.likeCount === "number" ? `<span class="ig-stat">${HEART}${num(p.likeCount)}</span>` : "";
+      const comments = typeof p.commentsCount === "number" ? `<span class="ig-stat">${BUBBLE}${num(p.commentsCount)}</span>` : "";
+      igBox.innerHTML = `
+        <div class="ig-head">
+          <span class="ig-avatar"><img src="${esc(avatar)}" alt=""></span>
+          <div class="ig-who">
+            <p class="ig-name">${esc(user)}</p>
+            <p class="ig-sub">Instagram</p>
+          </div>
+          <a class="ig-follow" href="${IG.profile}" target="_blank" rel="noopener">Follow</a>
+        </div>
+        <a class="ig-post" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener">
+          <img src="${esc(pic(p))}" alt="${esc(short || "Latest LPAL Instagram post")}" loading="lazy">
+          ${p.mediaType === "VIDEO" ? `<span class="ig-play" aria-hidden="true">${PLAY_ICON}</span>` : ""}
+        </a>
+        ${cap ? `<p class="ig-caption" data-full="${esc(cap)}">${esc(short)}${cap.length > short.length ? ` <button class="ig-more">more</button>` : ""}</p>` : ""}
+        <div class="ig-meta">${likes}${comments}<span class="ig-date">${esc(fmtDate(p.timestamp))}</span></div>
+        ${posts.length > 1 ? `<div class="ig-thumbs">${posts.slice(1, 4).map(q => `<a href="${esc(q.permalink || IG.profile)}" target="_blank" rel="noopener"><img src="${esc(thumb(q))}" alt="LPAL Instagram post" loading="lazy"></a>`).join("")}</div>` : ""}
+        <a class="btn btn-ig btn-sm" href="${IG.profile}" target="_blank" rel="noopener">View more on Instagram</a>`;
+      const more = $(".ig-more", igBox);
+      if (more) more.addEventListener("click", e => { const c = e.target.closest(".ig-caption"); c.textContent = c.dataset.full; });
+    })
+    .catch(showWidget);
+}
+
 if ($("#year")) $("#year").textContent = new Date().getFullYear();
