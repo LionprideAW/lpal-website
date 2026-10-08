@@ -41,7 +41,7 @@
         </div>
       </div>
       <a href="#event" class="nav-link">Athletes</a>
-      <a href="#event" class="nav-link">News</a>
+      <a href="#featured" class="nav-link">News</a>
     </nav>
 
     <a class="brand" href="#top" aria-label="LPAL home">
@@ -61,7 +61,7 @@
     <a href="lpal-2">LPAL 2 results <small>Vienna 2025</small></a>
     <a href="lpal-1">LPAL 1 results <small>Vienna 2025</small></a>
     <a href="#event">Athletes</a>
-    <a href="#event">News</a>
+    <a href="#featured">News</a>
     <div class="mm-actions">
       <a href="#" class="btn btn-ghost-dark" data-tickets aria-disabled="true">Buy tickets</a>
       <a href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener" class="btn btn-red">Watch event</a>
@@ -120,10 +120,10 @@
       <div class="feat-grid">
         <article class="feat-main">
           <div class="feat-video">
-            <iframe src="https://www.youtube-nocookie.com/embed/videoseries?list=UUSxV_nzYThkWks1sVMAHuaw&amp;rel=0" title="Latest videos from the LPAL YouTube channel" loading="lazy" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+            <iframe id="yt-latest" src="about:blank" data-fallback="kI4UzkikADY" title="Latest video from the LPAL YouTube channel" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
           </div>
           <div class="feat-body">
-            <p class="feat-tag">YouTube &middot; Latest uploads</p>
+            <p class="feat-tag">YouTube &middot; <span id="yt-title">Latest upload</span></p>
             <h3>Every LPAL match, free on YouTube</h3>
             <p>Replays, highlights and behind-the-scenes from every LPAL event. The newest video always plays here first.</p>
             <a class="btn btn-red btn-sm" href="https://www.youtube.com/@LionPrideArmwrestlingLeague?sub_confirmation=1" target="_blank" rel="noopener">Subscribe on YouTube</a>
@@ -184,6 +184,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/js/main-25.js"></script>
+<script src="assets/js/main-26.js"></script>
 </body>
 </html>

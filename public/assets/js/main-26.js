@@ -459,6 +459,21 @@ document.addEventListener("error", e => {
   img.src = img.src.split("?")[0] + "?r=" + Date.now();
 }, true);
 
+/* ---------- YouTube: newest upload (looked up by the site's worker) ---------- */
+const yt = $("#yt-latest");
+if (yt) {
+  const play = id => { yt.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?rel=0`; };
+  fetch("/api/youtube-latest")
+    .then(r => r.json())
+    .then(d => {
+      const v = d.videos && d.videos[0];
+      if (!v) throw new Error("none");
+      play(v.id);
+      if (v.title && $("#yt-title")) $("#yt-title").textContent = v.title;
+    })
+    .catch(() => play(yt.dataset.fallback));
+}
+
 /* ==========================================================
    INSTAGRAM FEED (Behold). Tries the JSON feed and draws UFC-style
    post cards; falls back to the Behold widget, then to the follow card.
