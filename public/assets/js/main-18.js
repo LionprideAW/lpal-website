@@ -97,18 +97,18 @@ const moveLine = (el, w) => {
   line.style.width = width + "px";
   line.style.transform = `translateX(${r.left - b.left + (r.width - width) / 2}px)`;
 };
-const LOGO_W = 34;
+const LOGO_W = 30;   // the line keeps one short width, like UFC.com
 const restLine = () => moveLine(brand, LOGO_W);
 $$(".nav-left .nav-link").forEach(a => {
-  a.addEventListener("mouseenter", () => { moveLine(a); $$(".nav-link").forEach(x => x.classList.toggle("is-hot", x === a)); });
-  a.addEventListener("focus", () => moveLine(a));
+  a.addEventListener("mouseenter", () => { moveLine(a, LOGO_W); $$(".nav-link").forEach(x => x.classList.toggle("is-hot", x === a)); });
+  a.addEventListener("focus", () => moveLine(a, LOGO_W));
 });
 brand.addEventListener("mouseenter", restLine);
 $(".nav-left").addEventListener("mouseleave", () => { restLine(); $$(".nav-link").forEach(x => x.classList.remove("is-hot")); });
 // on load: draw the line in from the centre of the logo
-line.classList.add("no-anim"); moveLine(brand, 0); line.getBoundingClientRect();
+line.classList.add("no-anim"); restLine(); line.style.opacity = 0; line.getBoundingClientRect();
 line.classList.remove("no-anim");
-setTimeout(restLine, 350);
+setTimeout(() => { line.style.opacity = ""; }, 250);
 // keep it under the logo while the bar resizes (scroll) and on window resize
 let raf;
 const follow = () => { cancelAnimationFrame(raf); const t0 = performance.now();

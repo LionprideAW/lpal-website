@@ -314,10 +314,10 @@ section{scroll-margin-top:76px}
 }
 
 /* sliding red line in the top bar (rests under the logo, follows hovered menu item) */
-.nav-line{position:absolute;left:0;bottom:6px;height:3px;width:0;background:var(--red);border-radius:2px;pointer-events:none;z-index:3;
-  transition:transform .45s var(--ease),width .45s var(--ease),opacity .3s ease}
+.nav-line{position:absolute;left:0;bottom:7px;height:2px;width:30px;background:var(--red);pointer-events:none;z-index:3;
+  transition:transform .75s cubic-bezier(.45,0,.2,1),opacity .3s ease}
 .nav-line.no-anim{transition:none}
-.site-header.scrolled .nav-line{bottom:7px}
+.site-header.scrolled .nav-line{bottom:8px}
 .nav-link{padding-bottom:22px}
 .nav-link.is-hot{color:var(--red)}
 .site-header.scrolled .nav-link.is-hot{color:#fff}
