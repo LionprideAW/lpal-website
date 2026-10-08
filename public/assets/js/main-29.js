@@ -489,10 +489,9 @@ if (stRow) {
     stRow.innerHTML = STORIES.map((s, i) => `
       <button class="st-card${seen.includes(s.id) ? " is-seen" : ""}" data-i="${i}" aria-label="Open story: ${esc(s.title)}">
         <span class="st-img"><img src="${src(s)}" alt="" loading="lazy"></span>
-        <span class="st-tag">${esc(s.tag)}</span>
         <span class="st-cap">${esc(s.title)}</span>
       </button>`).join("");
-    $$(".st-card", stRow).forEach(c => c.addEventListener("click", () => open(+c.dataset.i)));
+    $$(".st-card", stRow).forEach(c => c.addEventListener("click", () => open(+c.dataset.i, c)));
   };
 
   const sv = $("#sv"), bars = $("#sv-bars"), img = $("#sv-img");
@@ -513,6 +512,8 @@ if (stRow) {
     cancelAnimationFrame(timer);
     cur = i; elapsed = 0; start = performance.now();
     const s = STORIES[i];
+    const under = $("#sv-under");
+    if (img.getAttribute("src")) { under.src = img.src; under.hidden = false; } else { under.hidden = true; }
     img.src = src(s); img.alt = s.title;
     $("#sv-bg").style.backgroundImage = `url('${src(s)}')`;
     $("#sv-tag").textContent = s.tag;
@@ -535,15 +536,41 @@ if (stRow) {
     paused = v; sv.classList.toggle("is-paused", v);
     $("#sv-pause").setAttribute("aria-label", v ? "Play" : "Pause");
   };
-  function open(i) {
-    lastFocus = document.activeElement; paused = false; sv.classList.remove("is-paused");
+  // open: the photo grows out of the clicked card and dissolves in
+  const card = $(".sv-card");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const flipFrom = el => {
+    if (!el || reduce) return;
+    const a = el.getBoundingClientRect(), b = card.getBoundingClientRect();
+    if (!b.width) return;
+    card.style.transition = "none";
+    card.style.transformOrigin = "0 0";
+    card.style.transform = `translate(${a.left - b.left}px,${a.top - b.top}px) scale(${a.width / b.width},${a.height / b.height})`;
+    card.style.opacity = ".4";
+    card.getBoundingClientRect();
+    card.style.transition = "transform .55s cubic-bezier(.2,.8,.2,1), opacity .45s ease";
+    card.style.transform = ""; card.style.opacity = "";
+  };
+  let openedFrom = null;
+  function open(i, fromEl) {
+    lastFocus = document.activeElement; openedFrom = fromEl || null; paused = false; sv.classList.remove("is-paused");
+    $("#sv-img").removeAttribute("src");
     sv.hidden = false; document.body.classList.add("no-scroll");
-    requestAnimationFrame(() => sv.classList.add("show"));
-    show(i); $("#sv-close").focus();
+    show(i);
+    requestAnimationFrame(() => { sv.classList.add("show"); flipFrom(openedFrom); });
+    $("#sv-close").focus();
   }
   function close() {
     cancelAnimationFrame(timer); sv.classList.remove("show"); document.body.classList.remove("no-scroll");
-    setTimeout(() => { sv.hidden = true; img.src = ""; }, 250);
+    const target = stRow.querySelector(`.st-card[data-i="${cur}"]`);
+    if (target && !reduce && window.innerWidth > 860) {
+      const a = target.getBoundingClientRect(), b = card.getBoundingClientRect();
+      card.style.transformOrigin = "0 0";
+      card.style.transition = "transform .4s cubic-bezier(.4,0,.2,1), opacity .35s ease";
+      card.style.transform = `translate(${a.left - b.left}px,${a.top - b.top}px) scale(${a.width / b.width},${a.height / b.height})`;
+      card.style.opacity = "0";
+    }
+    setTimeout(() => { sv.hidden = true; img.removeAttribute("src"); card.style.transition = card.style.transform = card.style.opacity = ""; }, 420);
     renderRow(); if (lastFocus) lastFocus.focus();
   }
   $("#sv-close").addEventListener("click", close);
