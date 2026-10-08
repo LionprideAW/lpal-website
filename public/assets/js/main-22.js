@@ -43,7 +43,7 @@ const MATCHES = [
     b: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
     division: "Heavyweight 115kg", arm: "Left arm" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: null, instagram: "rachid_hanma" },
-    b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-2", instagram: "black_buffalo.24" },
+    b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: null, instagram: "philipp_stahlhofen" },
     b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
