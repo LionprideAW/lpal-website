@@ -520,14 +520,20 @@ body.no-scroll{overflow:hidden}
 
 /* story cards: photo and title only */
 .st-card::before{display:none}
-.st-card{border-radius:10px;clip-path:none;overflow:hidden;box-shadow:0 0 0 2px transparent;outline:3px solid var(--red);outline-offset:3px;transition:transform .35s var(--ease),outline-color .3s}
-.st-card.is-seen{outline-color:rgba(255,255,255,.25)}
+.st-card{border-radius:10px;clip-path:none;overflow:hidden;border:1px solid rgba(225,38,28,.9);
+  box-shadow:0 0 18px rgba(225,38,28,.45),0 0 2px rgba(225,38,28,.8);transition:transform .35s var(--ease),box-shadow .35s ease,border-color .3s}
+.st-card:hover{box-shadow:0 0 28px rgba(225,38,28,.65),0 0 2px rgba(225,38,28,.9)}
+.st-card.is-seen{border-color:rgba(255,255,255,.18);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.st-row{padding:22px 22px 26px;margin:-16px -22px -20px;scroll-padding-left:22px}
 
 @media (max-width:860px){
-  .sv{display:block;background:#000}
-  .sv-bg,.sv-nav{display:none}
-  .sv-card{height:100%;width:100%;max-width:none;aspect-ratio:auto;border-radius:0;box-shadow:none}
-  .sv-text{max-height:62%;padding:80px 18px 28px}
+  .sv{display:flex;background:#000}
+  .sv-nav{display:none}
+  .sv-bg{inset:-40px;filter:blur(28px) brightness(.5) saturate(1.2)}
+  .sv-card{height:auto;width:calc(100vw - 24px);max-width:none;aspect-ratio:4/5;max-height:calc(100svh - 48px);border-radius:12px}
+  .sv-text{max-height:60%;padding:70px 16px 18px}
+  .sv-h{font-size:30px}
+  .sv-body p{font-size:15px}
   .st-arrows{display:none}
   .st-card{flex-basis:200px}
   .st-cap{font-size:21px}

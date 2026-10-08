@@ -576,15 +576,21 @@ if (stRow) {
   $("#sv-close").addEventListener("click", close);
   $("#sv-next").addEventListener("click", next);
   $("#sv-prev").addEventListener("click", prev);
-  $(".sv-tap-r").addEventListener("click", next);
-  $(".sv-tap-l").addEventListener("click", prev);
   $("#sv-pause").addEventListener("click", () => setPaused(!paused));
   // hold to pause (like Instagram), and pause while reading the text
   const photo = $(".sv-photo");
   let holdT;
-  photo.addEventListener("pointerdown", e => { if (e.target.closest(".sv-top")) return; holdT = setTimeout(() => setPaused(true), 180); });
-  photo.addEventListener("pointerup", () => { clearTimeout(holdT); });
-  $(".sv-text").addEventListener("pointerenter", () => setPaused(true));
+  let held = false;
+  photo.addEventListener("pointerdown", e => { if (e.target.closest(".sv-top")) return; holdT = setTimeout(() => { held = true; setPaused(true); }, 180); });
+  const release = () => { clearTimeout(holdT); if (held) { held = false; setPaused(false); } };
+  photo.addEventListener("pointerup", release);
+  photo.addEventListener("pointercancel", release);
+  $(".sv-text").addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setPaused(true); });
+  let lastHold = 0;
+  photo.addEventListener("pointerup", () => { if (held) lastHold = performance.now(); }, true);
+  const tapGuard = fn => () => { if (performance.now() - lastHold < 300) return; fn(); };
+  $(".sv-tap-r").addEventListener("click", tapGuard(next));
+  $(".sv-tap-l").addEventListener("click", tapGuard(prev));
   $(".sv-text").addEventListener("pointerleave", e => { if (e.pointerType === "mouse") setPaused(false); });
   // swipe on phones
   let sx = null;
