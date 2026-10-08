@@ -4,8 +4,10 @@ const CHANNEL_HANDLE = "LionPrideArmwrestlingLeague";
 const CHANNEL_ID = "UCSxV_nzYThkWks1sVMAHuaw";
 const UA = { "user-agent": "Mozilla/5.0 (compatible; LPAL-site/1.0)" };
 
-async function rss(id) {
-  const r = await fetch(`https://www.youtube.com/feeds/videos.xml?channel_id=${id}`, { headers: UA });
+// Long videos only: YouTube's "UULF" playlist of a channel holds its uploads without Shorts.
+async function rss(id, longOnly = true) {
+  const q = longOnly ? `playlist_id=UULF${id.slice(2)}` : `channel_id=${id}`;
+  const r = await fetch(`https://www.youtube.com/feeds/videos.xml?${q}`, { headers: UA });
   if (!r.ok) return null;
   const xml = await r.text();
   const videos = [...xml.matchAll(/<entry>([\s\S]*?)<\/entry>/g)].map(m => {
@@ -30,11 +32,21 @@ async function channelIdFromHandle() {
 
 async function latest(ctx) {
   const cache = caches.default;
-  const key = new Request("https://lpal-cache/youtube-latest-v1");
+  const key = new Request("https://lpal-cache/youtube-latest-long-v2");
   const hit = await cache.match(key);
   if (hit) return hit;
   let videos = await rss(CHANNEL_ID);
-  if (!videos) { const id = await channelIdFromHandle(); if (id) videos = await rss(id); }
+  if (!videos) { const id = await channelIdFromHandle(); if (id && id !== CHANNEL_ID) videos = await rss(id); }
+  if (!videos) {
+    // fallback: all uploads, dropping any video that opens as a Short
+    const all = (await rss(CHANNEL_ID, false)) || [];
+    const checks = await Promise.all(all.slice(0, 10).map(async v => {
+      try { const r = await fetch(`https://www.youtube.com/shorts/${v.id}`, { method: "HEAD", redirect: "manual", headers: UA }); return r.status === 200 ? null : v; }
+      catch (e) { return v; }
+    }));
+    videos = checks.filter(Boolean);
+    if (!videos.length) videos = null;
+  }
   const res = new Response(JSON.stringify({ videos: (videos || []).slice(0, 6) }), {
     status: videos ? 200 : 502,
     headers: { "content-type": "application/json", "cache-control": "public, max-age=900" }
