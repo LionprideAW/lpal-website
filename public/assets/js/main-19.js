@@ -16,7 +16,8 @@ const COUNTRIES = {
   at: "Austria", bg: "Bulgaria", de: "Germany", fr: "France", ge: "Georgia",
   gr: "Greece", it: "Italy", lt: "Lithuania", lv: "Latvia", ma: "Morocco",
   rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey",
-  cz: "Czech Republic", hu: "Hungary", mk: "North Macedonia", pl: "Poland"
+  cz: "Czech Republic", hu: "Hungary", mk: "North Macedonia", pl: "Poland",
+  ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine"
 };
 
 // Main event: fill in a/b on 30 October (same format as the matches below).
@@ -293,6 +294,41 @@ const PAST_EVENTS = {
       { a: { first: "Viachaslau", last: "Kuksa", country: "pl", photo: "viachaslau-kuksa" },
         b: { first: "Veljko", last: "Petrovic", country: "rs", photo: "veljko-petrovic" },
         winner: "a", score: [3, 1], division: "Middleweight 95kg", arm: "Right arm", video: "ahemjSufVao" }
+    ]
+  },
+  "lpal-3": {
+    photos: "assets/img/lpal3",
+    matches: [
+      { a: { first: "Auden", last: "Larratt", country: "ca", photo: "auden-larratt" },
+        b: { first: "Honza", last: "Toman", country: "cz", photo: "honza-toman" },
+        winner: "a", score: [3, 1], division: "Middleweight 95kg", arm: "Right arm", video: "tLKV5l6-uYM" },
+      { a: { first: "Kersten", last: "Mercieca", country: "it", photo: "kersten-mercieca" },
+        b: { first: "Roman", last: "Riabtsev", country: "ua", photo: "roman-riabtsev" },
+        winner: "b", score: [2, 3], division: "Welterweight 85kg", arm: "Right arm", video: "b-X8FmHz2Bc" },
+      { a: { first: "Ethan", last: "Lovei", country: "fr", photo: "ethan-lovei" },
+        b: { first: "", last: "Sup1nator", country: "md", photo: "sup1nator" },
+        winner: "a", score: [3, 0], division: "Lightweight 75kg", arm: "Right arm", video: "BW0liGzKn-Y" },
+      { a: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
+        b: { first: "Martin", last: "Minarovic", country: "cz", photo: "martin-minarovic" },
+        winner: "a", score: [3, 0], division: "Light Heavyweight 105kg", arm: "Right arm", video: "XXZkEHcvfME" },
+      { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze" },
+        b: { first: "Vaclav", last: "Vaculovic", country: "cz", photo: "vaclav-vaculovic" },
+        winner: "b", score: [0, 3], division: "Heavyweight 115kg", arm: "Left arm", video: "LJCl1BAGJ1o" },
+      { a: { first: "Bastien", last: "Cervelli", country: "fr", photo: "bastien-cervelli" },
+        b: { first: "Andrija", last: "Simic", country: "hr", photo: "andrija-simic" },
+        winner: "a", score: [3, 1], division: "Light Heavyweight 105kg", arm: "Right arm", video: "hkWi8VEi2W4" },
+      { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis" },
+        b: { first: "Beniamin", last: "Blajan", country: "ro", photo: "beniamin-blajan" },
+        winner: "a", score: [3, 1], division: "Heavyweight 115kg", arm: "Left arm", video: "DoJyxREyLRY" },
+      { a: { first: "Slobodan", last: "Novakovic", country: "rs", photo: "slobodan-novakovic" },
+        b: { first: "Josef", last: "Lukacik", country: "cz", photo: "josef-lukacik" },
+        winner: "a", score: [3, 2], division: "Middleweight 95kg", arm: "Right arm", video: "WywgX0en7HE" },
+      { a: { first: "Mattia", last: "Vezzola", country: "it", photo: "mattia-vezzola" },
+        b: { first: "Oleksandr", last: "Bezkorovainyi", country: "at", photo: "oleksandr-bezkorovainyi" },
+        winner: "a", score: [3, 1], division: "Middleweight 85kg", arm: "Right arm", video: "0gXBpZ4_Ays" },
+      { a: { first: "Daniel", last: "Kubaji", country: "ro", photo: "daniel-kubaji" },
+        b: { first: "Viachaslau", last: "Kuksa", country: "pl", photo: "viachaslau-kuksa" },
+        winner: "a", score: [3, 1], division: "Middleweight 95kg", arm: "Left arm", video: "kI4UzkikADY" }
     ]
   }
 };
