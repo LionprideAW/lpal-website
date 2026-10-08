@@ -459,6 +459,126 @@ document.addEventListener("error", e => {
   img.src = img.src.split("?")[0] + "?r=" + Date.now();
 }, true);
 
+/* ==========================================================
+   PRIDE STORIES. Newest first. Photo = 9:16 image in assets/img/stories/.
+   text: paragraphs separated by a blank line.
+   ========================================================== */
+const STORIES = [
+  { id: "lpal4-cologne", tag: "Upcoming", date: "2026-10-08", photo: "lpal4-cologne.jpg",
+    title: "LPAL 4 comes to Cologne",
+    text: "On 9 January 2027 the Lion Pride Armwrestling League goes to Germany for the biggest night in league history.\n\nNine matches, five divisions and an LPAL World Championship main event. Every match streams live and free on Kick." },
+  { id: "belt-reveal", tag: "World title", date: "2026-01-31", photo: "belt-reveal.jpg",
+    title: "The belt is real",
+    text: "At LPAL 3 in Vienna we revealed the LPAL World Championship belt for the first time.\n\nIn Cologne, two athletes pull for it. The main event is announced on 30 October." },
+  { id: "watch-free", tag: "Watch", date: "2025-05-03", photo: "watch-free.jpg",
+    title: "Every match, free",
+    text: "Missed a match? Every LPAL 1, 2 and 3 match is on our YouTube channel, and you can watch them right here on the event pages.\n\nLPAL 4 streams live and free on Kick." }
+];
+const STORY_MS = 7000;
+
+const stRow = $("#st-row");
+if (stRow) {
+  const seenKey = "lpal-stories-seen";
+  let seen = [];
+  try { seen = JSON.parse(localStorage.getItem(seenKey) || "[]"); } catch (e) {}
+  const markSeen = id => { if (!seen.includes(id)) seen.push(id); try { localStorage.setItem(seenKey, JSON.stringify(seen)); } catch (e) {} };
+  const fmt = d => { try { return new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); } catch (e) { return ""; } };
+  const src = s => `assets/img/stories/${s.photo}`;
+
+  const renderRow = () => {
+    stRow.innerHTML = STORIES.map((s, i) => `
+      <button class="st-card${seen.includes(s.id) ? " is-seen" : ""}" data-i="${i}" aria-label="Open story: ${esc(s.title)}">
+        <span class="st-img"><img src="${src(s)}" alt="" loading="lazy"></span>
+        <span class="st-tag">${esc(s.tag)}</span>
+        <span class="st-cap">${esc(s.title)}</span>
+      </button>`).join("");
+    $$(".st-card", stRow).forEach(c => c.addEventListener("click", () => open(+c.dataset.i)));
+  };
+
+  const sv = $("#sv"), bars = $("#sv-bars"), img = $("#sv-img");
+  let cur = 0, timer = null, start = 0, elapsed = 0, paused = false, lastFocus = null;
+
+  const setBars = () => {
+    bars.innerHTML = STORIES.map((_, i) => `<span class="sv-bar"><i style="width:${i < cur ? 100 : 0}%"></i></span>`).join("");
+  };
+  const tick = () => {
+    if (paused) return;
+    const p = Math.min(1, (elapsed + performance.now() - start) / STORY_MS);
+    const fill = bars.children[cur] && bars.children[cur].firstChild;
+    if (fill) fill.style.width = (p * 100) + "%";
+    if (p >= 1) { next(); return; }
+    timer = requestAnimationFrame(tick);
+  };
+  const show = i => {
+    cancelAnimationFrame(timer);
+    cur = i; elapsed = 0; start = performance.now();
+    const s = STORIES[i];
+    img.src = src(s); img.alt = s.title;
+    $("#sv-bg").style.backgroundImage = `url('${src(s)}')`;
+    $("#sv-tag").textContent = s.tag;
+    $("#sv-h").textContent = s.title;
+    $("#sv-date").textContent = fmt(s.date);
+    $("#sv-body").innerHTML = String(s.text).split(/\n\s*\n/).map(p => `<p>${esc(p)}</p>`).join("");
+    $("#sv-body").scrollTop = 0;
+    $("#sv-prev").disabled = i === 0;
+    markSeen(s.id);
+    setBars();
+    sv.classList.remove("swap"); void sv.offsetWidth; sv.classList.add("swap");
+    if (!paused) timer = requestAnimationFrame(tick);
+  };
+  const next = () => cur < STORIES.length - 1 ? show(cur + 1) : close();
+  const prev = () => show(Math.max(0, cur - 1));
+  const setPaused = v => {
+    if (v === paused) return;
+    if (v) { elapsed += performance.now() - start; cancelAnimationFrame(timer); }
+    else { start = performance.now(); timer = requestAnimationFrame(tick); }
+    paused = v; sv.classList.toggle("is-paused", v);
+    $("#sv-pause").setAttribute("aria-label", v ? "Play" : "Pause");
+  };
+  function open(i) {
+    lastFocus = document.activeElement; paused = false; sv.classList.remove("is-paused");
+    sv.hidden = false; document.body.classList.add("no-scroll");
+    requestAnimationFrame(() => sv.classList.add("show"));
+    show(i); $("#sv-close").focus();
+  }
+  function close() {
+    cancelAnimationFrame(timer); sv.classList.remove("show"); document.body.classList.remove("no-scroll");
+    setTimeout(() => { sv.hidden = true; img.src = ""; }, 250);
+    renderRow(); if (lastFocus) lastFocus.focus();
+  }
+  $("#sv-close").addEventListener("click", close);
+  $("#sv-next").addEventListener("click", next);
+  $("#sv-prev").addEventListener("click", prev);
+  $(".sv-tap-r").addEventListener("click", next);
+  $(".sv-tap-l").addEventListener("click", prev);
+  $("#sv-pause").addEventListener("click", () => setPaused(!paused));
+  // hold to pause (like Instagram), and pause while reading the text
+  const photo = $(".sv-photo");
+  let holdT;
+  photo.addEventListener("pointerdown", e => { if (e.target.closest(".sv-top")) return; holdT = setTimeout(() => setPaused(true), 180); });
+  photo.addEventListener("pointerup", () => { clearTimeout(holdT); });
+  $(".sv-text").addEventListener("pointerenter", () => setPaused(true));
+  $(".sv-text").addEventListener("pointerleave", e => { if (e.pointerType === "mouse") setPaused(false); });
+  // swipe on phones
+  let sx = null;
+  sv.addEventListener("touchstart", e => { sx = e.touches[0].clientX; }, { passive: true });
+  sv.addEventListener("touchend", e => { if (sx === null) return; const dx = e.changedTouches[0].clientX - sx; if (Math.abs(dx) > 60) (dx < 0 ? next : prev)(); sx = null; });
+  sv.addEventListener("click", e => { if (e.target === sv || e.target.id === "sv-bg") close(); });
+  document.addEventListener("keydown", e => {
+    if (sv.hidden) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowRight") next();
+    if (e.key === "ArrowLeft") prev();
+    if (e.key === " ") { e.preventDefault(); setPaused(!paused); }
+  });
+  document.addEventListener("visibilitychange", () => { if (document.hidden && !sv.hidden) setPaused(true); });
+
+  const scrollBy = d => stRow.scrollBy({ left: d * stRow.clientWidth * 0.8, behavior: "smooth" });
+  $("#st-prev").addEventListener("click", () => scrollBy(-1));
+  $("#st-next").addEventListener("click", () => scrollBy(1));
+  renderRow();
+}
+
 /* ---------- YouTube: newest upload (looked up by the site's worker) ---------- */
 const yt = $("#yt-latest");
 if (yt) {

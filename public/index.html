@@ -15,7 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles-25.css">
+<link rel="stylesheet" href="assets/css/styles-27.css">
 </head>
 <body>
 
@@ -113,6 +113,49 @@
     </div>
   </section>
 
+  <!-- ================= PRIDE STORIES ================= -->
+  <section class="stories" id="stories" aria-label="Pride Stories">
+    <div class="wrap">
+      <div class="st-head">
+        <div>
+          <p class="kicker">What's happening</p>
+          <h2 class="st-title">Pride Stories</h2>
+        </div>
+        <div class="st-arrows">
+          <button class="st-arrow" id="st-prev" aria-label="Scroll stories left"><svg viewBox="0 0 24 24"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+          <button class="st-arrow" id="st-next" aria-label="Scroll stories right"><svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+        </div>
+      </div>
+      <div class="st-row" id="st-row"></div>
+    </div>
+  </section>
+
+  <!-- story viewer -->
+  <div class="sv" id="sv" role="dialog" aria-modal="true" aria-label="Story" hidden>
+    <div class="sv-bg" id="sv-bg"></div>
+    <button class="sv-nav sv-prev" id="sv-prev" aria-label="Previous story"><svg viewBox="0 0 24 24"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+    <div class="sv-card">
+      <div class="sv-photo">
+        <div class="sv-bars" id="sv-bars"></div>
+        <div class="sv-top">
+          <span class="sv-brand"><img src="assets/img/logo-white.png" alt="">Pride Stories</span>
+          <button class="sv-btn" id="sv-pause" aria-label="Pause"><svg viewBox="0 0 24 24"><path class="i-pause" d="M7 5h3v14H7zM14 5h3v14h-3z" fill="currentColor"/><path class="i-play" d="M8 5v14l11-7z" fill="currentColor"/></svg></button>
+          <button class="sv-btn" id="sv-close" aria-label="Close story"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4"/></svg></button>
+        </div>
+        <img id="sv-img" src="" alt="">
+        <button class="sv-tap sv-tap-l" aria-label="Previous story"></button>
+        <button class="sv-tap sv-tap-r" aria-label="Next story"></button>
+      </div>
+      <div class="sv-text">
+        <p class="sv-tag" id="sv-tag"></p>
+        <h3 class="sv-h" id="sv-h"></h3>
+        <p class="sv-date" id="sv-date"></p>
+        <div class="sv-body" id="sv-body"></div>
+      </div>
+    </div>
+    <button class="sv-nav sv-next" id="sv-next" aria-label="Next story"><svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+  </div>
+
   <!-- ================= FEATURED CONTENT ================= -->
   <section class="featured" id="featured">
     <div class="wrap">
@@ -184,6 +227,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/js/main-26.js"></script>
+<script src="assets/js/main-27.js"></script>
 </body>
 </html>
