@@ -539,3 +539,11 @@ body.no-scroll{overflow:hidden}
   .st-cap{font-size:21px}
 }
 @media (prefers-reduced-motion:reduce){.sv.swap #sv-img,.sv.swap .sv-text>*{animation:none}}
+
+/* featured content: dark grey cards */
+.feat-main,.ig-card{background:#262626;color:#f2f2f2}
+.feat-body p:not(.feat-tag),.ig-text,.ig-caption{color:#d6d6d6}
+.feat-tag,.ig-sub,.ig-meta,.ig-more{color:#9a9a9a}
+.ig-name,.ig-stat{color:#fff}
+.ig-follow{color:#5aa9ff}
+.ig-avatar img{background:#fff}
