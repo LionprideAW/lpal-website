@@ -618,3 +618,17 @@ html,body{overflow-x:clip}
   .bd-stats th{padding-left:4px;padding-right:4px;font-size:9px}
   .bd-stats td{font-size:12px}
 }
+
+/* home fight card: bigger athlete photos, names pulled in */
+#bouts .bout-row{grid-template-columns:clamp(170px,19vw,250px) minmax(0,1fr) auto minmax(0,1fr) clamp(170px,19vw,250px);gap:12px;padding:0 8px}
+#bouts .b-photo{height:clamp(190px,20vw,250px)}
+#bouts .b-last{font-size:clamp(22px,2.1vw,30px)}
+#bouts .b-vs{padding:0 2px}
+#bouts .bout-main .bout-row{grid-template-columns:clamp(190px,21vw,270px) minmax(0,1fr) auto minmax(0,1fr) clamp(190px,21vw,270px)}
+#bouts .bout-main .b-photo{height:clamp(220px,22vw,280px)}
+#bouts .bout-main .b-last{font-size:clamp(26px,2.5vw,38px)}
+@media (max-width:600px){
+  #bouts .bout-row,#bouts .bout-main .bout-row{grid-template-columns:1fr auto 1fr;gap:4px 2px;padding:0 0 12px}
+  #bouts .b-photo,#bouts .bout-main .b-photo{height:175px}
+  #bouts .b-last,#bouts .bout-main .b-last{font-size:22px}
+}

@@ -45,7 +45,8 @@ const MATCHES = [
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: null, instagram: "rachid_hanma" },
     b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
     division: "Middleweight 95kg", arm: "Right arm" },
-  { a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: null, instagram: "philipp_stahlhofen" },
+  { hidden: true, // opponent being changed: hidden until the new match is confirmed
+    a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: null, instagram: "philipp_stahlhofen" },
     b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
     division: "Heavyweight 115kg", arm: "Right arm", special: "David vs Goliath" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
@@ -253,7 +254,7 @@ const mainHTML = boutHTML({
   imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-me-b.webp"
 });
 
-if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
+if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: `Match ${i + 1}`,
@@ -714,3 +715,15 @@ if (igBox) {
 }
 
 if ($("#year")) $("#year").textContent = new Date().getFullYear();
+
+/* shrink long last names so they never run into the photos */
+function fitNames() {
+  $$("#bouts .b-last").forEach(e => {
+    e.style.fontSize = "";
+    let f = parseFloat(getComputedStyle(e).fontSize);
+    while (e.scrollWidth > e.clientWidth + 1 && f > 14) { f -= 1; e.style.fontSize = f + "px"; }
+  });
+}
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
+fitNames();
+window.addEventListener("resize", () => requestAnimationFrame(fitNames));
