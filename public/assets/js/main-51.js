@@ -46,7 +46,7 @@ const MATCHES = [
     b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { hidden: true, // opponent being changed: hidden until the new match is confirmed
-    a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: null, instagram: "philipp_stahlhofen" },
+    a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
     b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
     division: "Heavyweight 115kg", arm: "Right arm", special: "David vs Goliath" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
@@ -736,7 +736,7 @@ window.addEventListener("resize", () => requestAnimationFrame(fitNames));
    ========================================================== */
 // Athletes on the LPAL 4 roster whose match is not on the card yet.
 const EXTRA_ATHLETES = [
-  { first: "Philipp", last: "Stahlhofen", country: "de", photo: null, instagram: "philipp_stahlhofen", division: "Lightweight 77kg", lpal4: true }
+  { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen", division: "Lightweight 77kg", lpal4: true }
 ];
 const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", w: "Women" };
 const DIVISIONS = [
