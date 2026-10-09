@@ -229,8 +229,8 @@ const mainHTML = boutHTML({
   a: me.a, b: me.b, main: true, division: me.title, arm: me.arm,
   label: `<span class="tag tag-red">Main event</span> ${esc(me.title)}`,
   sub: `<span class="b-reveal">${esc(me.reveal)}</span>`,
-  imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust-v2/silhouette-a.webp",
-  imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-b.webp"
+  imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust-v2/silhouette-me-a.webp",
+  imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-me-b.webp"
 });
 
 if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.map((m, i) => boutHTML({
