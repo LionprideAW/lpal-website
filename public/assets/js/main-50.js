@@ -233,6 +233,7 @@ const boutHTML = ({ a, b, label, sub, imgA, imgB, main, division, arm }) => {
           <span class="b-vs">vs</span>
           ${nameBlock(b, "b")}
           <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : "Main event athlete to be announced"}" loading="lazy"></div>
+          ${main ? `<img class="me-belt" src="assets/img/lpal-belt.webp" alt="LPAL World Champion belt">` : ""}
         </div>
       </div></div>
       ${canOpen ? detailHTML(a, b, division, arm) : ""}
