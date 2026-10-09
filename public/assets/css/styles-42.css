@@ -632,3 +632,5 @@ html,body{overflow-x:clip}
   #bouts .b-photo,#bouts .bout-main .b-photo{height:175px}
   #bouts .b-last,#bouts .bout-main .b-last{font-size:22px}
 }
+
+@media (max-width:600px){.bd-stats .acc{white-space:normal;font-size:12px;line-height:1.25;margin-bottom:4px}.bd-stats{max-width:100%}}

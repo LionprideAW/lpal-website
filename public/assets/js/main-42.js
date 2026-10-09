@@ -77,10 +77,11 @@ const ATHLETE_STATS = {
   "Stahlhofen":    { age: 32, height: "166 cm", weight: "70 kg",  achievements: ["13-time German Champion", "WAF World Champion"] },
   "Black Buffalo": { age: 35, height: "179 cm", weight: "95 kg",  achievements: ["No. 4 in Africa", "No. 1 in Ivory Coast"] },
   "Ellouah":       { age: 23, height: "189 cm", weight: "95 kg",  achievements: ["Overall Moroccan Champion"] },
-  "Åkesson":       { age: 27, height: "166 cm", weight: "65 kg",  achievements: ["Austrian Champion"] },
+  "Åkesson":       { age: 27, height: "166 cm", weight: "65 kg",  achievements: ["Powerlifting World Champion", "Armwrestling Champion"] },
+  "Stone":         { age: 37, height: "167 cm", weight: "65 kg",  achievements: ["Austrian National Champion"] },
   "Hradská":       { age: 21, height: "185 cm", weight: "80 kg",  achievements: ["WAF World Champion", "EAF European Champion", "Slovakian Champion"] },
   "Barberis":      { age: 33, height: "185 cm", weight: "118 kg", achievements: ["Overall French Champion", "4th at EAF European Championship"] },
-  "Tsankov":       { age: 29, height: "193 cm", weight: "120 kg" },
+  "Tsankov":       { age: 29, height: "193 cm", weight: "120 kg", achievements: ["Bulgarian Champion", "4th at EAF European Championship"] },
   "İlaslan":       { age: 24, height: "185 cm", weight: "77 kg",  achievements: ["7-time Turkish Champion", "2nd at WAF World Championship"] },
   "Sitchinava":    { age: 29, height: "175 cm", weight: "77 kg",  achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] }
 };
