@@ -83,7 +83,7 @@ const ATHLETE_STATS = {
   "Barberis":      { age: 33, height: "185 cm", weight: "118 kg", achievements: ["Overall French Champion", "4th at EAF European Championship"] },
   "Tsankov":       { age: 29, height: "193 cm", weight: "120 kg", achievements: ["Bulgarian Champion", "4th at EAF European Championship"] },
   "İlaslan":       { age: 24, height: "185 cm", weight: "77 kg",  achievements: ["7-time Turkish Champion", "2nd at WAF World Championship"] },
-  "Sitchinava":    { age: 29, height: "175 cm", weight: "77 kg",  achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] }
+  "Sitchinava":    { age: 29, height: "180 cm", weight: "77 kg",  achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] }
 };
 MATCHES.forEach(m => [m.a, m.b].forEach(x => { if (x && ATHLETE_STATS[x.last]) Object.assign(x, ATHLETE_STATS[x.last]); }));
 
