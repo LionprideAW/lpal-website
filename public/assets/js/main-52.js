@@ -42,7 +42,7 @@ const MATCHES = [
   { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
     b: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
     division: "Heavyweight 115kg", arm: "Left arm" },
-  { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: null, instagram: "rachid_hanma" },
+  { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma" },
     b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { hidden: true, // opponent being changed: hidden until the new match is confirmed
