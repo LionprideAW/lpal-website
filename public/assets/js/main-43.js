@@ -728,3 +728,125 @@ function fitNames() {
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitNames);
 fitNames();
 window.addEventListener("resize", () => requestAnimationFrame(fitNames));
+
+/* ==========================================================
+   ATHLETES PAGE: everyone who pulled from LPAL 1 to LPAL 4,
+   grouped by weight division. Newest event photo is used.
+   ========================================================== */
+// Athletes on the LPAL 4 roster whose match is not on the card yet.
+const EXTRA_ATHLETES = [
+  { first: "Philipp", last: "Stahlhofen", country: "de", photo: null, instagram: "philipp_stahlhofen", division: "Lightweight 77kg", lpal4: true }
+];
+const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", wmw: "Women 70kg", wow: "Women Open" };
+const DIVISIONS = [
+  ["lw", "Lightweight 77kg"], ["ww", "Welterweight 85kg"], ["mw", "Middleweight 95kg"],
+  ["lhw", "Light Heavyweight 105kg"], ["hw", "Heavyweight 115kg"], ["shw", "Super Heavyweight 115kg+"],
+  ["wmw", "Women's Middleweight 70kg"], ["wow", "Women's Open Weight"]
+];
+// 70kg and the old 75kg division both go into Lightweight 77kg.
+const divKey = d => {
+  const s = String(d), kg = parseInt((s.match(/(\d+)\s*kg/i) || [])[1], 10);
+  if (/women/i.test(s)) return kg <= 70 ? "wmw" : "wow";
+  if (/\+/.test(s)) return "shw";
+  return kg <= 77 ? "lw" : kg <= 85 ? "ww" : kg <= 95 ? "mw" : kg <= 105 ? "lhw" : "hw";
+};
+
+const athletesEl = $("#athletes");
+if (athletesEl) {
+  const roster = new Map();
+  const keyOf = x => (x.first + " " + x.last).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
+  const add = (x, info) => {
+    const k = keyOf(x);
+    const r = roster.get(k) || { first: x.first, last: x.last, wins: 0, losses: 0, events: [], img: null };
+    Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country, division: info.div });
+    if (x.instagram) r.instagram = x.instagram;
+    if (info.img) r.img = info.img;               // later events overwrite: newest photo wins
+    if (!r.events.includes(info.event)) r.events.push(info.event);
+    if (info.won === true) r.wins++;
+    if (info.won === false) r.losses++;
+    if (info.event === "LPAL 4") r.lpal4 = true;
+    roster.set(k, r);
+  };
+  // Oldest to newest, so the newest division and photo are kept.
+  ["lpal-1", "lpal-2", "lpal-3"].forEach((id, n) => {
+    const ev = PAST_EVENTS[id];
+    ev.matches.forEach(m => ["a", "b"].forEach(s => add(m[s], {
+      div: divKey(m.division), event: `LPAL ${n + 1}`, won: m.winner === s,
+      img: m[s].photo ? `${ev.photos}/bust/${m[s].photo}.webp` : null
+    })));
+  });
+  MATCHES.filter(m => !m.hidden).forEach(m => ["a", "b"].forEach(s => m[s] && add(m[s], {
+    div: divKey(m.division), event: "LPAL 4", won: null, img: m[s].photo ? bust(m[s].photo) : null
+  })));
+  EXTRA_ATHLETES.forEach(x => add(x, { div: divKey(x.division), event: "LPAL 4", won: null, img: x.photo ? bust(x.photo) : null }));
+
+  const all = [...roster.values()];
+  const SIL = "assets/img/bust-v2/silhouette-athlete.webp";
+  const cardHTML = a => {
+    const fights = a.wins + a.losses;
+    const record = fights ? `<span class="ath-rec"><b>${a.wins}-${a.losses}</b> W-L</span>` : `<span class="ath-rec ath-debut">LPAL debut</span>`;
+    const search = `${a.first} ${a.last} ${COUNTRIES[a.country] || ""}`.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    return `
+    <article class="ath-card" data-q="${esc(search)}">
+      <div class="ath-photo">
+        ${a.lpal4 ? `<span class="ath-next">LPAL 4</span>` : ""}
+        <img src="${a.img || SIL}" alt="${esc(full(a))}" loading="lazy">
+      </div>
+      <div class="ath-info">
+        <p class="ath-first">${a.first ? esc(a.first) : "&nbsp;"}</p>
+        <h3 class="ath-last"><span>${esc(a.last)}</span></h3>
+        <div class="ath-country">${country(a)}${igIcon(a)}</div>
+        <div class="ath-meta">${record}<span class="ath-events">${a.events.map(e => e.replace("LPAL ", "")).join(" · ").replace(/^/, "LPAL ")}</span></div>
+      </div>
+    </article>`;
+  };
+  const sortAth = (x, y) => (y.lpal4 ? 1 : 0) - (x.lpal4 ? 1 : 0) || y.wins - x.wins || x.losses - y.losses || x.last.localeCompare(y.last);
+
+  athletesEl.innerHTML = DIVISIONS.map(([k, name]) => {
+    const list = all.filter(a => a.division === k).sort(sortAth);
+    if (!list.length) return "";
+    return `
+    <section class="ath-div" id="div-${k}" data-div="${k}">
+      <div class="ath-div-head"><h2 class="ath-div-title">${esc(name)}</h2><span class="ath-div-count">${list.length} athletes</span></div>
+      <div class="ath-grid">${list.map(cardHTML).join("")}</div>
+    </section>`;
+  }).join("");
+
+  const countries = new Set(all.map(a => a.country).filter(Boolean));
+  $("#ath-totals").innerHTML = `<span><b>${all.length}</b> athletes</span><span><b>${countries.size}</b> countries</span><span><b>4</b> events</span>`;
+
+  const present = DIVISIONS.filter(([k]) => $(`#div-${k}`));
+  $("#ath-chips").innerHTML = [["all", "All"], ...present.map(([k, n]) => [k, n.replace("Women's ", "W. ")])]
+    .map(([k, n], i) => [k, k === "all" ? n : CHIP_LABEL[k]]).map(([k, n], i) => `<button class="ath-chip${i ? "" : " active"}" role="tab" aria-selected="${!i}" data-k="${k}">${esc(n)}</button>`).join("");
+
+  let curDiv = "all";
+  // Long last names shrink to fit the card instead of breaking mid-word.
+  const fitAth = () => $$(".ath-last span", athletesEl).forEach(e => {
+    e.style.fontSize = "";
+    const box = e.parentElement; let f = parseFloat(getComputedStyle(box).fontSize);
+    while (e.scrollWidth > box.clientWidth + 1 && f > 14) { f -= 1; e.style.fontSize = f + "px"; }
+  });
+  fitAth();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAth);
+  window.addEventListener("resize", () => requestAnimationFrame(fitAth));
+  const apply = () => {
+    const q = $("#ath-q").value.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "");
+    let shown = 0;
+    $$(".ath-div", athletesEl).forEach(sec => {
+      let n = 0;
+      $$(".ath-card", sec).forEach(c => { const ok = !q || c.dataset.q.includes(q); c.hidden = !ok; n += ok; });
+      sec.hidden = (curDiv !== "all" && sec.dataset.div !== curDiv) || !n;
+      if (!sec.hidden) shown += n;
+    });
+    $("#ath-empty").hidden = shown > 0;
+  };
+  $$(".ath-chip").forEach(b => b.addEventListener("click", () => {
+    curDiv = b.dataset.k;
+    $$(".ath-chip").forEach(x => { x.classList.toggle("active", x === b); x.setAttribute("aria-selected", x === b); });
+    b.scrollIntoView({ block: "nearest", inline: "center", behavior: "smooth" });
+    apply();
+    const top = $(".ath-sec").getBoundingClientRect().top + scrollY - 70;
+    if (scrollY > top) window.scrollTo({ top, behavior: "smooth" });
+  }));
+  $("#ath-q").addEventListener("input", apply);
+}
