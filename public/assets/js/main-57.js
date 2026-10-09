@@ -739,8 +739,8 @@ const EXTRA_ATHLETES = [
   { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen", division: "Lightweight 77kg", lpal4: true }
 ];
 const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", w: "Women" };
-// Athletes not shown on the Athletes page (results pages are unchanged).
-const HIDDEN_ATHLETES = ["Ivana Pitakova"];
+// Same athlete under an earlier name: old name -> current name (records are combined).
+const SAME_ATHLETE = { "ivana pitakova": "ivana hradska" };
 const DIVISIONS = [
   ["lw", "Lightweight 77kg"], ["ww", "Welterweight 85kg"], ["mw", "Middleweight 95kg"],
   ["lhw", "Light Heavyweight 105kg"], ["hw", "Heavyweight 115kg"], ["shw", "Super Heavyweight 115kg+"],
@@ -759,7 +759,7 @@ if (athletesEl) {
   const roster = new Map();
   const keyOf = x => (x.first + " " + x.last).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
   const add = (x, info) => {
-    const k = keyOf(x);
+    const k0 = keyOf(x), k = SAME_ATHLETE[k0] || k0;
     const r = roster.get(k) || { first: x.first, last: x.last, wins: 0, losses: 0, events: [], divs: [], img: null };
     Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country });
     if (!r.divs.includes(info.div)) r.divs.push(info.div);   // listed in every division they pulled in
@@ -784,7 +784,7 @@ if (athletesEl) {
   })));
   EXTRA_ATHLETES.forEach(x => add(x, { div: divKey(x.division), event: "LPAL 4", won: null, img: x.photo ? `assets/img/roster/lpal4/${x.photo}.webp` : null }));
 
-  const all = [...roster.values()].filter(a => !HIDDEN_ATHLETES.includes(full(a)));
+  const all = [...roster.values()];
   const SIL = "assets/img/roster/sil/silhouette-athlete.webp";
   const cardHTML = a => {
     const fights = a.wins + a.losses;
