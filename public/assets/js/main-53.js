@@ -50,7 +50,7 @@ const MATCHES = [
     b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
     division: "Heavyweight 115kg", arm: "Right arm", special: "David vs Goliath" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
-    b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-2", instagram: "hradska_ivana" },
+    b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },
   { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
     b: { first: "Gabriele", last: "Giurdanella", country: "it", photo: "gabriele-giurdanella", instagram: "gabriele__giurdanella" },
