@@ -737,16 +737,16 @@ window.addEventListener("resize", () => requestAnimationFrame(fitNames));
 const EXTRA_ATHLETES = [
   { first: "Philipp", last: "Stahlhofen", country: "de", photo: null, instagram: "philipp_stahlhofen", division: "Lightweight 77kg", lpal4: true }
 ];
-const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", wmw: "Women 70kg", wow: "Women Open" };
+const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", w: "Women" };
 const DIVISIONS = [
   ["lw", "Lightweight 77kg"], ["ww", "Welterweight 85kg"], ["mw", "Middleweight 95kg"],
   ["lhw", "Light Heavyweight 105kg"], ["hw", "Heavyweight 115kg"], ["shw", "Super Heavyweight 115kg+"],
-  ["wmw", "Women's Middleweight 70kg"], ["wow", "Women's Open Weight"]
+  ["w", "Women"]
 ];
 // 70kg and the old 75kg division both go into Lightweight 77kg.
 const divKey = d => {
   const s = String(d), kg = parseInt((s.match(/(\d+)\s*kg/i) || [])[1], 10);
-  if (/women/i.test(s)) return kg <= 70 ? "wmw" : "wow";
+  if (/women/i.test(s)) return "w";   // all women in one section for now
   if (/\+/.test(s)) return "shw";
   return kg <= 77 ? "lw" : kg <= 85 ? "ww" : kg <= 95 ? "mw" : kg <= 105 ? "lhw" : "hw";
 };
