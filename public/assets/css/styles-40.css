@@ -600,3 +600,21 @@ html,body{overflow-x:clip}
 .road-bar{position:relative;margin-top:clamp(28px,3.5vw,44px);background:#000;border:1px solid #262626;border-left:4px solid var(--red);border-radius:4px;padding:18px 24px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
 .road-bar p{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(22px,2.4vw,34px);line-height:1.05;letter-spacing:.01em;color:var(--red)}
 .road-bar+.road-steps{margin-top:clamp(20px,2.5vw,30px)}
+
+/* match details: all-black values, division + arm in the header, one accolade per line */
+.bd-stats .sa,.bd-stats .sb{color:var(--ink)}
+.bd-body{grid-template-columns:minmax(0,1fr) auto minmax(0,1fr)}
+.bd-stats{table-layout:auto}
+.bd-stats th{width:1%;white-space:nowrap;padding-left:8px;padding-right:8px}
+.bd-stats td{width:auto}
+.bd-stats .acc{display:block;white-space:nowrap;font-size:13px;line-height:1.5}
+.bd-body{gap:10px}
+.bd-stats{position:relative;z-index:1}
+.bd-div{color:var(--ink-2)}
+@media (max-width:600px){
+  .bd-div{display:block;grid-column:1 / -1;grid-row:2;text-align:center;font-size:11px;letter-spacing:.08em;padding:2px 0 0}
+  .bd-body{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+  .bd-stats .acc{font-size:11px;letter-spacing:-.01em}
+  .bd-stats th{padding-left:4px;padding-right:4px;font-size:9px}
+  .bd-stats td{font-size:12px}
+}

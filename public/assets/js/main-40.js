@@ -71,7 +71,7 @@ const ATHLETE_STATS = {
   "Grujic":        { age: 26, height: "177 cm", weight: "95 kg",  achievements: ["Overall Serbian Champion"] },
   "Gruber":        { age: 25, height: "194 cm", weight: "95 kg",  achievements: ["Overall Austrian Champion"] },
   "Giurdanella":   { age: 29, height: "179 cm", weight: "90 kg",  achievements: ["Overall Italian Champion"] },
-  "Sedis":         { age: 32, height: "194 cm", weight: "110 kg", achievements: ["Overall Latvian Champion", "WAF World Champion"] },
+  "Sedis":         { age: 32, height: "194 cm", weight: "110 kg", achievements: ["Overall Latvian Champion", "WAF World Champion", "EAF European Champion"] },
   "Tutberidze":    { age: 22, height: "187 cm", weight: "110 kg", achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] },
   "Stahlhofen":    { age: 32, height: "166 cm", weight: "70 kg",  achievements: ["13-time German Champion", "WAF World Champion"] },
   "Black Buffalo": { age: 35, height: "179 cm", weight: "95 kg",  achievements: ["No. 4 in Africa", "No. 1 in Ivory Coast"] },
@@ -189,7 +189,7 @@ const STATS = [
   ["Age", x => x.age],
   ["Height", x => x.height],
   ["Weight", x => x.weight],
-  ["Accolades", x => Array.isArray(x.achievements) ? x.achievements.map(esc).join("<br>") : esc(x.achievements || "")]
+  ["Accolades", x => (Array.isArray(x.achievements) ? x.achievements : x.achievements ? [x.achievements] : []).map(a => `<span class="acc">${esc(a)}</span>`).join("")]
 ];
 
 const nameBlock = (x, side) => x
@@ -201,12 +201,12 @@ const detailHTML = (a, b, division, arm) => {
     const va = get(a) || "", vb = get(b) || "";
     if (!va && !vb) return "";
     return `<tr><td class="sa">${label === "Country" ? esc(va) : va || "&ndash;"}</td><th>${label}</th><td class="sb">${label === "Country" ? esc(vb) : vb || "&ndash;"}</td></tr>`;
-  }).join("") + (arm ? `<tr><td class="sa">${esc(arm)}</td><th>Arm</th><td class="sb">${esc(arm)}</td></tr>` : "");
+  }).join("");
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
         <span class="bd-name bd-name-a">${esc(full(a))}${igIcon(a)}</span>
-        <span class="bd-div">${esc(division)}</span>
+        <span class="bd-div">${esc(division)}${arm ? ` &middot; ${esc(arm)}` : ""}</span>
         <span class="bd-name bd-name-b">${igIcon(b)}${esc(full(b))}</span>
       </div>
       <div class="bd-body">
