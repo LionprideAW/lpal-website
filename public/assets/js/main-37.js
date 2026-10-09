@@ -51,7 +51,7 @@ const MATCHES = [
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-2", instagram: "hradska_ivana" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },
-  { a: { first: "Denis", last: "Gruber", country: "at", photo: null, instagram: "gruber.denis" },
+  { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber", instagram: "gruber.denis" },
     b: { first: "Gabriele", last: "Giurdanella", country: "it", photo: "gabriele-giurdanella", instagram: "gabriele__giurdanella" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis", instagram: "france.armwrestling" },
