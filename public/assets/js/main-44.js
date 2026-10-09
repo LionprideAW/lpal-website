@@ -757,8 +757,9 @@ if (athletesEl) {
   const keyOf = x => (x.first + " " + x.last).toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g, "").replace(/\s+/g, " ").trim();
   const add = (x, info) => {
     const k = keyOf(x);
-    const r = roster.get(k) || { first: x.first, last: x.last, wins: 0, losses: 0, events: [], img: null };
-    Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country, division: info.div });
+    const r = roster.get(k) || { first: x.first, last: x.last, wins: 0, losses: 0, events: [], divs: [], img: null };
+    Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country });
+    if (!r.divs.includes(info.div)) r.divs.push(info.div);   // listed in every division they pulled in
     if (x.instagram) r.instagram = x.instagram;
     if (info.img) r.img = info.img;               // later events overwrite: newest photo wins
     if (!r.events.includes(info.event)) r.events.push(info.event);
@@ -803,7 +804,7 @@ if (athletesEl) {
   const sortAth = (x, y) => (y.lpal4 ? 1 : 0) - (x.lpal4 ? 1 : 0) || y.wins - x.wins || x.losses - y.losses || x.last.localeCompare(y.last);
 
   athletesEl.innerHTML = DIVISIONS.map(([k, name]) => {
-    const list = all.filter(a => a.division === k).sort(sortAth);
+    const list = all.filter(a => a.divs.includes(k)).sort(sortAth);
     if (!list.length) return "";
     return `
     <section class="ath-div" id="div-${k}" data-div="${k}">
