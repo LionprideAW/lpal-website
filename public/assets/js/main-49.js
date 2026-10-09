@@ -773,16 +773,16 @@ if (athletesEl) {
     const ev = PAST_EVENTS[id];
     ev.matches.forEach(m => ["a", "b"].forEach(s => add(m[s], {
       div: divKey(m.division), event: `LPAL ${n + 1}`, won: m.winner === s,
-      img: m[s].photo ? `${ev.photos}/bust/${m[s].photo}.webp` : null
+      img: m[s].photo ? `assets/img/roster/lpal${n + 1}/${m[s].photo}.webp` : null
     })));
   });
   MATCHES.filter(m => !m.hidden).forEach(m => ["a", "b"].forEach(s => m[s] && add(m[s], {
-    div: divKey(m.division), event: "LPAL 4", won: null, img: m[s].photo ? bust(m[s].photo) : null
+    div: divKey(m.division), event: "LPAL 4", won: null, img: m[s].photo ? `assets/img/roster/lpal4/${m[s].photo}.webp` : null
   })));
-  EXTRA_ATHLETES.forEach(x => add(x, { div: divKey(x.division), event: "LPAL 4", won: null, img: x.photo ? bust(x.photo) : null }));
+  EXTRA_ATHLETES.forEach(x => add(x, { div: divKey(x.division), event: "LPAL 4", won: null, img: x.photo ? `assets/img/roster/lpal4/${x.photo}.webp` : null }));
 
   const all = [...roster.values()];
-  const SIL = "assets/img/bust-v2/silhouette-athlete.webp";
+  const SIL = "assets/img/roster/sil/silhouette-athlete.webp";
   const cardHTML = a => {
     const fights = a.wins + a.losses;
     const record = fights ? `<span class="ath-rec"><b>${a.wins}-${a.losses}</b> W-L</span>` : `<span class="ath-rec ath-debut">LPAL debut</span>`;
