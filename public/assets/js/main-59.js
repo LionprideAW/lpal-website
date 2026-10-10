@@ -73,7 +73,7 @@ const ATHLETE_STATS = {
   "Gruber":        { age: 25, height: "194 cm", weight: "95 kg",  achievements: ["Overall Austrian Champion"] },
   "Giurdanella":   { age: 29, height: "179 cm", weight: "90 kg",  achievements: ["Overall Italian Champion"] },
   "Sedis":         { age: 32, height: "194 cm", weight: "110 kg", achievements: ["Overall Latvian Champion", "WAF World Champion", "EAF European Champion"] },
-  "Tutberidze":    { age: 22, height: "187 cm", weight: "110 kg", achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] },
+  "Tutberidze":    { age: 23, height: "187 cm", weight: "110 kg", achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] },
   "Stahlhofen":    { age: 32, height: "166 cm", weight: "70 kg",  achievements: ["13-time German Champion", "WAF World Champion"] },
   "Black Buffalo": { age: 35, height: "179 cm", weight: "95 kg",  achievements: ["No. 4 in Africa", "No. 1 in Ivory Coast"] },
   "Ellouah":       { age: 23, height: "189 cm", weight: "95 kg",  achievements: ["Overall Moroccan Champion"] },
