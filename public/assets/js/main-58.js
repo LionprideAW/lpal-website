@@ -20,10 +20,10 @@ const COUNTRIES = {
   ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine"
 };
 
-// Main event: fill in a/b on 30 October (same format as the matches below).
+// Main event: fill in a/b on 25 October (same format as the matches below).
 const MAIN_EVENT = {
   title: "LPAL World Title Match",
-  reveal: "Announced 30 October",
+  reveal: "Announced 25 October",
   a: null,
   b: null
 };
@@ -495,7 +495,7 @@ const STORIES = [
     text: "Ellen B. Åkesson will be the first woman ever to pull against two different opponents at the same event.\n\nBoth opponents are elite WAF athletes. The matches will be revealed soon." },
   { id: "world-title-match", tag: "World title", date: "2026-10-09", photo: "world-title-match.jpg",
     title: "The first LPAL World Title Match",
-    text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 30 October." }
+    text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 25 October." }
 ];
 const STORY_MS = 7000;
 
