@@ -17,7 +17,7 @@ const COUNTRIES = {
   gr: "Greece", it: "Italy", lt: "Lithuania", lv: "Latvia", ma: "Morocco",
   rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey",
   cz: "Czech Republic", hu: "Hungary", mk: "North Macedonia", pl: "Poland",
-  ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine"
+  ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine", es: "Spain"
 };
 
 // Main event: fill in a/b on 25 October (same format as the matches below).
@@ -63,7 +63,10 @@ const MATCHES = [
     division: "Women's Middleweight 70kg", arm: "Left arm" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11" },
     b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" },
-    division: "Lightweight 77kg", arm: "Left arm" }
+    division: "Lightweight 77kg", arm: "Left arm" },
+  { a: { first: "Martin", last: "Vodpija", country: "at", photo: "martin-vodpija" },
+    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia" },
+    division: "Lightweight 77kg", arm: "" }
 ];
 
 // Athlete stats shown when a match is opened (age, height, weight, accolades). Key = last name.
@@ -83,6 +86,7 @@ const ATHLETE_STATS = {
   "Barberis":      { age: 33, height: "185 cm", weight: "118 kg", achievements: ["Overall French Champion", "4th at EAF European Championship"] },
   "Tsankov":       { age: 29, height: "193 cm", weight: "120 kg", achievements: ["Bulgarian Champion", "4th at EAF European Championship"] },
   "İlaslan":       { age: 24, height: "185 cm", weight: "77 kg",  achievements: ["7-time Turkish Champion", "2nd at WAF World Championship"] },
+  "Vodpija":       { age: 24, height: "180 cm", weight: "77 kg",  achievements: ["Austrian National Champion"] },
   "Sitchinava":    { age: 27, height: "180 cm", weight: "77 kg",  achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] }
 };
 MATCHES.forEach(m => [m.a, m.b].forEach(x => { if (x && ATHLETE_STATS[x.last]) Object.assign(x, ATHLETE_STATS[x.last]); }));
