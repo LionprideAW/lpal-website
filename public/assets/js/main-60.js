@@ -259,7 +259,7 @@ const mainHTML = boutHTML({
 if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
-  sub: `Match ${i + 1}`,
+  sub: "",   // no match numbers: the order may still change
   imgA: bust(m.a.photo), imgB: bust(m.b.photo)
 })).join("");
 
