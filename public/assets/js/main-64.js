@@ -65,7 +65,7 @@ const MATCHES = [
     b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" },
     division: "Lightweight 77kg", arm: "Left arm" },
   { a: { first: "Martin", last: "Vodpija", country: "at", photo: "martin-vodpija" },
-    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia" },
+    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2" },
     division: "Lightweight 77kg", arm: "" }
 ];
 
