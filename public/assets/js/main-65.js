@@ -58,15 +58,15 @@ const MATCHES = [
   { a: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis", instagram: "france.armwrestling" },
     b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov", instagram: "tsankov.armwrestling" },
     division: "Super Heavyweight 115kg+", arm: "Right arm" },
+  { a: { first: "Martin", last: "Vodpija", country: "at", photo: "martin-vodpija" },
+    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2" },
+    division: "Lightweight 77kg", arm: "" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" },
     division: "Women's Middleweight 70kg", arm: "Left arm" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11" },
     b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" },
-    division: "Lightweight 77kg", arm: "Left arm" },
-  { a: { first: "Martin", last: "Vodpija", country: "at", photo: "martin-vodpija" },
-    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2" },
-    division: "Lightweight 77kg", arm: "" }
+    division: "Lightweight 77kg", arm: "Left arm" }
 ];
 
 // Athlete stats shown when a match is opened (age, height, weight, accolades). Key = last name.
