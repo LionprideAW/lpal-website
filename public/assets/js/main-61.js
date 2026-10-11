@@ -198,6 +198,8 @@ const nameBlock = (x, side) => x
   ? `<div class="b-name b-name-${side}">${x.first ? `<span class="b-first">${esc(x.first)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
   : `<div class="b-name b-name-${side}"><span class="b-first">To be announced</span><span class="b-last b-tba">TBA</span></div>`;
 
+// Big country flag behind each athlete when the stats are open.
+const bigFlag = x => x && x.country ? `<span class="bd-flag" aria-hidden="true" style="background-image:url('https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${x.country}.svg')"></span>` : "";
 const detailHTML = (a, b, division, arm) => {
   const rows = STATS.map(([label, get]) => {
     const va = get(a) || "", vb = get(b) || "";
@@ -212,9 +214,9 @@ const detailHTML = (a, b, division, arm) => {
         <span class="bd-name bd-name-b">${igIcon(b)}${esc(full(b))}</span>
       </div>
       <div class="bd-body">
-        <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
+        <div class="bd-photo bd-photo-a">${bigFlag(a)}<img src="${body(a.photo)}" alt="" loading="lazy"></div>
         <table class="bd-stats"><tbody>${rows}</tbody></table>
-        <div class="bd-photo bd-photo-b"><img src="${body(b.photo)}" alt="" loading="lazy"></div>
+        <div class="bd-photo bd-photo-b">${bigFlag(b)}<img src="${body(b.photo)}" alt="" loading="lazy"></div>
       </div>
     </div></div>`;
 };

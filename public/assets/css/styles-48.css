@@ -712,3 +712,18 @@ html,body{overflow-x:clip}
   #bouts .bout-main .b-name,#bouts .bout-main .b-vs{margin-bottom:0}
   #bouts .bout-main .me-belt{grid-area:belt;width:92%;margin:12px 0 4px;filter:drop-shadow(0 6px 10px rgba(0,0,0,.22))}
 }
+
+/* Big flag behind the athlete in the opened stats view */
+.bd-photo{position:relative}
+.bd-photo img{position:relative;z-index:1}
+.bd-flag{position:absolute;z-index:0;left:50%;top:0;width:120%;aspect-ratio:4/3;background-size:cover;background-position:center;
+  transform:translateX(-50%) scale(.9);opacity:0;filter:saturate(.95);
+  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 42%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 42%,#000 45%,transparent 100%);
+  transition:opacity .6s ease .35s,transform .9s var(--ease) .35s,clip-path .9s var(--ease) .35s}
+.bd-photo-a .bd-flag{clip-path:inset(0 100% 0 0)}
+.bd-photo-b .bd-flag{clip-path:inset(0 0 0 100%)}
+.bout-card.open .bd-flag{opacity:.9;transform:translateX(-50%) scale(1);clip-path:inset(0 0 0 0)}
+.bout-card.open .bd-flag{animation:flagWave 6s ease-in-out 1.3s infinite}
+@keyframes flagWave{0%,100%{transform:translateX(-50%) scale(1) skewY(0)}50%{transform:translateX(-50%) scale(1.03) skewY(-1.5deg)}}
+@media (max-width:600px){.bd-flag{top:4%;width:100%}}
+@media (prefers-reduced-motion:reduce){.bout-card.open .bd-flag{animation:none}}
