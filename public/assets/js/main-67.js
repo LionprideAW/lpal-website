@@ -745,6 +745,52 @@ const EXTRA_ATHLETES = [
 const CHIP_LABEL = { lw: "77kg", ww: "85kg", mw: "95kg", lhw: "105kg", hw: "115kg", shw: "115kg+", w: "Women" };
 // Same athlete under an earlier name: old name -> current name (records are combined).
 const SAME_ATHLETE = { "ivana pitakova": "ivana hradska" };
+// Instagram for athletes from past events (by full name). No socials: Mario Lukic, Predrag Djordjevic.
+const ATHLETE_IG = {
+  "Ivan Gregoricka": "gregoricka_armwrestling",
+  "Nemanja Milanovic": "pop_2001_",
+  "Petros Peridis": "petrosperidis",
+  "Ethan Lovei": "ethan.lovei",
+  "Kevin Berberich": "kevin_berberich",
+  "David Bogdan": "b_david_00",
+  "Sup1nator": "sup1nator",
+  "Mattia Vezzola": "mattiavezzola_aw",
+  "Hristo Delidzhakov": "hristo_ref",
+  "Marko Lakicevic": "mariciolaks",
+  "Roman Riabtsev": "roman_riabtsev_",
+  "Toms Rozits": "tomsrozits",
+  "Slobodan Novakovic": "novak_fit.rs",
+  "Ivan Serafimovski": "ivan_serafimovski",
+  "Engelbert Staudacher": "engelbert.staudacher",
+  "Oleksandr Bezkorovainyi": "sano_arm",
+  "Kersten Mercieca": "kerstentat2",
+  "Daniel Kubaji": "danielkubaji",
+  "Auden Larratt": "audenlarratt",
+  "Simon Polak": "polak_simon",
+  "Viachaslau Kuksa": "kuksa_armwrestling",
+  "Emil Faccoli": "emilfaccoli",
+  "Josef Lukacik": "josef_lukacik",
+  "Veljko Petrovic": "veljko__petrovic_",
+  "Gabor Szakacs": "g.soma",
+  "Honza Toman": "honzatoman_",
+  "Bastien Cervelli": "le_verin_",
+  "Nemanja Vedjic": "vedja_",
+  "Andrija Simic": "andrijasimic_",
+  "Peter Celes": "peter_celes",
+  "Michel Neumann": "armforce_michel",
+  "Christos Zablaras": "chris.zamplaras",
+  "Martin Minarovic": "martin.afro",
+  "Vaclav Vaculovic": "vaculovicvaclav",
+  "Beniamin Blajan": "beniblajan",
+  "Martin Hentschel": "eiserne_elite_itf",
+  "Markus Liebminger": "markus_liebminger",
+  "Veljko Stanojevic": "_veljko_stanojevic_97",
+  "Nora Krasnyánszki": "krasnyanszkinora",
+  "Susie Ann": "5usie_ann",
+  "Paulina Janoszka": "paulinajanoszka_"
+};
+// Athletes listed in one division only, regardless of where they pulled before.
+const DIVISION_OVERRIDE = { "andrija simic": ["shw"] };
 const DIVISIONS = [
   ["lw", "Lightweight 77kg"], ["ww", "Welterweight 85kg"], ["mw", "Middleweight 95kg"],
   ["lhw", "Light Heavyweight 105kg"], ["hw", "Heavyweight 115kg"], ["shw", "Super Heavyweight 115kg+"],
@@ -768,6 +814,7 @@ if (athletesEl) {
     Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country });
     if (!r.divs.includes(info.div)) r.divs.push(info.div);   // listed in every division they pulled in
     if (x.instagram) r.instagram = x.instagram;
+    if (!r.instagram && ATHLETE_IG[full(x)]) r.instagram = ATHLETE_IG[full(x)];
     if (info.img) r.img = info.img;               // later events overwrite: newest photo wins
     if (!r.events.includes(info.event)) r.events.push(info.event);
     if (info.won === true) r.wins++;
@@ -789,6 +836,7 @@ if (athletesEl) {
   EXTRA_ATHLETES.forEach(x => add(x, { div: divKey(x.division), event: "LPAL 4", won: null, img: x.photo ? `assets/img/roster/lpal4/${x.photo}.webp` : null }));
 
   const all = [...roster.values()];
+  all.forEach(a => { const o = DIVISION_OVERRIDE[keyOf(a)]; if (o) a.divs = o; });
   const SIL = "assets/img/roster/sil/silhouette-athlete.webp";
   const cardHTML = a => {
     const fights = a.wins + a.losses;
