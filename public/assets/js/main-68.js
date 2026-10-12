@@ -17,7 +17,7 @@ const COUNTRIES = {
   gr: "Greece", it: "Italy", lt: "Lithuania", lv: "Latvia", ma: "Morocco",
   rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey",
   cz: "Czech Republic", hu: "Hungary", mk: "North Macedonia", pl: "Poland",
-  ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine", es: "Spain"
+  ca: "Canada", hr: "Croatia", md: "Moldova", ro: "Romania", ua: "Ukraine", es: "Spain", ci: "Ivory Coast"
 };
 
 // Main event: fill in a/b on 25 October (same format as the matches below).
@@ -43,7 +43,7 @@ const MATCHES = [
     b: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
     division: "Heavyweight 115kg", arm: "Left arm" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma" },
-    b: { first: "", last: "Black Buffalo", country: "fr", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
+    b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { hidden: true, // opponent being changed: hidden until the new match is confirmed
     a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
