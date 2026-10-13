@@ -274,35 +274,36 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
     return `<div class="t-box" style="transform:translate3d(${x}px,${y}px,${z}px) ${extra}">${faces}</div>`;
   };
   const L = (t, cls = "") => `<span class="t-logo ${cls}"><b>${t}</b></span>`;
-  const W = 580, D = 420, TH = 46, TOPY = -600;           // table top: 580 x 420, top surface at 600
+  // Proportions taken from the real TitanGrip / LPAL table: wide low top, tube legs with sleeves, H frame.
+  const W = 720, D = 520, TH = 34, TOPY = -420;           // top 720 x 520 (LPAL top design ratio), top surface 420 high
   let h = `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
-  // table top: printed mat with zones, sides with logo spots
   const top = `<div class="t-top">
       <div class="t-spot t-c1" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c2" data-zone="corner">${L("Your logo")}</div>
       <div class="t-spot t-c3" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c4" data-zone="corner">${L("Your logo")}</div>
       <div class="t-spot t-ctr t-ctr-l" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-ctr t-ctr-r" data-zone="center">${L("Presenting partner")}</div>
     </div>`;
-  const sideS = { zone: "side-short", cls: "t-side", html: L("Your logo") }, sideL = { zone: "side-long", cls: "t-side", html: L("Your logo") };
+  const sideS = { zone: "side-short", cls: "t-side", html: L("Your logo") }, sideL = { zone: "side-long", cls: "t-side", html: L("Your logo") + L("Your logo") };
   h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top }, right: sideS, left: sideS, front: sideL, back: sideL, bottom: { cls: "t-black" } });
-  // legs with logo sleeves
-  const legH = -TOPY - TH, lx = W / 2 - 40, lz = D / 2 - 34;
+  // four tube legs, each with a thick upper sleeve carrying the logo
+  const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 58, lz = D / 2 - 52;
   [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sz]) => {
-    h += box(30, legH, 30, sx * lx, -legH / 2 - TH / 2 + TH / 2 - 0, sz * lz, { all: { cls: "t-leg" } });
+    h += box(22, legH, 22, sx * lx, legTop / 2, sz * lz, { all: { cls: "t-leg" } });
     const sl = { zone: "legs", cls: "t-sleeve", html: L("Logo", "t-vert") };
-    h += box(40, 260, 40, sx * lx, -legH + 170, sz * lz, { all: sl, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
+    h += box(34, 210, 34, sx * lx, legTop + 30 + 105, sz * lz, { all: sl, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
   });
-  // bottom frame
-  [-1, 1].forEach(sz => h += box(2 * lx, 22, 22, 0, -11, sz * lz, { all: { cls: "t-leg" } }));
-  [-1, 1].forEach(sx => h += box(22, 22, 2 * lz, sx * lx, -11, 0, { all: { cls: "t-leg" } }));
-  h += box(22, 22, 2 * lz, 0, -11, 0, { all: { cls: "t-leg" } });
-  // elbow pads (black) and hand pads (yellow) - not brandable
-  [-1, 1].forEach(s => h += box(130, 26, 120, s * 70, TOPY - 13, s * -40, { all: { cls: "t-padblack" } }));
-  [-1, 1].forEach(s => h += box(110, 34, 64, s * 120, TOPY - 17, s * -150, { all: { cls: "t-padyellow" } }, `rotateX(${s * 18}deg)`));
-  // grip pegs with logo on both sides
+  // H-shaped floor frame: one bar along each short end + a long bar through the middle
+  [-1, 1].forEach(sx => h += box(24, 24, 2 * lz + 24, sx * lx, -12, 0, { all: { cls: "t-leg" } }));
+  h += box(2 * lx, 24, 24, 0, -12, 0, { all: { cls: "t-leg" } });
+  // elbow pads (flat) and upright touch pads, as on the real table (not brandable)
+  h += box(120, 20, 100, -75, TOPY - 10, 40, { all: { cls: "t-padblack" } });
+  h += box(100, 56, 40, -75, TOPY - 28, -95, { all: { cls: "t-padyellow" } });
+  h += box(120, 20, 100, 75, TOPY - 10, -40, { all: { cls: "t-padyellow" } });
+  h += box(100, 56, 40, 75, TOPY - 28, 95, { all: { cls: "t-padblack" } });
+  // grip pegs at both short ends, logo on both sides
   [-1, 1].forEach(s => {
     const pg = { zone: "pegs", cls: "t-peg" };
-    h += box(22, 150, 22, s * 248, TOPY - 75, 0, { front: { ...pg, html: L("Logo", "t-vert t-small") }, back: { ...pg, html: L("Logo", "t-vert t-small") }, all: pg });
-    h += box(30, 14, 30, s * 248, TOPY - 150, 0, { all: { cls: "t-peg" } });
+    h += box(20, 130, 20, s * (W / 2 - 70), TOPY - 65, 0, { front: { ...pg, html: L("Logo", "t-vert t-small") }, back: { ...pg, html: L("Logo", "t-vert t-small") }, all: pg });
+    h += box(28, 12, 28, s * (W / 2 - 70), TOPY - 130, 0, { all: { cls: "t-peg" } });
   });
   wrap.insertAdjacentHTML("afterbegin", `<div class="t-stage"><div class="t-rig" id="t-rig">${h}</div></div>`);
   const rig = $("#t-rig");
@@ -333,14 +334,14 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
     if (moved < 6) { wrap.releasePointerCapture(e.pointerId); const el = document.elementFromPoint(e.clientX, e.clientY); const z = el && el.closest("[data-zone]"); if (z) select(z.dataset.zone); }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
-  const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1150, wrap.clientHeight / 1000).toFixed(3));
+  const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1200, wrap.clientHeight / 820).toFixed(3));
   addEventListener("resize", fit); fit();
   let visible = true;
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
     if (!drag) { vel *= 0.93; ry += vel; if (++idle > 90) ry += 0.18; }
-    rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(360px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(250px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
   loop();
 })();
