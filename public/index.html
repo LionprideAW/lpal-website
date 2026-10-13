@@ -17,7 +17,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/styles-54.css">
 <link rel="stylesheet" href="assets/css/theme-dark-1.css">
-<script>(function(){var d=document.documentElement,q=location.search,on=/[?&]dark\b/.test(q);try{if(on)sessionStorage.setItem("lpalTheme","dark");if(/[?&]light\b/.test(q))sessionStorage.removeItem("lpalTheme");on=sessionStorage.getItem("lpalTheme")==="dark"}catch(e){}if(!on)return;d.classList.add("theme-dark");document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll('img[src*="logo-lpal4-black"]').forEach(function(i){i.src=i.getAttribute("src").replace("logo-lpal4-black","logo-lpal4")})})})();</script>
+<script>(function(){var d=document.documentElement,q=location.search,on=true;try{if(/[?&]light\b/.test(q))sessionStorage.setItem("lpalTheme","light");if(/[?&]dark\b/.test(q))sessionStorage.removeItem("lpalTheme");on=sessionStorage.getItem("lpalTheme")!=="light"}catch(e){on=!/[?&]light\b/.test(q)}if(!on)return;d.classList.add("theme-dark");document.addEventListener("DOMContentLoaded",function(){document.querySelectorAll('img[src*="logo-lpal4-black"]').forEach(function(i){i.src=i.getAttribute("src").replace("logo-lpal4-black","logo-lpal4")})})})();</script>
 </head>
 <body>
 
