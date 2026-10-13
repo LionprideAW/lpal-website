@@ -17,7 +17,7 @@ const SETTINGS = {
 const STATS = [
   { n: "5.6M+", l: "Combined followers", s: "Athletes on the card + league, Instagram & TikTok" },
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
-  { n: "20K", l: "Live viewers at LPAL 3", s: "With only 300K followers on the card" },
+  { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
   { n: "2M", l: "League reach", s: "Last 30 days, LPAL channels" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "21", l: "Athletes", s: "From 16 countries, incl. world champions" }
