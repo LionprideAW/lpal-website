@@ -97,6 +97,8 @@ const PACKAGES = [
 
   { id: "stream", cat: "stream", name: "Stream Partner", price: 4500, once: true,
     items: ["Logo on screen during the whole broadcast and the recording", "Mentioned in each half of the show"] },
+  { id: "interviews", cat: "stream", name: "Pre-Match Interview Partner", price: 2500, once: true, tag: "Drinks & supplements",
+    items: ["Your product in our 1-on-1 interviews with the athletes, posted 1 day before the event", "Athletes drink or use your product on camera, with your logo in the shot", "Your brand named in every interview video and its description", "Posted by the league and shared by the athletes on their own channels"] },
   { id: "costream", cat: "stream", name: "Co-Stream Partner", price: 5000, once: true,
     items: ["Other streamers re-broadcast LPAL 4 live on their own Kick channels (co-streams). Your logo and message appear on at least 3 of these streams, reaching their audiences too", "Your own discount code (e.g. LPAL10) shown in the stream and chat, so viewers can buy your product right away, valid for 30+ days", "An automatic message about your brand in the live chat every 10 minutes"] },
   { id: "clips", cat: "stream", name: "Clip Partner", price: 4000, once: true,
