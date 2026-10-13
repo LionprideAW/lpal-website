@@ -125,7 +125,7 @@ const PACKAGES = [
 
   { id: "walkout", cat: "arena", name: "Walkout Partner", price: 5000, once: true,
     items: ["WWE-style walkouts with music, lights and pyro: your brand in every one",
-            "Your logo on each athlete's walkout graphic on the big screen",
+            "Your logo on each athlete's walkout graphic in the livestream and on the big screen in the arena",
             "30+ logo moments of 15 seconds on the LED wall"] },
   { id: "led", cat: "arena", name: "LED Screen Partner", price: 3000, once: true,
     items: ["Your logo on the LED screen behind the athletes, all night", "In the main camera (Camera 1) shot of every match", "Behind the athletes in every walkout too", "15-second spot on the LED screen between matches",
