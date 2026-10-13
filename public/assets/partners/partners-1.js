@@ -5,8 +5,8 @@
 
 const SETTINGS = {
   // Where inquiries go. Fill in before sending the link to sponsors.
-  email: "",
-  whatsapp: "",            // e.g. "+43 660 1234567"
+  email: "business@lionpride-armwrestling.com",
+  whatsapp: "+43 670 7745771",
   // Show the main event names (keep false until the official reveal on 25 October).
   revealMainEvent: false
 };
@@ -27,7 +27,7 @@ const PACKAGES = [
   { id: "presenting", cat: "headline", name: "Presenting Partner", price: 25000, once: true, tag: "Exclusive",
     items: ["“LPAL 4 presented by [your brand]” on the event name, poster and announcements",
             "Your logo on almost every livestream graphic: scoreboard, athlete cards, lower thirds, breaks",
-            "Logo on the table mat, visible in every match and every replay",
+            "Your logo on the centre line of the table top, visible in every match and every replay",
             "8+ mentions by the commentators during the stream",
             "Top position on the sponsor wall and the stage",
             "Logo on every official poster, posted as a collaboration by all athletes on the card",
@@ -41,14 +41,28 @@ const PACKAGES = [
             "Logo on the big LED screen and in the livestream",
             "Official partner title, e.g. “Official Energy Drink of LPAL”",
             "Category exclusivity", "6 VIP tickets"] },
-  { id: "table", cat: "headline", name: "Table Partner", price: 8000, once: true, tag: "Most visible",
-    items: ["Logo on the table front and back panels, elbow pads and grip pads",
-            "In frame for every second of all 10 matches",
-            "Visible in every clip, replay and photo for 12 months",
-            "See the 3D table above for every logo zone"] },
   { id: "jersey-full", cat: "headline", name: "Jersey Partner (all areas)", price: 12000, once: true, tag: "Save €1,000",
     items: ["Logo on chest, both sleeves and back of every athlete jersey", "Logo on the referees' shirts",
             "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
+
+  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value",
+    items: ["All 4 top corners, all 4 table sides, the 4 leg sleeves and both grip pegs",
+            "The table is in frame for every second of all 10 matches",
+            "In every clip, replay and photo for 12 months"] },
+  { id: "table-top", cat: "table", name: "Full Table Top", price: 4000, once: true, tag: "Save €800",
+    items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
+  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 5000, once: true, tag: "Save €1,000",
+    items: ["Your logo on all 4 sides of the table top", "Incl. both short sides under the grip pegs, the most visible spots"] },
+  { id: "corner", cat: "table", name: "Table Top Corner", price: 1200, max: 4, tag: "4 spots",
+    items: ["Your logo in one corner of the table top", "Visible in the top-down and close-up shots"] },
+  { id: "side-short", cat: "table", name: "Short Side (under the peg)", price: 1800, max: 2, tag: "Most visible · 2 spots",
+    items: ["Your logo on a short side of the table, right under the grip peg", "Faces the main camera in every match"] },
+  { id: "side-long", cat: "table", name: "Long Side", price: 1200, max: 2, tag: "2 spots",
+    items: ["Your logo on a long side of the table", "Seen in the side shots and by the crowd"] },
+  { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 2000, once: true,
+    items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
+  { id: "pegs", cat: "table", name: "Grip Pegs", price: 1500, once: true,
+    items: ["Your logo on both grip pegs, on both sides", "In the hand of every athlete, in every close-up"] },
 
   { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
@@ -105,7 +119,7 @@ const PACKAGES = [
   { id: "wall-name", cat: "entry", name: "Name on the Sponsor Wall", price: 250,
     items: ["Company name on the sponsor wall", "Listed in the sponsor list", "1 ticket"] }
 ];
-const CATS = [["all", "All"], ["headline", "Headline"], ["matches", "Matches"], ["jersey", "Jersey"], ["stream", "Livestream & clips"], ["arena", "Arena"], ["entry", "Entry deals"]];
+const CATS = [["all", "All"], ["headline", "Headline"], ["table", "Table"], ["matches", "Matches"], ["jersey", "Jersey"], ["stream", "Livestream & clips"], ["arena", "Arena"], ["entry", "Entry deals"]];
 
 /* ---------- fight card ---------- */
 // Main event: names stay out of this file until the official reveal on 25 October
@@ -183,39 +197,47 @@ const bout = (m, main) => `<li class="p-bout${main ? " p-bout-main" : ""}">
 </li>`;
 $("#p-bouts").innerHTML = bout(MAIN_EVENT, true) + MATCHES.map(m => bout(m, false)).join("");
 
-/* ---------- packages + selection ---------- */
-const sel = new Set();
+/* ---------- packages + selection (qty for packages with several spots) ---------- */
+const sel = new Map();
 const packHTML = p => `<article class="p-pack${p.id === "presenting" ? " p-pack-hero" : ""}" data-cat="${p.cat}" data-id="${p.id}">
   <div class="p-pack-top">${p.tag ? `<span class="p-pack-tag">${esc(p.tag)}</span>` : ""}${p.once ? `<span class="p-pack-once">1 partner only</span>` : ""}</div>
   <h3>${esc(p.name)}</h3>
-  <p class="p-price">${eur(p.price)}${typeof p.price === "number" ? `<small>net</small>` : ""}</p>
+  <p class="p-price">${eur(p.price)}${typeof p.price === "number" ? `<small>net${p.max ? " per spot" : ""}</small>` : ""}</p>
   <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
   <button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>
 </article>`;
 $("#p-packs").innerHTML = PACKAGES.map(packHTML).join("");
 $("#p-filter").innerHTML = CATS.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
-$$(".p-chip").forEach(b => b.addEventListener("click", () => {
-  $$(".p-chip").forEach(x => x.classList.toggle("on", x === b));
-  $$(".p-pack").forEach(p => p.hidden = b.dataset.k !== "all" && p.dataset.cat !== b.dataset.k);
-}));
+const filterTo = k => {
+  $$(".p-chip").forEach(x => x.classList.toggle("on", x.dataset.k === k));
+  $$(".p-pack").forEach(p => p.hidden = k !== "all" && p.dataset.cat !== k);
+};
+$$(".p-chip").forEach(b => b.addEventListener("click", () => filterTo(b.dataset.k)));
+const pack = id => PACKAGES.find(p => p.id === id);
+const addPack = id => { const p = pack(id); const q = sel.get(id) || 0; if (!p.max && q) return; if (p.max && q >= p.max) return; sel.set(id, q + 1); renderSel(); };
 const renderSel = () => {
   const list = PACKAGES.filter(p => sel.has(p.id));
-  $("#p-sel").innerHTML = list.length ? list.map(p => `<li><span>${esc(p.name)}</span><b>${eur(p.price)}</b><button type="button" aria-label="Remove ${esc(p.name)}" data-rm="${p.id}">&times;</button></li>`).join("")
+  $("#p-sel").innerHTML = list.length ? list.map(p => { const q = sel.get(p.id);
+    return `<li><span>${esc(p.name)}${p.max ? `<em class="p-qty"><button type="button" data-dec="${p.id}" aria-label="One less">&minus;</button>${q}<button type="button" data-inc="${p.id}" aria-label="One more">+</button></em>` : ""}</span><b>${eur(typeof p.price === "number" ? p.price * q : p.price)}</b><button type="button" aria-label="Remove ${esc(p.name)}" data-rm="${p.id}">&times;</button></li>`; }).join("")
     : `<li class="p-sel-empty">No packages selected yet</li>`;
-  const total = list.reduce((s, p) => s + (typeof p.price === "number" ? p.price : 0), 0);
+  const total = list.reduce((s, p) => s + (typeof p.price === "number" ? p.price * sel.get(p.id) : 0), 0);
   $("#p-sel-total").innerHTML = list.length ? `Total <b>${eur(total)}</b> <small>net, plus VAT</small>` : "";
-  $$(".p-add").forEach(b => { const on = sel.has(b.dataset.id); b.classList.toggle("on", on); b.textContent = on ? "✓ Selected" : "Add to selection"; });
+  $$(".p-add").forEach(b => { const p = pack(b.dataset.id), q = sel.get(p.id) || 0; b.classList.toggle("on", q > 0);
+    b.textContent = !q ? "Add to selection" : p.max ? (q >= p.max ? `✓ All ${p.max} spots selected` : `✓ ${q} selected · add another`) : "✓ Selected"; });
   $$("[data-rm]").forEach(b => b.addEventListener("click", () => { sel.delete(b.dataset.rm); renderSel(); }));
-  const cb = $("#p-cartbar"); cb.hidden = !list.length;
-  $("#p-cart-text").textContent = `${list.length} package${list.length === 1 ? "" : "s"} · ${eur(total)}`;
-  const body = encodeURIComponent(`Hello LPAL team,\n\nWe are interested in partnering with LPAL 4 (9 January 2027, Cologne).\n\nSelected packages:\n${list.map(p => `- ${p.name}: ${eur(p.price)}`).join("\n") || "- (please suggest packages for our budget)"}\n\nCompany:\nContact person:\nPhone:\n\nThank you!`);
-  const send = $("#p-send");
-  if (SETTINGS.email) send.href = `mailto:${SETTINGS.email}?subject=${encodeURIComponent("LPAL 4 partnership inquiry")}&body=${body}`;
-  else { send.href = "#contact"; send.classList.add("disabled"); send.textContent = "Contact details coming soon"; }
+  $$("[data-inc]").forEach(b => b.addEventListener("click", () => addPack(b.dataset.inc)));
+  $$("[data-dec]").forEach(b => b.addEventListener("click", () => { const q = sel.get(b.dataset.dec) - 1; q ? sel.set(b.dataset.dec, q) : sel.delete(b.dataset.dec); renderSel(); }));
+  const n = list.reduce((s, p) => s + sel.get(p.id), 0);
+  $("#p-cartbar").hidden = !n;
+  $("#p-cart-text").textContent = `${n} item${n === 1 ? "" : "s"} · ${eur(total)}`;
+  const lines = list.map(p => `- ${p.name}${p.max ? ` x${sel.get(p.id)}` : ""}: ${eur(typeof p.price === "number" ? p.price * sel.get(p.id) : p.price)}`).join("\n");
+  const body = `Hello LPAL team,\n\nWe are interested in partnering with LPAL 4 (9 January 2027, Cologne).\n\nSelected packages:\n${lines || "- (please suggest packages for our budget)"}${total ? `\nTotal: ${eur(total)} net` : ""}\n\nCompany:\nContact person:\nPhone:\n\nThank you!`;
+  $("#p-send").href = `mailto:${SETTINGS.email}?subject=${encodeURIComponent("LPAL 4 partnership inquiry")}&body=${encodeURIComponent(body)}`;
+  const wa = $("#p-wa"); if (wa) wa.href = `https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(body)}`;
 };
-$$(".p-add").forEach(b => b.addEventListener("click", () => { sel.has(b.dataset.id) ? sel.delete(b.dataset.id) : sel.add(b.dataset.id); renderSel(); }));
-$("#p-contact-alt").innerHTML = [SETTINGS.email && `<a href="mailto:${esc(SETTINGS.email)}">${esc(SETTINGS.email)}</a>`,
-  SETTINGS.whatsapp && `<a href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp ${esc(SETTINGS.whatsapp)}</a>`].filter(Boolean).join(" · ");
+$$(".p-add").forEach(b => b.addEventListener("click", () => { const p = pack(b.dataset.id); if (sel.has(p.id) && !p.max) sel.delete(p.id); else addPack(p.id); renderSel(); }));
+$("#p-send").insertAdjacentHTML("afterend", `<a class="p-btn p-btn-wa p-btn-block" id="p-wa" href="#" target="_blank" rel="noopener">Send via WhatsApp</a>`);
+$("#p-contact-alt").innerHTML = `<a href="mailto:${esc(SETTINGS.email)}">${esc(SETTINGS.email)}</a><br><a href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp Business ${esc(SETTINGS.whatsapp)}</a>`;
 renderSel();
 
 /* ---------- videos (click to load) ---------- */
@@ -225,85 +247,93 @@ $$(".p-vid").forEach(b => b.addEventListener("click", () => {
 }));
 
 /* ==========================================================
-   3D TABLE (three.js). Drag to spin, click a zone or a button.
+   3D TABLE (pure CSS 3D, modelled on the real LPAL table).
+   Drag to spin 360°, click a zone or a button.
    ========================================================== */
 const ZONES = [
-  { id: "mat", name: "Table mat", pack: "presenting", text: "Covers the whole top of the table. Included in the Presenting Partner package." },
-  { id: "panels", name: "Front & back panels", pack: "table", text: "The two big panels facing the cameras and the crowd. Table Partner." },
-  { id: "elbow", name: "Elbow pads", pack: "table", text: "In every close-up of the grip. Table Partner." },
-  { id: "pads", name: "Hand pads", pack: "table", text: "Where the match is won. Seen in every pin. Table Partner." },
-  { id: "pegs", name: "Grip pegs", pack: "table", text: "The pegs athletes hold with their free hand. Table Partner." },
-  { id: "floor", name: "Floor around the table", pack: "floor", text: "Seen in the wide shots of every match. Floor Partner." }
+  { id: "corner", name: "Top corners", pack: "corner", text: "Four logo spots, one in each corner of the table top. Book one, or all four as Full Table Top." },
+  { id: "side-short", name: "Short sides", pack: "side-short", text: "Right under the grip pegs, facing the main camera. The most visible spots on the table." },
+  { id: "side-long", name: "Long sides", pack: "side-long", text: "The two long sides of the table top, seen in side shots and by the crowd." },
+  { id: "legs", name: "Leg sleeves", pack: "legs", text: "Your logo on all four table legs." },
+  { id: "pegs", name: "Grip pegs", pack: "pegs", text: "Both pegs, logo on both sides. In the hand of every athlete." },
+  { id: "center", name: "Centre line", pack: "presenting", text: "The centre line of the table top is reserved for the Presenting Partner." },
+  { id: "floor", name: "Floor", pack: "floor", text: "The floor around the table, seen in the wide shots of every match." }
 ];
 $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : " on"}" data-z="${z.id}">${esc(z.name)}</button>`).join("");
 
 (function table3d() {
   const wrap = $("#p-3d");
-  // box(w,h,d, x,y,z, {face: {cls, zone, html}}, extra transform). y is negative upwards.
-  const face = (name, w, h, f = {}) => {
-    const T = { front: `translateZ(${0}px)`, back: "rotateY(180deg)", right: "rotateY(90deg)", left: "rotateY(-90deg)", top: "rotateX(90deg)", bottom: "rotateX(-90deg)" }[name];
-    return { name, w, h, T, ...f };
-  };
+  // box(w,h,d, x,y,z, faces, extra transform). y is negative upwards (CSS).
   const box = (w, h, d, x, y, z, f = {}, extra = "") => {
-    const faces = [
-      ["front", w, h, d / 2], ["back", w, h, d / 2], ["right", d, h, w / 2], ["left", d, h, w / 2], ["top", w, d, h / 2], ["bottom", w, d, h / 2]
-    ].map(([n, fw, fh, off]) => {
-      const rot = { front: "", back: "rotateY(180deg)", right: "rotateY(90deg)", left: "rotateY(-90deg)", top: "rotateX(90deg)", bottom: "rotateX(-90deg)" }[n];
-      const o = f[n] || f.all || {};
-      return `<div class="t-face t-${n} ${o.cls || ""}" ${o.zone ? `data-zone="${o.zone}"` : ""} style="width:${fw}px;height:${fh}px;margin:${-fh / 2}px 0 0 ${-fw / 2}px;transform:${rot} translateZ(${off}px)">${o.html || ""}</div>`;
-    }).join("");
+    const faces = [["front", w, h, d / 2], ["back", w, h, d / 2], ["right", d, h, w / 2], ["left", d, h, w / 2], ["top", w, d, h / 2], ["bottom", w, d, h / 2]]
+      .map(([n, fw, fh, off]) => {
+        const rot = { front: "", back: "rotateY(180deg)", right: "rotateY(90deg)", left: "rotateY(-90deg)", top: "rotateX(90deg)", bottom: "rotateX(-90deg)" }[n];
+        const o = f[n] || f.all || {};
+        return `<div class="t-face t-${n} ${o.cls || ""}" ${o.zone ? `data-zone="${o.zone}"` : ""} style="width:${fw}px;height:${fh}px;margin:${-fh / 2}px 0 0 ${-fw / 2}px;transform:${rot} translateZ(${off}px)">${o.html || ""}</div>`;
+      }).join("");
     return `<div class="t-box" style="transform:translate3d(${x}px,${y}px,${z}px) ${extra}">${faces}</div>`;
   };
-  const logo = (big, small) => `<span class="t-logo"><b>${big}</b>${small ? `<i>${small}</i>` : ""}</span>`;
-  const Z = (zone, cls, html) => ({ zone, cls, html });
-  let h = "";
-  // floor
-  h += `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
-  // foot + base with front/back panels
-  h += box(540, 36, 390, 0, -18, 0, { all: { cls: "t-dark" } });
-  const panel = Z("panels", "t-panel", logo("Your logo", "Table partner"));
-  h += box(460, 480, 270, 0, -276, 0, { front: panel, back: panel, all: { cls: "t-dark2" } });
-  // table top with mat
-  h += box(580, 26, 370, 0, -529, 0, { top: Z("mat", "t-mat", logo("Your logo", "Presenting partner")), all: { cls: "t-edge" } });
-  // elbow pads
-  [-95, 95].forEach(x => h += box(104, 22, 104, x, -553, 0, { top: Z("elbow", "t-pad", logo("Logo")), all: { cls: "t-padside", zone: "elbow" } }));
-  // hand pads (slanted)
-  [-1, 1].forEach(s => h += box(64, 30, 150, s * 238, -556, 0, { top: Z("pads", "t-pad", logo("Logo")), all: { cls: "t-padside", zone: "pads" } }, `rotateZ(${s * 18}deg)`));
-  // grip pegs
+  const L = (t, cls = "") => `<span class="t-logo ${cls}"><b>${t}</b></span>`;
+  const W = 580, D = 420, TH = 46, TOPY = -600;           // table top: 580 x 420, top surface at 600
+  let h = `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
+  // table top: printed mat with zones, sides with logo spots
+  const top = `<div class="t-top">
+      <div class="t-spot t-c1" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c2" data-zone="corner">${L("Your logo")}</div>
+      <div class="t-spot t-c3" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c4" data-zone="corner">${L("Your logo")}</div>
+      <div class="t-spot t-ctr t-ctr-l" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-ctr t-ctr-r" data-zone="center">${L("Presenting partner")}</div>
+    </div>`;
+  const sideS = { zone: "side-short", cls: "t-side", html: L("Your logo") }, sideL = { zone: "side-long", cls: "t-side", html: L("Your logo") };
+  h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top }, right: sideS, left: sideS, front: sideL, back: sideL, bottom: { cls: "t-black" } });
+  // legs with logo sleeves
+  const legH = -TOPY - TH, lx = W / 2 - 40, lz = D / 2 - 34;
+  [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sz]) => {
+    h += box(30, legH, 30, sx * lx, -legH / 2 - TH / 2 + TH / 2 - 0, sz * lz, { all: { cls: "t-leg" } });
+    const sl = { zone: "legs", cls: "t-sleeve", html: L("Logo", "t-vert") };
+    h += box(40, 260, 40, sx * lx, -legH + 170, sz * lz, { all: sl, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
+  });
+  // bottom frame
+  [-1, 1].forEach(sz => h += box(2 * lx, 22, 22, 0, -11, sz * lz, { all: { cls: "t-leg" } }));
+  [-1, 1].forEach(sx => h += box(22, 22, 2 * lz, sx * lx, -11, 0, { all: { cls: "t-leg" } }));
+  h += box(22, 22, 2 * lz, 0, -11, 0, { all: { cls: "t-leg" } });
+  // elbow pads (black) and hand pads (yellow) - not brandable
+  [-1, 1].forEach(s => h += box(130, 26, 120, s * 70, TOPY - 13, s * -40, { all: { cls: "t-padblack" } }));
+  [-1, 1].forEach(s => h += box(110, 34, 64, s * 120, TOPY - 17, s * -150, { all: { cls: "t-padyellow" } }, `rotateX(${s * 18}deg)`));
+  // grip pegs with logo on both sides
   [-1, 1].forEach(s => {
-    h += box(16, 150, 16, s * 284, -617, 0, { all: { cls: "t-steel", zone: "pegs" } });
-    h += box(26, 64, 26, s * 284, -660, 0, { all: { cls: "t-grip", zone: "pegs" } });
+    const pg = { zone: "pegs", cls: "t-peg" };
+    h += box(22, 150, 22, s * 248, TOPY - 75, 0, { front: { ...pg, html: L("Logo", "t-vert t-small") }, back: { ...pg, html: L("Logo", "t-vert t-small") }, all: pg });
+    h += box(30, 14, 30, s * 248, TOPY - 150, 0, { all: { cls: "t-peg" } });
   });
   wrap.insertAdjacentHTML("afterbegin", `<div class="t-stage"><div class="t-rig" id="t-rig">${h}</div></div>`);
   const rig = $("#t-rig");
 
-  let cur = "mat";
+  let cur = "corner";
   const select = id => {
     cur = id; const z = ZONES.find(z => z.id === id);
     $$(".p-zone").forEach(b => b.classList.toggle("on", b.dataset.z === id));
     $$("[data-zone]", wrap).forEach(el => el.classList.toggle("hl", el.dataset.zone === id));
-    const p = PACKAGES.find(p => p.id === z.pack);
-    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)} ${p ? `<a href="#packages" data-goto="${p.id}">${esc(p.name)} · ${eur(p.price)} &rarr;</a>` : ""}`;
-    const g = $("[data-goto]");
-    if (g) g.addEventListener("click", () => setTimeout(() => { const el = $(`.p-pack[data-id="${p.id}"]`); if (el) { el.classList.add("flash"); setTimeout(() => el.classList.remove("flash"), 1600); } }, 450));
+    const p = pack(z.pack);
+    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}<span class="p-zone-act">${p ? `<span class="p-zone-price">${esc(p.name)} · ${eur(p.price)}${p.max ? " per spot" : ""}</span>` : ""}
+      ${p && p.id !== "presenting" ? `<button class="p-btn p-btn-red p-btn-sm" type="button" id="p-zone-add">Add to selection</button>` : `<a class="p-btn p-btn-ghost p-btn-sm" href="#packages" id="p-zone-see">See package</a>`}</span>`;
+    const add = $("#p-zone-add"); if (add) add.addEventListener("click", () => { addPack(p.id); add.textContent = "✓ Added"; });
+    const see = $("#p-zone-see"); if (see) see.addEventListener("click", () => { filterTo("headline"); });
   };
   $$(".p-zone").forEach(b => b.addEventListener("click", () => { select(b.dataset.z); idle = 0; }));
-  select("mat");
+  select("corner");
 
-  // drag to spin 360°, slow auto-spin when idle
-  let ry = -30, rx = -20, vel = 0, drag = false, lx = 0, ly = 0, moved = 0, idle = 0;
-  wrap.addEventListener("pointerdown", e => { drag = true; lx = e.clientX; ly = e.clientY; moved = 0; wrap.setPointerCapture(e.pointerId); });
+  let ry = -32, rx = -24, vel = 0, drag = false, lx0 = 0, ly0 = 0, moved = 0, idle = 0;
+  wrap.addEventListener("pointerdown", e => { drag = true; lx0 = e.clientX; ly0 = e.clientY; moved = 0; wrap.setPointerCapture(e.pointerId); });
   wrap.addEventListener("pointermove", e => {
     if (!drag) return;
-    const dx = e.clientX - lx, dy = e.clientY - ly; lx = e.clientX; ly = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
-    vel = dx * 0.4; ry += vel; rx = Math.max(-55, Math.min(-6, rx - dy * 0.25)); idle = 0;
+    const dx = e.clientX - lx0, dy = e.clientY - ly0; lx0 = e.clientX; ly0 = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
+    vel = dx * 0.4; ry += vel; rx = Math.max(-75, Math.min(-6, rx - dy * 0.25)); idle = 0;
   });
   wrap.addEventListener("pointerup", e => {
     drag = false;
     if (moved < 6) { wrap.releasePointerCapture(e.pointerId); const el = document.elementFromPoint(e.clientX, e.clientY); const z = el && el.closest("[data-zone]"); if (z) select(z.dataset.zone); }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
-  const fit = () => { const s = Math.min(wrap.clientWidth / 1150, wrap.clientHeight / 1000); rig.style.setProperty("--s", s.toFixed(3)); };
+  const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1150, wrap.clientHeight / 1000).toFixed(3));
   addEventListener("resize", fit); fit();
   let visible = true;
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
