@@ -48,29 +48,31 @@ const PACKAGES = [
     items: ["Logo on chest, both sleeves and back of every athlete jersey", "Logo on the referees' shirts",
             "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
 
-  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €2,200",
-    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
-    items: ["All 4 table sides incl. the Camera 1 side, all 4 top corners and all 4 leg sleeves",
+  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €3,400",
+    covers: ["t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
+    items: ["All 6 side logos incl. the Camera 1 side, all 4 top corners and all 4 leg sleeves",
             "The table is in frame for every second of all 11 matches", "In every clip, replay and photo for 12 months"] },
-  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 6000, once: true, tag: "Save €1,200",
-    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2"],
-    items: ["Your logo on all 4 sides of the table", "Incl. the Camera 1 side under the peg, the most visible spot of the night"] },
-  { id: "table-top", cat: "table", name: "Full Table Top", price: 3200, once: true, tag: "Save €400",
+  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 6500, once: true, tag: "Save €1,500",
+    covers: ["t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b"],
+    items: ["All 6 side logos: both short sides and 2 logos on each long side", "Incl. the Camera 1 side under the peg, the most visible spot of the night"] },
+  { id: "table-top", cat: "table", name: "Full Table Top", price: 3500, once: true, tag: "Save €500",
     covers: ["t-c1", "t-c2", "t-c3", "t-c4"],
     items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
   { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 1400, once: true,
     items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
-  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €900", tag: "Pick on the 3D table", link: "#table",
-    items: ["Book exactly one spot: one side or one corner", "Camera 1 side €3,000 · other short side €1,800", "Long side €1,200 · top corner €900"] },
+  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €1,000", tag: "Pick on the 3D table", link: "#table",
+    items: ["Book exactly one logo spot on the table", "Camera 1 side (main camera) €3,000", "Other short side, long side logo or top corner: €1,000 each"] },
   // single spots (chosen on the 3D table; not shown as cards)
   { id: "t-cam1", cat: "spot", zone: "side-short", name: "Short side A · Camera 1 (main camera)", price: 3000, once: true, tag: "Premium" },
-  { id: "t-cam2", cat: "spot", zone: "side-short", name: "Short side B · under the peg", price: 1800, once: true },
-  { id: "t-long1", cat: "spot", zone: "side-long", name: "Long side 1", price: 1200, once: true },
-  { id: "t-long2", cat: "spot", zone: "side-long", name: "Long side 2", price: 1200, once: true },
-  { id: "t-c1", cat: "spot", zone: "corner", name: "Top corner 1", price: 900, once: true },
-  { id: "t-c2", cat: "spot", zone: "corner", name: "Top corner 2", price: 900, once: true },
-  { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 900, once: true },
-  { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 900, once: true },
+  { id: "t-cam2", cat: "spot", zone: "side-short", name: "Short side B · under the peg", price: 1000, once: true },
+  { id: "t-long1a", cat: "spot", zone: "side-long", name: "Long side 1 · left logo", price: 1000, once: true },
+  { id: "t-long1b", cat: "spot", zone: "side-long", name: "Long side 1 · right logo", price: 1000, once: true },
+  { id: "t-long2a", cat: "spot", zone: "side-long", name: "Long side 2 · left logo", price: 1000, once: true },
+  { id: "t-long2b", cat: "spot", zone: "side-long", name: "Long side 2 · right logo", price: 1000, once: true },
+  { id: "t-c1", cat: "spot", zone: "corner", name: "Top corner 1", price: 1000, once: true },
+  { id: "t-c2", cat: "spot", zone: "corner", name: "Top corner 2", price: 1000, once: true },
+  { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 1000, once: true },
+  { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 1000, once: true },
 
   { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
@@ -272,7 +274,7 @@ $$(".p-vid").forEach(b => b.addEventListener("click", () => {
    ========================================================== */
 const ZONES = [
   { id: "side-short", name: "Short sides", bundle: "table-sides", text: "The two ends of the table, right under the pegs. Side A faces Camera 1, the main camera: the most visible logo spot of the night." },
-  { id: "side-long", name: "Long sides", bundle: "table-sides", text: "The two long sides, where the athletes stand. Seen in the side shots and by the crowd." },
+  { id: "side-long", name: "Long sides", bundle: "table-sides", text: "Two logos on each long side, placed towards the edges so the athletes standing there never cover them. Seen in the side shots and by the crowd." },
   { id: "corner", name: "Top corners", bundle: "table-top", text: "Four spots on the table top, one in each corner. Seen from above in every close-up." },
   { id: "legs", name: "Leg sleeves", text: "The 50 cm sleeves on all four table legs. Booked as one set." , pack: "legs" },
   { id: "center", name: "Centre spots", pack: "presenting", text: "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
@@ -301,10 +303,11 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
       <div class="t-spot t-c3" data-zone="corner" data-spot="t-c3"></div><div class="t-spot t-c4" data-zone="corner" data-spot="t-c4"></div>
       <div class="t-spot t-mid t-mid-f" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-mid t-mid-b" data-zone="center">${L("Presenting partner")}</div>
     </div>`;
+  const longSide = id => ({ zone: "side-long", cls: "t-side t-long", html: `<span class="t-sidespot" data-spot="${id}a">${L("Your logo")}</span><span class="t-sidespot" data-spot="${id}b">${L("Your logo")}</span>` });
   const side = (zone, spot, t) => ({ zone, spot, cls: "t-side", html: `<span class="t-sidespot">${L(t)}</span>` });
   h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top },
     right: side("side-short", "t-cam1", "Side A · Camera 1"), left: side("side-short", "t-cam2", "Side B"),
-    front: side("side-long", "t-long1", "Long side 1"), back: side("side-long", "t-long2", "Long side 2"), bottom: { cls: "t-black" } });
+    front: longSide("t-long1"), back: longSide("t-long2"), bottom: { cls: "t-black" } });
   // legs: thin tube, 50 cm sleeve (logo spot) right under the top
   const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 42, lz = D / 2 - 38;
   [[-1, 1], [1, 1], [1, -1], [-1, -1]].forEach(([sx, sz], i) => {
@@ -350,8 +353,6 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   $$(".p-zone").forEach(b => b.addEventListener("click", () => { select(b.dataset.z); idle = 0; }));
   select("side-short", "t-cam1");
 
-  let hover = false;
-  wrap.addEventListener("pointerenter", () => { hover = true; }); wrap.addEventListener("pointerleave", () => { hover = false; });
   let ry = -32, rx = -24, vel = 0, drag = false, lx0 = 0, ly0 = 0, moved = 0, idle = 0;
   wrap.addEventListener("pointerdown", e => { drag = true; lx0 = e.clientX; ly0 = e.clientY; moved = 0; wrap.setPointerCapture(e.pointerId); });
   wrap.addEventListener("pointermove", e => {

@@ -369,3 +369,12 @@ a{color:inherit}
 .t-spot.reserved,.t-face.reserved .t-sidespot{background:repeating-linear-gradient(135deg,#333 0 10px,#222 10px 20px)!important;border:2px solid #555!important}
 .p-spots li.res{opacity:.55}
 .p-spots li.res b{font-family:var(--cond);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--red)}
+.t-face.t-long{display:flex!important;justify-content:space-between;align-items:center;padding:0 22px}
+.t-long .t-sidespot{padding:6px 14px}
+.t-long .t-logo b{font-size:20px}
+.t-sidespot.picked{background:#fff!important;border:2px solid #fff!important}
+.t-sidespot.picked .t-logo b{color:#000!important}
+.t-sidespot.focus{outline:4px solid #fff;outline-offset:2px}
+.t-sidespot.reserved{background:repeating-linear-gradient(135deg,#333 0 10px,#222 10px 20px)!important;border:2px solid #555!important}
+.t-face.t-long.hl .t-sidespot{background:var(--red);border:2px solid #fff}
+.t-face.t-long.hl .t-sidespot.picked{background:#fff}
