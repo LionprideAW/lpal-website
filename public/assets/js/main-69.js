@@ -58,7 +58,7 @@ const MATCHES = [
   { a: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis", instagram: "france.armwrestling" },
     b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov", instagram: "tsankov.armwrestling" },
     division: "Super Heavyweight 115kg+", arm: "Right arm" },
-  { a: { first: "Martin", last: "Vodpija", country: "at", photo: "martin-vodpija", instagram: "martin_armwrestling" },
+  { a: { first: "Martin", last: "Vodopija", country: "at", photo: "martin-vodpija", instagram: "martin_armwrestling" },
     b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2", instagram: "_24david24" },
     division: "Lightweight 77kg", arm: "" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
@@ -86,7 +86,7 @@ const ATHLETE_STATS = {
   "Barberis":      { age: 33, height: "185 cm", weight: "118 kg", achievements: ["Overall French Champion", "4th at EAF European Championship"] },
   "Tsankov":       { age: 29, height: "193 cm", weight: "120 kg", achievements: ["Bulgarian Champion", "4th at EAF European Championship"] },
   "İlaslan":       { age: 24, height: "185 cm", weight: "77 kg",  achievements: ["7-time Turkish Champion", "2nd at WAF World Championship"] },
-  "Vodpija":       { age: 24, height: "180 cm", weight: "77 kg",  achievements: ["Austrian National Champion"] },
+  "Vodopija":       { age: 24, height: "180 cm", weight: "77 kg",  achievements: ["Austrian National Champion"] },
   "Sitchinava":    { age: 27, height: "180 cm", weight: "77 kg",  achievements: ["Georgian Champion", "WAF World Champion", "EAF European Champion"] }
 };
 MATCHES.forEach(m => [m.a, m.b].forEach(x => { if (x && ATHLETE_STATS[x.last]) Object.assign(x, ATHLETE_STATS[x.last]); }));
