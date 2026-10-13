@@ -492,11 +492,13 @@ document.addEventListener("error", e => {
   const SPOTS = {"0": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 14, 30, 11, 6, -35], ["j-shl", 86, 30, 11, 6, 35]], "1": [["j-front", 54, 51, 24, 5, 0], ["j-shr", 19, 30, 10, 6, -30], ["j-shl", 84, 30, 10, 6, 40]], "2": [["j-shr", 37, 28, 16, 6, -60], ["j-front", 63, 50, 14, 5, 0]], "3": [["j-shr", 47, 26, 18, 6, -70]], "4": [["j-back", 50, 52, 24, 5, 0], ["j-shr", 20, 30, 11, 6, -35], ["j-shl", 84, 30, 10, 6, 35]], "5": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "6": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "7": [["j-back", 50, 52, 24, 5, 0], ["j-shl", 18, 30, 11, 6, -35], ["j-shr", 84, 30, 10, 6, 35]], "8": [["j-shl", 51, 26, 18, 6, 70]], "9": [["j-shl", 60, 26, 16, 6, 60], ["j-front", 31, 50, 12, 5, 0]], "10": [["j-front", 55, 51, 24, 5, 0], ["j-shr", 22, 28, 10, 6, -35], ["j-shl", 87, 28, 9, 6, 40]], "11": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 16, 30, 11, 6, -35], ["j-shl", 84, 30, 11, 6, 35]]};
   const NAME = [4, 5, 6, 7];
   const N = 12;
-  wrap.innerHTML = Array.from({ length: N }, (_, k) => `<div class="jr-view" data-i="${k}"><div class="jr-in"><img src="assets/partners/jersey/r${String(k).padStart(2, "0")}.webp" alt="" draggable="false">
-    ${NAME.includes(k) ? `<span class="jr-name">ATHLETE NAME</span>` : ""}
-    ${(SPOTS[k] || []).map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
-    + `<p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
-  const views = $$(".jr-view", wrap);
+  // 72 frames (every 5°): the 12 photos plus smooth in-between frames
+  const F = 72, FR = Array.from({ length: F }, (_, k) => { const im = new Image(); im.decoding = "async"; im.src = `assets/partners/jersey360/m${String(k).padStart(2, "0")}.webp`; return im; });
+  wrap.innerHTML = `<div class="jr-box"><img class="jr-frame" id="jr-frame" src="${FR[0].src}" alt="" draggable="false">
+    ${Array.from({ length: N }, (_, k) => `<div class="jr-keys" data-k="${k}">${NAME.includes(k) ? `<span class="jr-name">ATHLETE NAME</span>` : ""}
+      ${(SPOTS[k] || []).map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div>`).join("")}</div>
+    <p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
+  const frameEl = $("#jr-frame"), keys = $$(".jr-keys", wrap);
   const opts = PACKAGES.filter(p => p.cat === "jersey");
   $("#p-jr-opts").innerHTML = opts.map(p => `<button class="p-zone" data-jo="${p.id}">${esc(p.name)}</button>`).join("");
   let cur = "j-front";
@@ -521,6 +523,7 @@ document.addEventListener("error", e => {
   wrap.addEventListener("pointerup", e => {
     drag = false;
     if (moved < 6) { const el = document.elementFromPoint(e.clientX, e.clientY); const sp = el && el.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); } idle = 0; vel = 0; }
+    else { target = Math.round((ang + vel * 8) / 30) * 30; vel = 0; idle = 0; }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
   let visible = true; new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
@@ -528,13 +531,11 @@ document.addEventListener("error", e => {
     requestAnimationFrame(loop); if (!visible) return;
     if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.07; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
     else if (!drag) { vel *= 0.92; ang += vel; if (++idle > 240) ang += 0.25; }
-    const p = ((((ang % 360) + 360) % 360) / 30), i = Math.floor(p) % N, f = p - Math.floor(p), n = (i + 1) % N;
-    views.forEach((v, k) => {
-      const o = k === i ? 1 : k === n ? f : 0;
-      v.style.opacity = o.toFixed(3); v.style.zIndex = k === n ? 2 : k === i ? 1 : 0;
-      v.style.visibility = o > 0.001 ? "visible" : "hidden";
-      v.style.pointerEvents = (f < 0.5 ? k === i : k === n) ? "auto" : "none";
-    });
+    const a = ((ang % 360) + 360) % 360, fi = Math.round(a / 5) % F;
+    if (frameEl.dataset.f != fi) { frameEl.src = FR[fi].src; frameEl.dataset.f = fi; }
+    // logo spots appear when the shirt rests on one of the 12 photo angles
+    const resting = !drag && target === null && Math.abs(vel) < 0.05 && idle < 240, near = Math.round(a / 30) % N, off = Math.abs(a - Math.round(a / 30) * 30);
+    keys.forEach((el, k) => el.classList.toggle("show", resting && k === near && off < 3));
   };
   render(); loop();
 })();
