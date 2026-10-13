@@ -45,22 +45,34 @@ const PACKAGES = [
     items: ["Logo on chest, both sleeves and back of every athlete jersey", "Logo on the referees' shirts",
             "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
 
-  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value",
-    items: ["All 4 top corners, all 4 table sides and the 4 leg sleeves",
-            "The table is in frame for every second of all 11 matches",
-            "In every clip, replay and photo for 12 months"] },
-  { id: "table-top", cat: "table", name: "Full Table Top", price: 4000, once: true, tag: "Save €800",
+  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €2,800",
+    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2", "t-c1", "t-c2", "t-c3", "t-c4", "t-leg1", "t-leg2", "t-leg3", "t-leg4"],
+    items: ["All 4 table sides incl. the Camera 1 side, all 4 top corners and all 4 leg sleeves",
+            "The table is in frame for every second of all 11 matches", "In every clip, replay and photo for 12 months"] },
+  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 6000, once: true, tag: "Save €1,200",
+    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2"],
+    items: ["Your logo on all 4 sides of the table", "Incl. the Camera 1 side under the peg, the most visible spot of the night"] },
+  { id: "table-top", cat: "table", name: "Full Table Top", price: 3200, once: true, tag: "Save €400",
+    covers: ["t-c1", "t-c2", "t-c3", "t-c4"],
     items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
-  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 5000, once: true, tag: "Save €1,000",
-    items: ["Your logo on all 4 sides of the table top", "Incl. both short sides under the grip pegs, the most visible spots"] },
-  { id: "corner", cat: "table", name: "Table Top Corner", price: 1200, max: 4, tag: "4 spots",
-    items: ["Your logo in one corner of the table top", "Visible in the top-down and close-up shots"] },
-  { id: "side-short", cat: "table", name: "Short Side (under the peg)", price: 1800, max: 2, tag: "Most visible · 2 spots",
-    items: ["Your logo on a short side of the table, right under the grip peg", "Faces the main camera in every match"] },
-  { id: "side-long", cat: "table", name: "Long Side", price: 1200, max: 2, tag: "2 spots",
-    items: ["Your logo on a long side of the table", "Seen in the side shots and by the crowd"] },
-  { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 2000, once: true,
+  { id: "legs", cat: "table", name: "All 4 Leg Sleeves", price: 1400, once: true, tag: "Save €200",
+    covers: ["t-leg1", "t-leg2", "t-leg3", "t-leg4"],
     items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
+  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €400", tag: "Pick on the 3D table", link: "#table",
+    items: ["Book exactly one spot: one side, one corner or one leg", "Camera 1 side €3,000 · other short side €1,800", "Long side €1,200 · top corner €900 · leg sleeve €400"] },
+  // single spots (chosen on the 3D table; not shown as cards)
+  { id: "t-cam1", cat: "spot", zone: "side-short", name: "Short side A · Camera 1 (main camera)", price: 3000, once: true, tag: "Premium" },
+  { id: "t-cam2", cat: "spot", zone: "side-short", name: "Short side B · under the peg", price: 1800, once: true },
+  { id: "t-long1", cat: "spot", zone: "side-long", name: "Long side 1", price: 1200, once: true },
+  { id: "t-long2", cat: "spot", zone: "side-long", name: "Long side 2", price: 1200, once: true },
+  { id: "t-c1", cat: "spot", zone: "corner", name: "Top corner 1", price: 900, once: true },
+  { id: "t-c2", cat: "spot", zone: "corner", name: "Top corner 2", price: 900, once: true },
+  { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 900, once: true },
+  { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 900, once: true },
+  { id: "t-leg1", cat: "spot", zone: "legs", name: "Leg sleeve 1", price: 400, once: true },
+  { id: "t-leg2", cat: "spot", zone: "legs", name: "Leg sleeve 2", price: 400, once: true },
+  { id: "t-leg3", cat: "spot", zone: "legs", name: "Leg sleeve 3", price: 400, once: true },
+  { id: "t-leg4", cat: "spot", zone: "legs", name: "Leg sleeve 4", price: 400, once: true },
 
   { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
@@ -205,9 +217,9 @@ const packHTML = p => `<article class="p-pack${p.id === "presenting" ? " p-pack-
   <h3>${esc(p.name)}</h3>
   <p class="p-price">${eur(p.price)}${typeof p.price === "number" ? `<small>net${p.max ? " per spot" : ""}</small>` : ""}</p>
   <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
-  <button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>
+  ${p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
 </article>`;
-$("#p-packs").innerHTML = PACKAGES.map(packHTML).join("");
+$("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot").map(packHTML).join("");
 $("#p-filter").innerHTML = CATS.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
 const filterTo = k => {
   $$(".p-chip").forEach(x => x.classList.toggle("on", x.dataset.k === k));
@@ -215,7 +227,13 @@ const filterTo = k => {
 };
 $$(".p-chip").forEach(b => b.addEventListener("click", () => filterTo(b.dataset.k)));
 const pack = id => PACKAGES.find(p => p.id === id);
-const addPack = id => { const p = pack(id); const q = sel.get(id) || 0; if (!p.max && q) return; if (p.max && q >= p.max) return; sel.set(id, q + 1); renderSel(); };
+const addPack = id => {
+  const p = pack(id); const q = sel.get(id) || 0; if (!p.max && q) return; if (p.max && q >= p.max) return;
+  if (p.covers) p.covers.forEach(c => sel.delete(c));                                  // bundle replaces single spots
+  if (p.cat === "spot") PACKAGES.filter(b => b.covers && b.covers.includes(id)).forEach(b => sel.delete(b.id)); // single spot replaces a bundle
+  sel.set(id, q + 1); renderSel();
+};
+const togglePack = id => { sel.has(id) ? sel.delete(id) : addPack(id); renderSel(); };
 const renderSel = () => {
   const list = PACKAGES.filter(p => sel.has(p.id));
   $("#p-sel").innerHTML = list.length ? list.map(p => { const q = sel.get(p.id);
@@ -234,6 +252,7 @@ const renderSel = () => {
   const lines = list.map(p => `- ${p.name}${p.max ? ` x${sel.get(p.id)}` : ""}: ${eur(typeof p.price === "number" ? p.price * sel.get(p.id) : p.price)}`).join("\n");
   const body = `Hello LPAL team,\n\nWe are interested in partnering with LPAL 4 (9 January 2027, Cologne).\n\nSelected packages:\n${lines || "- (please suggest packages for our budget)"}${total ? `\nTotal: ${eur(total)} net` : ""}\n\nCompany:\nContact person:\nPhone:\n\nThank you!`;
   $("#p-send").href = `mailto:${SETTINGS.email}?subject=${encodeURIComponent("LPAL 4 partnership inquiry")}&body=${encodeURIComponent(body)}`;
+  document.dispatchEvent(new Event("p-sel"));
   const wa = $("#p-wa"); if (wa) wa.href = `https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(body)}`;
 };
 $$(".p-add").forEach(b => b.addEventListener("click", () => { const p = pack(b.dataset.id); if (sel.has(p.id) && !p.max) sel.delete(p.id); else addPack(p.id); renderSel(); }));
@@ -252,10 +271,10 @@ $$(".p-vid").forEach(b => b.addEventListener("click", () => {
    Drag to spin 360°, click a zone or a button.
    ========================================================== */
 const ZONES = [
-  { id: "corner", name: "Top corners", pack: "corner", text: "Four logo spots, one in each corner of the table top. Book one, or all four as Full Table Top." },
-  { id: "side-short", name: "Short sides", pack: "side-short", text: "The ends of the table, right under the pegs, facing the main camera. The most visible spots on the table." },
-  { id: "side-long", name: "Long sides", pack: "side-long", text: "The two long sides of the table, where the athletes stand. Seen in side shots and by the crowd." },
-  { id: "legs", name: "Leg sleeves", pack: "legs", text: "The 50 cm sleeves on all four table legs." },
+  { id: "side-short", name: "Short sides", bundle: "table-sides", text: "The two ends of the table, right under the pegs. Side A faces Camera 1, the main camera: the most visible logo spot of the night." },
+  { id: "side-long", name: "Long sides", bundle: "table-sides", text: "The two long sides, where the athletes stand. Seen in the side shots and by the crowd." },
+  { id: "corner", name: "Top corners", bundle: "table-top", text: "Four spots on the table top, one in each corner. Seen from above in every close-up." },
+  { id: "legs", name: "Leg sleeves", bundle: "legs", text: "The 50 cm sleeves on each of the four table legs." },
   { id: "center", name: "Centre spots", pack: "presenting", text: "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
   { id: "floor", name: "Floor", pack: "floor", text: "The floor around the table, seen in the wide shots of every match." }
 ];
@@ -269,7 +288,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
       .map(([n, fw, fh, off]) => {
         const rot = { front: "", back: "rotateY(180deg)", right: "rotateY(90deg)", left: "rotateY(-90deg)", top: "rotateX(90deg)", bottom: "rotateX(-90deg)" }[n];
         const o = f[n] || f.all || {};
-        return `<div class="t-face t-${n} ${o.cls || ""}" ${o.zone ? `data-zone="${o.zone}"` : ""} style="width:${fw}px;height:${fh}px;margin:${-fh / 2}px 0 0 ${-fw / 2}px;transform:${rot} translateZ(${off}px)">${o.html || ""}</div>`;
+        return `<div class="t-face t-${n} ${o.cls || ""}" ${o.zone ? `data-zone="${o.zone}"` : ""} ${o.spot ? `data-spot="${o.spot}"` : ""} style="width:${fw}px;height:${fh}px;margin:${-fh / 2}px 0 0 ${-fw / 2}px;transform:${rot} translateZ(${off}px)">${o.html || ""}</div>`;
       }).join("");
     return `<div class="t-box" style="transform:translate3d(${x}px,${y}px,${z}px) ${extra}">${faces}</div>`;
   };
@@ -278,18 +297,19 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   const W = 644, D = 460, TH = 70, TOPY = -880;
   let h = `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
   const top = `<div class="t-top">
-      <div class="t-spot t-c1" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c2" data-zone="corner">${L("Your logo")}</div>
-      <div class="t-spot t-c3" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c4" data-zone="corner">${L("Your logo")}</div>
+      <div class="t-spot t-c1" data-zone="corner" data-spot="t-c1">${L("Corner 1")}</div><div class="t-spot t-c2" data-zone="corner" data-spot="t-c2">${L("Corner 2")}</div>
+      <div class="t-spot t-c3" data-zone="corner" data-spot="t-c3">${L("Corner 3")}</div><div class="t-spot t-c4" data-zone="corner" data-spot="t-c4">${L("Corner 4")}</div>
       <div class="t-spot t-mid t-mid-f" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-mid t-mid-b" data-zone="center">${L("Presenting partner")}</div>
     </div>`;
-  const sideS = { zone: "side-short", cls: "t-side", html: `<span class="t-sidespot">${L("Your logo")}</span>` };
-  const sideL = { zone: "side-long", cls: "t-side", html: `<span class="t-sidespot">${L("Your logo")}</span>` };
-  h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top }, right: sideS, left: sideS, front: sideL, back: sideL, bottom: { cls: "t-black" } });
+  const side = (zone, spot, t) => ({ zone, spot, cls: "t-side", html: `<span class="t-sidespot">${L(t)}</span>` });
+  h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top },
+    right: side("side-short", "t-cam1", "Side A · Camera 1"), left: side("side-short", "t-cam2", "Side B"),
+    front: side("side-long", "t-long1", "Long side 1"), back: side("side-long", "t-long2", "Long side 2"), bottom: { cls: "t-black" } });
   // legs: thin tube, 50 cm sleeve (logo spot) right under the top
   const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 42, lz = D / 2 - 38;
-  [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sz]) => {
+  [[-1, 1], [1, 1], [1, -1], [-1, -1]].forEach(([sx, sz], i) => {
     h += box(26, legH, 26, sx * lx, legTop / 2, sz * lz, { all: { cls: "t-leg" } });
-    h += box(38, 380, 38, sx * lx, legTop + 25 + 190, sz * lz, { all: { zone: "legs", cls: "t-sleeve", html: L("Your logo", "t-vert") }, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
+    h += box(38, 380, 38, sx * lx, legTop + 25 + 190, sz * lz, { all: { zone: "legs", spot: `t-leg${i + 1}`, cls: "t-sleeve", html: L(`Leg ${i + 1}`, "t-vert") }, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
   });
   // H frame on the floor
   [-1, 1].forEach(sx => h += box(28, 28, 2 * lz + 28, sx * lx, -14, 0, { all: { cls: "t-leg" } }));
@@ -306,30 +326,41 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   wrap.insertAdjacentHTML("afterbegin", `<div class="t-stage"><div class="t-rig" id="t-rig">${h}</div></div>`);
   const rig = $("#t-rig");
 
-  let cur = "corner";
-  const select = id => {
-    cur = id; const z = ZONES.find(z => z.id === id);
+  let cur = "side-short", focus = "t-cam1";
+  const spotsOf = z => PACKAGES.filter(p => p.cat === "spot" && p.zone === z);
+  const mark = () => $$("[data-spot]", wrap).forEach(el => { el.classList.toggle("picked", sel.has(el.dataset.spot) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(el.dataset.spot))); el.classList.toggle("focus", el.dataset.spot === focus); });
+  const select = (id, spot) => {
+    cur = id; focus = spot || null; const z = ZONES.find(z => z.id === id);
     $$(".p-zone").forEach(b => b.classList.toggle("on", b.dataset.z === id));
     $$("[data-zone]", wrap).forEach(el => el.classList.toggle("hl", el.dataset.zone === id));
-    const p = pack(z.pack);
-    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}<span class="p-zone-act">${p ? `<span class="p-zone-price">${esc(p.name)} · ${eur(p.price)}${p.max ? " per spot" : ""}</span>` : ""}
-      ${p && p.id !== "presenting" ? `<button class="p-btn p-btn-red p-btn-sm" type="button" id="p-zone-add">Add to selection</button>` : `<a class="p-btn p-btn-ghost p-btn-sm" href="#packages" id="p-zone-see">See package</a>`}</span>`;
-    const add = $("#p-zone-add"); if (add) add.addEventListener("click", () => { addPack(p.id); add.textContent = "✓ Added"; });
-    const see = $("#p-zone-see"); if (see) see.addEventListener("click", () => { filterTo("headline"); });
+    const list = spotsOf(id), bundle = z.bundle && pack(z.bundle), single = z.pack && pack(z.pack);
+    const row = p => { const on = sel.has(p.id) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(p.id));
+      return `<li class="${p.id === focus ? "focus" : ""}"><span>${esc(p.name)}${p.tag ? ` <em>${esc(p.tag)}</em>` : ""}</span><b>${eur(p.price)}</b><button type="button" class="p-spot-btn${on ? " on" : ""}" data-spot-add="${p.id}">${on ? "✓ Added" : "Add"}</button></li>`; };
+    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}
+      ${list.length ? `<ul class="p-spots">${list.map(row).join("")}</ul>` : ""}
+      ${bundle ? `<p class="p-spot-bundle">Or book all of them: <a href="#packages" data-bundle="${bundle.id}">${esc(bundle.name)} · ${eur(bundle.price)}</a>${bundle.id === "table-sides" || bundle.id === "table-top" || bundle.id === "legs" ? ` <button type="button" class="p-spot-btn${sel.has(bundle.id) ? " on" : ""}" data-spot-add="${bundle.id}">${sel.has(bundle.id) ? "✓ Added" : "Add all"}</button>` : ""}</p>` : ""}
+      ${single ? `<span class="p-zone-act"><span class="p-zone-price">${esc(single.name)} · ${eur(single.price)}</span>${single.id === "presenting" ? `<a class="p-btn p-btn-ghost p-btn-sm" href="#packages" id="p-zone-see">See package</a>` : `<button type="button" class="p-btn p-btn-red p-btn-sm" data-spot-add="${single.id}">${sel.has(single.id) ? "✓ Added" : "Add to selection"}</button>`}</span>` : ""}`;
+    $$("[data-spot-add]", $("#p-zone-info")).forEach(b => b.addEventListener("click", () => { togglePack(b.dataset.spotAdd); }));
+    const see = $("#p-zone-see"); if (see) see.addEventListener("click", () => filterTo("headline"));
+    const bl = $("[data-bundle]"); if (bl) bl.addEventListener("click", () => filterTo("table"));
+    mark();
   };
+  document.addEventListener("p-sel", () => { if (cur) select(cur, focus); });
   $$(".p-zone").forEach(b => b.addEventListener("click", () => { select(b.dataset.z); idle = 0; }));
-  select("corner");
+  select("side-short", "t-cam1");
 
+  let hover = false;
+  wrap.addEventListener("pointerenter", () => { hover = true; }); wrap.addEventListener("pointerleave", () => { hover = false; });
   let ry = -32, rx = -24, vel = 0, drag = false, lx0 = 0, ly0 = 0, moved = 0, idle = 0;
   wrap.addEventListener("pointerdown", e => { drag = true; lx0 = e.clientX; ly0 = e.clientY; moved = 0; wrap.setPointerCapture(e.pointerId); });
   wrap.addEventListener("pointermove", e => {
     if (!drag) return;
     const dx = e.clientX - lx0, dy = e.clientY - ly0; lx0 = e.clientX; ly0 = e.clientY; moved += Math.abs(dx) + Math.abs(dy);
-    vel = dx * 0.4; ry += vel; rx = Math.max(-75, Math.min(-6, rx - dy * 0.25)); idle = 0;
+    vel = dx * 0.3; ry += vel; rx = Math.max(-75, Math.min(-6, rx - dy * 0.25)); idle = 0;
   });
   wrap.addEventListener("pointerup", e => {
     drag = false;
-    if (moved < 6) { wrap.releasePointerCapture(e.pointerId); const el = document.elementFromPoint(e.clientX, e.clientY); const z = el && el.closest("[data-zone]"); if (z) select(z.dataset.zone); }
+    if (moved < 6) { wrap.releasePointerCapture(e.pointerId); const el = document.elementFromPoint(e.clientX, e.clientY); const z = el && el.closest("[data-zone]"); if (z) { select(z.dataset.zone, z.dataset.spot || (el.closest("[data-spot]") || {}).dataset?.spot); idle = 0; } }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
   const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1150, wrap.clientHeight / 1250).toFixed(3));
@@ -338,7 +369,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
-    if (!drag) { vel *= 0.93; ry += vel; if (++idle > 90) ry += 0.18; }
+    if (!drag) { vel *= 0.9; ry += vel; if (++idle > 360 && !hover) ry += 0.06; }
     rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(480px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
   loop();
