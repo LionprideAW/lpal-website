@@ -488,20 +488,23 @@ document.addEventListener("error", e => {
    ========================================================== */
 (function jersey3d() {
   const wrap = $("#p-jr"); if (!wrap) return;
-  // 12 photos of the real jersey, every 30° around it. Spots: [option, x%, y%, w%, h%, rotation]
-  const SPOTS = {"0": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 14, 30, 11, 6, -35], ["j-shl", 86, 30, 11, 6, 35]], "1": [["j-front", 54, 51, 24, 5, 0], ["j-shr", 19, 30, 10, 6, -30], ["j-shl", 84, 30, 10, 6, 40]], "2": [["j-shr", 37, 28, 16, 6, -60], ["j-front", 63, 50, 14, 5, 0]], "3": [["j-shr", 47, 26, 18, 6, -70]], "4": [["j-back", 50, 52, 24, 5, 0], ["j-shr", 20, 30, 11, 6, -35], ["j-shl", 84, 30, 10, 6, 35]], "5": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "6": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "7": [["j-back", 50, 52, 24, 5, 0], ["j-shl", 18, 30, 11, 6, -35], ["j-shr", 84, 30, 10, 6, 35]], "8": [["j-shl", 51, 26, 18, 6, 70]], "9": [["j-shl", 60, 26, 16, 6, 60], ["j-front", 31, 50, 12, 5, 0]], "10": [["j-front", 55, 51, 24, 5, 0], ["j-shr", 22, 28, 10, 6, -35], ["j-shl", 87, 28, 9, 6, 40]], "11": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 16, 30, 11, 6, -35], ["j-shl", 84, 30, 11, 6, 35]]};
-  const NAME = [4, 5, 6, 7];
-  const N = 12;
-  // 72 frames (every 5°): the 12 photos plus smooth in-between frames
-  const F = 72, FR = Array.from({ length: F }, (_, k) => { const im = new Image(); im.decoding = "async"; im.src = `assets/partners/jersey360/m${String(k).padStart(2, "0")}.webp`; return im; });
-  wrap.innerHTML = `<div class="jr-box"><img class="jr-frame" id="jr-frame" src="${FR[0].src}" alt="" draggable="false">
-    ${Array.from({ length: N }, (_, k) => `<div class="jr-keys" data-k="${k}">${NAME.includes(k) ? `<span class="jr-name">ATHLETE NAME</span>` : ""}
-      ${(SPOTS[k] || []).map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div>`).join("")}</div>
-    <p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
-  const frameEl = $("#jr-frame"), keys = $$(".jr-keys", wrap);
+  // 4 views: front → side → back → other side. Each shown 2 s with a slow zoom, then a dissolve.
+  // Spots: [option, x%, y%, w%, h%, rotation]
+  const VIEWS = [
+    { img: "front", spots: [["j-front", 50, 47, 26, 5, 0], ["j-shr", 15, 23, 12, 6, -35], ["j-shl", 85, 23, 12, 6, 35]] },
+    { img: "side-right", spots: [["j-shr", 35, 24, 16, 6, -60], ["j-front", 62, 46, 14, 5, 0]] },
+    { img: "back", name: true, spots: [["j-back", 50, 47, 26, 5, 0], ["j-shl", 15, 23, 12, 6, -35], ["j-shr", 85, 23, 12, 6, 35]] },
+    { img: "side-left", spots: [["j-shl", 62, 24, 16, 6, 60]] }
+  ];
+  const HOLD = 2000, FADE = 900;
+  wrap.innerHTML = VIEWS.map((v, k) => `<div class="jr-slide${k ? "" : " on"}" data-k="${k}"><div class="jr-box"><img src="assets/partners/jersey/${v.img}.webp" alt="" draggable="false">
+      ${v.name ? `<span class="jr-name">ATHLETE NAME</span>` : ""}
+      ${v.spots.map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
+    + `<div class="jr-dots">${VIEWS.map((v, k) => `<button type="button" class="jr-dot${k ? "" : " on"}" data-go="${k}" aria-label="${["Front", "Side", "Back", "Other side"][k]}"></button>`).join("")}</div>`;
+  const slides = $$(".jr-slide", wrap), dots = $$(".jr-dot", wrap);
   const opts = PACKAGES.filter(p => p.cat === "jersey");
   $("#p-jr-opts").innerHTML = opts.map(p => `<button class="p-zone" data-jo="${p.id}">${esc(p.name)}</button>`).join("");
-  let cur = "j-front";
+  let cur = "j-front", idx = 0, timer = null, pausedUntil = 0;
   const covered = id => { const p = pack(id); return p.covers ? p.covers.filter(c => !pack(c).covers) : [id]; };
   const isOn = id => sel.has(id) || opts.some(b => b.covers && sel.has(b.id) && b.covers.includes(id));
   const render = () => {
@@ -513,29 +516,20 @@ document.addEventListener("error", e => {
     $("#p-jr-add").addEventListener("click", () => togglePack(cur));
   };
   document.addEventListener("p-sel", render);
-  // angle for each option (lands exactly on a photo)
-  const VIEW_ANG = { "j-full": 0, "j-front": 0, "j-back": 150, "j-both": 0, "j-shr": 60, "j-shl": 270 };
-  let ang = 0, target = null, vel = 0, drag = false, lx = 0, moved = 0, idle = 0;
-  const choose = id => { cur = id; target = VIEW_ANG[id] ?? 0; idle = 0; render(); };
-  $$(".p-zone[data-jo]").forEach(b => b.addEventListener("click", () => choose(b.dataset.jo)));
-  wrap.addEventListener("pointerdown", e => { drag = true; lx = e.clientX; moved = 0; target = null; wrap.setPointerCapture(e.pointerId); });
-  wrap.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - lx; lx = e.clientX; moved += Math.abs(dx); vel = -dx * 0.6; ang += vel; idle = 0; });
-  wrap.addEventListener("pointerup", e => {
-    drag = false;
-    if (moved < 6) { const el = document.elementFromPoint(e.clientX, e.clientY); const sp = el && el.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); } idle = 0; vel = 0; }
-    else { target = Math.round((ang + vel * 8) / 30) * 30; vel = 0; idle = 0; }
-  });
-  wrap.addEventListener("pointercancel", () => { drag = false; });
-  let visible = true; new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
-  const loop = () => {
-    requestAnimationFrame(loop); if (!visible) return;
-    if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.07; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
-    else if (!drag) { vel *= 0.92; ang += vel; if (++idle > 240) ang += 0.25; }
-    const a = ((ang % 360) + 360) % 360, fi = Math.round(a / 5) % F;
-    if (frameEl.dataset.f != fi) { frameEl.src = FR[fi].src; frameEl.dataset.f = fi; }
-    // logo spots appear when the shirt rests on one of the 12 photo angles
-    const resting = !drag && target === null && Math.abs(vel) < 0.05 && idle < 240, near = Math.round(a / 30) % N, off = Math.abs(a - Math.round(a / 30) * 30);
-    keys.forEach((el, k) => el.classList.toggle("show", resting && k === near && off < 3));
+  const show = k => {
+    idx = (k + VIEWS.length) % VIEWS.length;
+    slides.forEach((el, n) => { if (n === idx) { el.classList.remove("on"); void el.offsetWidth; el.classList.add("on"); } else el.classList.remove("on"); });
+    dots.forEach((d, n) => d.classList.toggle("on", n === idx));
   };
-  render(); loop();
+  const tick = () => { if (Date.now() >= pausedUntil) show(idx + 1); timer = setTimeout(tick, HOLD + FADE); };
+  const hold = (ms = 8000) => { pausedUntil = Date.now() + ms; };
+  // option buttons jump to the best view for that spot and pause there
+  const BEST = { "j-full": 0, "j-front": 0, "j-both": 0, "j-shr": 1, "j-back": 2, "j-shl": 3 };
+  $$(".p-zone[data-jo]").forEach(b => b.addEventListener("click", () => { cur = b.dataset.jo; render(); show(BEST[cur] ?? 0); hold(); }));
+  dots.forEach(d => d.addEventListener("click", () => { show(+d.dataset.go); hold(); }));
+  wrap.addEventListener("click", e => { const sp = e.target.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); hold(); } });
+  wrap.addEventListener("pointerenter", () => hold(4000));
+  let started = false;
+  new IntersectionObserver(es => { if (es[0].isIntersecting && !started) { started = true; timer = setTimeout(tick, HOLD + FADE); } }).observe(wrap);
+  render();
 })();
