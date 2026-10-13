@@ -191,10 +191,10 @@ $("#p-stats").innerHTML = STATS.map(s => `<div class="p-stat"><span class="p-sta
 
 /* ---------- fight card ---------- */
 const side = (x, k, hide) => {
-  if (x.tba) return `<div class="p-ath p-ath-${k}"><div class="p-ath-img"><img src="assets/img/bust-v2/silhouette-athlete.webp" alt="Opponent to be announced" loading="lazy"></div><div class="p-ath-txt"><p class="p-first">Opponent</p><p class="p-last">TBA</p><p class="p-ctry">Announced soon</p></div></div>`;
+  if (x.tba) return `<div class="p-ath p-ath-${k}"><div class="p-ath-img"><img src="assets/img/bust-v2/silhouette-athlete.webp" alt="" loading="lazy" decoding="async"></div><div class="p-ath-txt"><p class="p-first">Opponent</p><p class="p-last">TBA</p><p class="p-ctry">Announced soon</p></div></div>`;
   const img = hide ? `assets/img/bust-v2/silhouette-me-${k}.webp` : x.photo ? `assets/img/bust-v2/${x.photo}.webp` : "assets/img/bust-v2/silhouette-athlete.webp";
   return `<div class="p-ath p-ath-${k}">
-    <div class="p-ath-img"><img src="${img}" alt="${hide ? "To be announced" : esc(full(x))}" loading="lazy">${!hide && x.followers ? `<span class="p-fol">${short(x.followers)} followers</span>` : ""}</div>
+    <div class="p-ath-img"><img src="${img}" alt="" loading="lazy" decoding="async">${!hide && x.followers ? `<span class="p-fol">${short(x.followers)} followers</span>` : ""}</div>
     <div class="p-ath-txt">
       ${hide ? `<p class="p-first">To be announced</p><p class="p-last">TBA</p>` :
         `${x.first ? `<p class="p-first">${esc(x.first)}</p>` : ""}<p class="p-last">${esc(x.last)}</p>
@@ -376,3 +376,13 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   };
   loop();
 })();
+
+/* ---------- retry photos that fail to load (up to 4 times, with a short pause) ---------- */
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement) || img.classList.contains("p-flag")) return;
+  const n = +(img.dataset.retry || 0);
+  if (n >= 4) return;
+  img.dataset.retry = n + 1;
+  setTimeout(() => { img.src = img.src.split("?")[0] + "?r=" + Date.now(); }, 400 * (n + 1));
+}, true);
