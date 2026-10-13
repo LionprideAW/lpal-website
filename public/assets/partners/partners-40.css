@@ -474,3 +474,4 @@ a{color:inherit}
 .p-custom p:not(.p-kicker){color:var(--mut);max-width:60ch}
 .p-custom-btns{display:flex;gap:10px;flex-wrap:wrap}
 .p-custom-btns .p-btn-wa{margin-top:0}
+.p-pack-note{margin-top:18px;color:var(--mut);font-size:14px}.p-pack-note b{color:#fff}
