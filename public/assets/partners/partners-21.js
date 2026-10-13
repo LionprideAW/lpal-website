@@ -488,14 +488,13 @@ document.addEventListener("error", e => {
    ========================================================== */
 (function jersey3d() {
   const wrap = $("#p-jr"); if (!wrap) return;
-  const VIEWS = [
-    { a: 0, img: "front", spots: [["j-front", 50, 47.5, 28, 6, 0], ["j-shr", 10, 24, 14, 7, -38], ["j-shl", 90, 24, 14, 7, 38]] },
-    { a: 90, img: "side-right", spots: [["j-shr", 25, 22, 34, 7, -55], ["j-front", 84, 47, 20, 5, 0]] },
-    { a: 180, img: "back", name: true, spots: [["j-back", 50, 42, 34, 8, 0], ["j-shl", 10, 24, 14, 7, -38], ["j-shr", 90, 24, 14, 7, 38]] },
-    { a: 270, img: "side-left", spots: [["j-shl", 66, 21, 34, 7, 55]] }
-  ];
-  wrap.innerHTML = VIEWS.map((v, i) => `<div class="jr-view" data-i="${i}"><div class="jr-in"><img src="assets/partners/jersey/${v.img}.webp" alt="" draggable="false">
-    ${v.name ? `<span class="jr-name">ATHLETE NAME</span>` : ""}${v.spots.map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
+  // 12 photos of the real jersey, every 30° around it. Spots: [option, x%, y%, w%, h%, rotation]
+  const SPOTS = {"0": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 14, 30, 11, 6, -35], ["j-shl", 86, 30, 11, 6, 35]], "1": [["j-front", 54, 51, 24, 5, 0], ["j-shr", 19, 30, 10, 6, -30], ["j-shl", 84, 30, 10, 6, 40]], "2": [["j-shr", 37, 28, 16, 6, -60], ["j-front", 63, 50, 14, 5, 0]], "3": [["j-shr", 47, 26, 18, 6, -70]], "4": [["j-back", 50, 52, 24, 5, 0], ["j-shr", 20, 30, 11, 6, -35], ["j-shl", 84, 30, 10, 6, 35]], "5": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "6": [["j-back", 50, 52, 26, 5, 0], ["j-shl", 16, 30, 11, 6, -35], ["j-shr", 84, 30, 11, 6, 35]], "7": [["j-back", 50, 52, 24, 5, 0], ["j-shl", 18, 30, 11, 6, -35], ["j-shr", 84, 30, 10, 6, 35]], "8": [["j-shl", 51, 26, 18, 6, 70]], "9": [["j-shl", 60, 26, 16, 6, 60], ["j-front", 31, 50, 12, 5, 0]], "10": [["j-front", 55, 51, 24, 5, 0], ["j-shr", 22, 28, 10, 6, -35], ["j-shl", 87, 28, 9, 6, 40]], "11": [["j-front", 50, 52, 26, 5, 0], ["j-shr", 16, 30, 11, 6, -35], ["j-shl", 84, 30, 11, 6, 35]]};
+  const NAME = [4, 5, 6, 7];
+  const N = 12;
+  wrap.innerHTML = Array.from({ length: N }, (_, k) => `<div class="jr-view" data-i="${k}"><div class="jr-in"><img src="assets/partners/jersey/r${String(k).padStart(2, "0")}.webp" alt="" draggable="false">
+    ${NAME.includes(k) ? `<span class="jr-name">ATHLETE NAME</span>` : ""}
+    ${(SPOTS[k] || []).map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
     + `<p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
   const views = $$(".jr-view", wrap);
   const opts = PACKAGES.filter(p => p.cat === "jersey");
@@ -512,32 +511,29 @@ document.addEventListener("error", e => {
     $("#p-jr-add").addEventListener("click", () => togglePack(cur));
   };
   document.addEventListener("p-sel", render);
-
+  // angle for each option (lands exactly on a photo)
+  const VIEW_ANG = { "j-full": 0, "j-front": 0, "j-back": 150, "j-both": 0, "j-shr": 60, "j-shl": 270 };
   let ang = 0, target = null, vel = 0, drag = false, lx = 0, moved = 0, idle = 0;
-  const choose = id => { cur = id; target = pack(id).view || 0; idle = 0; render(); };
+  const choose = id => { cur = id; target = VIEW_ANG[id] ?? 0; idle = 0; render(); };
   $$(".p-zone[data-jo]").forEach(b => b.addEventListener("click", () => choose(b.dataset.jo)));
   wrap.addEventListener("pointerdown", e => { drag = true; lx = e.clientX; moved = 0; target = null; wrap.setPointerCapture(e.pointerId); });
-  wrap.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - lx; lx = e.clientX; moved += Math.abs(dx); vel = -dx * 0.5; ang += vel; idle = 0; });
+  wrap.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - lx; lx = e.clientX; moved += Math.abs(dx); vel = -dx * 0.6; ang += vel; idle = 0; });
   wrap.addEventListener("pointerup", e => {
     drag = false;
     if (moved < 6) { const el = document.elementFromPoint(e.clientX, e.clientY); const sp = el && el.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); } idle = 0; vel = 0; }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
-  const smooth = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
   let visible = true; new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
-    if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.08; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
-    else if (!drag) { vel *= 0.92; ang += vel; if (++idle > 240) ang += 0.22; }
-    // each view is a picture on a plane that turns with the shirt; next view takes over around 45°
+    if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.07; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
+    else if (!drag) { vel *= 0.92; ang += vel; if (++idle > 240) ang += 0.25; }
+    const p = ((((ang % 360) + 360) % 360) / 30), i = Math.floor(p) % N, f = p - Math.floor(p), n = (i + 1) % N;
     views.forEach((v, k) => {
-      const d = (((ang - VIEWS[k].a) % 360) + 540) % 360 - 180;          // -180..180, 0 = facing camera
-      const o = 1 - smooth(36, 50, Math.abs(d));
-      const tilt = Math.max(-60, Math.min(60, -d));
-      v.style.opacity = o.toFixed(3);
-      v.style.transform = `perspective(1600px) rotateY(${tilt.toFixed(2)}deg) translateZ(${(-Math.abs(d) * 0.9).toFixed(1)}px)`;
-      v.style.pointerEvents = o > 0.5 ? "auto" : "none";
-      v.style.zIndex = Math.round(100 - Math.abs(d));
+      const o = k === i ? 1 : k === n ? f : 0;
+      v.style.opacity = o.toFixed(3); v.style.zIndex = k === n ? 2 : k === i ? 1 : 0;
+      v.style.visibility = o > 0.001 ? "visible" : "hidden";
+      v.style.pointerEvents = (f < 0.5 ? k === i : k === n) ? "auto" : "none";
     });
   };
   render(); loop();
