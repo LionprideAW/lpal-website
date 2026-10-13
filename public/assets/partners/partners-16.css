@@ -416,3 +416,28 @@ a{color:inherit}
 .p-walk-vid{max-width:960px;margin:34px auto 0;aspect-ratio:16/9;overflow:hidden;box-shadow:0 30px 80px rgba(225,38,28,.25),0 0 0 1px rgba(255,255,255,.08);pointer-events:none}
 .p-walk-vid video{width:100%;height:100%;object-fit:cover;display:block}
 .p-walk-vid video::-webkit-media-controls{display:none!important}
+
+/* 3D jersey */
+.p-jersey{background:var(--bg)}
+.p-jr{aspect-ratio:1/1;max-height:640px;width:100%;background:radial-gradient(ellipse at 50% 55%,#2a2a2a,#0b0b0b 70%)}
+.jr-view{position:absolute;inset:6% 8% 9%;display:flex;align-items:center;justify-content:center;will-change:opacity,transform}
+.jr-in{position:relative;height:100%;max-width:100%;display:flex}
+.jr-in img{height:100%;width:auto;max-width:100%;object-fit:contain;filter:drop-shadow(0 24px 30px rgba(0,0,0,.6));user-select:none;-webkit-user-drag:none}
+.jr-spot{position:absolute;display:grid;place-items:center;border:2px dashed rgba(255,255,255,.55);background:rgba(0,0,0,.25);border-radius:4px;cursor:pointer;transition:background .25s,border-color .25s}
+.jr-spot b{font-family:var(--display);font-weight:400;letter-spacing:.04em;color:rgba(255,255,255,.85);font-size:clamp(11px,1.4vw,18px);line-height:1;white-space:nowrap}
+.jr-spot.hl{background:var(--red);border:2px solid #fff;animation:tPulse 1.4s ease-in-out infinite}
+.jr-spot.picked{background:#fff;border:2px solid #fff}
+.jr-spot.picked b{color:#000}
+.p-btn-white{background:#fff;color:#000;border-color:#fff}
+
+/* complete table card: 3D link + all spots */
+.p-pack[data-id="table-full"]{position:relative}
+.p-3dlink{margin-top:12px;width:100%}
+.p-expand{margin-top:10px;width:100%;background:none;border:1px dashed #555;color:#fff;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;padding:11px;cursor:pointer}
+.p-expand:hover{border-color:#fff}
+.p-expand span{display:inline-block;transition:transform .25s;margin-left:6px}
+.p-pack-open .p-expand span{transform:rotate(180deg)}
+.p-pack-open{grid-column:1/-1}
+.p-tlist{margin-top:12px}
+.p-tlist li.bundle span{font-weight:700;color:#fff}
+.p-pack .p-tlist li{padding-left:6px;margin-bottom:0}.p-pack .p-tlist li::before{display:none}

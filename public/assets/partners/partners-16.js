@@ -43,9 +43,6 @@ const PACKAGES = [
             "Logo on the big LED screen and in the livestream",
             "Official partner title, e.g. “Official Energy Drink of LPAL”",
             "Category exclusivity", "6 VIP tickets"] },
-  { id: "jersey-full", cat: "headline", name: "Jersey Partner (all areas)", price: 12000, once: true, tag: "Save €1,000",
-    items: ["Logo on chest, both sleeves and back of every athlete jersey", "Logo on the referees' shirts",
-            "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
 
   { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €3,400",
     covers: ["t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
@@ -83,12 +80,20 @@ const PACKAGES = [
   { id: "fotn", cat: "matches", name: "Fight of the Night", price: 1500, once: true,
     items: ["Your brand awards the best match of the night", "Presented on stage by you", "Mentioned in the results post"] },
 
-  { id: "chest", cat: "jersey", name: "Jersey Chest", price: 6000, once: true,
-    items: ["Chest of every athlete jersey", "Winner photos and interviews", "Referee shirts"] },
-  { id: "sleeves", cat: "jersey", name: "Jersey Sleeves", price: 4500, once: true,
-    items: ["Both sleeves of every jersey", "In the close-ups of all 11 matches"] },
-  { id: "back", cat: "jersey", name: "Jersey Back", price: 2500, once: true,
-    items: ["Large logo on the back of every jersey", "Walkouts and award ceremony"] },
+  { id: "j-full", cat: "jersey", name: "Full Shirt", price: 12000, once: true, tag: "Best value · save €1,500", view: 0,
+    covers: ["j-front", "j-back", "j-shr", "j-shl", "j-both"],
+    items: ["Front, back and both shoulders of every athlete jersey", "In every winner photo, interview, walkout and close-up"] },
+  { id: "j-front", cat: "jersey", name: "Shirt Front", price: 6000, once: true, view: 0,
+    items: ["Your logo on the chest of every athlete jersey", "Front and centre in every winner photo and interview"] },
+  { id: "j-back", cat: "jersey", name: "Shirt Back", price: 3000, once: true, view: 180,
+    items: ["Large logo on the upper back of every jersey", "Seen in every walkout and award ceremony"] },
+  { id: "j-both", cat: "jersey", name: "Both Shoulders", price: 4500, once: true, tag: "Save €500", view: 90,
+    covers: ["j-shr", "j-shl"],
+    items: ["Your logo on both shoulders of every jersey", "In the close-ups of all 11 matches"] },
+  { id: "j-shr", cat: "jersey", name: "One Shoulder (right)", price: 2500, once: true, view: 90,
+    items: ["Your logo on the right shoulder of every jersey", "Faces the camera when athletes pull right arm"] },
+  { id: "j-shl", cat: "jersey", name: "One Shoulder (left)", price: 2500, once: true, view: 270,
+    items: ["Your logo on the left shoulder of every jersey", "Faces the camera when athletes pull left arm"] },
 
   { id: "stream", cat: "stream", name: "Stream Partner", price: 4500, once: true,
     items: ["Logo on screen during the whole broadcast and the recording", "Mentioned in each half of the show"] },
@@ -211,14 +216,26 @@ $("#p-bouts").innerHTML = bout(MAIN_EVENT, true) + MATCHES.map(m => bout(m, fals
 
 /* ---------- packages + selection (qty for packages with several spots) ---------- */
 const sel = new Map();
+const TABLE_LIST = ["table-full", "table-sides", "t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "table-top", "t-c1", "t-c2", "t-c3", "t-c4", "legs"];
+const tableExtra = () => `<a class="p-btn p-btn-ghost p-btn-sm p-3dlink" href="#table">View 3D model of the table &uarr;</a>
+  <button type="button" class="p-expand" aria-expanded="false">View all table spots <span>&#9662;</span></button>
+  <ul class="p-spots p-tlist" hidden></ul>`;
+const renderTableList = () => { const ul = $(".p-tlist"); if (!ul) return;
+  ul.innerHTML = TABLE_LIST.map(id => { const p = pack(id), on = sel.has(id) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(id)), res = isReserved(id);
+    return `<li class="${p.covers ? "bundle" : ""}${res ? " res" : ""}"><span>${esc(p.name)}${p.covers ? ` <em>Bundle</em>` : ""}</span><b>${res ? "Reserved" : eur(p.price)}</b>${res ? "" : `<button type="button" class="p-spot-btn${on ? " on" : ""}" data-tl="${id}">${on ? "✓ Added" : "Add"}</button>`}</li>`; }).join("");
+  $$("[data-tl]", ul).forEach(b => b.addEventListener("click", () => togglePack(b.dataset.tl))); };
 const packHTML = p => `<article class="p-pack${p.id === "presenting" ? " p-pack-hero" : ""}" data-cat="${p.cat}" data-id="${p.id}">
   <div class="p-pack-top">${p.tag ? `<span class="p-pack-tag">${esc(p.tag)}</span>` : ""}${p.once ? `<span class="p-pack-once">1 partner only</span>` : ""}</div>
   <h3>${esc(p.name)}</h3>
   <p class="p-price">${eur(p.price)}${typeof p.price === "number" ? `<small>net${p.max ? " per spot" : ""}</small>` : ""}</p>
   <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
   ${p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
+  ${p.id === "table-full" ? tableExtra() : ""}
 </article>`;
 $("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot").map(packHTML).join("");
+{ const card = $('.p-pack[data-id="table-full"]'), btn = card && $(".p-expand", card);
+  if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderTableList(); }); }
+document.addEventListener("p-sel", renderTableList);
 $("#p-filter").innerHTML = CATS.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
 const filterTo = k => {
   $$(".p-chip").forEach(x => x.classList.toggle("on", x.dataset.k === k));
@@ -231,7 +248,7 @@ const addPack = id => {
   if (isReserved(id)) return;
   const p = pack(id); const q = sel.get(id) || 0; if (!p.max && q) return; if (p.max && q >= p.max) return;
   if (p.covers) p.covers.forEach(c => sel.delete(c));                                  // bundle replaces single spots
-  if (p.cat === "spot") PACKAGES.filter(b => b.covers && b.covers.includes(id)).forEach(b => sel.delete(b.id)); // single spot replaces a bundle
+  PACKAGES.filter(b => b.covers && b.covers.includes(id)).forEach(b => sel.delete(b.id)); // a smaller pick replaces a bundle that includes it
   sel.set(id, q + 1); renderSel();
 };
 const togglePack = id => { sel.has(id) ? sel.delete(id) : addPack(id); renderSel(); };
@@ -464,3 +481,62 @@ document.addEventListener("error", e => {
   const play = () => v.play().catch(() => {});
   new IntersectionObserver(es => es.forEach(e => e.isIntersecting && play())).observe(v);
   v.addEventListener("pause", () => setTimeout(play, 50)); play(); })();
+
+
+/* ==========================================================
+   3D JERSEY: turntable of the real LPAL 4 jersey (front, right side, back, left side).
+   Drag to spin, pick an option to see where the logo goes.
+   ========================================================== */
+(function jersey3d() {
+  const wrap = $("#p-jr"); if (!wrap) return;
+  const VIEWS = [
+    { a: 0, img: "front", spots: [["j-front", 50, 47.5, 28, 6, 0], ["j-shr", 10, 24, 14, 7, -38], ["j-shl", 90, 24, 14, 7, 38]] },
+    { a: 90, img: "side-right", spots: [["j-shr", 25, 22, 34, 7, -55], ["j-front", 84, 47, 20, 5, 0]] },
+    { a: 180, img: "back", spots: [["j-back", 50, 22, 34, 8, 0], ["j-shl", 10, 24, 14, 7, -38], ["j-shr", 90, 24, 14, 7, 38]] },
+    { a: 270, img: "side-left", spots: [["j-shl", 66, 21, 34, 7, 55]] }
+  ];
+  wrap.innerHTML = VIEWS.map((v, i) => `<div class="jr-view" data-i="${i}"><div class="jr-in"><img src="assets/partners/jersey/${v.img}.webp" alt="" draggable="false">
+    ${v.spots.map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
+    + `<p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
+  const views = $$(".jr-view", wrap);
+  const opts = PACKAGES.filter(p => p.cat === "jersey");
+  $("#p-jr-opts").innerHTML = opts.map(p => `<button class="p-zone" data-jo="${p.id}">${esc(p.name)}</button>`).join("");
+  let cur = "j-front";
+  const covered = id => { const p = pack(id); return p.covers ? p.covers.filter(c => !pack(c).covers) : [id]; };
+  const isOn = id => sel.has(id) || opts.some(b => b.covers && sel.has(b.id) && b.covers.includes(id));
+  const render = () => {
+    const p = pack(cur), on = isOn(cur), parts = covered(cur);
+    $$(".p-zone[data-jo]").forEach(b => b.classList.toggle("on", b.dataset.jo === cur));
+    $$(".jr-spot", wrap).forEach(el => { el.classList.toggle("hl", parts.includes(el.dataset.j)); el.classList.toggle("picked", isOn(el.dataset.j)); });
+    $("#p-jr-info").innerHTML = `<b>${esc(p.name)}</b> ${esc(p.items[0])}.<span class="p-zone-act"><span class="p-zone-price">${eur(p.price)}${p.tag ? ` · ${esc(p.tag)}` : ""}</span>
+      <button type="button" class="p-btn ${on ? "p-btn-white" : "p-btn-red"} p-btn-sm" id="p-jr-add">${on ? "✓ Added" : "Add to selection"}</button></span>`;
+    $("#p-jr-add").addEventListener("click", () => togglePack(cur));
+  };
+  document.addEventListener("p-sel", render);
+
+  let ang = 0, target = null, vel = 0, drag = false, lx = 0, moved = 0, idle = 0;
+  const choose = id => { cur = id; target = pack(id).view || 0; idle = 0; render(); };
+  $$(".p-zone[data-jo]").forEach(b => b.addEventListener("click", () => choose(b.dataset.jo)));
+  wrap.addEventListener("pointerdown", e => { drag = true; lx = e.clientX; moved = 0; target = null; wrap.setPointerCapture(e.pointerId); });
+  wrap.addEventListener("pointermove", e => { if (!drag) return; const dx = e.clientX - lx; lx = e.clientX; moved += Math.abs(dx); vel = -dx * 0.5; ang += vel; idle = 0; });
+  wrap.addEventListener("pointerup", e => {
+    drag = false;
+    if (moved < 6) { const el = document.elementFromPoint(e.clientX, e.clientY); const sp = el && el.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); } idle = 0; vel = 0; }
+  });
+  wrap.addEventListener("pointercancel", () => { drag = false; });
+  const smooth = (a, b, x) => { const t = Math.max(0, Math.min(1, (x - a) / (b - a))); return t * t * (3 - 2 * t); };
+  let visible = true; new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
+  const loop = () => {
+    requestAnimationFrame(loop); if (!visible) return;
+    if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.08; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
+    else if (!drag) { vel *= 0.9; ang += vel; if (++idle > 300) ang += 0.12; }
+    const a = ((ang % 360) + 360) % 360, i = Math.floor(a / 90), f = (a - i * 90) / 90, mix = smooth(0.38, 0.62, f);
+    views.forEach((v, k) => {
+      let o = 0, sx = 1;
+      if (k === i) { o = 1 - mix; sx = 1 - 0.18 * Math.sin(f * Math.PI / 2); }
+      else if (k === (i + 1) % 4) { o = mix; sx = 1 - 0.18 * Math.cos(f * Math.PI / 2); }
+      v.style.opacity = o.toFixed(3); v.style.transform = `scaleX(${sx.toFixed(3)})`; v.style.pointerEvents = o > 0.5 ? "auto" : "none";
+    });
+  };
+  render(); loop();
+})();
