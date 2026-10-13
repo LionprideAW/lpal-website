@@ -458,3 +458,9 @@ document.addEventListener("error", e => {
   };
   stage.addEventListener("pointerup", up); stage.addEventListener("pointercancel", up);
 })();
+
+/* keep the walkout clip playing (no controls, no pause) */
+(() => { const v = document.querySelector(".p-walk video"); if (!v) return; v.muted = true;
+  const play = () => v.play().catch(() => {});
+  new IntersectionObserver(es => es.forEach(e => e.isIntersecting && play())).observe(v);
+  v.addEventListener("pause", () => setTimeout(play, 50)); play(); })();
