@@ -86,7 +86,7 @@ const PACKAGES = [
   { id: "j-front", cat: "jersey", name: "Shirt Front", price: 6000, once: true, view: 0,
     items: ["Your logo on the chest of every athlete jersey", "Front and centre in every winner photo and interview"] },
   { id: "j-back", cat: "jersey", name: "Shirt Back", price: 3000, once: true, view: 180,
-    items: ["Large logo on the upper back of every jersey", "Seen in every walkout and award ceremony"] },
+    items: ["Large logo on the back of every jersey, under the athlete's name", "Seen in every walkout and award ceremony"] },
   { id: "j-both", cat: "jersey", name: "Both Shoulders", price: 4500, once: true, tag: "Save €500", view: 90,
     covers: ["j-shr", "j-shl"],
     items: ["Your logo on both shoulders of every jersey", "In the close-ups of all 11 matches"] },
@@ -491,11 +491,11 @@ document.addEventListener("error", e => {
   const VIEWS = [
     { a: 0, img: "front", spots: [["j-front", 50, 47.5, 28, 6, 0], ["j-shr", 10, 24, 14, 7, -38], ["j-shl", 90, 24, 14, 7, 38]] },
     { a: 90, img: "side-right", spots: [["j-shr", 25, 22, 34, 7, -55], ["j-front", 84, 47, 20, 5, 0]] },
-    { a: 180, img: "back", spots: [["j-back", 50, 22, 34, 8, 0], ["j-shl", 10, 24, 14, 7, -38], ["j-shr", 90, 24, 14, 7, 38]] },
+    { a: 180, img: "back", name: true, spots: [["j-back", 50, 42, 34, 8, 0], ["j-shl", 10, 24, 14, 7, -38], ["j-shr", 90, 24, 14, 7, 38]] },
     { a: 270, img: "side-left", spots: [["j-shl", 66, 21, 34, 7, 55]] }
   ];
   wrap.innerHTML = VIEWS.map((v, i) => `<div class="jr-view" data-i="${i}"><div class="jr-in"><img src="assets/partners/jersey/${v.img}.webp" alt="" draggable="false">
-    ${v.spots.map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
+    ${v.name ? `<span class="jr-name">ATHLETE NAME</span>` : ""}${v.spots.map(([id, x, y, w, h, r]) => `<span class="jr-spot" data-j="${id}" style="left:${x}%;top:${y}%;width:${w}%;height:${h}%;transform:translate(-50%,-50%) rotate(${r}deg)"><b>Logo</b></span>`).join("")}</div></div>`).join("")
     + `<p class="p-3d-hint"><span>&larr;</span> Drag to spin 360&deg; <span>&rarr;</span></p>`;
   const views = $$(".jr-view", wrap);
   const opts = PACKAGES.filter(p => p.cat === "jersey");
