@@ -494,7 +494,7 @@ document.addEventListener("error", e => {
     { img: "front", spots: [["j-front", 50, 47, 26, 5, 0], ["j-shr", 15, 23, 12, 6, -35], ["j-shl", 85, 23, 12, 6, 35]] },
     { img: "side-right", spots: [["j-shr", 35, 24, 16, 6, -60], ["j-front", 62, 46, 14, 5, 0]] },
     { img: "back", name: true, spots: [["j-back", 50, 47, 26, 5, 0], ["j-shl", 15, 23, 12, 6, -35], ["j-shr", 85, 23, 12, 6, 35]] },
-    { img: "side-left", spots: [["j-shl", 62, 24, 16, 6, 60]] }
+    { img: "side-left", spots: [["j-shl", 50, 25, 18, 6, 55]] }
   ];
   const HOLD = 2000, FADE = 900;
   wrap.innerHTML = VIEWS.map((v, k) => `<div class="jr-slide${k ? "" : " on"}" data-k="${k}"><div class="jr-box"><img src="assets/partners/jersey/${v.img}.webp" alt="" draggable="false">
