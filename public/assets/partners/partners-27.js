@@ -126,8 +126,6 @@ const PACKAGES = [
     items: ["Large logo on the sponsor wall", "One 30-second stream spot", "Logo in the recap video", "4 tickets"] },
   { id: "online", cat: "entry", name: "Online Partner", price: 750, tag: "New",
     items: ["Logo in the partner section of the LPAL website", "Mention in the recap video", "2 tickets"] },
-  { id: "product", cat: "entry", name: "Product Partner", price: "In kind", tag: "New",
-    items: ["Supply drinks, supplements or gear for athletes and crew", "Your product visible backstage and in athlete content", "Name on the sponsor wall"] },
   { id: "wall-logo", cat: "entry", name: "Logo on the Sponsor Wall", price: 500,
     items: ["Large logo on the sponsor wall", "Logo in the post-event report", "2 tickets"] },
   { id: "wall-name", cat: "entry", name: "Name on the Sponsor Wall", price: 250,
