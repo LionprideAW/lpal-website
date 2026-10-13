@@ -27,7 +27,7 @@ const PACKAGES = [
   { id: "presenting", cat: "headline", name: "Presenting Partner", price: 25000, once: true, tag: "Exclusive",
     items: ["“LPAL 4 presented by [your brand]” on the event name, poster and announcements",
             "Your logo on almost every livestream graphic: scoreboard, athlete cards, lower thirds, breaks",
-            "Your logo on the centre line of the table top, visible in every match and every replay",
+            "Your logo on the centre spots of the table top, visible in every match and every replay",
             "8+ mentions by the commentators during the stream",
             "Top position on the sponsor wall and the stage",
             "Logo on every official poster, posted as a collaboration by all athletes on the card",
@@ -46,7 +46,7 @@ const PACKAGES = [
             "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
 
   { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value",
-    items: ["All 4 top corners, all 4 table sides, the 4 leg sleeves and both grip pegs",
+    items: ["All 4 top corners, all 4 table sides and the 4 leg sleeves",
             "The table is in frame for every second of all 10 matches",
             "In every clip, replay and photo for 12 months"] },
   { id: "table-top", cat: "table", name: "Full Table Top", price: 4000, once: true, tag: "Save €800",
@@ -61,8 +61,6 @@ const PACKAGES = [
     items: ["Your logo on a long side of the table", "Seen in the side shots and by the crowd"] },
   { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 2000, once: true,
     items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
-  { id: "pegs", cat: "table", name: "Grip Pegs", price: 1500, once: true,
-    items: ["Your logo on both grip pegs, on both sides", "In the hand of every athlete, in every close-up"] },
 
   { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
@@ -252,11 +250,10 @@ $$(".p-vid").forEach(b => b.addEventListener("click", () => {
    ========================================================== */
 const ZONES = [
   { id: "corner", name: "Top corners", pack: "corner", text: "Four logo spots, one in each corner of the table top. Book one, or all four as Full Table Top." },
-  { id: "side-short", name: "Short sides", pack: "side-short", text: "Right under the grip pegs, facing the main camera. The most visible spots on the table." },
-  { id: "side-long", name: "Long sides", pack: "side-long", text: "The two long sides of the table top, seen in side shots and by the crowd." },
-  { id: "legs", name: "Leg sleeves", pack: "legs", text: "Your logo on all four table legs." },
-  { id: "pegs", name: "Grip pegs", pack: "pegs", text: "Both pegs, logo on both sides. In the hand of every athlete." },
-  { id: "center", name: "Centre line", pack: "presenting", text: "The centre line of the table top is reserved for the Presenting Partner." },
+  { id: "side-short", name: "Short sides", pack: "side-short", text: "The ends of the table, right under the pegs, facing the main camera. The most visible spots on the table." },
+  { id: "side-long", name: "Long sides", pack: "side-long", text: "The two long sides of the table, where the athletes stand. Seen in side shots and by the crowd." },
+  { id: "legs", name: "Leg sleeves", pack: "legs", text: "The 50 cm sleeves on all four table legs." },
+  { id: "center", name: "Centre spots", pack: "presenting", text: "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
   { id: "floor", name: "Floor", pack: "floor", text: "The floor around the table, seen in the wide shots of every match." }
 ];
 $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : " on"}" data-z="${z.id}">${esc(z.name)}</button>`).join("");
@@ -274,36 +271,34 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
     return `<div class="t-box" style="transform:translate3d(${x}px,${y}px,${z}px) ${extra}">${faces}</div>`;
   };
   const L = (t, cls = "") => `<span class="t-logo ${cls}"><b>${t}</b></span>`;
-  // Proportions taken from the real TitanGrip / LPAL table: wide low top, tube legs with sleeves, H frame.
-  const W = 720, D = 520, TH = 34, TOPY = -420;           // top 720 x 520 (LPAL top design ratio), top surface 420 high
+  // Real competition table (1 cm = 7 px): top 92 x 66 cm, 10 cm thick, 101 cm high, 50 cm leg sleeves, H frame.
+  const W = 644, D = 460, TH = 70, TOPY = -880;
   let h = `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
   const top = `<div class="t-top">
       <div class="t-spot t-c1" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c2" data-zone="corner">${L("Your logo")}</div>
       <div class="t-spot t-c3" data-zone="corner">${L("Your logo")}</div><div class="t-spot t-c4" data-zone="corner">${L("Your logo")}</div>
-      <div class="t-spot t-ctr t-ctr-l" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-ctr t-ctr-r" data-zone="center">${L("Presenting partner")}</div>
+      <div class="t-spot t-mid t-mid-f" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-mid t-mid-b" data-zone="center">${L("Presenting partner")}</div>
     </div>`;
-  const sideS = { zone: "side-short", cls: "t-side", html: L("Your logo") }, sideL = { zone: "side-long", cls: "t-side", html: L("Your logo") + L("Your logo") };
+  const sideS = { zone: "side-short", cls: "t-side", html: `<span class="t-sidespot">${L("Your logo")}</span>` };
+  const sideL = { zone: "side-long", cls: "t-side", html: `<span class="t-sidespot">${L("Your logo")}</span>` };
   h += box(W, TH, D, 0, TOPY + TH / 2, 0, { top: { cls: "t-mat", html: top }, right: sideS, left: sideS, front: sideL, back: sideL, bottom: { cls: "t-black" } });
-  // four tube legs, each with a thick upper sleeve carrying the logo
-  const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 58, lz = D / 2 - 52;
+  // legs: thin tube, 50 cm sleeve (logo spot) right under the top
+  const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 42, lz = D / 2 - 38;
   [[-1, -1], [1, -1], [-1, 1], [1, 1]].forEach(([sx, sz]) => {
-    h += box(22, legH, 22, sx * lx, legTop / 2, sz * lz, { all: { cls: "t-leg" } });
-    const sl = { zone: "legs", cls: "t-sleeve", html: L("Logo", "t-vert") };
-    h += box(34, 210, 34, sx * lx, legTop + 30 + 105, sz * lz, { all: sl, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
+    h += box(26, legH, 26, sx * lx, legTop / 2, sz * lz, { all: { cls: "t-leg" } });
+    h += box(38, 380, 38, sx * lx, legTop + 25 + 190, sz * lz, { all: { zone: "legs", cls: "t-sleeve", html: L("Your logo", "t-vert") }, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
   });
-  // H-shaped floor frame: one bar along each short end + a long bar through the middle
-  [-1, 1].forEach(sx => h += box(24, 24, 2 * lz + 24, sx * lx, -12, 0, { all: { cls: "t-leg" } }));
-  h += box(2 * lx, 24, 24, 0, -12, 0, { all: { cls: "t-leg" } });
-  // elbow pads (flat) and upright touch pads, as on the real table (not brandable)
-  h += box(120, 20, 100, -75, TOPY - 10, 40, { all: { cls: "t-padblack" } });
-  h += box(100, 56, 40, -75, TOPY - 28, -95, { all: { cls: "t-padyellow" } });
-  h += box(120, 20, 100, 75, TOPY - 10, -40, { all: { cls: "t-padyellow" } });
-  h += box(100, 56, 40, 75, TOPY - 28, 95, { all: { cls: "t-padblack" } });
-  // grip pegs at both short ends, logo on both sides
+  // H frame on the floor
+  [-1, 1].forEach(sx => h += box(28, 28, 2 * lz + 28, sx * lx, -14, 0, { all: { cls: "t-leg" } }));
+  h += box(2 * lx, 28, 28, 0, -14, 0, { all: { cls: "t-leg" } });
+  // pads (no logos): two gold elbow pads on the centre line, two black side pads angled next to the pegs
+  [[-34, -82], [34, 82]].forEach(([x, z]) => h += box(126, 40, 126, x, TOPY - 20, z, { all: { cls: "t-gold" } }));
+  [[-1, 30], [1, -30]].forEach(([s, z]) => h += box(190, 66, 44, s * 185, TOPY - 33, z, { all: { cls: "t-padblack" } }, "rotateY(-38deg)"));
+  // metal pegs at both short ends (no logos)
   [-1, 1].forEach(s => {
-    const pg = { zone: "pegs", cls: "t-peg" };
-    h += box(20, 130, 20, s * (W / 2 - 70), TOPY - 65, 0, { front: { ...pg, html: L("Logo", "t-vert t-small") }, back: { ...pg, html: L("Logo", "t-vert t-small") }, all: pg });
-    h += box(28, 12, 28, s * (W / 2 - 70), TOPY - 130, 0, { all: { cls: "t-peg" } });
+    h += box(20, 120, 20, s * (W / 2 - 38), TOPY - 60, 0, { all: { cls: "t-peg" } });
+    h += box(30, 14, 30, s * (W / 2 - 38), TOPY - 121, 0, { all: { cls: "t-peg" } });
+    h += box(30, 10, 30, s * (W / 2 - 38), TOPY - 5, 0, { all: { cls: "t-peg" } });
   });
   wrap.insertAdjacentHTML("afterbegin", `<div class="t-stage"><div class="t-rig" id="t-rig">${h}</div></div>`);
   const rig = $("#t-rig");
@@ -334,14 +329,14 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
     if (moved < 6) { wrap.releasePointerCapture(e.pointerId); const el = document.elementFromPoint(e.clientX, e.clientY); const z = el && el.closest("[data-zone]"); if (z) select(z.dataset.zone); }
   });
   wrap.addEventListener("pointercancel", () => { drag = false; });
-  const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1200, wrap.clientHeight / 820).toFixed(3));
+  const fit = () => rig.style.setProperty("--s", Math.min(wrap.clientWidth / 1150, wrap.clientHeight / 1250).toFixed(3));
   addEventListener("resize", fit); fit();
   let visible = true;
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
     if (!drag) { vel *= 0.93; ry += vel; if (++idle > 90) ry += 0.18; }
-    rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(250px) rotateX(${rx}deg) rotateY(${ry}deg)`;
+    rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(480px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
   loop();
 })();
