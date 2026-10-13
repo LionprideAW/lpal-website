@@ -1,0 +1,63 @@
+/* ==========================================================
+   DARK THEME (preview) - same palette as the partner page.
+   Only active when <html> has the class "theme-dark".
+   Remove this file + the head script to go back to white.
+   ========================================================== */
+html.theme-dark{
+  --white:#0b0b0b;--paper:#141414;--line:#2a2a2a;
+  --ink:#f4f4f4;--ink-2:#bdbdbd;--muted:#8f8f8f;
+  --card:#161616;--card-2:#1c1c1c;
+  color-scheme:dark
+}
+html.theme-dark body{background:#0b0b0b;color:var(--ink)}
+
+/* header + menus */
+html.theme-dark .bar{background:#141414;color:#fff;box-shadow:0 8px 28px rgba(0,0,0,.55);border:1px solid #232323}
+html.theme-dark .site-header.scrolled .bar{background:#0b0b0b;border-color:#1c1c1c}
+html.theme-dark .logo-dark{opacity:0}
+html.theme-dark .logo-light{opacity:1}
+html.theme-dark .drop,html.theme-dark .mobile-menu{background:#141414;color:var(--ink);box-shadow:0 20px 40px rgba(0,0,0,.6)}
+html.theme-dark .drop-item:hover{background:#1f1f1f}
+
+/* buttons */
+html.theme-dark .btn-ghost-dark{border-color:#f4f4f4;color:#f4f4f4}
+html.theme-dark .btn-ghost-dark:hover{background:#f4f4f4;color:#0b0b0b}
+
+/* event header + countdown */
+html.theme-dark .event{background:#0b0b0b}
+html.theme-dark .cd{background:#1a1a1a;color:#fff;border:1px solid #2a2a2a;border-top:3px solid var(--red)}
+html.theme-dark .toast{background:#1a1a1a}
+
+/* fight card */
+html.theme-dark .bout-card{background:var(--card)}
+html.theme-dark .bout-bar{background:var(--card);box-shadow:0 2px 14px rgba(0,0,0,.5)}
+html.theme-dark .bout-card.can-open:hover,html.theme-dark .bout-card.open{box-shadow:0 10px 34px rgba(0,0,0,.6),0 0 0 1px #2a2a2a}
+html.theme-dark .bout-card.open .bout-bar{border-top-color:#2a2a2a}
+html.theme-dark .bd-head::after{background:linear-gradient(90deg,var(--red) 0 50%,#3a3a3a 50% 100%)}
+html.theme-dark .flag{box-shadow:0 0 0 1px rgba(255,255,255,.12)}
+html.theme-dark .tag{background:#1c1c1c;border-color:#2e2e2e}
+html.theme-dark .tag-red{background:var(--red);border-color:var(--red)}
+html.theme-dark .me-belt{filter:drop-shadow(0 10px 22px rgba(0,0,0,.7))}
+html.theme-dark .tt-icon{box-shadow:0 0 0 1px #3a3a3a}
+
+/* follow / featured / instagram */
+html.theme-dark .follow,html.theme-dark .featured{background:#111;border-top-color:#1f1f1f}
+html.theme-dark .feat-main,html.theme-dark .ig-card{background:var(--card)}
+html.theme-dark .ig-embed{background:#0f0f0f;border-color:#2a2a2a}
+html.theme-dark .ig-embed .ig-sub,html.theme-dark .ig-mark,html.theme-dark .ig-embed .ig-caption{color:#d6d6d6}
+
+/* athletes page */
+html.theme-dark .ath-sec{background:#0b0b0b}
+html.theme-dark .ath-filters{background:rgba(11,11,11,.94);border-bottom-color:#222}
+html.theme-dark .ath-chip{background:#141414;border-color:#2a2a2a;color:#bdbdbd}
+html.theme-dark .ath-chip:hover{border-color:#777;color:#fff}
+html.theme-dark .ath-chip.active{background:var(--red);border-color:var(--red);color:#fff}
+html.theme-dark .ath-search{border-color:#2a2a2a;background:#141414}
+html.theme-dark .ath-search:focus-within{border-color:#777}
+html.theme-dark .ath-div-head{border-bottom-color:#2a2a2a}
+html.theme-dark .ath-card{background:var(--card);border-color:#242424}
+html.theme-dark .ath-card:hover{box-shadow:0 14px 30px rgba(0,0,0,.6);border-color:#333}
+html.theme-dark .ath-photo{background:radial-gradient(ellipse 70% 60% at 50% 40%,#2a2a2a 0%,#1a1a1a 55%,#121212 100%)}
+html.theme-dark .ath-info{border-top-color:var(--red)}
+html.theme-dark .btn-white{background:#fff;color:#0b0b0b;border-color:#fff}
+html.theme-dark .btn-white:hover{background:transparent;color:#fff}
