@@ -528,13 +528,16 @@ document.addEventListener("error", e => {
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
     if (target !== null) { let d = ((target - ang) % 360 + 540) % 360 - 180; ang += d * 0.08; if (Math.abs(d) < 0.3) { ang = target; target = null; } }
-    else if (!drag) { vel *= 0.9; ang += vel; if (++idle > 300) ang += 0.12; }
-    const a = ((ang % 360) + 360) % 360, i = Math.floor(a / 90), f = (a - i * 90) / 90, mix = smooth(0.38, 0.62, f);
+    else if (!drag) { vel *= 0.92; ang += vel; if (++idle > 240) ang += 0.22; }
+    // each view is a picture on a plane that turns with the shirt; next view takes over around 45°
     views.forEach((v, k) => {
-      let o = 0, sx = 1;
-      if (k === i) { o = 1 - mix; sx = 1 - 0.18 * Math.sin(f * Math.PI / 2); }
-      else if (k === (i + 1) % 4) { o = mix; sx = 1 - 0.18 * Math.cos(f * Math.PI / 2); }
-      v.style.opacity = o.toFixed(3); v.style.transform = `scaleX(${sx.toFixed(3)})`; v.style.pointerEvents = o > 0.5 ? "auto" : "none";
+      const d = (((ang - VIEWS[k].a) % 360) + 540) % 360 - 180;          // -180..180, 0 = facing camera
+      const o = 1 - smooth(36, 50, Math.abs(d));
+      const tilt = Math.max(-60, Math.min(60, -d));
+      v.style.opacity = o.toFixed(3);
+      v.style.transform = `perspective(1600px) rotateY(${tilt.toFixed(2)}deg) translateZ(${(-Math.abs(d) * 0.9).toFixed(1)}px)`;
+      v.style.pointerEvents = o > 0.5 ? "auto" : "none";
+      v.style.zIndex = Math.round(100 - Math.abs(d));
     });
   };
   render(); loop();
