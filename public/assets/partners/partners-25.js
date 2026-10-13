@@ -83,16 +83,16 @@ const PACKAGES = [
   { id: "j-full", cat: "jersey", name: "Full Shirt", price: 12000, once: true, tag: "Best value · save €1,500", view: 0,
     covers: ["j-front", "j-back", "j-shr", "j-shl", "j-both"],
     items: ["Front, back and both shoulders of every athlete jersey", "In every winner photo, interview, walkout and close-up"] },
-  { id: "j-front", cat: "jersey", name: "Shirt Front", price: 6000, once: true, view: 0,
+  { id: "j-front", cat: "jersey", grid: false, name: "Shirt Front", price: 6000, once: true, view: 0,
     items: ["Your logo on the chest of every athlete jersey", "Front and centre in every winner photo and interview"] },
-  { id: "j-back", cat: "jersey", name: "Shirt Back", price: 3000, once: true, view: 180,
+  { id: "j-back", cat: "jersey", grid: false, name: "Shirt Back", price: 3000, once: true, view: 180,
     items: ["Large logo on the back of every jersey, under the athlete's name", "Seen in every walkout and award ceremony"] },
-  { id: "j-both", cat: "jersey", name: "Both Shoulders", price: 4500, once: true, tag: "Save €500", view: 90,
+  { id: "j-both", cat: "jersey", grid: false, name: "Both Shoulders", price: 4500, once: true, tag: "Save €500", view: 90,
     covers: ["j-shr", "j-shl"],
     items: ["Your logo on both shoulders of every jersey", "In the close-ups of all 11 matches"] },
-  { id: "j-shr", cat: "jersey", name: "One Shoulder (right)", price: 2500, once: true, view: 90,
+  { id: "j-shr", cat: "jersey", grid: false, name: "One Shoulder (right)", price: 2500, once: true, view: 90,
     items: ["Your logo on the right shoulder of every jersey", "Faces the camera when athletes pull right arm"] },
-  { id: "j-shl", cat: "jersey", name: "One Shoulder (left)", price: 2500, once: true, view: 270,
+  { id: "j-shl", cat: "jersey", grid: false, name: "One Shoulder (left)", price: 2500, once: true, view: 270,
     items: ["Your logo on the left shoulder of every jersey", "Faces the camera when athletes pull left arm"] },
 
   { id: "stream", cat: "stream", name: "Stream Partner", price: 4500, once: true,
@@ -214,26 +214,32 @@ $("#p-bouts").innerHTML = bout(MAIN_EVENT, true) + MATCHES.map(m => bout(m, fals
 
 /* ---------- packages + selection (qty for packages with several spots) ---------- */
 const sel = new Map();
-const TABLE_LIST = ["table-full", "table-sides", "t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "table-top", "t-c1", "t-c2", "t-c3", "t-c4", "legs"];
-const tableExtra = () => `<a class="p-btn p-btn-ghost p-btn-sm p-3dlink" href="#table">View 3D model of the table &uarr;</a>
-  <button type="button" class="p-expand" aria-expanded="false">View all table spots <span>&#9662;</span></button>
-  <ul class="p-spots p-tlist" hidden></ul>`;
-const renderTableList = () => { const ul = $(".p-tlist"); if (!ul) return;
-  ul.innerHTML = TABLE_LIST.map(id => { const p = pack(id), on = sel.has(id) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(id)), res = isReserved(id);
+// Cards that group many options: a link to the 3D view + an arrow that opens every option.
+const GROUPS = {
+  "table-full": { list: ["table-full", "table-sides", "t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "table-top", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
+    link: "#table", linkText: "View 3D model of the table", more: "View all table spots" },
+  "j-full": { list: ["j-full", "j-front", "j-back", "j-both", "j-shr", "j-shl"],
+    link: "#jersey", linkText: "View the jersey", more: "View all jersey options" }
+};
+const groupExtra = id => { const g = GROUPS[id]; return `<a class="p-btn p-btn-ghost p-btn-sm p-3dlink" href="${g.link}">${g.linkText} &uarr;</a>
+  <button type="button" class="p-expand" aria-expanded="false">${g.more} <span>&#9662;</span></button>
+  <ul class="p-spots p-tlist" hidden></ul>`; };
+const renderGroupList = () => Object.entries(GROUPS).forEach(([gid, g]) => { const ul = $(`.p-pack[data-id="${gid}"] .p-tlist`); if (!ul || ul.hidden) return;
+  ul.innerHTML = g.list.map(id => { const p = pack(id), on = sel.has(id) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(id)), res = isReserved(id);
     return `<li class="${p.covers ? "bundle" : ""}${res ? " res" : ""}"><span>${esc(p.name)}${p.covers ? ` <em>Bundle</em>` : ""}</span><b>${res ? "Reserved" : eur(p.price)}</b>${res ? "" : `<button type="button" class="p-spot-btn${on ? " on" : ""}" data-tl="${id}">${on ? "✓ Added" : "Add"}</button>`}</li>`; }).join("");
-  $$("[data-tl]", ul).forEach(b => b.addEventListener("click", () => togglePack(b.dataset.tl))); };
+  $$("[data-tl]", ul).forEach(b => b.addEventListener("click", () => togglePack(b.dataset.tl))); });
 const packHTML = p => `<article class="p-pack${p.id === "presenting" ? " p-pack-hero" : ""}" data-cat="${p.cat}" data-id="${p.id}">
   <div class="p-pack-top">${p.tag ? `<span class="p-pack-tag">${esc(p.tag)}</span>` : ""}${p.once ? `<span class="p-pack-once">1 partner only</span>` : ""}</div>
   <h3>${esc(p.name)}</h3>
   <p class="p-price">${eur(p.price)}${typeof p.price === "number" ? `<small>net${p.max ? " per spot" : ""}</small>` : ""}</p>
   <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
   ${p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
-  ${p.id === "table-full" ? tableExtra() : ""}
+  ${GROUPS[p.id] ? groupExtra(p.id) : ""}
 </article>`;
 $("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false).map(packHTML).join("");
-{ const card = $('.p-pack[data-id="table-full"]'), btn = card && $(".p-expand", card);
-  if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderTableList(); }); }
-document.addEventListener("p-sel", renderTableList);
+Object.keys(GROUPS).forEach(gid => { const card = $(`.p-pack[data-id="${gid}"]`), btn = card && $(".p-expand", card);
+  if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderGroupList(); }); });
+document.addEventListener("p-sel", renderGroupList);
 $("#p-filter").innerHTML = CATS.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
 const filterTo = k => {
   $$(".p-chip").forEach(x => x.classList.toggle("on", x.dataset.k === k));

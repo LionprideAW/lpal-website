@@ -431,7 +431,7 @@ a{color:inherit}
 .p-btn-white{background:#fff;color:#000;border-color:#fff}
 
 /* complete table card: 3D link + all spots */
-.p-pack[data-id="table-full"]{position:relative}
+.p-pack[data-id="table-full"],.p-pack[data-id="j-full"]{position:relative}
 .p-3dlink{margin-top:12px;width:100%}
 .p-expand{margin-top:10px;width:100%;background:none;border:1px dashed #555;color:#fff;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;padding:11px;cursor:pointer}
 .p-expand:hover{border-color:#fff}
