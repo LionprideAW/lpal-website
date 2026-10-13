@@ -51,7 +51,7 @@ const PACKAGES = [
     items: ["Logo on every official poster, posted as a collaboration by all athletes",
             "Your commercial built into athletes' reels (contracted LPAL posts)",
             "Logo on the LED screen behind the athletes and in the livestream",
-            "Official partner title, e.g. “Official Energy Drink of LPAL”",
+            "Official partner title, e.g. “Official Supplement Partner of LPAL”",
             "Category exclusivity", "6 VIP tickets"] },
 
   { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €3,400",
