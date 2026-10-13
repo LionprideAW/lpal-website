@@ -36,7 +36,6 @@ const PACKAGES = [
             "Logo on every official poster, posted as a collaboration by all athletes on the card",
             "Your commercial built into the athletes' contracted reels",
             "Logo on the big LED screen all night",
-            "Category exclusivity (no competitor on the event)",
             "Full report: Kick statistics, clip views after 30 days, photos"] },
   { id: "premium", cat: "headline", name: "Premium Partner", price: 9000, tag: "2 available",
     items: ["Logo on every official poster, posted as a collaboration by all athletes",
