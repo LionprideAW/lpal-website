@@ -48,15 +48,15 @@ const PACKAGES = [
     covers: ["t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
     items: ["All 6 side logos incl. the Camera 1 side, all 4 top corners and all 4 leg sleeves",
             "The table is in frame for every second of all 11 matches", "In every clip, replay and photo for 12 months"] },
-  { id: "table-sides", cat: "table", name: "Full Table Sides", price: 6500, once: true, tag: "Save €1,500",
+  { id: "table-sides", cat: "table", grid: false, name: "Full Table Sides", price: 6500, once: true, tag: "Save €1,500",
     covers: ["t-cam1", "t-cam2", "t-long1a", "t-long1b", "t-long2a", "t-long2b"],
     items: ["All 6 side logos: both short sides and 2 logos on each long side", "Incl. the Camera 1 side under the peg, the most visible spot of the night"] },
-  { id: "table-top", cat: "table", name: "Full Table Top", price: 3500, once: true, tag: "Save €500",
+  { id: "table-top", cat: "table", grid: false, name: "Full Table Top", price: 3500, once: true, tag: "Save €500",
     covers: ["t-c1", "t-c2", "t-c3", "t-c4"],
     items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
-  { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 1400, once: true,
+  { id: "legs", cat: "table", grid: false, name: "Leg Sleeves (all 4)", price: 1400, once: true,
     items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
-  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €1,000", tag: "Pick on the 3D table", link: "#table",
+  { id: "table-single", cat: "table", grid: false, name: "Single Table Spot", price: "From €1,000", tag: "Pick on the 3D table", link: "#table",
     items: ["Book exactly one logo spot on the table", "Camera 1 side (main camera) €3,000", "Other short side, long side logo or top corner: €1,000 each"] },
   // single spots (chosen on the 3D table; not shown as cards)
   { id: "t-cam1", cat: "spot", zone: "side-short", name: "Short side A · Camera 1 (main camera)", price: 3000, once: true, tag: "Premium" },
@@ -165,9 +165,7 @@ const MATCHES = [
 const COUNTRIES = { at: "Austria", de: "Germany", bg: "Bulgaria", ci: "Ivory Coast", es: "Spain", fr: "France", ge: "Georgia", gr: "Greece", it: "Italy",
   lt: "Lithuania", lv: "Latvia", ma: "Morocco", rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey" };
 const VIDEOS = [
-  { id: "DoJyxREyLRY", t: "Sedis vs Blajan · LPAL 3" },
-  { id: "BFxa20HYhQg", t: "Tsankov vs Djordjevic · LPAL 2" },
-  { id: "WywgX0en7HE", t: "Novakovic vs Lukacik · LPAL 3" }
+  { id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "240K views on YouTube" }
 ];
 
 /* ---------- helpers ---------- */
@@ -232,7 +230,7 @@ const packHTML = p => `<article class="p-pack${p.id === "presenting" ? " p-pack-
   ${p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
   ${p.id === "table-full" ? tableExtra() : ""}
 </article>`;
-$("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot").map(packHTML).join("");
+$("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false).map(packHTML).join("");
 { const card = $('.p-pack[data-id="table-full"]'), btn = card && $(".p-expand", card);
   if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderTableList(); }); }
 document.addEventListener("p-sel", renderTableList);
@@ -279,7 +277,8 @@ $("#p-contact-alt").innerHTML = `<a href="mailto:${esc(SETTINGS.email)}">${esc(S
 renderSel();
 
 /* ---------- videos (click to load) ---------- */
-$("#p-videos").innerHTML = VIDEOS.map(v => `<button class="p-vid" data-id="${v.id}" style="background-image:url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')"><span class="p-play"></span><span class="p-vid-t">${esc(v.t)}</span></button>`).join("");
+$("#p-videos").innerHTML = VIDEOS.map(v => `<div class="p-vid-wrap"><button class="p-vid" data-id="${v.id}" style="background-image:url('https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg'),url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')"><span class="p-play"></span><span class="p-vid-t">${esc(v.t)}</span>${v.views ? `<span class="p-vid-views">${esc(v.views)}</span>` : ""}</button>
+  <a class="p-vid-link" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">Watch on YouTube &rarr;</a></div>`).join("");
 $$(".p-vid").forEach(b => b.addEventListener("click", () => {
   b.outerHTML = `<div class="p-vid p-vid-on"><iframe src="https://www.youtube-nocookie.com/embed/${b.dataset.id}?autoplay=1&rel=0" title="${esc(b.querySelector(".p-vid-t").textContent)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`;
 }));

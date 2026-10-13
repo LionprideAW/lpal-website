@@ -441,3 +441,10 @@ a{color:inherit}
 .p-tlist{margin-top:12px}
 .p-tlist li.bundle span{font-weight:700;color:#fff}
 .p-pack .p-tlist li{padding-left:6px;margin-bottom:0}.p-pack .p-tlist li::before{display:none}
+
+.p-videos{grid-template-columns:1fr!important;max-width:900px;margin-left:auto;margin-right:auto}
+.p-vid-wrap{display:flex;flex-direction:column;gap:10px}
+.p-vid{background-size:cover;background-position:center}
+.p-vid-views{position:absolute;top:12px;left:12px;background:var(--red);color:#fff;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:12px;padding:5px 9px}
+.p-vid-link{align-self:center;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px;color:var(--red);text-decoration:none}
+.p-vid-link:hover{color:#fff}
