@@ -378,3 +378,29 @@ a{color:inherit}
 .t-sidespot.reserved{background:repeating-linear-gradient(135deg,#333 0 10px,#222 10px 20px)!important;border:2px solid #555!important}
 .t-face.t-long.hl .t-sidespot{background:var(--red);border:2px solid #fff}
 .t-face.t-long.hl .t-sidespot.picked{background:#fff}
+
+/* photo viewer */
+.lb-able{cursor:zoom-in}
+.lb-able::after{content:"";position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;background:rgba(0,0,0,.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 10V4h6M20 14v6h-6M4 4l6 6M20 20l-6-6' fill='none' stroke='white' stroke-width='2'/%3E%3C/svg%3E") center/16px no-repeat;opacity:0;transition:opacity .2s;pointer-events:none}
+.p-expo-card.lb-able::after{top:10px}
+.lb-able{position:relative}
+.lb-able:hover::after{opacity:1}
+@media (hover:none){.lb-able::after{opacity:.85}}
+.lb{position:fixed;inset:0;z-index:100;background:rgba(5,5,5,.96);display:flex;flex-direction:column}
+.lb[hidden]{display:none}
+.lb-stage{flex:1;position:relative;overflow:hidden;display:grid;place-items:center;touch-action:none;cursor:zoom-in}
+.lb.zoomed .lb-stage{cursor:grab}
+.lb.zoomed .lb-stage:active{cursor:grabbing}
+.lb-stage img{max-width:94vw;max-height:calc(100svh - 120px);object-fit:contain;user-select:none;-webkit-user-drag:none;will-change:transform}
+.lb-btn{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:46px;height:46px;display:grid;place-items:center;cursor:pointer;font-size:26px;line-height:1;transition:background .2s}
+.lb-btn:hover{background:var(--red);border-color:var(--red)}
+.lb-btn svg{width:20px;height:20px}
+.lb-close{position:absolute;top:14px;right:14px;font-size:32px}
+.lb-prev,.lb-next{position:absolute;top:50%;margin-top:-23px;width:52px;height:52px}
+.lb-prev{left:14px}.lb-next{right:14px}
+.lb.single .lb-prev,.lb.single .lb-next,.lb.single #lb-count{display:none}
+.lb-bar{display:flex;align-items:center;gap:16px;padding:12px 18px 18px;color:#ddd;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:13px}
+.lb-bar p{flex:1;min-width:0}
+.lb-zoom{display:flex;gap:6px}
+.lb-zoom .lb-btn{width:40px;height:40px;font-size:22px}
+@media (max-width:640px){.lb-prev,.lb-next{top:auto;bottom:74px;margin:0;width:44px;height:44px}.lb-bar{font-size:11px;gap:10px}}

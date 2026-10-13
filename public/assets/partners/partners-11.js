@@ -386,3 +386,76 @@ document.addEventListener("error", e => {
   img.dataset.retry = n + 1;
   setTimeout(() => { img.src = img.src.split("?")[0] + "?r=" + Date.now(); }, 400 * (n + 1));
 }, true);
+
+/* ==========================================================
+   PHOTO VIEWER: click a photo to open it full screen.
+   Arrows / swipe to switch, click or scroll to zoom, drag to move around.
+   ========================================================== */
+(function viewer() {
+  const GROUPS = [".p-action-grid", ".p-cred-grid", ".p-gallery", ".p-expo-grid"];
+  document.body.insertAdjacentHTML("beforeend", `
+  <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
+    <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""></div>
+    <button class="lb-btn lb-close" id="lb-close" aria-label="Close">&times;</button>
+    <button class="lb-btn lb-prev" id="lb-prev" aria-label="Previous photo"><svg viewBox="0 0 24 24"><path d="M15 4l-8 8 8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+    <button class="lb-btn lb-next" id="lb-next" aria-label="Next photo"><svg viewBox="0 0 24 24"><path d="M9 4l8 8-8 8" fill="none" stroke="currentColor" stroke-width="2.5"/></svg></button>
+    <div class="lb-bar"><p id="lb-cap"></p><div class="lb-zoom"><button class="lb-btn" id="lb-out" aria-label="Zoom out">&minus;</button><button class="lb-btn" id="lb-in" aria-label="Zoom in">+</button></div><span id="lb-count"></span></div>
+  </div>`);
+  const lb = $("#lb"), stage = $("#lb-stage"), img = $("#lb-img");
+  let list = [], idx = 0, z = 1, tx = 0, ty = 0;
+  const apply = (anim = true) => { img.style.transition = anim ? "transform .3s cubic-bezier(.2,.8,.2,1)" : "none"; img.style.transform = `translate(${tx}px,${ty}px) scale(${z})`; lb.classList.toggle("zoomed", z > 1); };
+  const clamp = () => {
+    const r = stage.getBoundingClientRect(), w = img.offsetWidth * z, h = img.offsetHeight * z;
+    const mx = Math.max(0, (w - r.width) / 2), my = Math.max(0, (h - r.height) / 2);
+    tx = Math.max(-mx, Math.min(mx, tx)); ty = Math.max(-my, Math.min(my, ty));
+  };
+  const zoomTo = (nz, cx, cy) => {
+    const r = stage.getBoundingClientRect(); nz = Math.max(1, Math.min(4, nz));
+    const px = (cx ?? r.left + r.width / 2) - (r.left + r.width / 2), py = (cy ?? r.top + r.height / 2) - (r.top + r.height / 2);
+    tx = px - (px - tx) * nz / z; ty = py - (py - ty) * nz / z; z = nz;
+    if (z === 1) { tx = 0; ty = 0; } clamp(); apply();
+  };
+  const show = i => {
+    idx = (i + list.length) % list.length; const f = list[idx];
+    const im = f.querySelector("img, video"); const src = im.tagName === "VIDEO" ? im.poster : im.currentSrc || im.src;
+    z = 1; tx = 0; ty = 0; apply(false); img.src = src.split("?")[0]; img.alt = im.alt || "";
+    const cap = f.querySelector("figcaption, h3"); $("#lb-cap").textContent = cap ? cap.textContent.trim() : "";
+    $("#lb-count").textContent = `${idx + 1} / ${list.length}`;
+    lb.classList.toggle("single", list.length < 2);
+  };
+  const open = (group, item) => {
+    list = $$(":scope > figure, :scope > article", group).filter(f => f.querySelector("img, video") && !f.querySelector("video"));
+    if (!list.length) return; lb.hidden = false; document.documentElement.style.overflow = "hidden"; show(Math.max(0, list.indexOf(item)));
+  };
+  const close = () => { lb.hidden = true; document.documentElement.style.overflow = ""; };
+  GROUPS.forEach(g => $$(g).forEach(group => $$(":scope > figure, :scope > article", group).forEach(f => {
+    if (f.querySelector("video") || !f.querySelector("img")) return;
+    f.classList.add("lb-able"); f.addEventListener("click", () => open(group, f));
+  })));
+  $("#lb-close").addEventListener("click", close);
+  $("#lb-prev").addEventListener("click", () => show(idx - 1));
+  $("#lb-next").addEventListener("click", () => show(idx + 1));
+  $("#lb-in").addEventListener("click", () => zoomTo(z + 1));
+  $("#lb-out").addEventListener("click", () => zoomTo(z - 1));
+  addEventListener("keydown", e => { if (lb.hidden) return;
+    if (e.key === "Escape") close(); if (e.key === "ArrowRight") show(idx + 1); if (e.key === "ArrowLeft") show(idx - 1);
+    if (e.key === "+" || e.key === "=") zoomTo(z + 1); if (e.key === "-") zoomTo(z - 1); });
+  stage.addEventListener("wheel", e => { e.preventDefault(); zoomTo(z * (e.deltaY < 0 ? 1.25 : 0.8), e.clientX, e.clientY); }, { passive: false });
+  // drag to pan when zoomed, swipe to switch when not, click to zoom in/out; pinch to zoom
+  const pts = new Map(); let sx = 0, sy = 0, stx = 0, sty = 0, moved = 0, pinch0 = 0, z0 = 1;
+  stage.addEventListener("pointerdown", e => { pts.set(e.pointerId, e); stage.setPointerCapture(e.pointerId); sx = e.clientX; sy = e.clientY; stx = tx; sty = ty; moved = 0;
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; pinch0 = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY); z0 = z; } });
+  stage.addEventListener("pointermove", e => {
+    if (!pts.has(e.pointerId)) return; pts.set(e.pointerId, e);
+    if (pts.size === 2) { const [a, b] = [...pts.values()]; const d = Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY); z = Math.max(1, Math.min(4, z0 * d / pinch0)); clamp(); apply(false); moved = 99; return; }
+    const dx = e.clientX - sx, dy = e.clientY - sy; moved = Math.max(moved, Math.abs(dx) + Math.abs(dy));
+    if (z > 1) { tx = stx + dx; ty = sty + dy; clamp(); apply(false); } else { img.style.transition = "none"; img.style.transform = `translateX(${dx}px)`; }
+  });
+  const up = e => {
+    if (!pts.has(e.pointerId)) return; pts.delete(e.pointerId); if (pts.size) return;
+    const dx = e.clientX - sx;
+    if (moved < 8) { const hit = document.elementFromPoint(e.clientX, e.clientY); if (hit === img) zoomTo(z > 1 ? 1 : 2.5, e.clientX, e.clientY); else if (z === 1) close(); else zoomTo(1); return; }
+    if (z === 1) { if (Math.abs(dx) > 60 && list.length > 1) show(idx + (dx < 0 ? 1 : -1)); else apply(); }
+  };
+  stage.addEventListener("pointerup", up); stage.addEventListener("pointercancel", up);
+})();
