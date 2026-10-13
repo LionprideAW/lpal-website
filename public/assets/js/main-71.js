@@ -42,14 +42,14 @@ const MATCHES = [
   { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
     b: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
     division: "Heavyweight 115kg", arm: "Left arm" },
-  { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma" },
-    b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24" },
+  { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc" },
+    b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { hidden: true, // opponent being changed: hidden until the new match is confirmed
     a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
     b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
     division: "Heavyweight 115kg", arm: "Right arm", special: "David vs Goliath" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
+  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },
   { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
@@ -59,9 +59,9 @@ const MATCHES = [
     b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov", instagram: "tsankov.armwrestling" },
     division: "Super Heavyweight 115kg+", arm: "Right arm" },
   { a: { first: "Martin", last: "Vodopija", country: "at", photo: "martin-vodpija", instagram: "martin_armwrestling" },
-    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2", instagram: "_24david24" },
+    b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2", instagram: "_24david24", tiktok: "24david24_" },
     division: "Lightweight 77kg", arm: "" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking" },
+  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" },
     division: "Women's Middleweight 70kg", arm: "Left arm" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11" },
@@ -190,6 +190,15 @@ const igIcon = x => {
   return `<a class="ig-icon" href="https://www.instagram.com/${encodeURIComponent(h)}/" target="_blank" rel="noopener" aria-label="${esc(full(x))} on Instagram" title="@${esc(h)}">${IG_ICON}</a>`;
 };
 
+const TT_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5c-1.42 0-2.6-1.16-2.6-2.6 0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg>`;
+// TikTok icon next to the Instagram icon (only when the athlete has a TikTok handle).
+const ttIcon = x => {
+  if (!x || !x.tiktok) return "";
+  const h = String(x.tiktok).replace(/^@/, "").replace(/^https?:\/\/(www\.)?tiktok\.com\/@?/, "").replace(/[/?#].*$/, "");
+  return `<a class="ig-icon tt-icon" href="https://www.tiktok.com/@${encodeURIComponent(h)}" target="_blank" rel="noopener" aria-label="${esc(full(x))} on TikTok" title="@${esc(h)}">${TT_ICON}</a>`;
+};
+// Instagram + TikTok icons kept together (side by side on phones too).
+const socials = (x, rev) => { const i = rev ? ttIcon(x) + igIcon(x) : igIcon(x) + ttIcon(x); return i ? `<span class="bd-soc">${i}</span>` : ""; };
 const STATS = [
   ["Country", x => x.country ? COUNTRIES[x.country] : ""],
   ["Age", x => x.age],
@@ -211,9 +220,9 @@ const detailHTML = (a, b, division, arm) => {
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
-        <span class="bd-name bd-name-a">${esc(full(a))}${igIcon(a)}</span>
+        <span class="bd-name bd-name-a">${esc(full(a))}${socials(a, false)}</span>
         <span class="bd-div">${esc(division)}${arm ? ` &middot; ${esc(arm)}` : ""}</span>
-        <span class="bd-name bd-name-b">${igIcon(b)}${esc(full(b))}</span>
+        <span class="bd-name bd-name-b">${socials(b, true)}${esc(full(b))}</span>
       </div>
       <div class="bd-body">
         <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
@@ -814,6 +823,7 @@ if (athletesEl) {
     Object.assign(r, { first: x.first, last: x.last, country: x.country || r.country });
     if (!r.divs.includes(info.div)) r.divs.push(info.div);   // listed in every division they pulled in
     if (x.instagram) r.instagram = x.instagram;
+    if (x.tiktok) r.tiktok = x.tiktok;
     if (!r.instagram && ATHLETE_IG[full(x)]) r.instagram = ATHLETE_IG[full(x)];
     if (info.img) r.img = info.img;               // later events overwrite: newest photo wins
     if (!r.events.includes(info.event)) r.events.push(info.event);
@@ -851,7 +861,7 @@ if (athletesEl) {
       <div class="ath-info">
         <p class="ath-first">${a.first ? esc(a.first) : "&nbsp;"}</p>
         <h3 class="ath-last"><span>${esc(a.last)}</span></h3>
-        <div class="ath-country">${country(a)}${igIcon(a)}</div>
+        <div class="ath-country">${country(a)}${igIcon(a)}${ttIcon(a)}</div>
         <div class="ath-meta">${record}<span class="ath-events">${a.events.map(e => e.replace("LPAL ", "")).join(" · ").replace(/^/, "LPAL ")}</span></div>
       </div>
     </article>`;
