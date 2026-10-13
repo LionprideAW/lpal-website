@@ -6,6 +6,12 @@
   Cache-Control: no-cache
 /lpal-*
   Cache-Control: no-cache
+/partners-lpal4
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+/partners-lpal4.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
 /assets/*
   Cache-Control: public, max-age=86400
 /*
