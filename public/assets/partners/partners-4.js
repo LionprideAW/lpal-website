@@ -16,7 +16,7 @@ const STATS = [
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "20K", l: "Live viewers at LPAL 3", s: "With only 300K followers on the card" },
   { n: "2M", l: "League reach", s: "Last 30 days, LPAL channels" },
-  { n: "10", l: "Matches", s: "Incl. the first LPAL World Title Match" },
+  { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "20", l: "Athletes", s: "From 16 countries, incl. world champions" }
 ];
 
@@ -47,7 +47,7 @@ const PACKAGES = [
 
   { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value",
     items: ["All 4 top corners, all 4 table sides and the 4 leg sleeves",
-            "The table is in frame for every second of all 10 matches",
+            "The table is in frame for every second of all 11 matches",
             "In every clip, replay and photo for 12 months"] },
   { id: "table-top", cat: "table", name: "Full Table Top", price: 4000, once: true, tag: "Save €800",
     items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
@@ -75,7 +75,7 @@ const PACKAGES = [
   { id: "chest", cat: "jersey", name: "Jersey Chest", price: 6000, once: true,
     items: ["Chest of every athlete jersey", "Winner photos and interviews", "Referee shirts"] },
   { id: "sleeves", cat: "jersey", name: "Jersey Sleeves", price: 4500, once: true,
-    items: ["Both sleeves of every jersey", "In the close-ups of all 10 matches"] },
+    items: ["Both sleeves of every jersey", "In the close-ups of all 11 matches"] },
   { id: "back", cat: "jersey", name: "Jersey Back", price: 2500, once: true,
     items: ["Large logo on the back of every jersey", "Walkouts and award ceremony"] },
 
@@ -142,9 +142,11 @@ const MATCHES = [
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" }, division: "Women's Middleweight 70kg" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11", followers: 13988 },
-    b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" }, division: "Lightweight 77kg" }
+    b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" }, division: "Lightweight 77kg" },
+  { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
+    b: { tba: true }, division: "Lightweight 77kg" }
 ];
-const COUNTRIES = { at: "Austria", bg: "Bulgaria", ci: "Ivory Coast", es: "Spain", fr: "France", ge: "Georgia", gr: "Greece", it: "Italy",
+const COUNTRIES = { at: "Austria", de: "Germany", bg: "Bulgaria", ci: "Ivory Coast", es: "Spain", fr: "France", ge: "Georgia", gr: "Greece", it: "Italy",
   lt: "Lithuania", lv: "Latvia", ma: "Morocco", rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey" };
 const VIDEOS = [
   { id: "DoJyxREyLRY", t: "Sedis vs Blajan · LPAL 3" },
@@ -177,6 +179,7 @@ $("#p-stats").innerHTML = STATS.map(s => `<div class="p-stat"><span class="p-sta
 
 /* ---------- fight card ---------- */
 const side = (x, k, hide) => {
+  if (x.tba) return `<div class="p-ath p-ath-${k}"><div class="p-ath-img"><img src="assets/img/bust-v2/silhouette-athlete.webp" alt="Opponent to be announced" loading="lazy"></div><div class="p-ath-txt"><p class="p-first">Opponent</p><p class="p-last">TBA</p><p class="p-ctry">Announced soon</p></div></div>`;
   const img = hide ? `assets/img/bust-v2/silhouette-me-${k}.webp` : x.photo ? `assets/img/bust-v2/${x.photo}.webp` : "assets/img/bust-v2/silhouette-athlete.webp";
   return `<div class="p-ath p-ath-${k}">
     <div class="p-ath-img"><img src="${img}" alt="${hide ? "To be announced" : esc(full(x))}" loading="lazy">${!hide && x.followers ? `<span class="p-fol">${short(x.followers)} followers</span>` : ""}</div>
