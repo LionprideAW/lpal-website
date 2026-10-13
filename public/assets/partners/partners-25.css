@@ -466,3 +466,6 @@ a{color:inherit}
 .jr-dot{width:9px;height:9px;border-radius:50%;border:0;background:rgba(255,255,255,.3);cursor:pointer;padding:0}
 .jr-dot.on{background:var(--red);width:24px;border-radius:5px}
 .p-jr{cursor:default}
+.p-gallery-2{grid-template-columns:1fr 1fr!important;grid-template-rows:none!important;grid-auto-rows:auto;gap:12px}
+.p-gallery-2 figure,.p-gallery-2 .p-g-big,.p-gallery-2 figure:last-child{grid-column:auto!important;grid-row:auto!important;display:block!important;aspect-ratio:16/9}
+@media (max-width:640px){.p-gallery-2{grid-template-columns:1fr!important}}
