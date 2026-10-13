@@ -98,7 +98,7 @@ const PACKAGES = [
   { id: "stream", cat: "stream", name: "Stream Partner", price: 4500, once: true,
     items: ["Logo on screen during the whole broadcast and the recording", "Mentioned in each half of the show"] },
   { id: "costream", cat: "stream", name: "Co-Stream Partner", price: 5000, once: true,
-    items: ["Your brand on at least 3 extra Kick co-streams", "Two discount codes, valid 30+ days", "Chat message every 10 minutes"] },
+    items: ["Other streamers re-broadcast LPAL 4 live on their own Kick channels (co-streams). Your logo and message appear on at least 3 of these streams, reaching their audiences too", "Your own discount code (e.g. LPAL10) shown in the stream and chat, so viewers can buy your product right away, valid for 30+ days", "An automatic message about your brand in the live chat every 10 minutes"] },
   { id: "clips", cat: "stream", name: "Clip Partner", price: 4000, once: true,
     items: ["2-second brand intro on 30+ match clips", "Name in every clip description", "Clips stay online with no time limit"] },
   { id: "opener", cat: "stream", name: "Show Opener", price: 1500, once: true,
