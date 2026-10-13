@@ -301,7 +301,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   const top = `<div class="t-top">
       <div class="t-spot t-c1" data-zone="corner" data-spot="t-c1"></div><div class="t-spot t-c2" data-zone="corner" data-spot="t-c2"></div>
       <div class="t-spot t-c3" data-zone="corner" data-spot="t-c3"></div><div class="t-spot t-c4" data-zone="corner" data-spot="t-c4"></div>
-      <div class="t-spot t-mid t-mid-f" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-mid t-mid-b" data-zone="center">${L("Presenting partner")}</div>
+      <div class="t-spot t-mid t-mid-f" data-zone="center"></div><div class="t-spot t-mid t-mid-b" data-zone="center"></div>
     </div>`;
   const longSide = id => ({ zone: "side-long", cls: "t-side t-long", html: `<span class="t-sidespot" data-spot="${id}a">${L("Your logo")}</span><span class="t-sidespot" data-spot="${id}b">${L("Your logo")}</span>` });
   const side = (zone, spot, t) => ({ zone, spot, cls: "t-side", html: `<span class="t-sidespot">${L(t)}</span>` });
