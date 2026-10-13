@@ -77,6 +77,10 @@ const PACKAGES = [
     items: ["One of the two challenger matches carries your name: the fight for the No. 1 contender spot in its division", "Announced on stage and on stream as “This match for the No. 1 contender in the [division] is presented by [your brand]”, plus one sentence about your brand", "You hand over the challenge on stage", "Clip with your name in the title, posted on our socials and the athletes' socials after the event"] },
   { id: "match", cat: "matches", name: "Match Partner", price: 2000, tag: "Several available",
     items: ["One match carries your name", "Mentioned in the announcement and on stream", "Winner photo on stage with your logo"] },
+  { id: "athlete", cat: "matches", name: "Athlete Sponsor", price: 2000, tag: "Pick your athlete",
+    items: ["Sponsor one athlete of your choice on the LPAL 4 card", "Your logo on that athlete's jersey for the walkout, the match and all interviews",
+            "If your athlete wins, they present your product (drink, supplement or similar) in the winner photo and the post-match interview",
+            "Your brand reaches the athlete's own fan base, not just the event audience"] },
   { id: "fotn", cat: "matches", name: "Fight of the Night", price: 1500, once: true,
     items: ["Your brand awards the best match of the night", "Presented on stage by you", "Mentioned in the results post"] },
 
