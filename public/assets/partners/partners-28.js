@@ -32,15 +32,15 @@ const PACKAGES = [
             "Your logo on almost every livestream graphic: scoreboard, athlete cards, lower thirds, breaks",
             "Your logo on the centre spots of the table top, visible in every match and every replay",
             "8+ mentions by the commentators during the stream",
-            "Top position on the sponsor wall and the stage",
+            "Top position on the sponsor wall at the entrance",
             "Logo on every official poster, posted as a collaboration by all athletes on the card",
             "Your commercial built into the athletes' contracted reels",
-            "Logo on the big LED screen all night",
+            "Logo on the LED screen behind the athletes all night, in the main camera shot",
             "Full report: Kick statistics, clip views after 30 days, photos"] },
   { id: "premium", cat: "headline", name: "Premium Partner", price: 9000, tag: "2 available",
     items: ["Logo on every official poster, posted as a collaboration by all athletes",
             "Your commercial built into athletes' reels (contracted LPAL posts)",
-            "Logo on the big LED screen and in the livestream",
+            "Logo on the LED screen behind the athletes and in the livestream",
             "Official partner title, e.g. “Official Energy Drink of LPAL”",
             "Category exclusivity", "6 VIP tickets"] },
 
@@ -111,10 +111,10 @@ const PACKAGES = [
             "Your logo on each athlete's walkout graphic on the big screen",
             "30+ logo moments of 15 seconds on the LED wall"] },
   { id: "led", cat: "arena", name: "LED Screen Partner", price: 3000, once: true,
-    items: ["Your logo in the big LED wall loop all night", "15-second spot on the LED wall between matches",
+    items: ["Your logo on the LED screen behind the athletes, all night", "In the main camera (Camera 1) shot of every match", "Behind the athletes in every walkout too", "15-second spot on the LED screen between matches",
             "Seen in the hall and in the wide shots of the livestream"] },
-  { id: "photowall", cat: "arena", name: "Photo Wall & Fan Table", price: 3000, once: true,
-    items: ["Interview wall with your logo", "Armwrestling fan table at the entrance with your branding"] },
+  { id: "photowall", cat: "arena", name: "Fan Table at the Sponsor Wall", price: 3000, once: true,
+    items: ["Your branding on the armwrestling table at the sponsor wall in the entrance", "Every fan stops here for photos and short videos, posted on their own socials", "Biggest logo on the sponsor wall"] },
   { id: "floor", cat: "arena", name: "Floor Partner", price: 2000, once: true,
     items: ["Logo on the floor around the competition table", "Seen in the wide shots of every match"] },
   { id: "booth", cat: "arena", name: "Booth in the Hall", price: 1500, tag: "Several available",
@@ -123,13 +123,13 @@ const PACKAGES = [
     items: ["The food and drinks area carries your name", "Signage on site"] },
 
   { id: "starter", cat: "entry", name: "Starter Bundle", price: 1500, tag: "New",
-    items: ["Large logo on the sponsor wall", "One 30-second stream spot", "Logo in the recap video", "4 tickets"] },
+    items: ["Large logo on the sponsor wall at the entrance", "One 30-second stream spot", "Logo in the recap video", "4 tickets"] },
   { id: "online", cat: "entry", name: "Online Partner", price: 750, tag: "New",
     items: ["Logo in the partner section of the LPAL website", "Mention in the recap video", "2 tickets"] },
   { id: "wall-logo", cat: "entry", name: "Logo on the Sponsor Wall", price: 500,
-    items: ["Large logo on the sponsor wall", "Logo in the post-event report", "2 tickets"] },
+    items: ["Large logo on the sponsor wall at the entrance, where fans take photos and videos", "Logo in the post-event report", "2 tickets"] },
   { id: "wall-name", cat: "entry", name: "Name on the Sponsor Wall", price: 250,
-    items: ["Company name on the sponsor wall", "Listed in the sponsor list", "1 ticket"] }
+    items: ["Company name on the sponsor wall at the entrance", "Listed in the sponsor list", "1 ticket"] }
 ];
 const CATS = [["all", "All"], ["headline", "Headline"], ["table", "Table"], ["matches", "Matches"], ["jersey", "Jersey"], ["stream", "Livestream & clips"], ["arena", "Arena"], ["entry", "Entry deals"]];
 
