@@ -74,7 +74,7 @@ const PACKAGES = [
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
             "Logo on the athlete introduction graphics", "Clip of the title match with your name in the title"] },
   { id: "challenger", cat: "matches", name: "Challenger Match Partner", price: 3500, tag: "2 available",
-    items: ["One of the two challenger matches carries your name", "You hand over the challenge on stage", "Clip with your name in the title"] },
+    items: ["One of the two challenger matches carries your name: the fight for the No. 1 contender spot in its division", "Announced on stage and on stream as “This match for the No. 1 contender in the [division] is presented by [your brand]”, plus one sentence about your brand", "You hand over the challenge on stage", "Clip with your name in the title"] },
   { id: "match", cat: "matches", name: "Match Partner", price: 2000, tag: "Several available",
     items: ["One match carries your name", "Mentioned in the announcement and on stream", "Winner photo on stage with your logo"] },
   { id: "fotn", cat: "matches", name: "Fight of the Night", price: 1500, once: true,
