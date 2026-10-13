@@ -369,7 +369,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
-    if (!drag) { vel *= 0.9; ry += vel; if (++idle > 360 && !hover) ry += 0.06; }
+    if (!drag) { vel *= 0.9; ry += vel; if (++idle > 360 && !hover) ry += 0.025; }
     rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(480px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
   loop();
