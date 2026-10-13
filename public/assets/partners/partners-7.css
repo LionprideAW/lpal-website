@@ -366,3 +366,6 @@ a{color:inherit}
 .t-face.picked .t-sidespot .t-logo b{color:#000!important}
 .t-face.t-sleeve.picked{background:#f2f2f2!important}
 .t-face.t-sleeve.picked .t-logo b{color:#000!important}
+.t-spot.reserved,.t-face.reserved .t-sidespot{background:repeating-linear-gradient(135deg,#333 0 10px,#222 10px 20px)!important;border:2px solid #555!important}
+.p-spots li.res{opacity:.55}
+.p-spots li.res b{font-family:var(--cond);font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:var(--red)}

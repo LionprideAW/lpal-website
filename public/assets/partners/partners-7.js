@@ -4,6 +4,9 @@
    ========================================================== */
 
 const SETTINGS = {
+  // Sold table spots: shown as "Reserved" and can no longer be booked, e.g. ["t-cam1", "t-c2"].
+  //   t-cam1 Camera 1 side · t-cam2 other short side · t-long1 / t-long2 long sides · t-c1..t-c4 corners
+  reserved: [],
   // Where inquiries go. Fill in before sending the link to sponsors.
   email: "business@lionpride-armwrestling.com",
   whatsapp: "+43 670 7745771",
@@ -45,8 +48,8 @@ const PACKAGES = [
     items: ["Logo on chest, both sleeves and back of every athlete jersey", "Logo on the referees' shirts",
             "In every winner photo, interview and walkout", "Bookable while all three jersey areas are free"] },
 
-  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €2,800",
-    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2", "t-c1", "t-c2", "t-c3", "t-c4", "t-leg1", "t-leg2", "t-leg3", "t-leg4"],
+  { id: "table-full", cat: "table", name: "Complete Table", price: 10000, once: true, tag: "Best value · save €2,200",
+    covers: ["t-cam1", "t-cam2", "t-long1", "t-long2", "t-c1", "t-c2", "t-c3", "t-c4", "legs"],
     items: ["All 4 table sides incl. the Camera 1 side, all 4 top corners and all 4 leg sleeves",
             "The table is in frame for every second of all 11 matches", "In every clip, replay and photo for 12 months"] },
   { id: "table-sides", cat: "table", name: "Full Table Sides", price: 6000, once: true, tag: "Save €1,200",
@@ -55,11 +58,10 @@ const PACKAGES = [
   { id: "table-top", cat: "table", name: "Full Table Top", price: 3200, once: true, tag: "Save €400",
     covers: ["t-c1", "t-c2", "t-c3", "t-c4"],
     items: ["Your logo in all 4 corners of the table top", "Seen from above in every close-up and slow motion"] },
-  { id: "legs", cat: "table", name: "All 4 Leg Sleeves", price: 1400, once: true, tag: "Save €200",
-    covers: ["t-leg1", "t-leg2", "t-leg3", "t-leg4"],
+  { id: "legs", cat: "table", name: "Leg Sleeves (all 4)", price: 1400, once: true,
     items: ["Your logo on all 4 table legs", "Seen in every wide shot and walkout"] },
-  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €400", tag: "Pick on the 3D table", link: "#table",
-    items: ["Book exactly one spot: one side, one corner or one leg", "Camera 1 side €3,000 · other short side €1,800", "Long side €1,200 · top corner €900 · leg sleeve €400"] },
+  { id: "table-single", cat: "table", name: "Single Table Spot", price: "From €900", tag: "Pick on the 3D table", link: "#table",
+    items: ["Book exactly one spot: one side or one corner", "Camera 1 side €3,000 · other short side €1,800", "Long side €1,200 · top corner €900"] },
   // single spots (chosen on the 3D table; not shown as cards)
   { id: "t-cam1", cat: "spot", zone: "side-short", name: "Short side A · Camera 1 (main camera)", price: 3000, once: true, tag: "Premium" },
   { id: "t-cam2", cat: "spot", zone: "side-short", name: "Short side B · under the peg", price: 1800, once: true },
@@ -69,10 +71,6 @@ const PACKAGES = [
   { id: "t-c2", cat: "spot", zone: "corner", name: "Top corner 2", price: 900, once: true },
   { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 900, once: true },
   { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 900, once: true },
-  { id: "t-leg1", cat: "spot", zone: "legs", name: "Leg sleeve 1", price: 400, once: true },
-  { id: "t-leg2", cat: "spot", zone: "legs", name: "Leg sleeve 2", price: 400, once: true },
-  { id: "t-leg3", cat: "spot", zone: "legs", name: "Leg sleeve 3", price: 400, once: true },
-  { id: "t-leg4", cat: "spot", zone: "legs", name: "Leg sleeve 4", price: 400, once: true },
 
   { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
     items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
@@ -227,7 +225,9 @@ const filterTo = k => {
 };
 $$(".p-chip").forEach(b => b.addEventListener("click", () => filterTo(b.dataset.k)));
 const pack = id => PACKAGES.find(p => p.id === id);
+const isReserved = id => (SETTINGS.reserved || []).includes(id) || ((pack(id) || {}).covers || []).some(c => (SETTINGS.reserved || []).includes(c));
 const addPack = id => {
+  if (isReserved(id)) return;
   const p = pack(id); const q = sel.get(id) || 0; if (!p.max && q) return; if (p.max && q >= p.max) return;
   if (p.covers) p.covers.forEach(c => sel.delete(c));                                  // bundle replaces single spots
   if (p.cat === "spot") PACKAGES.filter(b => b.covers && b.covers.includes(id)).forEach(b => sel.delete(b.id)); // single spot replaces a bundle
@@ -274,7 +274,7 @@ const ZONES = [
   { id: "side-short", name: "Short sides", bundle: "table-sides", text: "The two ends of the table, right under the pegs. Side A faces Camera 1, the main camera: the most visible logo spot of the night." },
   { id: "side-long", name: "Long sides", bundle: "table-sides", text: "The two long sides, where the athletes stand. Seen in the side shots and by the crowd." },
   { id: "corner", name: "Top corners", bundle: "table-top", text: "Four spots on the table top, one in each corner. Seen from above in every close-up." },
-  { id: "legs", name: "Leg sleeves", bundle: "legs", text: "The 50 cm sleeves on each of the four table legs." },
+  { id: "legs", name: "Leg sleeves", text: "The 50 cm sleeves on all four table legs. Booked as one set." , pack: "legs" },
   { id: "center", name: "Centre spots", pack: "presenting", text: "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
   { id: "floor", name: "Floor", pack: "floor", text: "The floor around the table, seen in the wide shots of every match." }
 ];
@@ -297,8 +297,8 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   const W = 644, D = 460, TH = 70, TOPY = -880;
   let h = `<div class="t-floor" data-zone="floor"><span>Floor partner</span><span>Floor partner</span></div>`;
   const top = `<div class="t-top">
-      <div class="t-spot t-c1" data-zone="corner" data-spot="t-c1">${L("Corner 1")}</div><div class="t-spot t-c2" data-zone="corner" data-spot="t-c2">${L("Corner 2")}</div>
-      <div class="t-spot t-c3" data-zone="corner" data-spot="t-c3">${L("Corner 3")}</div><div class="t-spot t-c4" data-zone="corner" data-spot="t-c4">${L("Corner 4")}</div>
+      <div class="t-spot t-c1" data-zone="corner" data-spot="t-c1"></div><div class="t-spot t-c2" data-zone="corner" data-spot="t-c2"></div>
+      <div class="t-spot t-c3" data-zone="corner" data-spot="t-c3"></div><div class="t-spot t-c4" data-zone="corner" data-spot="t-c4"></div>
       <div class="t-spot t-mid t-mid-f" data-zone="center">${L("Presenting partner")}</div><div class="t-spot t-mid t-mid-b" data-zone="center">${L("Presenting partner")}</div>
     </div>`;
   const side = (zone, spot, t) => ({ zone, spot, cls: "t-side", html: `<span class="t-sidespot">${L(t)}</span>` });
@@ -309,7 +309,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   const legTop = TOPY + TH, legH = -legTop, lx = W / 2 - 42, lz = D / 2 - 38;
   [[-1, 1], [1, 1], [1, -1], [-1, -1]].forEach(([sx, sz], i) => {
     h += box(26, legH, 26, sx * lx, legTop / 2, sz * lz, { all: { cls: "t-leg" } });
-    h += box(38, 380, 38, sx * lx, legTop + 25 + 190, sz * lz, { all: { zone: "legs", spot: `t-leg${i + 1}`, cls: "t-sleeve", html: L(`Leg ${i + 1}`, "t-vert") }, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
+    h += box(38, 380, 38, sx * lx, legTop + 25 + 190, sz * lz, { all: { zone: "legs", cls: "t-sleeve", html: L("Your logo", "t-vert") }, top: { cls: "t-black" }, bottom: { cls: "t-black" } });
   });
   // H frame on the floor
   [-1, 1].forEach(sx => h += box(28, 28, 2 * lz + 28, sx * lx, -14, 0, { all: { cls: "t-leg" } }));
@@ -328,14 +328,15 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
 
   let cur = "side-short", focus = "t-cam1";
   const spotsOf = z => PACKAGES.filter(p => p.cat === "spot" && p.zone === z);
-  const mark = () => $$("[data-spot]", wrap).forEach(el => { el.classList.toggle("picked", sel.has(el.dataset.spot) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(el.dataset.spot))); el.classList.toggle("focus", el.dataset.spot === focus); });
+  const mark = () => $$("[data-spot]", wrap).forEach(el => { el.classList.toggle("reserved", isReserved(el.dataset.spot)); el.classList.toggle("picked", sel.has(el.dataset.spot) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(el.dataset.spot))); el.classList.toggle("focus", el.dataset.spot === focus); });
   const select = (id, spot) => {
     cur = id; focus = spot || null; const z = ZONES.find(z => z.id === id);
     $$(".p-zone").forEach(b => b.classList.toggle("on", b.dataset.z === id));
     $$("[data-zone]", wrap).forEach(el => el.classList.toggle("hl", el.dataset.zone === id));
     const list = spotsOf(id), bundle = z.bundle && pack(z.bundle), single = z.pack && pack(z.pack);
     const row = p => { const on = sel.has(p.id) || PACKAGES.some(b => b.covers && sel.has(b.id) && b.covers.includes(p.id));
-      return `<li class="${p.id === focus ? "focus" : ""}"><span>${esc(p.name)}${p.tag ? ` <em>${esc(p.tag)}</em>` : ""}</span><b>${eur(p.price)}</b><button type="button" class="p-spot-btn${on ? " on" : ""}" data-spot-add="${p.id}">${on ? "✓ Added" : "Add"}</button></li>`; };
+      const res = isReserved(p.id);
+      return `<li class="${p.id === focus ? "focus" : ""}${res ? " res" : ""}"><span>${esc(p.name)}${p.tag ? ` <em>${esc(p.tag)}</em>` : ""}</span><b>${res ? "Reserved" : eur(p.price)}</b>${res ? "" : `<button type="button" class="p-spot-btn${on ? " on" : ""}" data-spot-add="${p.id}">${on ? "✓ Added" : "Add"}</button>`}</li>`; };
     $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}
       ${list.length ? `<ul class="p-spots">${list.map(row).join("")}</ul>` : ""}
       ${bundle ? `<p class="p-spot-bundle">Or book all of them: <a href="#packages" data-bundle="${bundle.id}">${esc(bundle.name)} · ${eur(bundle.price)}</a>${bundle.id === "table-sides" || bundle.id === "table-top" || bundle.id === "legs" ? ` <button type="button" class="p-spot-btn${sel.has(bundle.id) ? " on" : ""}" data-spot-add="${bundle.id}">${sel.has(bundle.id) ? "✓ Added" : "Add all"}</button>` : ""}</p>` : ""}
@@ -369,7 +370,7 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(wrap);
   const loop = () => {
     requestAnimationFrame(loop); if (!visible) return;
-    if (!drag) { vel *= 0.9; ry += vel; if (++idle > 360 && !hover) ry += 0.025; }
+    if (!drag) { vel *= 0.9; ry += vel; if (++idle > 360) ry += 0.025; }
     rig.style.transform = `translate(-50%,-50%) scale(var(--s)) translateY(480px) rotateX(${rx}deg) rotateY(${ry}deg)`;
   };
   loop();
