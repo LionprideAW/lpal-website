@@ -110,7 +110,7 @@ const PACKAGES = [
 
   { id: "j-full", cat: "jersey", name: "Full Shirt", price: 12000, once: true, tag: "Best value · save €1,500", view: 0,
     covers: ["j-front", "j-back", "j-shr", "j-shl", "j-both"],
-    items: ["Front, back and both shoulders of every athlete jersey", "In every winner photo, interview, walkout and close-up"] },
+    items: ["Front, back and both shoulders of every athlete jersey", "In every winner photo, interview, walkout and close-up", "On the official fan shirts sold worldwide in our online shop and at the event"] },
   { id: "j-front", cat: "jersey", grid: false, name: "Shirt Front", price: 6000, once: true, view: 0,
     items: ["Your logo on the chest of every athlete jersey", "Front and centre in every winner photo and interview"] },
   { id: "j-back", cat: "jersey", grid: false, name: "Shirt Back", price: 3000, once: true, view: 180,
