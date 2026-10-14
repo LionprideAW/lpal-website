@@ -570,39 +570,46 @@ document.addEventListener("error", e => {
 
 
 /* ==========================================================
-   REACH SCALE: bars grow and numbers count up when scrolled into view.
+   REACH METER: the bars move up and down with the scroll position
+   (scroll down = bars rise and numbers count up, scroll back = they go down).
    ========================================================== */
-(function reachScale() {
+(function reachMeter() {
   const box = document.getElementById("p-scale"); if (!box) return;
-  const F = +box.dataset.followers, V = +box.dataset.views, MAX = 2200000;
-  const fmt = n => n >= 1e6 ? parseFloat((n / 1e6).toFixed(1)) + "M"
-                 : n >= 1e4 ? Math.round(n / 1e3) + "K" : Math.round(n).toLocaleString("en");
-  const nums = [...box.querySelectorAll("[data-to]")];
-  const bf = box.querySelector(".p-scale-f"), bv = box.querySelector(".p-scale-v");
-  const ease = t => 1 - Math.pow(1 - t, 3);
-  const run = () => {
-    box.classList.add("go");
-    bf.style.width = Math.max(F / MAX * 100, 0.6) + "%";
-    setTimeout(() => { bv.style.width = (V / MAX * 100) + "%"; }, 700);
-    const t0 = performance.now();
-    const step = now => {
-      nums.forEach((el, i) => {
-        const to = +el.dataset.to, delay = i === 0 ? 0 : i === 1 ? 700 : 2900, dur = i === 0 ? 900 : i === 1 ? 2200 : 900;
-        const t = Math.min(1, Math.max(0, (now - t0 - delay) / dur));
-        el.textContent = i === 2 ? Math.round(ease(t) * to) : fmt(ease(t) * to);
-      });
-      if (now - t0 < 3900) requestAnimationFrame(step);
-      else nums.forEach((el, i) => { el.textContent = i === 2 ? el.dataset.to : fmt(+el.dataset.to); });
-    };
-    requestAnimationFrame(step);
+  const plot = box.querySelector(".p-meter-plot"), MAX = +box.dataset.max;
+  const cols = [...box.querySelectorAll(".p-col")].map(c => ({ v: +c.dataset.v, bar: c.querySelector(".p-col-bar"), val: c.querySelector(".p-col-val") }));
+  const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(n >= 2.195e6 ? 1 : 2) + "M"
+                 : n >= 1e4 ? Math.round(n / 1e3) + "K" : n >= 1e3 ? parseFloat((n / 1e3).toFixed(1)) + "K" : Math.round(n).toLocaleString("en");
+  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+  let cur = 0, target = 0, raf = 0;
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const measure = () => {
+    const r = plot.getBoundingClientRect(), vh = innerHeight;
+    // 0 when the meter enters at the bottom, 1 when its bottom reaches 88% of the screen
+    target = Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh * 0.12)));
   };
-  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
-    bf.style.transition = bv.style.transition = "none"; box.classList.add("go", "done");
-    bf.style.width = Math.max(F / MAX * 100, 0.6) + "%"; bv.style.width = "100%";
-    nums.forEach((el, i) => { el.textContent = i === 2 ? el.dataset.to : fmt(+el.dataset.to); }); return;
-  }
-  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.45 });
-  io.observe(box);
+  const draw = () => {
+    const h = plot.clientHeight - 116;
+    cols.forEach((c, i) => {
+      // small bars lead, the views bar follows: they move like parameters on a mixer
+      const lag = i === 2 ? 0.12 : 0;
+      const p = ease(Math.min(1, Math.max(0, (cur - lag) / (1 - lag))));
+      const px = Math.max(3, c.v / MAX * h * p);
+      c.bar.style.height = px + "px";
+      c.val.style.transform = `translateY(${-px}px)`;
+      c.val.textContent = (i === 1 && p > 0.02 ? "+" : "") + fmt(c.v * p);
+    });
+    box.classList.toggle("go", cur > 0.97);
+  };
+  const loop = () => {
+    cur += (target - cur) * 0.12;
+    if (Math.abs(target - cur) < 0.001) cur = target;
+    draw();
+    raf = cur !== target ? requestAnimationFrame(loop) : 0;
+  };
+  const onScroll = () => { measure(); if (reduce) { cur = target; draw(); } else if (!raf) raf = requestAnimationFrame(loop); };
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  measure(); cur = target; draw();
 })();
 
 /* target audience: flags of every country on the LPAL 4 card (Germany first) */

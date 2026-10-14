@@ -522,7 +522,7 @@ a{color:inherit}
 
 .p-aud-head{margin-top:clamp(48px,6vw,80px)}
 .p-h3{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(32px,3.6vw,46px);line-height:1;margin-top:6px}
-.p-aud{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:22px}
+.p-aud{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:22px}
 .p-aud-card{background:var(--card);border:1px solid var(--line);padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px}
 .p-aud-card>p:last-child,.p-aud-card>p:not([class]){color:var(--mut);font-size:15px;line-height:1.55}
 .p-aud-k{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.14em;font-size:12px;color:var(--red)}
@@ -550,3 +550,52 @@ a{color:inherit}
 .p-aud-facts li{background:rgba(0,0,0,.35);border-top:2px solid var(--red);padding:10px 12px;font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:11px;color:var(--mut)}
 .p-aud-facts b{display:block;font-family:var(--display);font-weight:400;font-size:26px;letter-spacing:0;color:var(--fg);line-height:1.05}
 @media (max-width:600px){.p-aud-facts{grid-template-columns:1fr 1fr 1fr}.p-aud-facts b{font-size:21px}}
+
+/* vertical meter: bars move up and down with the scroll position */
+.p-scale{gap:26px}
+.p-meter{display:grid;grid-template-columns:auto minmax(0,1fr);gap:14px;height:clamp(300px,34vw,420px)}
+.p-meter-axis{display:flex;flex-direction:column;justify-content:space-between;padding-bottom:46px;font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:.06em;color:#6b6b6b;text-align:right}
+.p-meter-axis span{transform:translateY(-50%)}
+.p-meter-axis span:last-child{transform:translateY(50%)}
+.p-meter-plot{position:relative;display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:clamp(12px,2.4vw,30px);padding:0 4px 46px;
+  background:repeating-linear-gradient(180deg,#262626 0 1px,transparent 1px 20%) top/100% calc(100% - 46px) no-repeat;border-bottom:0}
+.p-meter-plot::after{content:"";position:absolute;left:0;right:0;bottom:46px;height:2px;background:#3a3a3a}
+.p-col{position:relative;height:100%}
+.p-col-bar{position:absolute;left:12%;right:12%;bottom:46px;height:0;min-height:3px;background:#6f6f6f;will-change:height}
+.p-col-n .p-col-bar{background:#a8a8a8}
+.p-col-v .p-col-bar{left:6%;right:6%;background:linear-gradient(0deg,#7d120d,var(--red) 70%,#ff5a4f);box-shadow:0 0 34px rgba(225,38,28,.45)}
+.p-col-v .p-col-bar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#fff;box-shadow:0 0 12px #fff}
+.p-col-val{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,46px);line-height:1;padding-bottom:8px;font-variant-numeric:tabular-nums;will-change:transform;white-space:nowrap}
+.p-col-v .p-col-val{color:#fff;font-size:clamp(34px,4.4vw,62px)}
+.p-col-lab{position:absolute;left:-6px;right:-6px;bottom:0;height:40px;display:flex;align-items:center;justify-content:center;text-align:center;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:11px;line-height:1.25;color:var(--mut)}
+.p-col-v .p-col-lab{color:var(--red)}
+.p-scale-x{opacity:0;transform:translateY(14px);transition:opacity .45s ease,transform .45s var(--ease)}
+.p-scale-x>b{font-size:clamp(64px,8vw,110px)}
+.p-scale.go .p-scale-x{opacity:1;transform:none}
+.p-scale:not(.go) .p-scale-x{opacity:0;transform:translateY(14px)}
+
+/* audience: online brands card */
+.p-aud-de{grid-column:span 2}
+.p-aud-shop{background:linear-gradient(200deg,rgba(255,255,255,.06),transparent 60%),var(--card)}
+.p-aud-checks{list-style:none;display:flex;flex-direction:column;gap:8px;margin-top:auto}
+.p-aud-checks li{position:relative;padding-left:26px;font-size:14.5px;line-height:1.4;color:var(--fg)}
+.p-aud-checks li::before{content:"";position:absolute;left:0;top:2px;width:16px;height:16px;border-radius:50%;background:var(--red) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 8.2l2.6 2.5L12 5.4' fill='none' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/12px no-repeat}
+@media (max-width:1000px){.p-aud{grid-template-columns:1fr 1fr}.p-aud-de{grid-column:span 2}}
+@media (max-width:600px){
+  .p-aud{grid-template-columns:1fr}.p-aud-de{grid-column:auto}
+  .p-meter{height:330px;gap:8px}
+  .p-meter-plot{gap:8px}
+  .p-col-lab{font-size:10px;letter-spacing:.04em}
+  .p-col-val{font-size:24px}.p-col-v .p-col-val{font-size:34px}
+}
+
+/* meter headroom so the top value never leaves the box */
+.p-meter{height:clamp(360px,38vw,480px)}
+.p-meter-axis{padding-top:70px}
+.p-meter-plot{background-position:0 70px;background-size:100% calc(100% - 116px)}
+.p-reach-grid{align-items:start}
+.p-proof-stats{margin-top:4px}
+.p-aud-quote{font-family:var(--display);font-size:clamp(28px,2.8vw,40px);line-height:1;text-transform:uppercase;color:#fff;border-left:4px solid var(--red);padding:4px 0 4px 14px;margin:6px 0 10px}
+.p-aud-quote span{color:var(--red)}
+@media (max-width:600px){.p-meter{height:380px}}
+.p-meter-plot{padding-bottom:0}
