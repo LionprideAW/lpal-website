@@ -557,12 +557,11 @@ a{color:inherit}
 .p-meter-axis{display:flex;flex-direction:column;justify-content:space-between;padding-bottom:46px;font-family:var(--cond);font-weight:700;font-size:11px;letter-spacing:.06em;color:#6b6b6b;text-align:right}
 .p-meter-axis span{transform:translateY(-50%)}
 .p-meter-axis span:last-child{transform:translateY(50%)}
-.p-meter-plot{position:relative;display:grid;grid-template-columns:1fr 1fr 1.25fr;gap:clamp(12px,2.4vw,30px);padding:0 4px 46px;
+.p-meter-plot{position:relative;display:grid;grid-template-columns:1fr 1.3fr;gap:clamp(12px,2.4vw,30px);padding:0 4px 46px;
   background:repeating-linear-gradient(180deg,#262626 0 1px,transparent 1px 20%) top/100% calc(100% - 46px) no-repeat;border-bottom:0}
 .p-meter-plot::after{content:"";position:absolute;left:0;right:0;bottom:46px;height:2px;background:#3a3a3a}
 .p-col{position:relative;height:100%}
 .p-col-bar{position:absolute;left:12%;right:12%;bottom:46px;height:0;min-height:3px;background:#6f6f6f;will-change:height}
-.p-col-n .p-col-bar{background:#a8a8a8}
 .p-col-v .p-col-bar{left:6%;right:6%;background:linear-gradient(0deg,#7d120d,var(--red) 70%,#ff5a4f);box-shadow:0 0 34px rgba(225,38,28,.45)}
 .p-col-v .p-col-bar::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:#fff;box-shadow:0 0 12px #fff}
 .p-col-val{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-family:var(--display);font-weight:400;font-size:clamp(28px,3.4vw,46px);line-height:1;padding-bottom:8px;font-variant-numeric:tabular-nums;will-change:transform;white-space:nowrap}

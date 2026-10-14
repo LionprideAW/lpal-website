@@ -576,7 +576,7 @@ document.addEventListener("error", e => {
 (function reachMeter() {
   const box = document.getElementById("p-scale"); if (!box) return;
   const plot = box.querySelector(".p-meter-plot"), MAX = +box.dataset.max;
-  const cols = [...box.querySelectorAll(".p-col")].map(c => ({ v: +c.dataset.v, bar: c.querySelector(".p-col-bar"), val: c.querySelector(".p-col-val") }));
+  const cols = [...box.querySelectorAll(".p-col")].map(c => ({ main: c.classList.contains("p-col-v"), v: +c.dataset.v, bar: c.querySelector(".p-col-bar"), val: c.querySelector(".p-col-val") }));
   const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(n >= 2.195e6 ? 1 : 2) + "M"
                  : n >= 1e4 ? Math.round(n / 1e3) + "K" : n >= 1e3 ? parseFloat((n / 1e3).toFixed(1)) + "K" : Math.round(n).toLocaleString("en");
   const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
@@ -590,13 +590,13 @@ document.addEventListener("error", e => {
   const draw = () => {
     const h = plot.clientHeight - 116;
     cols.forEach((c, i) => {
-      // small bars lead, the views bar follows: they move like parameters on a mixer
-      const lag = i === 2 ? 0.12 : 0;
+      // the followers bar leads, the views bar follows: they move like parameters on a mixer
+      const lag = c.main ? 0.12 : 0;
       const p = ease(Math.min(1, Math.max(0, (cur - lag) / (1 - lag))));
       const px = Math.max(3, c.v / MAX * h * p);
       c.bar.style.height = px + "px";
       c.val.style.transform = `translateY(${-px}px)`;
-      c.val.textContent = (i === 1 && p > 0.02 ? "+" : "") + fmt(c.v * p);
+      c.val.textContent = fmt(c.v * p);
     });
     box.classList.toggle("go", cur > 0.97);
   };
