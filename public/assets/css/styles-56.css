@@ -759,3 +759,4 @@ html,body{overflow-x:clip}
   .event-shade{background:linear-gradient(180deg,rgba(11,11,11,.9) 0%,rgba(11,11,11,.72) 40%,rgba(11,11,11,.85) 75%,#0b0b0b 100%)}
 }
 @media (prefers-reduced-motion:reduce){.event-video{display:none}}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
