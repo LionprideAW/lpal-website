@@ -916,22 +916,3 @@ if (athletesEl) {
   }));
   $("#ath-q").addEventListener("input", apply);
 }
-
-
-/* event header: opener video in the dark band, starts later in the clip so it differs from the hero */
-(() => {
-  const v = document.getElementById("event-video"); if (!v) return;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  let loaded = false;
-  const load = () => {
-    if (loaded) return; loaded = true;
-    v.src = matchMedia("(max-width: 820px)").matches ? "assets/video/lpal-opener-mobile.mp4" : "assets/video/lpal-opener.mp4";
-    v.addEventListener("loadedmetadata", () => { if (v.duration > 4) v.currentTime = v.duration / 2; }, { once: true });
-    v.play().catch(() => {});
-  };
-  if ("IntersectionObserver" in window) {
-    new IntersectionObserver((es, io) => es.forEach(e => {
-      if (e.isIntersecting) { load(); v.play().catch(() => {}); } else if (loaded) v.pause();
-    }), { rootMargin: "200px" }).observe(v);
-  } else load();
-})();
