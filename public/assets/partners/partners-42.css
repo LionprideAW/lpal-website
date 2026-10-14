@@ -486,3 +486,6 @@ a{color:inherit}
 .p-merch-list b{display:block;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px}
 .p-merch-list span{font-size:13.5px;color:var(--mut);line-height:1.35}
 @media (max-width:520px){.p-merch-list{grid-template-columns:1fr}}
+.p-yt{background:var(--bg2)}
+.p-yt .p-wrap>.p-kicker,.p-yt .p-h2,.p-yt .p-lead{text-align:center;margin-left:auto;margin-right:auto}
+.p-yt .p-h2{max-width:none}
