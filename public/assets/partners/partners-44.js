@@ -18,7 +18,7 @@ const STATS = [
   { n: "5.6M+", l: "Combined followers", s: "Athletes on the card + league, Instagram & TikTok" },
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
-  { n: "2M", l: "League reach", s: "Last 30 days, LPAL channels" },
+  { n: "2.2M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "21", l: "Athletes", s: "From 16 countries, incl. world champions" }
 ];
@@ -441,7 +441,7 @@ document.addEventListener("error", e => {
    Arrows / swipe to switch, click or scroll to zoom, drag to move around.
    ========================================================== */
 (function viewer() {
-  const GROUPS = [".p-action-grid", ".p-cred-grid", ".p-gallery", ".p-expo-grid"];
+  const GROUPS = [".p-action-grid", ".p-cred-grid", ".p-gallery", ".p-expo-grid", ".p-reach-grid"];
   document.body.insertAdjacentHTML("beforeend", `
   <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
     <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""></div>
@@ -566,4 +566,49 @@ document.addEventListener("error", e => {
   let started = false;
   new IntersectionObserver(es => { if (es[0].isIntersecting && !started) { started = true; timer = setTimeout(tick, HOLD + FADE); } }).observe(wrap);
   render();
+})();
+
+
+/* ==========================================================
+   REACH SCALE: bars grow and numbers count up when scrolled into view.
+   ========================================================== */
+(function reachScale() {
+  const box = document.getElementById("p-scale"); if (!box) return;
+  const F = +box.dataset.followers, V = +box.dataset.views, MAX = 2200000;
+  const fmt = n => n >= 1e6 ? parseFloat((n / 1e6).toFixed(1)) + "M"
+                 : n >= 1e4 ? Math.round(n / 1e3) + "K" : Math.round(n).toLocaleString("en");
+  const nums = [...box.querySelectorAll("[data-to]")];
+  const bf = box.querySelector(".p-scale-f"), bv = box.querySelector(".p-scale-v");
+  const ease = t => 1 - Math.pow(1 - t, 3);
+  const run = () => {
+    box.classList.add("go");
+    bf.style.width = Math.max(F / MAX * 100, 0.6) + "%";
+    setTimeout(() => { bv.style.width = (V / MAX * 100) + "%"; }, 700);
+    const t0 = performance.now();
+    const step = now => {
+      nums.forEach((el, i) => {
+        const to = +el.dataset.to, delay = i === 0 ? 0 : i === 1 ? 700 : 2900, dur = i === 0 ? 900 : i === 1 ? 2200 : 900;
+        const t = Math.min(1, Math.max(0, (now - t0 - delay) / dur));
+        el.textContent = i === 2 ? Math.round(ease(t) * to) : fmt(ease(t) * to);
+      });
+      if (now - t0 < 3900) requestAnimationFrame(step);
+      else nums.forEach((el, i) => { el.textContent = i === 2 ? el.dataset.to : fmt(+el.dataset.to); });
+    };
+    requestAnimationFrame(step);
+  };
+  if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    bf.style.transition = bv.style.transition = "none"; box.classList.add("go", "done");
+    bf.style.width = Math.max(F / MAX * 100, 0.6) + "%"; bv.style.width = "100%";
+    nums.forEach((el, i) => { el.textContent = i === 2 ? el.dataset.to : fmt(+el.dataset.to); }); return;
+  }
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); run(); } }, { threshold: 0.45 });
+  io.observe(box);
+})();
+
+/* target audience: flags of every country on the LPAL 4 card (Germany first) */
+(function audFlags() {
+  const el = document.getElementById("p-aud-flags"); if (!el) return;
+  const set = new Set(["de"]);
+  MATCHES.forEach(m => [m.a, m.b].forEach(x => x && x.country && set.add(x.country)));
+  el.innerHTML = [...set].map(c => `<span>${flag(c)}${esc(COUNTRIES[c] || c)}</span>`).join("");
 })();
