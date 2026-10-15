@@ -160,3 +160,10 @@ a{color:inherit}
 .m-end-text .m-years{font-size:clamp(20px,2vw,26px);margin-top:6px}
 .m-end.show .m-end-text>:nth-child(6){transition-delay:2.8s}
 .m-intro-text .m-text{margin-top:18px}.m-intro-text .m-text:first-child{margin-top:30px}.m-intro-last{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.4vw,30px);color:var(--gold-2);margin-top:30px!important}
+/* language switch */
+.m-top-r{display:flex;align-items:center;gap:18px}
+.m-lang{display:flex;border:1px solid rgba(212,176,106,.55);border-radius:999px;padding:3px;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+.m-lang button{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.12em;font-size:12px;color:var(--mut);background:none;border:0;border-radius:999px;padding:8px 14px;cursor:pointer;transition:background .3s,color .3s}
+.m-lang button[aria-pressed="true"]{background:var(--gold);color:#000}
+.m-lang button:not([aria-pressed="true"]):hover{color:var(--gold-2)}
+@media (max-width:600px){.m-back{display:none}.m-lang button{padding:7px 12px;font-size:11px}}
