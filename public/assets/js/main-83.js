@@ -515,34 +515,34 @@ const STORIES = [
     text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 25 October." }
 ];
 const STORY_MS = 7000;
+/* LPAL 4 fight posters, in fight-card order. Files in assets/img/posters/ (name.webp + name-sm.webp). */
+const POSTERS = [
+  { id: "p-tsinadze-grujic", file: "tsinadze-grujic", title: "Tsinadze vs Grujic" },
+  { id: "p-tutberidze-sedis", file: "tutberidze-sedis", title: "Tutberidze vs Sedis" },
+  { id: "p-ellouah-black-buffalo", file: "ellouah-black-buffalo", title: "Ellouah vs Black Buffalo" },
+  { id: "p-maliuc-stahlhofen", file: "maliuc-stahlhofen", title: "VladTren vs Stahlhofen" },
+  { id: "p-akesson-hradska", file: "akesson-hradska", title: "Åkesson vs Hradská" },
+  { id: "p-gruber-giurdanella", file: "gruber-giurdanella", title: "Gruber vs Giurdanella" },
+  { id: "p-barberis-tsankov", file: "barberis-tsankov", title: "Barberis vs Tsankov" },
+  { id: "p-vodopija-garcia", file: "vodopija-garcia", title: "Vodopija vs Garcia" },
+  { id: "p-akesson-stone", file: "akesson-stone", title: "Åkesson vs Stone" },
+  { id: "p-sitchinava-ilaslan", file: "sitchinava-ilaslan", title: "Sitchinava vs İlaslan" }
+];
 
-const stRow = $("#st-row");
-if (stRow) {
-  const seenKey = "lpal-stories-seen";
-  let seen = [];
-  try { seen = JSON.parse(localStorage.getItem(seenKey) || "[]"); } catch (e) {}
-  const markSeen = id => { if (!seen.includes(id)) seen.push(id); try { localStorage.setItem(seenKey, JSON.stringify(seen)); } catch (e) {} };
+/* One story viewer, shared by the news row and the poster row. */
+const sv = $("#sv");
+const storyViewer = sv ? (() => {
+  const bars = $("#sv-bars"), img = $("#sv-img"), card = $(".sv-card");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const fmt = d => { try { return new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); } catch (e) { return ""; } };
-  const src = s => `assets/img/stories/${s.photo}`;
-
-  const renderRow = () => {
-    stRow.innerHTML = STORIES.map((s, i) => `
-      <button class="st-card${seen.includes(s.id) ? " is-seen" : ""}" data-i="${i}" aria-label="Open story: ${esc(s.title)}">
-        <span class="st-img"><img src="${src(s)}" alt="" loading="lazy"></span>
-        <span class="st-cap">${esc(s.title)}</span>
-      </button>`).join("");
-    $$(".st-card", stRow).forEach(c => c.addEventListener("click", () => open(+c.dataset.i, c)));
-  };
-
-  const sv = $("#sv"), bars = $("#sv-bars"), img = $("#sv-img");
-  let cur = 0, timer = null, start = 0, elapsed = 0, paused = false, lastFocus = null;
+  let R = null, cur = 0, timer = null, start = 0, elapsed = 0, paused = false, lastFocus = null;
 
   const setBars = () => {
-    bars.innerHTML = STORIES.map((_, i) => `<span class="sv-bar"><i style="width:${i < cur ? 100 : 0}%"></i></span>`).join("");
+    bars.innerHTML = R.items.map((_, i) => `<span class="sv-bar"><i style="width:${i < cur ? 100 : 0}%"></i></span>`).join("");
   };
   const tick = () => {
     if (paused) return;
-    const p = Math.min(1, (elapsed + performance.now() - start) / STORY_MS);
+    const p = Math.min(1, (elapsed + performance.now() - start) / R.ms);
     const fill = bars.children[cur] && bars.children[cur].firstChild;
     if (fill) fill.style.width = (p * 100) + "%";
     if (p >= 1) { next(); return; }
@@ -551,23 +551,23 @@ if (stRow) {
   const show = i => {
     cancelAnimationFrame(timer);
     cur = i; elapsed = 0; start = performance.now();
-    const s = STORIES[i];
+    const s = R.items[i];
     const under = $("#sv-under");
     if (img.getAttribute("src")) { under.src = img.src; under.hidden = false; } else { under.hidden = true; }
-    img.src = src(s); img.alt = s.title;
-    $("#sv-bg").style.backgroundImage = `url('${src(s)}')`;
-    $("#sv-tag").textContent = s.tag;
-    $("#sv-h").textContent = s.title;
-    $("#sv-date").textContent = fmt(s.date);
-    $("#sv-body").innerHTML = String(s.text).split(/\n\s*\n/).map(p => `<p>${esc(p)}</p>`).join("");
+    img.src = R.src(s); img.alt = s.title;
+    $("#sv-bg").style.backgroundImage = `url('${R.src(s)}')`;
+    $("#sv-tag").textContent = s.tag || "";
+    $("#sv-h").textContent = R.poster ? "" : s.title;
+    $("#sv-date").textContent = s.date ? fmt(s.date) : "";
+    $("#sv-body").innerHTML = s.text ? String(s.text).split(/\n\s*\n/).map(p => `<p>${esc(p)}</p>`).join("") : "";
     $("#sv-body").scrollTop = 0;
     $("#sv-prev").disabled = i === 0;
-    markSeen(s.id);
+    R.markSeen(s.id);
     setBars();
     sv.classList.remove("swap"); void sv.offsetWidth; sv.classList.add("swap");
     if (!paused) timer = requestAnimationFrame(tick);
   };
-  const next = () => cur < STORIES.length - 1 ? show(cur + 1) : close();
+  const next = () => cur < R.items.length - 1 ? show(cur + 1) : close();
   const prev = () => show(Math.max(0, cur - 1));
   const setPaused = v => {
     if (v === paused) return;
@@ -577,8 +577,6 @@ if (stRow) {
     $("#sv-pause").setAttribute("aria-label", v ? "Play" : "Pause");
   };
   // open: the photo grows out of the clicked card and dissolves in
-  const card = $(".sv-card");
-  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const flipFrom = el => {
     if (!el || reduce) return;
     const a = el.getBoundingClientRect(), b = card.getBoundingClientRect();
@@ -591,18 +589,22 @@ if (stRow) {
     card.style.transition = "transform .55s cubic-bezier(.2,.8,.2,1), opacity .45s ease";
     card.style.transform = ""; card.style.opacity = "";
   };
-  let openedFrom = null;
-  function open(i, fromEl) {
-    lastFocus = document.activeElement; openedFrom = fromEl || null; paused = false; sv.classList.remove("is-paused");
-    $("#sv-img").removeAttribute("src");
+  function open(rail, i, fromEl) {
+    R = rail;
+    lastFocus = document.activeElement; paused = false; sv.classList.remove("is-paused");
+    sv.classList.toggle("is-poster", !!R.poster);
+    $("#sv-brand-t").textContent = R.brand;
+    sv.setAttribute("aria-label", R.brand);
+    img.removeAttribute("src");
     sv.hidden = false; document.body.classList.add("no-scroll");
     show(i);
-    requestAnimationFrame(() => { sv.classList.add("show"); flipFrom(openedFrom); });
+    requestAnimationFrame(() => { sv.classList.add("show"); flipFrom(fromEl); });
     $("#sv-close").focus();
   }
   function close() {
+    if (sv.hidden || !R) return;
     cancelAnimationFrame(timer); sv.classList.remove("show"); document.body.classList.remove("no-scroll");
-    const target = stRow.querySelector(`.st-card[data-i="${cur}"]`);
+    const target = R.row.querySelector(`[data-i="${cur}"]`);
     if (target && !reduce && window.innerWidth > 860) {
       const a = target.getBoundingClientRect(), b = card.getBoundingClientRect();
       card.style.transformOrigin = "0 0";
@@ -611,26 +613,24 @@ if (stRow) {
       card.style.opacity = "0";
     }
     setTimeout(() => { sv.hidden = true; img.removeAttribute("src"); card.style.transition = card.style.transform = card.style.opacity = ""; }, 420);
-    renderRow(); if (lastFocus) lastFocus.focus();
+    R.render(); if (lastFocus) lastFocus.focus();
   }
   $("#sv-close").addEventListener("click", close);
-  $("#sv-next").addEventListener("click", next);
-  $("#sv-prev").addEventListener("click", prev);
+  $("#sv-next").addEventListener("click", () => next());
+  $("#sv-prev").addEventListener("click", () => prev());
   $("#sv-pause").addEventListener("click", () => setPaused(!paused));
   // hold to pause (like Instagram), and pause while reading the text
   const photo = $(".sv-photo");
-  let holdT;
-  let held = false;
+  let holdT, held = false, lastHold = 0;
   photo.addEventListener("pointerdown", e => { if (e.target.closest(".sv-top")) return; holdT = setTimeout(() => { held = true; setPaused(true); }, 180); });
   const release = () => { clearTimeout(holdT); if (held) { held = false; setPaused(false); } };
   photo.addEventListener("pointerup", release);
   photo.addEventListener("pointercancel", release);
-  $(".sv-text").addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setPaused(true); });
-  let lastHold = 0;
   photo.addEventListener("pointerup", () => { if (held) lastHold = performance.now(); }, true);
   const tapGuard = fn => () => { if (performance.now() - lastHold < 300) return; fn(); };
-  $(".sv-tap-r").addEventListener("click", tapGuard(next));
-  $(".sv-tap-l").addEventListener("click", tapGuard(prev));
+  $(".sv-tap-r").addEventListener("click", tapGuard(() => next()));
+  $(".sv-tap-l").addEventListener("click", tapGuard(() => prev()));
+  $(".sv-text").addEventListener("pointerenter", e => { if (e.pointerType === "mouse") setPaused(true); });
   $(".sv-text").addEventListener("pointerleave", e => { if (e.pointerType === "mouse") setPaused(false); });
   // swipe on phones
   let sx = null;
@@ -645,12 +645,72 @@ if (stRow) {
     if (e.key === " ") { e.preventDefault(); setPaused(!paused); }
   });
   document.addEventListener("visibilitychange", () => { if (document.hidden && !sv.hidden) setPaused(true); });
+  return { open };
+})() : null;
 
-  const scrollBy = d => stRow.scrollBy({ left: d * stRow.clientWidth * 0.8, behavior: "smooth" });
-  $("#st-prev").addEventListener("click", () => scrollBy(-1));
-  $("#st-next").addEventListener("click", () => scrollBy(1));
-  renderRow();
+/* A horizontal row of story cards (news or posters) that opens in the shared viewer. */
+function storyRail(cfg) {
+  const row = $(cfg.row);
+  if (!row || !storyViewer) return;
+  let seen = [];
+  try { seen = JSON.parse(localStorage.getItem(cfg.seenKey) || "[]"); } catch (e) {}
+  const rail = {
+    row, items: cfg.items, src: cfg.src, brand: cfg.brand, poster: !!cfg.poster, ms: cfg.ms || STORY_MS,
+    markSeen: id => { if (!seen.includes(id)) seen.push(id); try { localStorage.setItem(cfg.seenKey, JSON.stringify(seen)); } catch (e) {} },
+    render: () => {
+      row.innerHTML = cfg.items.map((s, i) => `
+        <button class="st-card${cfg.cardClass ? " " + cfg.cardClass : ""}${seen.includes(s.id) ? " is-seen" : ""}" data-i="${i}" style="--i:${i}" aria-label="${esc(cfg.label)}: ${esc(s.title)}">
+          <span class="st-img"><img src="${cfg.thumb ? cfg.thumb(s) : cfg.src(s)}" alt="" loading="lazy"></span>
+          ${cfg.poster ? `<span class="ps-no">${String(i + 1).padStart(2, "0")}</span>` : `<span class="st-cap">${esc(s.title)}</span>`}
+        </button>`).join("");
+      $$(".st-card", row).forEach(c => c.addEventListener("click", () => storyViewer.open(rail, +c.dataset.i, c)));
+      if (cfg.onRender) cfg.onRender(row);
+    }
+  };
+  const scrollBy = d => row.scrollBy({ left: d * row.clientWidth * 0.8, behavior: "smooth" });
+  if (cfg.prev) $(cfg.prev).addEventListener("click", () => scrollBy(-1));
+  if (cfg.next) $(cfg.next).addEventListener("click", () => scrollBy(1));
+  rail.render();
+  return rail;
 }
+
+storyRail({ row: "#st-row", prev: "#st-prev", next: "#st-next", items: STORIES, seenKey: "lpal-stories-seen",
+  src: s => `assets/img/stories/${s.photo}`, brand: "Lion Pride News", label: "Open story" });
+
+/* Fight posters: cards rise in one after another when the row comes into view,
+   and tilt gently like a cover flow while the row is scrolled sideways. */
+storyRail({ row: "#ps-row", prev: "#ps-prev", next: "#ps-next", items: POSTERS, seenKey: "lpal-posters-seen",
+  src: s => `assets/img/posters/${s.file}.webp`, thumb: s => `assets/img/posters/${s.file}-sm.webp`,
+  brand: "LPAL 4 Fight Posters", label: "Open poster", poster: true, cardClass: "ps-card", ms: 6000,
+  onRender: row => {
+    const section = row.closest(".posters"), bar = $("#ps-bar");
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!row.dataset.wired) {
+      row.dataset.wired = "1";
+      if ("IntersectionObserver" in window && !reduce) {
+        const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { section.classList.add("in"); io.disconnect(); setTimeout(() => section.classList.add("settled"), 1900); } }), { threshold: 0.2 });
+        io.observe(section);
+      } else section.classList.add("in", "settled");
+      let raf = 0;
+      const flow = () => {
+        raf = 0;
+        const r = row.getBoundingClientRect(), mid = r.left + r.width / 2;
+        if (!reduce) $$(".ps-card", row).forEach(c => {
+          const b = c.getBoundingClientRect();
+          const d = Math.max(-1, Math.min(1, (b.left + b.width / 2 - mid) / (r.width / 2)));
+          c.style.setProperty("--ry", (-d * 9).toFixed(2) + "deg");
+          c.style.setProperty("--sc", (1 - Math.abs(d) * 0.06).toFixed(3));
+        });
+        const max = row.scrollWidth - row.clientWidth;
+        if (bar) bar.style.width = (max > 0 ? 12 + 88 * row.scrollLeft / max : 100) + "%";
+      };
+      const req = () => { if (!raf) raf = requestAnimationFrame(flow); };
+      row.addEventListener("scroll", req, { passive: true });
+      addEventListener("resize", req);
+      row._flow = req;
+    }
+    row._flow && row._flow();
+  } });
 
 /* ---------- YouTube: newest upload (looked up by the site's worker) ---------- */
 const yt = $("#yt-latest");

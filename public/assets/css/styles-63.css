@@ -795,3 +795,37 @@ html,body{overflow-x:clip}
   .memory-shade{background:linear-gradient(90deg,#000 0%,#000 32%,rgba(0,0,0,.55) 46%,rgba(0,0,0,0) 64%),linear-gradient(0deg,rgba(0,0,0,.6),transparent 40%)}
   .memory-text{top:0;bottom:0;right:auto;width:46%;justify-content:center;padding:0 0 0 clamp(30px,5vw,80px)}
 }
+
+/* ================= FIGHT POSTERS (same rail as Lion Pride News) ================= */
+.posters{position:relative;background:var(--black);color:#fff;padding:clamp(48px,6vw,80px) 0;overflow:hidden}
+.posters::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.7;
+  background:radial-gradient(ellipse 50% 70% at 12% 0%,rgba(244,200,0,.16),transparent 70%),radial-gradient(ellipse 40% 60% at 90% 100%,rgba(225,38,28,.22),transparent 70%),
+             repeating-linear-gradient(115deg,transparent 0 70px,rgba(255,255,255,.025) 70px 73px)}
+.posters .st-head{position:relative}
+.ps-row{perspective:1200px}
+.ps-card{flex-basis:clamp(240px,24vw,310px);--ry:0deg;--sc:1;
+  transform:rotateY(var(--ry)) scale(var(--sc));transform-style:preserve-3d;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .3s,opacity .8s ease}
+.ps-card .st-img::after{background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35) 100%)}
+.ps-card:hover{transform:rotateY(0deg) scale(1.03) translateY(-6px)}
+/* light sweep on hover */
+.ps-card .st-img::before{content:"";position:absolute;inset:-20% auto -20% -60%;width:40%;z-index:1;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);transition:left .9s ease}
+.ps-card:hover .st-img::before{left:130%}
+.ps-no{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--display);font-size:22px;line-height:1;padding:5px 8px 3px;background:rgba(0,0,0,.72);color:#f4c800;border-left:3px solid var(--red)}
+.ps-card.is-seen .ps-no{color:#fff}
+/* entrance: cards rise in one after another */
+.posters:not(.in) .ps-card{opacity:0;transform:translateY(60px) rotateY(-14deg) scale(.92)}
+.posters.in:not(.settled) .ps-card{transition-delay:calc(var(--i) * 90ms),0s,0s,calc(var(--i) * 90ms)}
+.posters.settled .ps-card{transition:transform .25s ease-out,box-shadow .35s ease,border-color .3s,opacity .8s ease}
+.posters.settled .ps-card:hover{transition-duration:.5s}
+.posters:not(.in) .st-title,.posters:not(.in) .kicker{opacity:0;transform:translateY(18px)}
+.posters .st-title,.posters .kicker{transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.posters.in .st-title{transition-delay:.12s}
+.ps-progress{position:relative;height:2px;background:rgba(255,255,255,.12);margin-top:18px;overflow:hidden}
+.ps-progress i{position:absolute;left:0;top:0;bottom:0;width:12%;background:linear-gradient(90deg,var(--red),#f4c800);transition:width .2s linear}
+/* viewer: poster mode (no text overlay) */
+.sv.is-poster .sv-text{display:none}
+.sv.is-poster .sv-photo #sv-img,.sv.is-poster .sv-under{object-fit:contain;background:#000}
+@media (max-width:860px){.ps-card{flex-basis:220px}}
+@media (prefers-reduced-motion:reduce){.posters .ps-card,.posters:not(.in) .ps-card{opacity:1;transform:none}}
