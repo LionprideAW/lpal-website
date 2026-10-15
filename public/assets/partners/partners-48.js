@@ -179,7 +179,7 @@ const MATCHES = [
     b: { first: "Vladislav", nick: "VladTren", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" }, division: "Welterweight 85kg" },
   { a: { first: "Ellen B.", nick: "Viking", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" }, division: "Women's Open Weight" },
-  { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
+  { a: { first: "Denis", nick: "Prowess", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
     b: { first: "Gabriele", last: "Giurdanella", country: "it", photo: "gabriele-giurdanella", instagram: "gabriele__giurdanella" }, division: "Middleweight 95kg" },
   { a: { first: "Allan", last: "Barberis", country: "fr", photo: "allan-barberis", instagram: "france.armwrestling" },
     b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov", instagram: "tsankov.armwrestling" }, division: "Super Heavyweight 115kg+" },
