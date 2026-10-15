@@ -45,10 +45,9 @@ const MATCHES = [
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc" },
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24" },
     division: "Middleweight 95kg", arm: "Right arm" },
-  { hidden: true, // opponent being changed: hidden until the new match is confirmed
-    a: { first: "Philipp", last: "Stahlhofen", note: "70kg", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
-    b: { first: "Reza", last: "Motamedi", note: "115kg", country: "de", photo: null, instagram: "reza_silverback" },
-    division: "Heavyweight 115kg", arm: "Right arm", special: "David vs Goliath" },
+  { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
+    b: { first: "Vladislav “VladTren”", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" },
+    division: "Welterweight 85kg", arm: "Right arm" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },

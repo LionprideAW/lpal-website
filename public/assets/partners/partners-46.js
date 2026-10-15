@@ -20,7 +20,7 @@ const STATS = [
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
   { n: "2.2M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
-  { n: "21", l: "Athletes", s: "From 16 countries, incl. world champions" }
+  { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
 ];
 
 /* ---------- packages ----------
@@ -175,6 +175,8 @@ const MATCHES = [
     b: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" }, division: "Heavyweight 115kg" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc", followers: 1419800 },
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24", followers: 1228000 }, division: "Middleweight 95kg" },
+  { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
+    b: { first: "Vladislav “VladTren”", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" }, division: "Welterweight 85kg" },
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" }, division: "Women's Open Weight" },
   { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
@@ -186,12 +188,10 @@ const MATCHES = [
   { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" }, division: "Women's Middleweight 70kg" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11", followers: 13988 },
-    b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" }, division: "Lightweight 77kg" },
-  { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
-    b: { tba: true }, division: "Lightweight 77kg" }
+    b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" }, division: "Lightweight 77kg" }
 ];
 const COUNTRIES = { at: "Austria", de: "Germany", bg: "Bulgaria", ci: "Ivory Coast", es: "Spain", fr: "France", ge: "Georgia", gr: "Greece", it: "Italy",
-  lt: "Lithuania", lv: "Latvia", ma: "Morocco", rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey" };
+  lt: "Lithuania", lv: "Latvia", ma: "Morocco", ro: "Romania", rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey" };
 const VIDEOS = [
   { id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "240K views on YouTube" }
 ];
