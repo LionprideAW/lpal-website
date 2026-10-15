@@ -55,13 +55,13 @@
   "ch1t": "Sa première fois sur la scène de LPAL. Dans la catégorie poids légers, Ethan a affronté Nemanja Milanovic et l’a poussé jusqu’au bout : cinq manches, un duel décidé 3:2.",
   "c1": "<b>L’entrée</b>Ses premiers pas sur la grande scène",
   "c2": "<b>Face à face</b><p>Le sourire aux lèvres à la table, en plein combat contre Nemanja Milanovic.</p>",
-  "c3": "<b>Une force tranquille</b><p>Calme et humble, avec un feu intérieur que tous ceux qui l’entouraient pouvaient ressentir.</p>",
+  "c3": "<b>Une force tranquille</b><p>Calme et humble, il dégageait une intensité intérieure palpable pour tous ceux qui l’entouraient.</p>",
   "l1": "Cinq manches. Ce soir-là, il a tout laissé sur la table.",
   "c4": "<b>Avec le cœur</b>Une interview d’après-combat pleine d’émotion, qui nous a tous touchés en plein cœur. Ce soir-là, nous avons compris qu’il était quelqu’un de vraiment exceptionnel.",
   "ch2": "Chapitre II",
   "ch2m": "31 janvier 2026 <i></i> Stage3, Vienne",
   "ch2t": "Ethan est revenu à Vienne, les couleurs de la France sur la manche. Face à Sup1nator, il a tout donné et s’est imposé 3:0.",
-  "c5": "<b>Le retour</b>Son entrée à LPAL 3",
+  "c5": "<b>Le retour</b>Son entrée sur la scène LPAL 3",
   "l2": "Cette énergie, c’était Ethan.",
   "c6": "<b>Notre champion pour toujours</b>Ethan a remporté le plus beau des titres : il a gagné nos cœurs, et il restera à jamais notre champion.",
   "c7": "<b>3:0</b>La victoire, avec son père juste derrière lui",
@@ -94,3 +94,17 @@
   else if (/^fr\b/i.test(navigator.language || "")) start = "fr";
   if (start !== "en") set(start, false);
 })();
+
+/* retry photos that fail to load (weak mobile connection) */
+document.addEventListener("error", e => {
+  const img = e.target;
+  if (!(img instanceof HTMLImageElement)) return;
+  const n = +(img.dataset.retry || 0);
+  if (n >= 4) return;
+  img.dataset.retry = n + 1;
+  setTimeout(() => {
+    const bust = "r=" + Date.now();
+    if (img.srcset) img.srcset = img.srcset.replace(/\.webp(\?r=\d+)?/g, ".webp?" + bust);
+    img.src = img.src.split("?")[0] + "?" + bust;
+  }, 500 * (n + 1));
+}, true);
