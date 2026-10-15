@@ -66,7 +66,7 @@
   "c6": "<b>Notre champion pour toujours</b>Ethan a remporté le plus beau des titres : il a gagné nos cœurs, et il restera à jamais notre champion.",
   "c7": "<b>3:0</b>La victoire, avec son père juste derrière lui",
   "l3": "Son père était toujours à ses côtés : son plus grand soutien et sa plus grande source d’inspiration dans ce sport.",
-  "l4": "Un sourire chaleureux, un grand cœur, et toute une salle derrière lui.",
+  "l4": "Un sourire chaleureux, son grand cœur, et toute une salle derrière lui.",
   "e1": "Même si tu n’es plus à nos côtés, tu vivras pour toujours dans nos cœurs. Ton esprit, ta force et les souvenirs que tu nous laisses feront toujours partie de nous.",
   "e2": "Une fois Lion, toujours Lion.",
   "e3": "À jamais aimé. À jamais regretté. À jamais membre de la Lion Pride."
