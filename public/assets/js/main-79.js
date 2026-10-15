@@ -37,7 +37,7 @@ const MAIN_EVENT = {
 // A row only appears once at least one of the two athletes has that value.
 const MATCHES = [
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
-    b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
+    b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
     b: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
@@ -222,9 +222,9 @@ const detailHTML = (a, b, division, arm) => {
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
-        <span class="bd-name bd-name-a">${[firstHTML(a), esc(a.last)].filter(Boolean).join(" ")}${socials(a, false)}</span>
+        <span class="bd-name bd-name-a"><span class="bd-full">${[firstHTML(a), esc(a.last)].filter(Boolean).join(" ")}</span>${socials(a, false)}</span>
         <span class="bd-div">${esc(division)}${arm ? ` &middot; ${esc(arm)}` : ""}</span>
-        <span class="bd-name bd-name-b">${socials(b, true)}${[firstHTML(b), esc(b.last)].filter(Boolean).join(" ")}</span>
+        <span class="bd-name bd-name-b">${socials(b, true)}<span class="bd-full">${[firstHTML(b), esc(b.last)].filter(Boolean).join(" ")}</span></span>
       </div>
       <div class="bd-body">
         <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
@@ -306,7 +306,7 @@ const PAST_EVENTS = {
         b: { first: "Kevin", last: "Berberich", country: "de", photo: "kevin-berberich" },
         winner: "a", score: [3, 2], division: "Lightweight 75kg", arm: "Right arm", video: "bOixpPwSWy8" },
       { a: { first: "Christos", last: "Zablaras", country: "gr", photo: "christos-zablaras" },
-        b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
+        b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
         winner: "b", score: [0, 3], division: "Light Heavyweight 105kg", arm: "Right arm", video: "T1hlA9g3A2k" },
       { a: { first: "Gabor", last: "Szakacs", country: "hu", photo: "gabor-szakacs" },
         b: { first: "Denis", nick: "Prowess", last: "Gruber", country: "at", photo: "denis-gruber" },
@@ -384,7 +384,7 @@ const PAST_EVENTS = {
       { a: { first: "Ethan", last: "Lovei", country: "fr", photo: "ethan-lovei" },
         b: { first: "", last: "Sup1nator", country: "md", photo: "sup1nator" },
         winner: "a", score: [3, 0], division: "Lightweight 75kg", arm: "Right arm", video: "BW0liGzKn-Y" },
-      { a: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
+      { a: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic" },
         b: { first: "Martin", last: "Minarovic", country: "cz", photo: "martin-minarovic" },
         winner: "a", score: [3, 0], division: "Light Heavyweight 105kg", arm: "Right arm", video: "XXZkEHcvfME" },
       { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze" },
