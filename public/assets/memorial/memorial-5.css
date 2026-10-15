@@ -159,3 +159,4 @@ a{color:inherit}
 .m-years i{width:34px;height:1px;background:var(--gold)}
 .m-end-text .m-years{font-size:clamp(20px,2vw,26px);margin-top:6px}
 .m-end.show .m-end-text>:nth-child(6){transition-delay:2.8s}
+.m-intro-text .m-text{margin-top:18px}.m-intro-text .m-text:first-child{margin-top:30px}.m-intro-last{font-family:var(--serif);font-style:italic;font-size:clamp(24px,2.4vw,30px);color:var(--gold-2);margin-top:30px!important}
