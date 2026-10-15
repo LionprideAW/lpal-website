@@ -604,3 +604,4 @@ a{color:inherit}
 @media (max-width:600px){.p-aud-facts{display:flex;flex-wrap:wrap}.p-aud-facts li{flex:1 1 auto}.p-aud-facts b{overflow-wrap:normal;white-space:nowrap}}
 .nick{color:var(--red)}
 .nick{white-space:nowrap}
+.nick{display:block}
