@@ -519,7 +519,7 @@ const STORY_MS = 7000;
 const POSTERS = [
   { id: "p-tsinadze-grujic", file: "tsinadze-grujic", title: "Tsinadze vs Grujic" },
   { id: "p-tutberidze-sedis", file: "tutberidze-sedis", title: "Tutberidze vs Sedis" },
-  { id: "p-ellouah-black-buffalo", file: "ellouah-black-buffalo", title: "Ellouah vs Black Buffalo" },
+  { id: "p-ellouah-black-buffalo", file: "ellouah-black-buffalo-2", title: "Ellouah vs Black Buffalo" },
   { id: "p-maliuc-stahlhofen", file: "maliuc-stahlhofen", title: "VladTren vs Stahlhofen" },
   { id: "p-akesson-hradska", file: "akesson-hradska", title: "Åkesson vs Hradská" },
   { id: "p-gruber-giurdanella", file: "gruber-giurdanella", title: "Gruber vs Giurdanella" },
