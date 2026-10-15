@@ -807,11 +807,7 @@ html,body{overflow-x:clip}
   transform:rotateY(var(--ry)) scale(var(--sc));transform-style:preserve-3d;
   transition:transform .5s cubic-bezier(.2,.8,.2,1),box-shadow .35s ease,border-color .3s,opacity .8s ease}
 .ps-card .st-img::after{background:linear-gradient(180deg,transparent 60%,rgba(0,0,0,.35) 100%)}
-.ps-card:hover{transform:rotateY(0deg) scale(1.03) translateY(-6px)}
-/* light sweep on hover */
-.ps-card .st-img::before{content:"";position:absolute;inset:-20% auto -20% -60%;width:40%;z-index:1;pointer-events:none;
-  background:linear-gradient(105deg,transparent,rgba(255,255,255,.28),transparent);transform:skewX(-18deg);transition:left .9s ease}
-.ps-card:hover .st-img::before{left:130%}
+.ps-card:hover{transform:rotateY(0deg) scale(1.06) translateY(-4px);z-index:2}
 .ps-no{position:absolute;top:10px;left:10px;z-index:2;font-family:var(--display);font-size:22px;line-height:1;padding:5px 8px 3px;background:rgba(0,0,0,.72);color:#f4c800;border-left:3px solid var(--red)}
 .ps-card.is-seen .ps-no{color:#fff}
 /* entrance: cards rise in one after another */
@@ -829,3 +825,4 @@ html,body{overflow-x:clip}
 .sv.is-poster .sv-photo #sv-img,.sv.is-poster .sv-under{object-fit:contain;background:#000}
 @media (max-width:860px){.ps-card{flex-basis:220px}}
 @media (prefers-reduced-motion:reduce){.posters .ps-card,.posters:not(.in) .ps-card{opacity:1;transform:none}}
+.ps-card:hover .st-img img{transform:none}
