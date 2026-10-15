@@ -54,7 +54,7 @@
   "ch1m": "3 mai 2025 <i></i> Stage3, Vienne",
   "ch1t": "Sa première fois sur la scène de LPAL. Dans la catégorie poids légers, Ethan a affronté Nemanja Milanovic et l’a poussé jusqu’au bout : cinq manches, un duel décidé 3:2.",
   "c1": "<b>L’entrée</b>Ses premiers pas sur la grande scène",
-  "c2": "<b>Face à face</b><p>Le sourire aux lèvres à la table, en plein combat contre Nemanja Milanovic.</p>",
+  "c2": "<b>Face à face</b><p>Le sourire aux lèvres, en plein combat contre Nemanja Milanovic.</p>",
   "c3": "<b>Une force tranquille</b><p>Calme et humble, il dégageait une intensité intérieure palpable pour tous ceux qui l’entouraient.</p>",
   "l1": "Cinq manches. Ce soir-là, il a tout donné sur la table.",
   "c4": "<b>Avec le cœur</b>Une interview d’après-combat pleine d’émotion, qui nous a tous touchés en plein cœur. Ce soir-là, nous avons compris qu’il était quelqu’un de vraiment exceptionnel.",
