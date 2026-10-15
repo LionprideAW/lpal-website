@@ -154,3 +154,8 @@ a{color:inherit}
 .m-end-shade{background:radial-gradient(ellipse 70% 60% at 50% 35%,transparent 25%,#000 100%),linear-gradient(180deg,#000 0%,transparent 20%,transparent 35%,rgba(0,0,0,.88) 68%,#000 100%)}
 @media (max-width:760px){.m-end-msg{font-size:18px}.m-wings-sm{width:180px}}
 .m-end-stick::after{opacity:calc(max(0, var(--e) - .72) * 1.2)}
+/* years */
+.m-years{display:flex;align-items:center;justify-content:center;gap:16px;font-family:var(--serif);font-size:clamp(24px,2.6vw,34px);letter-spacing:.08em;color:var(--gold-2);margin-top:12px}
+.m-years i{width:34px;height:1px;background:var(--gold)}
+.m-end-text .m-years{font-size:clamp(20px,2vw,26px);margin-top:6px}
+.m-end.show .m-end-text>:nth-child(6){transition-delay:2.8s}
