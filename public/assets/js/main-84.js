@@ -661,7 +661,7 @@ function storyRail(cfg) {
       row.innerHTML = cfg.items.map((s, i) => `
         <button class="st-card${cfg.cardClass ? " " + cfg.cardClass : ""}${seen.includes(s.id) ? " is-seen" : ""}" data-i="${i}" style="--i:${i}" aria-label="${esc(cfg.label)}: ${esc(s.title)}">
           <span class="st-img"><img src="${cfg.thumb ? cfg.thumb(s) : cfg.src(s)}" alt="" loading="lazy"></span>
-          ${cfg.poster ? `<span class="ps-no">${String(i + 1).padStart(2, "0")}</span>` : `<span class="st-cap">${esc(s.title)}</span>`}
+          ${cfg.poster ? "" : `<span class="st-cap">${esc(s.title)}</span>`}
         </button>`).join("");
       $$(".st-card", row).forEach(c => c.addEventListener("click", () => storyViewer.open(rail, +c.dataset.i, c)));
       if (cfg.onRender) cfg.onRender(row);
