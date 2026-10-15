@@ -57,7 +57,7 @@
   "c2": "<b>Face à face</b><p>Le sourire aux lèvres, en plein combat contre Nemanja Milanovic.</p>",
   "c3": "<b>Une force tranquille</b><p>Calme et humble, il dégageait une intensité intérieure palpable pour tous ceux qui l’entouraient.</p>",
   "l1": "Cinq manches. Ce soir-là, il a tout donné sur la table.",
-  "c4": "<b>Avec le cœur</b>Une interview d’après-combat pleine d’émotion, qui nous a tous touchés en plein cœur. Ce soir-là, nous avons compris qu’il était quelqu’un de vraiment exceptionnel.",
+  "c4": "<b>Avec le cœur</b>Cette interview d’après-combat, pleine d’émotion, nous a tous profondément touchés. Ce soir-là, nous avons réalisé qu’il était une personne vraiment exceptionnelle.",
   "ch2": "Chapitre II",
   "ch2m": "31 janvier 2026 <i></i> Stage3, Vienne",
   "ch2t": "Ethan est revenu à Vienne, les couleurs de la France sur la manche. Face à Sup1nator, il a tout donné et s’est imposé 3:0.",
