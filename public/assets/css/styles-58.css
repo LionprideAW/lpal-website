@@ -765,3 +765,4 @@ html,body{overflow-x:clip}
 .event-band{background:#0b0b0b;padding-top:clamp(36px,4vw,60px)}
 #home .hero-shade,.hero .hero-shade{background:linear-gradient(180deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,0) 28%,rgba(11,11,11,.25) 50%,rgba(11,11,11,.8) 82%,#0b0b0b 100%)}
 .hero{background:#0b0b0b}
+.nick{color:var(--red)}

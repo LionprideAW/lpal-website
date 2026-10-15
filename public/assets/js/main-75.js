@@ -46,9 +46,9 @@ const MATCHES = [
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
-    b: { first: "Vladislav “VladTren”", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" },
+    b: { first: "Vladislav", nick: "VladTren", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" },
     division: "Welterweight 85kg", arm: "Right arm" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
+  { a: { first: "Ellen B.", nick: "Viking", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" },
     division: "Women's Open Weight 75kg", arm: "Right arm" },
   { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
@@ -60,7 +60,7 @@ const MATCHES = [
   { a: { first: "Martin", last: "Vodopija", country: "at", photo: "martin-vodpija", instagram: "martin_armwrestling" },
     b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2", instagram: "_24david24", tiktok: "24david24_" },
     division: "Lightweight 77kg", arm: "" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
+  { a: { first: "Ellen B.", nick: "Viking", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking" },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" },
     division: "Women's Middleweight 70kg", arm: "Left arm" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11" },
@@ -95,6 +95,9 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const full = x => (x.first + " " + x.last).trim();
+// nickname in red quotes, e.g. Vladislav "VladTren" Maliuc
+const nickHTML = x => x && x.nick ? `<span class="nick">“${esc(x.nick)}”</span>` : "";
+const firstHTML = x => [x.first ? esc(x.first) : "", nickHTML(x)].filter(Boolean).join(" ");
 
 /* ---------- header: white & centred -> black & full width ---------- */
 const header = $("#site-header");
@@ -207,7 +210,7 @@ const STATS = [
 ];
 
 const nameBlock = (x, side) => x
-  ? `<div class="b-name b-name-${side}">${x.first ? `<span class="b-first">${esc(x.first)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
+  ? `<div class="b-name b-name-${side}">${x.first || x.nick ? `<span class="b-first">${firstHTML(x)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
   : `<div class="b-name b-name-${side}"><span class="b-first">To be announced</span><span class="b-last b-tba">TBA</span></div>`;
 
 const detailHTML = (a, b, division, arm) => {
@@ -219,9 +222,9 @@ const detailHTML = (a, b, division, arm) => {
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
-        <span class="bd-name bd-name-a">${esc(full(a))}${socials(a, false)}</span>
+        <span class="bd-name bd-name-a">${[firstHTML(a), esc(a.last)].filter(Boolean).join(" ")}${socials(a, false)}</span>
         <span class="bd-div">${esc(division)}${arm ? ` &middot; ${esc(arm)}` : ""}</span>
-        <span class="bd-name bd-name-b">${socials(b, true)}${esc(full(b))}</span>
+        <span class="bd-name bd-name-b">${socials(b, true)}${[firstHTML(b), esc(b.last)].filter(Boolean).join(" ")}</span>
       </div>
       <div class="bd-body">
         <div class="bd-photo bd-photo-a"><img src="${body(a.photo)}" alt="" loading="lazy"></div>
@@ -823,6 +826,7 @@ if (athletesEl) {
     if (!r.divs.includes(info.div)) r.divs.push(info.div);   // listed in every division they pulled in
     if (x.instagram) r.instagram = x.instagram;
     if (x.tiktok) r.tiktok = x.tiktok;
+    if (x.nick) r.nick = x.nick;
     if (!r.instagram && ATHLETE_IG[full(x)]) r.instagram = ATHLETE_IG[full(x)];
     if (info.img) r.img = info.img;               // later events overwrite: newest photo wins
     if (!r.events.includes(info.event)) r.events.push(info.event);
@@ -858,7 +862,7 @@ if (athletesEl) {
         <img src="${a.img || SIL}" alt="${esc(full(a))}" loading="lazy">
       </div>
       <div class="ath-info">
-        <p class="ath-first">${a.first ? esc(a.first) : "&nbsp;"}</p>
+        <p class="ath-first">${a.first || a.nick ? firstHTML(a) : "&nbsp;"}</p>
         <h3 class="ath-last"><span>${esc(a.last)}</span></h3>
         <div class="ath-country">${country(a)}${igIcon(a)}${ttIcon(a)}</div>
         <div class="ath-meta">${record}<span class="ath-events">${a.events.map(e => e.replace("LPAL ", "")).join(" · ").replace(/^/, "LPAL ")}</span></div>

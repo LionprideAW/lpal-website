@@ -176,8 +176,8 @@ const MATCHES = [
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc", followers: 1419800 },
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24", followers: 1228000 }, division: "Middleweight 95kg" },
   { a: { first: "Philipp", last: "Stahlhofen", country: "de", photo: "philipp-stahlhofen", instagram: "philipp_stahlhofen" },
-    b: { first: "Vladislav “VladTren”", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" }, division: "Welterweight 85kg" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
+    b: { first: "Vladislav", nick: "VladTren", last: "Maliuc", country: "ro", photo: "vladislav-maliuc", instagram: "vladtren00001" }, division: "Welterweight 85kg" },
+  { a: { first: "Ellen B.", nick: "Viking", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Ivana", last: "Hradská", country: "sk", photo: "ivana-hradska-3", instagram: "hradska_ivana" }, division: "Women's Open Weight" },
   { a: { first: "Denis", last: "Gruber", country: "at", photo: "denis-gruber-2", instagram: "gruber.denis" },
     b: { first: "Gabriele", last: "Giurdanella", country: "it", photo: "gabriele-giurdanella", instagram: "gabriele__giurdanella" }, division: "Middleweight 95kg" },
@@ -185,7 +185,7 @@ const MATCHES = [
     b: { first: "Nikolay", last: "Tsankov", country: "bg", photo: "nikolay-tsankov", instagram: "tsankov.armwrestling" }, division: "Super Heavyweight 115kg+" },
   { a: { first: "Martin", last: "Vodopija", country: "at", photo: "martin-vodpija", instagram: "martin_armwrestling" },
     b: { first: "David", last: "Garcia", country: "es", photo: "david-garcia-2", instagram: "_24david24", tiktok: "24david24_", followers: 1361000 }, division: "Lightweight 77kg" },
-  { a: { first: "Ellen B.", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
+  { a: { first: "Ellen B.", nick: "Viking", last: "Åkesson", country: "se", photo: "ellen-akesson", instagram: "ellen.viking", tiktok: "ellenviking", followers: 1546000 },
     b: { first: "Megan", last: "Stone", country: "at", photo: "megan-stone", instagram: "fit_megan_stone__" }, division: "Women's Middleweight 70kg" },
   { a: { first: "Gocha", last: "Sitchinava", country: "ge", photo: "gocha-sitchinava", instagram: "sichiarm11", followers: 13988 },
     b: { first: "Tunahan", last: "İlaslan", country: "tr", photo: "tunahan-ilaslan", instagram: "tunahan_ilaslan" }, division: "Lightweight 77kg" }
@@ -201,6 +201,7 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const full = x => (x.first + " " + x.last).trim();
+const nickHTML = x => x && x.nick ? `<span class="nick">“${esc(x.nick)}”</span>` : "";
 const eur = n => typeof n === "number" ? "€" + n.toLocaleString("en-US") : n;
 const short = n => n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, "") + "M" : n >= 1e3 ? Math.round(n / 1e3) + "K" : String(n);
 const flag = c => c ? `<img class="p-flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="20" height="15" loading="lazy" onerror="this.remove()">` : "";
@@ -227,7 +228,7 @@ const side = (x, k, hide) => {
     <div class="p-ath-img"><img src="${img}" alt="" loading="lazy" decoding="async">${!hide && x.followers ? `<span class="p-fol">${short(x.followers)} followers</span>` : ""}</div>
     <div class="p-ath-txt">
       ${hide ? `<p class="p-first">To be announced</p><p class="p-last">TBA</p>` :
-        `${x.first ? `<p class="p-first">${esc(x.first)}</p>` : ""}<p class="p-last">${esc(x.last)}</p>
+        `${x.first || x.nick ? `<p class="p-first">${[x.first ? esc(x.first) : "", nickHTML(x)].filter(Boolean).join(" ")}</p>` : ""}<p class="p-last">${esc(x.last)}</p>
          <p class="p-ctry">${flag(x.country)}${esc(COUNTRIES[x.country] || "")}</p>
          <div class="p-socs">${socials(x)}</div>`}
     </div>
