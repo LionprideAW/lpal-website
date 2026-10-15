@@ -142,3 +142,5 @@ a{color:inherit}
 /* keep his face visible: farewell text sits in the lower part of the photo */
 .m-end-text{justify-content:flex-end;padding-bottom:clamp(60px,12vh,140px)}
 .m-end-shade{background:radial-gradient(ellipse 70% 60% at 50% 40%,transparent 30%,#000 100%),linear-gradient(180deg,#000 0%,transparent 22%,transparent 45%,rgba(0,0,0,.85) 80%,#000 100%)}
+.m-ph figcaption{max-width:min(600px,82%);line-height:1.35}
+@media (max-width:760px){.m-ph figcaption{position:static;max-width:none;margin-top:14px;padding:0 2px;text-shadow:none;color:#d8d3c8}.m-ph figcaption b{font-size:40px}}
