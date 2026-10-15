@@ -40,7 +40,7 @@ const MATCHES = [
     b: { first: "Nemanja", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
     division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
-    b: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
+    b: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
     division: "Heavyweight 115kg", arm: "Left arm" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc" },
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24" },
@@ -340,7 +340,7 @@ const PAST_EVENTS = {
   "lpal-2": {
     photos: "assets/img/lpal2",
     matches: [
-      { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis" },
+      { a: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis" },
         b: { first: "Peter", last: "Celes", country: "sk", photo: "peter-celes" },
         winner: "a", score: [3, 0], division: "Light Heavyweight 105kg", arm: "Right arm", video: "WA-kChIg_D4" },
       { a: { first: "Toms", last: "Rozits", country: "lv", photo: "toms-rozits" },
@@ -393,7 +393,7 @@ const PAST_EVENTS = {
       { a: { first: "Bastien", last: "Cervelli", country: "fr", photo: "bastien-cervelli" },
         b: { first: "Andrija", last: "Simic", country: "hr", photo: "andrija-simic" },
         winner: "a", score: [3, 1], division: "Light Heavyweight 105kg", arm: "Right arm", video: "hkWi8VEi2W4" },
-      { a: { first: "Sandris", last: "Sedis", country: "lv", photo: "sandris-sedis" },
+      { a: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis" },
         b: { first: "Beniamin", last: "Blajan", country: "ro", photo: "beniamin-blajan" },
         winner: "a", score: [3, 1], division: "Heavyweight 115kg", arm: "Left arm", video: "DoJyxREyLRY" },
       { a: { first: "Slobodan", last: "Novakovic", country: "rs", photo: "slobodan-novakovic" },
