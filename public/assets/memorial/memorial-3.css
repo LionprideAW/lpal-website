@@ -144,3 +144,13 @@ a{color:inherit}
 .m-end-shade{background:radial-gradient(ellipse 70% 60% at 50% 40%,transparent 30%,#000 100%),linear-gradient(180deg,#000 0%,transparent 22%,transparent 45%,rgba(0,0,0,.85) 80%,#000 100%)}
 .m-ph figcaption{max-width:min(600px,82%);line-height:1.35}
 @media (max-width:760px){.m-ph figcaption{position:static;max-width:none;margin-top:14px;padding:0 2px;text-shadow:none;color:#d8d3c8}.m-ph figcaption b{font-size:40px}}
+/* farewell words */
+.m-end-text .m-end-name{font-size:clamp(52px,7vw,96px);margin-top:6px}
+.m-end-msg{font-family:var(--serif);font-style:italic;font-size:clamp(20px,2.1vw,28px);line-height:1.45;color:#f1ede4;max-width:780px;margin-top:16px;text-shadow:0 2px 20px rgba(0,0,0,.8)}
+.m-lion{font-family:var(--display);font-size:clamp(30px,3.4vw,46px);letter-spacing:.06em;line-height:1;color:var(--gold-2);margin-top:22px}
+.m-end-sub{letter-spacing:.2em;line-height:1.7;max-width:640px}
+.m-end.show .m-end-text>:nth-child(5){transition-delay:2.4s}
+.m-end-text{padding-bottom:clamp(40px,8vh,100px)}
+.m-end-shade{background:radial-gradient(ellipse 70% 60% at 50% 35%,transparent 25%,#000 100%),linear-gradient(180deg,#000 0%,transparent 20%,transparent 35%,rgba(0,0,0,.88) 68%,#000 100%)}
+@media (max-width:760px){.m-end-msg{font-size:18px}.m-wings-sm{width:180px}}
+.m-end-stick::after{opacity:calc(max(0, var(--e) - .72) * 1.2)}
