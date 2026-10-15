@@ -42,8 +42,8 @@
 (() => {
   const FR = {
   "back": "Retour à LPAL",
-  "kicker": "En mémoire de",
-  "sub": "Athlète de bras de fer <i></i> France",
+  "kicker": "En mémoire d’",
+  "sub": "Sportif <i></i> France",
   "quote": "Certains athlètes n’ont besoin que de quelques instants sur scène pour laisser un héritage qui vivra pour toujours.",
   "i1": "Nous avons eu l’honneur et le privilège de connaître Ethan et de partager avec lui deux événements inoubliables. Même si le temps passé ensemble a été bien trop court, les souvenirs qu’il nous a laissés resteront à jamais dans nos cœurs.",
   "i2": "Il est monté sur scène avec un sourire capable d’illuminer toute la salle, il a tiré de tout son cœur, et il en est reparti porté par l’amour, le respect et les acclamations de toute une salle.",
