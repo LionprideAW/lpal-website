@@ -168,6 +168,5 @@ a{color:inherit}
 .m-lang button:not([aria-pressed="true"]):hover{color:var(--gold-2)}
 @media (max-width:600px){.m-back{display:none}.m-lang button{padding:7px 12px;font-size:11px}}
 /* older iPhones ignore overflow-x:clip: never let the sliding photos widen the page */
-html,body{overflow-x:hidden}
-main{overflow:hidden;width:100%}
+.m-chapter,.m-intro{overflow:hidden}
 .m-top{right:0;max-width:100vw}
