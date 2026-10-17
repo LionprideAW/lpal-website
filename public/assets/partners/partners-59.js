@@ -163,11 +163,7 @@ const PACKAGES = [
 ];
 const CATS = [["all", "All"], ["headline", "Headline"], ["table", "Table"], ["matches", "Matches"], ["jersey", "Jersey"], ["stream", "Livestream & clips"], ["arena", "Arena"], ["entry", "Entry deals"]];
 /* ---------- page versions ----------
-   The same file powers three private pages, chosen by <html data-variant="...">:
-   (none)   /partners-lpal4          all packages, medium-level sponsors
-   kick     /partners-lpal4-kick     one exclusive streaming & presenting package for KICK
-   premium  /partners-lpal4-premium  big brands: only the large packages, higher prices
-   Prices marked from: true are shown as "from €X". */
+   Chosen by <html data-variant="...">. Prices marked from: true are shown as "from €X". */
 const VARIANT = document.documentElement.dataset.variant || "";
 const KEEP = id => (PACKAGES.find(p => p.id === id) || {});
 if (VARIANT === "kick") {
