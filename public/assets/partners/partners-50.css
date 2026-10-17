@@ -749,10 +749,4 @@ a{color:inherit}
 .d-why-facts li{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
 .d-donut b{font-size:28px}
 .d-type .d-note{margin-top:18px}
-[hidden][data-period]{display:none!important}
-.d-kpis{grid-template-columns:1fr}
-.d-trend{grid-column:1/-1}
-.d-kpi-main{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
-.d-kpi-main .d-k{width:100%}
-.d-kpi-main b{font-size:clamp(56px,6vw,88px)}
-.d-src{grid-template-columns:repeat(3,minmax(0,1fr))}@media (max-width:760px){.d-src{grid-template-columns:1fr 1fr}}
+

@@ -19,3 +19,15 @@
   Referrer-Policy: strict-origin-when-cross-origin
 /in-memory-*
   Cache-Control: no-cache
+/partners-lpal4-kick
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+/partners-lpal4-kick.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+/partners-lpal4-premium
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+/partners-lpal4-premium.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
