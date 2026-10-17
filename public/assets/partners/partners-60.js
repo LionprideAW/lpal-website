@@ -169,7 +169,7 @@ const KEEP = id => (PACKAGES.find(p => p.id === id) || {});
 if (VARIANT === "kick") {
   PACKAGES.forEach(p => { p.hide = true; });
   PACKAGES.unshift(
-    { id: "kick", cat: "headline", name: "Full presenting partnership", price: 60000, neg: true, tag: "LPAL 4 presented by KICK", lead: "Proposed investment",
+    { id: "kick", cat: "headline", name: "Full presenting partnership", price: 60000, tag: "LPAL 4 presented by KICK", lead: "Proposed investment",
       covers: ["j-front", "t-c1", "t-c2", "t-c3", "t-c4"],
       jerseyText: "The KICK logo on the chest of every athlete jersey, in every winner photo and interview",
       items: ["Exclusive live streaming rights: LPAL 4 is streamed only on KICK",
@@ -182,7 +182,7 @@ if (VARIANT === "kick") {
               "KICK on every official poster and in all athlete collaboration posts",
               "KICK integrated into the athletes' contracted reels",
               "Post-event report: official KICK stream statistics, clip views and social reach"] },
-    { id: "kick-broadcast", cat: "headline", name: "Broadcast-only partnership", price: 25000, neg: true, tag: "Streaming only", lead: "Proposed investment",
+    { id: "kick-broadcast", cat: "headline", name: "Broadcast-only partnership", price: 25000, tag: "Streaming only", lead: "Proposed investment",
       items: ["Exclusive live streaming rights: LPAL 4 is streamed only on KICK",
               "KICK logo in the livestream",
               "Every announcement tells fans where to watch: live and free on KICK",
@@ -313,7 +313,7 @@ const packHTML = p => `<article class="p-pack${p.id === "presenting" || p.id ===
   ${VARIANT === "kick" ? DISCUSS(p.name) : p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
   ${GROUPS[p.id] ? groupExtra(p.id) : ""}
 </article>`;
-$("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false && isShown(p)).map(packHTML).join("");
+if (!$("#p-packs").children.length) $("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false && isShown(p)).map(packHTML).join("");
 Object.keys(GROUPS).forEach(gid => { const card = $(`.p-pack[data-id="${gid}"]`), btn = card && $(".p-expand", card);
   if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderGroupList(); }); });
 document.addEventListener("p-sel", renderGroupList);
