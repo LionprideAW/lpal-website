@@ -644,7 +644,7 @@ document.addEventListener("error", e => {
     const grid = [0, 116000, 232000].map(v => `<line class="d-grid-l" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="d-ylab" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v ? Math.round(v / 1000) + "K" : "0"}</text>`).join("");
     const xl = JSON.parse(chart.dataset.x || '[["19 Jul",0],["1 Sep",44],["16 Oct",89]]').map(([t, i], k) => `<text class="d-xlab" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 2 ? "end" : "middle"}">${t}</text>`).join("");
     const start = data.findIndex(v => v > 60000) - 1, peak = data.indexOf(Math.max(...data));
-    const mark = start > 0 ? `<g class="d-mark"><line x1="${x(start)}" x2="${x(start)}" y1="${T}" y2="${y(0)}"/><text x="${x(start) < W * 0.4 ? x(start) + 8 : x(start) - 8}" y="${T + 10}" text-anchor="${x(start) < W * 0.4 ? "start" : "end"}">LPAL 4 campaign starts</text></g>` : "";
+    const mark = start > 0 ? `<g class="d-mark"><line x1="${x(start)}" x2="${x(start)}" y1="${T}" y2="${y(0)}"/></g>` : "";
     chart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Daily views over the last 90 days" role="img">
       <defs><linearGradient id="dGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e1261c" stop-opacity=".45"/><stop offset="1" stop-color="#e1261c" stop-opacity="0"/></linearGradient></defs>
       ${grid}${xl}<path class="d-area" d="${area}"/><path class="d-line" d="${d}"/>${mark}
