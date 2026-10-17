@@ -7,10 +7,12 @@
 /lpal-*
   Cache-Control: no-cache
 /partners-lpal4
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
 /partners-lpal4.html
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
 /assets/*
   Cache-Control: public, max-age=86400
@@ -20,14 +22,18 @@
 /in-memory-*
   Cache-Control: no-cache
 /partners-lpal4-kick
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
 /partners-lpal4-kick.html
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
 /partners-lpal4-premium
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
 /partners-lpal4-premium.html
-  Cache-Control: no-cache
+  Cache-Control: no-store, max-age=0
+  CDN-Cache-Control: no-store
   X-Robots-Tag: noindex, nofollow
