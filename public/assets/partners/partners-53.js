@@ -18,7 +18,7 @@ const STATS = [
   { n: "5.6M+", l: "Combined followers", s: "Athletes on the card + league, Instagram & TikTok" },
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
-  { n: "2.6M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
+  { n: "2.9M", l: "Instagram views", s: "Last 90 days, main LPAL profile" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
 ];
@@ -442,7 +442,7 @@ document.addEventListener("error", e => {
    Arrows / swipe to switch, click or scroll to zoom, drag to move around.
    ========================================================== */
 (function viewer() {
-  const GROUPS = [".p-action-grid", ".p-cred-grid", ".p-gallery", ".p-expo-grid", ".p-reach-grid"];
+  const GROUPS = [".p-action-grid", ".p-cred-grid", ".p-gallery", ".p-expo-grid", ".p-dash-proof"];
   document.body.insertAdjacentHTML("beforeend", `
   <div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Photo viewer">
     <div class="lb-stage" id="lb-stage"><img id="lb-img" alt=""></div>
@@ -571,46 +571,57 @@ document.addEventListener("error", e => {
 
 
 /* ==========================================================
-   REACH METER: the bars move up and down with the scroll position
-   (scroll down = bars rise and numbers count up, scroll back = they go down).
+   AUDIENCE DASHBOARD: Instagram insights (last 90 days).
+   When the board scrolls into view: numbers count up, bars and columns grow,
+   the daily-views line draws itself.
    ========================================================== */
-(function reachMeter() {
-  const box = document.getElementById("p-scale"); if (!box) return;
-  const plot = box.querySelector(".p-meter-plot"), MAX = +box.dataset.max;
-  const cols = [...box.querySelectorAll(".p-col")].map(c => ({ main: c.classList.contains("p-col-v"), v: +c.dataset.v, bar: c.querySelector(".p-col-bar"), val: c.querySelector(".p-col-val") }));
-  const fmt = n => n >= 1e6 ? (n / 1e6).toFixed(n >= 2.195e6 ? 1 : 2) + "M"
-                 : n >= 1e4 ? Math.round(n / 1e3) + "K" : n >= 1e3 ? parseFloat((n / 1e3).toFixed(1)) + "K" : Math.round(n).toLocaleString("en");
-  const ease = t => t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
-  let cur = 0, target = 0, raf = 0;
+(function dashboard() {
+  const board = document.getElementById("d-board"); if (!board) return;
   const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const measure = () => {
-    const r = plot.getBoundingClientRect(), vh = innerHeight;
-    // 0 when the meter enters at the bottom, 1 when its bottom reaches 88% of the screen
-    target = Math.min(1, Math.max(0, (vh - r.top) / (r.height + vh * 0.12)));
-  };
+
+  // daily views chart (values traced from the Instagram screenshot, 19 Jul - 16 Oct)
+  const chart = document.getElementById("d-chart");
   const draw = () => {
-    const h = plot.clientHeight - 116;
-    cols.forEach((c, i) => {
-      // the followers bar leads, the views bar follows: they move like parameters on a mixer
-      const lag = c.main ? 0.12 : 0;
-      const p = ease(Math.min(1, Math.max(0, (cur - lag) / (1 - lag))));
-      const px = Math.max(3, c.v / MAX * h * p);
-      c.bar.style.height = px + "px";
-      c.val.style.transform = `translateY(${-px}px)`;
-      c.val.textContent = fmt(c.v * p);
-    });
-    box.classList.toggle("go", cur > 0.97);
+    const data = JSON.parse(chart.dataset.views), W = chart.clientWidth, H = chart.clientHeight;
+    const L = 40, R = 8, T = 14, B = 26, max = 232000;
+    const x = i => L + (W - L - R) * i / (data.length - 1), y = v => T + (H - T - B) * (1 - Math.min(v, max) / max);
+    const pts = data.map((v, i) => [x(i), y(v)]);
+    let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
+    for (let i = 1; i < pts.length; i++) {           // smooth curve
+      const [x0, y0] = pts[i - 1], [x1, y1] = pts[i], cx = (x0 + x1) / 2;
+      d += ` C${cx.toFixed(1)},${y0.toFixed(1)} ${cx.toFixed(1)},${y1.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;
+    }
+    const area = `${d} L${x(data.length - 1).toFixed(1)},${y(0)} L${L},${y(0)} Z`;
+    const grid = [0, 116000, 232000].map(v => `<line class="d-grid-l" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="d-ylab" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v ? Math.round(v / 1000) + "K" : "0"}</text>`).join("");
+    const xl = [["19 Jul", 0], ["1 Sep", 44], ["16 Oct", data.length - 1]].map(([t, i], k) => `<text class="d-xlab" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 2 ? "end" : "middle"}">${t}</text>`).join("");
+    const start = data.findIndex(v => v > 60000) - 1, peak = data.indexOf(Math.max(...data));
+    const mark = start > 0 ? `<g class="d-mark"><line x1="${x(start)}" x2="${x(start)}" y1="${T}" y2="${y(0)}"/><text x="${x(start) - 8}" y="${T + 10}" text-anchor="end">LPAL 4 campaign starts</text></g>` : "";
+    chart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Daily views over the last 90 days" role="img">
+      <defs><linearGradient id="dGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e1261c" stop-opacity=".45"/><stop offset="1" stop-color="#e1261c" stop-opacity="0"/></linearGradient></defs>
+      ${grid}${xl}<path class="d-area" d="${area}"/><path class="d-line" d="${d}"/>${mark}
+      <circle class="d-peak" cx="${x(peak)}" cy="${y(data[peak])}" r="4.5"/></svg>`;
+    const line = chart.querySelector(".d-line");
+    line.style.setProperty("--len", Math.ceil(line.getTotalLength()));
   };
-  const loop = () => {
-    cur += (target - cur) * 0.12;
-    if (Math.abs(target - cur) < 0.001) cur = target;
-    draw();
-    raf = cur !== target ? requestAnimationFrame(loop) : 0;
+  draw();
+  let rw = 0; addEventListener("resize", () => { cancelAnimationFrame(rw); rw = requestAnimationFrame(draw); });
+
+  // count-up numbers
+  const fmt = (n, dec) => dec ? n.toFixed(dec) : Math.round(n).toLocaleString("en");
+  const countUp = () => {
+    const els = [...board.querySelectorAll("[data-n]")], t0 = performance.now(), dur = 2000;
+    const ease = t => 1 - Math.pow(1 - t, 3);
+    const step = now => {
+      const p = Math.min(1, (now - t0) / dur);
+      els.forEach(el => { const n = +el.dataset.n, dec = +(el.dataset.dec || 0); el.textContent = fmt(n * ease(p), dec) + (el.dataset.suf || ""); });
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
   };
-  const onScroll = () => { measure(); if (reduce) { cur = target; draw(); } else if (!raf) raf = requestAnimationFrame(loop); };
-  addEventListener("scroll", onScroll, { passive: true });
-  addEventListener("resize", onScroll);
-  measure(); cur = target; draw();
+  const go = () => { board.classList.add("in"); if (reduce) { board.querySelectorAll("[data-n]").forEach(el => { el.textContent = fmt(+el.dataset.n, +(el.dataset.dec || 0)) + (el.dataset.suf || ""); }); } else countUp(); };
+  if (!("IntersectionObserver" in window)) return go();
+  const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); go(); } }, { threshold: 0.12 });
+  io.observe(board);
 })();
 
 /* target audience: flags of every country on the LPAL 4 card (Germany first) */
