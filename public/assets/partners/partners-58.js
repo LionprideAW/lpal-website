@@ -173,7 +173,7 @@ const KEEP = id => (PACKAGES.find(p => p.id === id) || {});
 if (VARIANT === "kick") {
   PACKAGES.forEach(p => { p.hide = true; });
   PACKAGES.unshift(
-    { id: "kick", cat: "headline", name: "LPAL 4 presented by KICK", price: 62500, from: true, once: true, tag: "Exclusive streaming & presenting partner",
+    { id: "kick", cat: "headline", name: "Full presenting partnership", price: 60000, neg: true, tag: "LPAL 4 presented by KICK", lead: "Proposed investment",
       covers: ["j-front", "t-c1", "t-c2", "t-c3", "t-c4"],
       jerseyText: "The KICK logo on the chest of every athlete jersey, in every winner photo and interview",
       items: ["Exclusive live streaming rights: LPAL 4 is streamed only on KICK",
@@ -185,12 +185,19 @@ if (VARIANT === "kick") {
               "KICK branding in every walkout: livestream walkout graphics and the big screen in the arena",
               "KICK on every official poster and in all athlete collaboration posts",
               "KICK integrated into the athletes' contracted reels",
-              "Post-event report: stream statistics (peak and average viewers, watch time) and clip views"] },
-    { id: "kick-league", cat: "headline", name: "Long-term league partner", price: "On request", tag: "All LPAL events",
+              "Post-event report: official KICK stream statistics, clip views and social reach"] },
+    { id: "kick-broadcast", cat: "headline", name: "Broadcast-only partnership", price: 25000, neg: true, tag: "Streaming only", lead: "Proposed investment",
+      items: ["Exclusive live streaming rights: LPAL 4 is streamed only on KICK",
+              "KICK logo in the livestream",
+              "Every announcement tells fans where to watch: live and free on KICK",
+              "Post-event report: official KICK stream statistics and clip views"],
+      without: "No event naming, LED, table or jersey branding" },
+    { id: "kick-league", cat: "headline", name: "Long-term league partner", price: "On request", tag: "All LPAL events", lead: "Investment",
       items: ["All LPAL events streamed exclusively on KICK",
               "Regular programming on KICK between the events: podcasts, match build-up and highlights",
               "Everything in “LPAL 4 presented by KICK”, at every LPAL event",
               "Priority on new formats and event dates"] });
+  STATS[1] = { n: "100K+", l: "Live viewer goal", s: "The first LPAL stream on KICK" };
 }
 if (VARIANT === "premium") {
   const show = { presenting: 2, drink: 2, supplement: 2, premium: 2, "j-full": 1.5, "table-full": 1.5, led: 1.5 };
@@ -244,7 +251,9 @@ const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": 
 const full = x => (x.first + " " + x.last).trim();
 const nickHTML = x => x && x.nick ? `<span class="nick">“${esc(x.nick)}”</span>` : "";
 const eur = n => typeof n === "number" ? "€" + n.toLocaleString("en-US") : n;
-const priceTxt = p => (p.from && typeof p.price === "number" ? "from " : "") + eur(p.price);
+const priceTxt = p => (p.from && typeof p.price === "number" ? "from " : "") + eur(p.price) + (p.neg ? " · negotiable" : "");
+const DISCUSS = name => { const t = `Hello LPAL team,\n\nWe would like to discuss the LPAL 4 × KICK proposal: ${name}.\n\nName:\nPhone:\n\nThank you!`;
+  return `<div class="p-pack-btns"><a class="p-btn p-btn-red" href="mailto:${SETTINGS.email}?subject=${encodeURIComponent("LPAL 4 × KICK: " + name)}&body=${encodeURIComponent(t)}">Discuss this option</a><a class="p-btn p-btn-wa" href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(t)}" target="_blank" rel="noopener">WhatsApp</a></div>`; };
 const short = n => n >= 1e6 ? (n / 1e6).toFixed(n >= 1e7 ? 0 : 1).replace(/\.0$/, "") + "M" : n >= 1e3 ? Math.round(n / 1e3) + "K" : String(n);
 const flag = c => c ? `<img class="p-flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="20" height="15" loading="lazy" onerror="this.remove()">` : "";
 const IG = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
@@ -303,9 +312,9 @@ const renderGroupList = () => Object.entries(GROUPS).forEach(([gid, g]) => { con
 const packHTML = p => `<article class="p-pack${p.id === "presenting" || p.id === "kick" ? " p-pack-hero" : ""}" data-cat="${p.cat}" data-id="${p.id}">
   <div class="p-pack-top">${p.tag ? `<span class="p-pack-tag">${esc(p.tag)}</span>` : ""}${p.once ? `<span class="p-pack-once">1 partner only</span>` : ""}</div>
   <h3>${esc(p.name)}</h3>
-  <p class="p-price">${priceTxt(p)}${typeof p.price === "number" ? `<small>net${p.max ? " per spot" : ""}</small>` : ""}</p>
-  <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
-  ${p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
+  ${p.lead ? `<p class="p-price-lead">${esc(p.lead)}</p>` : ""}<p class="p-price">${p.from && typeof p.price === "number" ? "from " : ""}${eur(p.price)}${typeof p.price === "number" ? `<small>${p.neg ? "negotiable · " : ""}net${p.max ? " per spot" : ""}</small>` : ""}</p>
+  <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}${p.without ? `<li class="p-without">${esc(p.without)}</li>` : ""}</ul>
+  ${VARIANT === "kick" ? DISCUSS(p.name) : p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
   ${GROUPS[p.id] ? groupExtra(p.id) : ""}
 </article>`;
 $("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false && isShown(p)).map(packHTML).join("");
@@ -313,8 +322,8 @@ Object.keys(GROUPS).forEach(gid => { const card = $(`.p-pack[data-id="${gid}"]`)
   if (btn) btn.addEventListener("click", () => { const ul = $(".p-tlist", card), open = ul.hidden; ul.hidden = !open; btn.setAttribute("aria-expanded", open); card.classList.toggle("p-pack-open", open); renderGroupList(); }); });
 document.addEventListener("p-sel", renderGroupList);
 const usedCats = CATS.filter(([k]) => k === "all" || PACKAGES.some(p => isShown(p) && p.cat === k && p.grid !== false));
-$("#p-filter").innerHTML = usedCats.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
-if (usedCats.length <= 2) $("#p-filter").hidden = true;
+if ($("#p-filter")) $("#p-filter").innerHTML = usedCats.map(([k, n], i) => `<button class="p-chip${i ? "" : " on"}" data-k="${k}" role="tab">${esc(n)}</button>`).join("");
+if (usedCats.length <= 2 && $("#p-filter")) $("#p-filter").hidden = true;
 const filterTo = k => {
   $$(".p-chip").forEach(x => x.classList.toggle("on", x.dataset.k === k));
   $$(".p-pack").forEach(p => p.hidden = k !== "all" && p.dataset.cat !== k);
@@ -331,6 +340,7 @@ const addPack = id => {
 };
 const togglePack = id => { sel.has(id) ? sel.delete(id) : addPack(id); renderSel(); };
 const renderSel = () => {
+  if (!$("#p-sel")) { document.dispatchEvent(new Event("p-sel")); return; }
   const list = PACKAGES.filter(p => sel.has(p.id));
   $("#p-sel").innerHTML = list.length ? list.map(p => { const q = sel.get(p.id);
     return `<li><span>${esc(p.name)}${p.max ? `<em class="p-qty"><button type="button" data-dec="${p.id}" aria-label="One less">&minus;</button>${q}<button type="button" data-inc="${p.id}" aria-label="One more">+</button></em>` : ""}</span><b>${p.from ? "from " : ""}${eur(typeof p.price === "number" ? p.price * q : p.price)}</b><button type="button" aria-label="Remove ${esc(p.name)}" data-rm="${p.id}">&times;</button></li>`; }).join("")
@@ -353,8 +363,8 @@ const renderSel = () => {
   const wa = $("#p-wa"); if (wa) wa.href = `https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(body)}`;
 };
 $$(".p-add").forEach(b => b.addEventListener("click", () => { const p = pack(b.dataset.id); if (sel.has(p.id) && !p.max) sel.delete(p.id); else addPack(p.id); renderSel(); }));
-$("#p-send").insertAdjacentHTML("afterend", `<a class="p-btn p-btn-wa p-btn-block" id="p-wa" href="#" target="_blank" rel="noopener">Send via WhatsApp</a>`);
-$("#p-contact-alt").innerHTML = `<a href="mailto:${esc(SETTINGS.email)}">${esc(SETTINGS.email)}</a><br><a href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp Business ${esc(SETTINGS.whatsapp)}</a>`;
+if ($("#p-send")) $("#p-send").insertAdjacentHTML("afterend", `<a class="p-btn p-btn-wa p-btn-block" id="p-wa" href="#" target="_blank" rel="noopener">Send via WhatsApp</a>`);
+if ($("#p-contact-alt")) $("#p-contact-alt").innerHTML = `<a href="mailto:${esc(SETTINGS.email)}">${esc(SETTINGS.email)}</a><br><a href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp Business ${esc(SETTINGS.whatsapp)}</a>`;
 renderSel();
 
 /* ---------- videos (click to load) ---------- */
@@ -371,9 +381,9 @@ $$(".p-vid").forEach(b => b.addEventListener("click", () => {
 const ZONES = [
   { id: "side-short", name: "Short sides", bundle: "table-sides", text: "The two ends of the table, right under the pegs. Side A faces Camera 1, the main camera: the most visible logo spot of the night." },
   { id: "side-long", name: "Long sides", bundle: "table-sides", text: "Two logos on each long side, placed towards the edges so the athletes standing there never cover them. Seen in the side shots and by the crowd." },
-  { id: "corner", name: "Top corners", bundle: "table-top", text: "Four spots on the table top, one in each corner. Seen from above in every close-up." },
+  { id: "corner", name: "Top corners", bundle: "table-top", text: "Four spots on the table top, one in each corner. Seen from above in every close-up." + (VARIANT === "kick" ? " In the proposal, all four carry the KICK logo." : "") },
   { id: "legs", name: "Leg sleeves", text: "The 50 cm sleeves on all four table legs. Booked as one set." , pack: "legs" },
-  { id: "center", name: "Centre spots", pack: "presenting", text: "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
+  { id: "center", name: "Centre spots", pack: "presenting", text: VARIANT === "kick" ? "The middle of the table top on both athlete sides, in every close-up. Reserved for KICK as presenting partner." : "The middle of the table top on both athlete sides. Reserved for the Presenting Partner." },
   { id: "floor", name: "Floor", pack: "floor", text: "The floor around the table, seen in the wide shots of every match." }
 ];
 $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : " on"}" data-z="${z.id}">${esc(z.name)}</button>`).join("");
@@ -442,7 +452,8 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
     $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}
       ${list.length ? `<ul class="p-spots">${list.map(row).join("")}</ul>` : ""}
       ${bundle ? `<p class="p-spot-bundle">Or book all of them: <a href="#packages" data-bundle="${bundle.id}">${esc(bundle.name)} · ${priceTxt(bundle)}</a>${bundle.id === "table-sides" || bundle.id === "table-top" || bundle.id === "legs" ? ` <button type="button" class="p-spot-btn${sel.has(bundle.id) ? " on" : ""}" data-spot-add="${bundle.id}">${sel.has(bundle.id) ? "✓ Added" : "Add all"}</button>` : ""}</p>` : ""}
-      ${single ? `<span class="p-zone-act"><span class="p-zone-price">${VARIANT === "kick" ? "Included in " : ""}${esc(single.name)} · ${priceTxt(single)}</span>${single.id === "presenting" || single.id === "kick" ? `<a class="p-btn p-btn-ghost p-btn-sm" href="#packages" id="p-zone-see">See package</a>` : `<button type="button" class="p-btn p-btn-red p-btn-sm" data-spot-add="${single.id}">${sel.has(single.id) ? "✓ Added" : "Add to selection"}</button>`}</span>` : ""}`;
+      ${VARIANT === "kick" ? `<span class="p-zone-act"><span class="p-zone-price">${single ? "Included in the full presenting partnership" : "Can be added to the KICK partnership on request"}</span><a class="p-btn p-btn-ghost p-btn-sm" href="#proposal">See the proposal</a></span>` : ""}
+      ${single && VARIANT !== "kick" ? `<span class="p-zone-act"><span class="p-zone-price">${esc(single.name)} · ${priceTxt(single)}</span>${single.id === "presenting" || single.id === "kick" ? `<a class="p-btn p-btn-ghost p-btn-sm" href="#packages" id="p-zone-see">See package</a>` : `<button type="button" class="p-btn p-btn-red p-btn-sm" data-spot-add="${single.id}">${sel.has(single.id) ? "✓ Added" : "Add to selection"}</button>`}</span>` : ""}`;
     $$("[data-spot-add]", $("#p-zone-info")).forEach(b => b.addEventListener("click", () => { togglePack(b.dataset.spotAdd); }));
     const see = $("#p-zone-see"); if (see) see.addEventListener("click", () => filterTo("headline"));
     const bl = $("[data-bundle]"); if (bl) bl.addEventListener("click", () => filterTo("table"));
@@ -587,7 +598,7 @@ document.addEventListener("error", e => {
     + `<div class="jr-dots">${VIEWS.map((v, k) => `<button type="button" class="jr-dot${k ? "" : " on"}" data-go="${k}" aria-label="${["Front", "Side", "Back", "Other side"][k]}"></button>`).join("")}</div>`;
   const slides = $$(".jr-slide", wrap), dots = $$(".jr-dot", wrap);
   const opts = VARIANT === "kick" ? [pack("kick")] : PACKAGES.filter(p => p.cat === "jersey" && isShown(p));
-  $("#p-jr-opts").innerHTML = opts.map(p => `<button class="p-zone" data-jo="${p.id}">${esc(p.name)}</button>`).join("");
+  $("#p-jr-opts").innerHTML = opts.map(p => `<button class="p-zone" data-jo="${p.id}">${esc(VARIANT === "kick" ? "KICK chest logo" : p.name)}</button>`).join("");
   let cur = opts.some(o => o.id === "j-front") ? "j-front" : opts[0].id, idx = 0, timer = null, pausedUntil = 0;
   const covered = id => { const p = pack(id); return p.covers ? p.covers.filter(c => !pack(c).covers && c.startsWith("j-")) : [id]; };
   const isOn = id => sel.has(id) || opts.some(b => b.covers && sel.has(b.id) && b.covers.includes(id));
@@ -595,7 +606,11 @@ document.addEventListener("error", e => {
     const p = pack(cur), on = isOn(cur), parts = covered(cur);
     $$(".p-zone[data-jo]").forEach(b => b.classList.toggle("on", b.dataset.jo === cur));
     $$(".jr-spot", wrap).forEach(el => { el.classList.toggle("hl", parts.includes(el.dataset.j)); el.classList.toggle("picked", isOn(el.dataset.j)); });
-    $("#p-jr-info").innerHTML = `<b>${esc(p.name)}</b> ${esc(p.jerseyText || p.items[0])}.<span class="p-zone-act"><span class="p-zone-price">${VARIANT === "kick" ? "Included · " : ""}${priceTxt(p)}${p.tag && VARIANT !== "kick" ? ` · ${esc(p.tag)}` : ""}</span>
+    if (VARIANT === "kick") {
+      $("#p-jr-info").innerHTML = `<b>KICK on the jersey</b> ${esc(p.jerseyText)}.<span class="p-zone-act"><span class="p-zone-price">Included in the full presenting partnership</span><a class="p-btn p-btn-ghost p-btn-sm" href="#proposal">See the proposal</a></span>`;
+      return;
+    }
+    $("#p-jr-info").innerHTML = `<b>${esc(p.name)}</b> ${esc(p.jerseyText || p.items[0])}.<span class="p-zone-act"><span class="p-zone-price">${priceTxt(p)}${p.tag ? ` · ${esc(p.tag)}` : ""}</span>
       <button type="button" class="p-btn ${on ? "p-btn-white" : "p-btn-red"} p-btn-sm" id="p-jr-add">${on ? "✓ Added" : "Add to selection"}</button></span>`;
     $("#p-jr-add").addEventListener("click", () => togglePack(cur));
   };

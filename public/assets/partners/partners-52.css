@@ -751,3 +751,35 @@ a{color:inherit}
 .d-type .d-note{margin-top:18px}
 
 .d-leg{display:inline-block;width:14px;height:0;border-top:1px dashed #e9c46a;vertical-align:middle;margin-right:7px}
+
+/* ---------- KICK proposal page ---------- */
+.k-lockup{display:flex;align-items:center;gap:clamp(14px,2.4vw,26px);margin:18px 0 22px}
+.k-lockup .k-lock-lpal{width:clamp(130px,16vw,210px);height:auto}
+.k-lockup .k-lock-kick{width:clamp(120px,15vw,200px);height:auto}
+.k-x{font-family:var(--display);font-size:clamp(34px,4.4vw,56px);line-height:1;color:var(--mut)}
+.k-hero-title{max-width:17ch;font-size:clamp(42px,6.4vw,92px)}
+.k-hero-sub{margin-top:16px;max-width:52ch;font-size:clamp(16px,1.6vw,19px);color:#d8d8d8}
+.k-why-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
+.k-overview{margin:30px 0 40px;border:1px solid var(--line);background:var(--card)}
+.k-overview>div{display:grid;grid-template-columns:180px 1fr;gap:18px;padding:16px 22px;border-top:1px solid var(--line)}
+.k-overview>div:first-child{border-top:0}
+.k-overview dt{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:13px;color:var(--red);padding-top:2px}
+.k-overview dd{color:#dcdcdc;font-size:15.5px}
+.k-ov-inv{background:linear-gradient(120deg,rgba(225,38,28,.2),transparent 60%)}
+.k-ov-inv dd b{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;color:var(--fg);letter-spacing:.02em}
+.k-opt-h{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(28px,3.4vw,40px);line-height:1;margin-bottom:18px}
+.k-pack-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.p-price-lead{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:12px;color:var(--mut);margin-top:6px}
+.p-price-lead+.p-price{margin-top:2px}
+.p-pack li.p-without{color:var(--mut);font-style:italic}
+.p-pack li.p-without::before{background:none;border:1.5px solid var(--mut);width:7px;height:7px}
+.p-pack-btns{display:flex;flex-wrap:wrap;gap:10px}
+.p-pack-btns .p-btn-wa{margin-top:0}
+.k-note{margin-top:16px;color:var(--mut);font-size:14px}
+.k-talk p:not(.p-contact-alt){color:var(--mut);margin-bottom:16px}
+@media (max-width:1000px){.k-why-grid{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .k-pack-grid{grid-template-columns:1fr}
+  .k-overview>div{grid-template-columns:1fr;gap:4px;padding:14px 16px}
+  .p-pack-btns .p-btn{flex:1 1 auto;text-align:center}
+}
