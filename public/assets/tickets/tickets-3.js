@@ -27,7 +27,8 @@ const leftX = r => 352 + (12 - r) * 22.6, rightX = r => 760 + (r - 1) * 22.5;
 const floorL = (half, rows) => rows.flatMap(r => range(0, 6).map(i => [leftX(r), (half === "u" ? 547 : 674) + i * 12.3, r]));
 const floorR = (half, rows) => rows.flatMap(r => range(0, 6).map(i => [rightX(r), (half === "u" ? 558 : 666) + i * 12, r]));
 const comm = rows => rows.flatMap(r => range(0, 9).map(j => [622 + j * 12.6, 515 - (r - 1) * 22.5, r]));
-const trib = (side, rows) => rows.flatMap(r => range(0, 19).map(j => [(side === "l" ? 440 : 698) + j * 11.3, 808 + (r - 1) * 22.6, r]));
+// tribune: centre aisle lines up with the centre of the stage (x 680)
+const trib = (side, rows) => rows.flatMap(r => range(0, 19).map(j => [(side === "l" ? 443.5 : 701.5) + j * 11.3, 808 + (r - 1) * 22.6, r]));
 
 const SECTIONS = [
   { id: 1,  cat: "vip",  where: "Left of the stage · upper block",  rows: [1, 3],  seats: floorL("u", range(1, 3)),  rowLab: "top" },
@@ -42,11 +43,11 @@ const SECTIONS = [
   { id: 10, cat: "gold", where: "Right of the stage · lower block", rows: [4, 7],  seats: floorR("l", range(4, 7)),  rowLab: "bottom" },
   { id: 11, cat: "ga",   where: "Right of the stage · upper block", rows: [8, 9],  seats: floorR("u", range(8, 9)),  rowLab: "top" },
   { id: 12, cat: "ga",   where: "Right of the stage · lower block", rows: [8, 9],  seats: floorR("l", range(8, 9)),  rowLab: "bottom" },
-  { id: 13, cat: "ga",   where: "Behind the commentators",          rows: [1, 5],  seats: comm(range(1, 5)),          rowLab: "left" },
-  { id: 14, cat: "ga",   where: "Tribune · left half",              rows: [1, 5],  seats: trib("l", range(1, 5)),    rowLab: "left" },
-  { id: 15, cat: "ga",   where: "Tribune · right half",             rows: [1, 5],  seats: trib("r", range(1, 5)),    rowLab: "right" },
-  { id: 16, cat: "fan",  where: "Tribune · left half",              rows: [6, 10], seats: trib("l", range(6, 10)),   rowLab: "left" },
-  { id: 17, cat: "fan",  where: "Tribune · right half",             rows: [6, 10], seats: trib("r", range(6, 10)),   rowLab: "right" }
+  { id: 13, cat: "ga",   where: "Behind the commentators · floor level", rows: [1, 5],  seats: comm(range(1, 5)),          rowLab: "left" },
+  { id: 14, cat: "ga",   where: "Raised tribune · left half",       rows: [1, 5],  seats: trib("l", range(1, 5)),    rowLab: "left" },
+  { id: 15, cat: "ga",   where: "Raised tribune · right half",      rows: [1, 5],  seats: trib("r", range(1, 5)),    rowLab: "right" },
+  { id: 16, cat: "fan",  where: "Raised tribune · left half",       rows: [6, 10], seats: trib("l", range(6, 10)),   rowLab: "left" },
+  { id: 17, cat: "fan",  where: "Raised tribune · right half",      rows: [6, 10], seats: trib("r", range(6, 10)),   rowLab: "right" }
 ];
 SECTIONS.forEach(s => {
   const xs = s.seats.map(p => p[0]), ys = s.seats.map(p => p[1]), pad = s.id >= 14 ? 6 : 7;
@@ -79,6 +80,7 @@ const secSVG = s => {
   const tw = s.id >= 14 || s.id === 13 ? [9, 9] : [10, 9];
   return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="Section ${s.id}, ${esc(c.name)}, ${eur(c.price)}">
     <rect class="sec-bg" x="${b.x.toFixed(1)}" y="${b.y.toFixed(1)}" width="${b.w.toFixed(1)}" height="${b.h.toFixed(1)}" rx="4"/>
+    ${s.id >= 14 ? range(s.rows[0], s.rows[1]).map(rw => { const y = 808 + (rw - 1) * 22.6; return `<rect class="riser" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="22.6" style="--d:${((rw - 1) * .028).toFixed(3)}"/><rect class="step" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="3.2"/>`; }).join("") : ""}
     ${s.seats.map(p => chair(p[0], p[1], tw[0], tw[1])).join("")}
     <g class="seclab" style="--fs:${fs}"><text class="n" x="${cx}" y="${cy - (b.h > 70 ? fs * .22 : 0)}">${s.id}</text>${b.h > 70 && b.w > 55 ? `<text class="c" x="${cx}" y="${cy + fs * .55}">${esc(c.name === "General Access" ? "GENERAL" : c.name.toUpperCase())}</text>` : ""}</g>
     ${rowLabels(s)}
@@ -91,7 +93,6 @@ svgEl.innerHTML = `<defs>
   <g id="hall">
     <rect class="floor" x="210" y="238" width="1005" height="812"/>
     <path class="wall" d="M1215 238H210V1050H925M1055 1050H1215"/>
-    <rect class="zone lounge" x="291" y="300" width="236" height="190" rx="6"/><text class="zlab lounge" x="409" y="388">VIP LOUNGE</text><text class="zlab lounge" x="409" y="408" style="font-size:11px">&amp; BAR</text>
     <rect class="zone" x="705" y="246" width="280" height="137" rx="6"/><text class="zlab" x="845" y="314">FOOD &amp; DRINKS</text>
     <rect class="zone" x="1021" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1092" y="584" transform="rotate(-90 1092 584)">FOOD &amp; DRINKS</text>
     <text class="zlab" x="1205" y="262" style="text-anchor:end;font-size:11px">WC &rarr;</text>
@@ -101,7 +102,13 @@ svgEl.innerHTML = `<defs>
     <text class="stagelab" x="680" y="600">STAGE</text>
     <rect class="table" x="666" y="642" width="28" height="22" rx="2"/><text class="stagesub" x="680" y="678">TABLE</text>
     <rect class="comm" x="610" y="527" width="140" height="27" rx="3"><title>Commentators: not for sale</title></rect><text class="commlab" x="680" y="541">COMMENTATORS</text>
-    <text class="tribtag" x="430" y="788">TRIBUNE · RAISED</text>
+    <polygon class="trib-side" points="433,795 421,803 421,1036 433,1030"/><polygon class="trib-side" points="927,795 939,803 939,1036 927,1030"/>
+    <rect class="trib-base" x="433" y="795" width="494" height="235"/>
+    <g class="trib-stairs">${range(1, 10).map(rw => { const y = 808 + (rw - 1) * 22.6 - 11.3; return `<rect x="669.5" y="${y.toFixed(1)}" width="21" height="22.6"/><line x1="669.5" x2="690.5" y1="${(y + 1).toFixed(1)}" y2="${(y + 1).toFixed(1)}"/>`; }).join("")}</g>
+    <line class="trib-rail" x1="433" x2="927" y1="795" y2="795"/>
+    <text class="tribtag" x="433" y="783">RAISED TRIBUNE · ROWS RISE TOWARDS THE BACK</text>
+    <text class="tribtag" x="680" y="1044" style="text-anchor:middle">STAIRS</text>
+    <text class="tribtag" x="680" y="404" style="text-anchor:middle">FLOOR LEVEL</text>
     <path class="entry" d="M990 1046l-9 13h18z"/><text class="entrylab" x="990" y="1076">ENTRANCE</text>
     ${SECTIONS.map(secSVG).join("")}
   </g>`;
@@ -261,11 +268,13 @@ function bindPanel() {
     b.addEventListener("click", () => selectSection(+b.dataset.sec));
     b.addEventListener("mouseenter", () => hl(new Set([+b.dataset.sec]))); b.addEventListener("mouseleave", () => focusHL());
   });
+  const pv = $("#t-preview", panel); if (pv) pv.addEventListener("click", openPreview);
   const back = $(".t-back2", panel); if (back) back.addEventListener("click", () => back.dataset.to ? focusCat(back.dataset.to) : home());
 }
 const focusHL = () => state.sec ? hl(new Set([state.sec])) : state.cat ? hl(new Set(catSections(state.cat).map(s => s.id))) : hl(null);
 function renderOverview() {
-  panel.innerHTML = `<h1 class="t-ph">Pick your section</h1><p class="t-psub">Tap a section on the map, or choose a ticket type.</p>
+  panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/venue-preview-sm.webp" alt="Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune" loading="lazy"><span>How LPAL 4 will look<small>AI visualisation of the planned setup · tap to enlarge</small></span></button>
+    <h1 class="t-ph">Pick your section</h1><p class="t-psub">Tap a section on the map, or choose a ticket type.</p>
     ${Object.keys(CATS).map(card).join("")}${howto}`;
   bindPanel();
 }
@@ -309,6 +318,11 @@ function openCheckout(k) {
     : `<div class="t-soon"><h3>Tickets on sale soon</h3><p>Ticket sales for LPAL 4 open shortly. Follow us on Instagram to be the first to know.</p><a href="${SETTINGS.instagram}" target="_blank" rel="noopener">Follow LPAL on Instagram</a></div>`;
   $(".t-co-box").classList.toggle("soon", !SETTINGS.checkoutUrl);
   co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
+}
+function openPreview() {
+  $("#t-co-t").textContent = "How LPAL 4 will look · AI visualisation";
+  coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/venue-preview.webp" alt="Visualisation of the LPAL 4 setup"><p class="t-small" style="padding:10px 16px 14px;margin:0">AI-generated visualisation of the planned setup. The real hall, lights and layout can differ.</p>`;
+  $(".t-co-box").classList.add("soon"); co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
 }
 function openShirt(c) {
   $("#t-co-t").textContent = "LPAL 4 event shirt · front & back";
