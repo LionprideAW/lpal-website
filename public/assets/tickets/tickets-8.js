@@ -15,9 +15,9 @@ const CATS = {
   vip:  { name: "VIP", price: 90, color: "#d3211a",
           inc: ["First 3 rows next to the stage and the athlete walkout", "1 free drink", "1 LPAL 4 event shirt (choose your size at checkout)"] },
   gold: { name: "Gold", price: 60, color: "#c8961a",
-          inc: ["Rows 4–7, close to the stage", "1 free drink"] },
+          inc: ["Rows 4–9, close to the stage", "1 free drink"] },
   ga:   { name: "General Access", price: 35, color: "#2462c6",
-          inc: ["Back floor rows, the rows behind the commentators, or tribune rows 1–5"] },
+          inc: ["Floor rows 10–12 left of the stage, the rows behind the commentators, or tribune rows 1–5"] },
   fan:  { name: "Fan Access", price: 30, color: "#55657d",
           inc: ["Tribune rows 6–10", "Raised view of the whole venue", "Cheapest ticket"] }
 };
@@ -33,26 +33,24 @@ const comm = rows => rows.flatMap(r => range(0, 9).map(j => [622 + j * 12.6, 515
 const trib = (side, rows) => rows.flatMap(r => range(0, 19).map(j => [(side === "l" ? 443.5 : 701.5) + j * 11.3, 808 + (r - 1) * 22.6, r]));
 
 const SECTIONS = [
-  { id: 1,  cat: "vip",  where: "Left of the stage · upper block",  rows: [1, 3],  seats: floorL("u", range(1, 3)),  rowLab: "top" },
-  { id: 2,  cat: "vip",  where: "Left of the stage · lower block",  rows: [1, 3],  seats: floorL("l", range(1, 3)),  rowLab: "bottom" },
-  { id: 3,  cat: "gold", where: "Left of the stage · upper block",  rows: [4, 7],  seats: floorL("u", range(4, 7)),  rowLab: "top" },
-  { id: 4,  cat: "gold", where: "Left of the stage · lower block",  rows: [4, 7],  seats: floorL("l", range(4, 7)),  rowLab: "bottom" },
-  { id: 5,  cat: "ga",   where: "Left of the stage · upper block",  rows: [8, 12], seats: floorL("u", range(8, 12)), rowLab: "top" },
-  { id: 6,  cat: "ga",   where: "Left of the stage · lower block",  rows: [8, 12], seats: floorL("l", range(8, 12)), rowLab: "bottom" },
-  { id: 7,  cat: "vip",  where: "Right of the stage · upper block", rows: [1, 3],  seats: floorR("u", range(1, 3)),  rowLab: "top" },
-  { id: 8,  cat: "vip",  where: "Right of the stage · lower block", rows: [1, 3],  seats: floorR("l", range(1, 3)),  rowLab: "bottom" },
-  { id: 9,  cat: "gold", where: "Right of the stage · upper block", rows: [4, 7],  seats: floorR("u", range(4, 7)),  rowLab: "top" },
-  { id: 10, cat: "gold", where: "Right of the stage · lower block", rows: [4, 7],  seats: floorR("l", range(4, 7)),  rowLab: "bottom" },
-  { id: 11, cat: "ga",   where: "Right of the stage · upper block", rows: [8, 9],  seats: floorR("u", range(8, 9)),  rowLab: "top" },
-  { id: 12, cat: "ga",   where: "Right of the stage · lower block", rows: [8, 9],  seats: floorR("l", range(8, 9)),  rowLab: "bottom" },
-  { id: 13, cat: "ga",   where: "Behind the commentators · floor level", rows: [1, 5],  seats: comm(range(1, 5)),          rowLab: "left" },
-  { id: 14, cat: "ga",   where: "Raised tribune · left half",       rows: [1, 5],  seats: trib("l", range(1, 5)),    rowLab: "left" },
-  { id: 15, cat: "ga",   where: "Raised tribune · right half",      rows: [1, 5],  seats: trib("r", range(1, 5)),    rowLab: "right" },
-  { id: 16, cat: "fan",  where: "Raised tribune · left half",       rows: [6, 10], seats: trib("l", range(6, 10)),   rowLab: "left" },
-  { id: 17, cat: "fan",  where: "Raised tribune · right half",      rows: [6, 10], seats: trib("r", range(6, 10)),   rowLab: "right" }
+  { id: 1,  cat: "vip",  where: "Left of the stage · upper block",  rows: [1, 3],   seats: floorL("u", range(1, 3)),   rowLab: "top" },
+  { id: 2,  cat: "vip",  where: "Left of the stage · lower block",  rows: [1, 3],   seats: floorL("l", range(1, 3)),   rowLab: "bottom" },
+  { id: 3,  cat: "gold", where: "Left of the stage · upper block",  rows: [4, 9],   seats: floorL("u", range(4, 9)),   rowLab: "top" },
+  { id: 4,  cat: "gold", where: "Left of the stage · lower block",  rows: [4, 9],   seats: floorL("l", range(4, 9)),   rowLab: "bottom" },
+  { id: 5,  cat: "ga",   where: "Left of the stage · upper block",  rows: [10, 12], seats: floorL("u", range(10, 12)), rowLab: "top" },
+  { id: 6,  cat: "ga",   where: "Left of the stage · lower block",  rows: [10, 12], seats: floorL("l", range(10, 12)), rowLab: "bottom" },
+  { id: 7,  cat: "vip",  where: "Right of the stage · upper block", rows: [1, 3],   seats: floorR("u", range(1, 3)),   rowLab: "top" },
+  { id: 8,  cat: "vip",  where: "Right of the stage · lower block", rows: [1, 3],   seats: floorR("l", range(1, 3)),   rowLab: "bottom" },
+  { id: 9,  cat: "gold", where: "Right of the stage · upper block", rows: [4, 9],   seats: floorR("u", range(4, 9)),   rowLab: "top" },
+  { id: 10, cat: "gold", where: "Right of the stage · lower block", rows: [4, 9],   seats: floorR("l", range(4, 9)),   rowLab: "bottom" },
+  { id: 11, cat: "ga",   where: "Behind the commentators · floor level", rows: [1, 5], seats: comm(range(1, 5)),        rowLab: "left", kind: "comm" },
+  { id: 12, cat: "ga",   where: "Raised tribune · left half",       rows: [1, 5],   seats: trib("l", range(1, 5)),     rowLab: "left",  kind: "trib" },
+  { id: 13, cat: "ga",   where: "Raised tribune · right half",      rows: [1, 5],   seats: trib("r", range(1, 5)),     rowLab: "right", kind: "trib" },
+  { id: 14, cat: "fan",  where: "Raised tribune · left half",       rows: [6, 10],  seats: trib("l", range(6, 10)),    rowLab: "left",  kind: "trib" },
+  { id: 15, cat: "fan",  where: "Raised tribune · right half",      rows: [6, 10],  seats: trib("r", range(6, 10)),    rowLab: "right", kind: "trib" }
 ];
 SECTIONS.forEach(s => {
-  const xs = s.seats.map(p => p[0]), ys = s.seats.map(p => p[1]), pad = s.id >= 14 ? 6 : 7;
+  const xs = s.seats.map(p => p[0]), ys = s.seats.map(p => p[1]), pad = s.kind === "trib" ? 6 : 7;
   s.box = { x: Math.min(...xs) - 5 - pad, y: Math.min(...ys) - 4.5 - pad, w: Math.max(...xs) - Math.min(...xs) + 10 + pad * 2, h: Math.max(...ys) - Math.min(...ys) + 9 + pad * 2 };
 });
 const catSections = k => SECTIONS.filter(s => s.cat === k);
@@ -78,11 +76,11 @@ const rowLabels = s => {
   }).join("");
 };
 const secSVG = s => {
-  const c = CATS[s.cat], b = s.box, fs = b.w < 55 ? 19 : s.id >= 14 ? 30 : 24, cx = b.x + b.w / 2, cy = b.y + b.h / 2;
-  const tw = s.id >= 14 || s.id === 13 ? [9, 9] : [10, 9];
+  const c = CATS[s.cat], b = s.box, fs = b.w < 55 ? 19 : s.kind === "trib" ? 30 : 24, cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+  const tw = s.kind ? [9, 9] : [10, 9];
   return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="Section ${s.id}, ${esc(c.name)}, ${eur(c.price)}">
     <rect class="sec-bg" x="${b.x.toFixed(1)}" y="${b.y.toFixed(1)}" width="${b.w.toFixed(1)}" height="${b.h.toFixed(1)}" rx="4"/>
-    ${s.id >= 14 ? range(s.rows[0], s.rows[1]).map(rw => { const y = 808 + (rw - 1) * 22.6; return `<rect class="riser" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="22.6" style="--d:${((rw - 1) * .028).toFixed(3)}"/><rect class="step" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="3.2"/>`; }).join("") : ""}
+    ${s.kind === "trib" ? range(s.rows[0], s.rows[1]).map(rw => { const y = 808 + (rw - 1) * 22.6; return `<rect class="riser" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="22.6" style="--d:${((rw - 1) * .028).toFixed(3)}"/><rect class="step" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="3.2"/>`; }).join("") : ""}
     ${s.seats.map(p => chair(p[0], p[1], tw[0], tw[1])).join("")}
     <g class="seclab" style="--fs:${fs}"><text class="n" x="${cx}" y="${cy - (b.h > 70 ? fs * .22 : 0)}">${s.id}</text>${b.h > 70 && b.w > 55 ? `<text class="c" x="${cx}" y="${cy + fs * .55}">${esc(c.name === "General Access" ? "GENERAL" : c.name.toUpperCase())}</text>` : ""}</g>
     ${rowLabels(s)}
@@ -237,7 +235,7 @@ function focusCat(k) {
 }
 function selectSection(id) {
   const s = SECTIONS.find(x => x.id === id); state.sec = id; state.cat = s.cat; hl(new Set([id]));
-  let t = fit(s.box, s.id >= 14 ? 22 : 30); const mw = sz().width / 3.2;
+  let t = fit(s.box, s.kind === "trib" ? 22 : 30); const mw = sz().width / 3.2;
   if (t.w < mw) { const cx = t.x + t.w / 2, cy = t.y + t.h / 2, f = mw / t.w; t = { x: cx - t.w * f / 2, y: cy - t.h * f / 2, w: t.w * f, h: t.h * f }; }
   animateTo(t); renderSection(s); showCrumb(`<i style="--c:${CATS[s.cat].color}"></i>Section ${id} · ${esc(CATS[s.cat].name)}`);
   setHash("section-" + id); syncChips(); hideHint(); hideTip();
