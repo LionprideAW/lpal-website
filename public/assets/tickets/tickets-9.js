@@ -76,13 +76,14 @@ const rowLabels = s => {
   }).join("");
 };
 const secSVG = s => {
-  const c = CATS[s.cat], b = s.box, fs = b.w < 55 ? 19 : s.kind === "trib" ? 30 : 24, cx = b.x + b.w / 2, cy = b.y + b.h / 2;
+  const c = CATS[s.cat], b = s.box, lab = { vip: "VIP", gold: "GOLD", ga: "GENERAL", fan: "FAN ACCESS" }[s.cat];
+  const fs = Math.min(s.kind === "trib" ? 26 : 21, (b.w - 14) / (lab.length * .56)), cx = b.x + b.w / 2, cy = b.y + b.h / 2;
   const tw = s.kind ? [9, 9] : [10, 9];
-  return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="Section ${s.id}, ${esc(c.name)}, ${eur(c.price)}">
+  return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="${esc(c.name)} area, ${esc(s.where)}, ${eur(c.price)}">
     <rect class="sec-bg" x="${b.x.toFixed(1)}" y="${b.y.toFixed(1)}" width="${b.w.toFixed(1)}" height="${b.h.toFixed(1)}" rx="4"/>
     ${s.kind === "trib" ? range(s.rows[0], s.rows[1]).map(rw => { const y = 808 + (rw - 1) * 22.6; return `<rect class="riser" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="22.6" style="--d:${((rw - 1) * .028).toFixed(3)}"/><rect class="step" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="3.2"/>`; }).join("") : ""}
     ${s.seats.map(p => chair(p[0], p[1], tw[0], tw[1])).join("")}
-    <g class="seclab" style="--fs:${fs}"><text class="n" x="${cx}" y="${cy - (b.h > 70 ? fs * .22 : 0)}">${s.id}</text>${b.h > 70 && b.w > 55 ? `<text class="c" x="${cx}" y="${cy + fs * .55}">${esc(c.name === "General Access" ? "GENERAL" : c.name.toUpperCase())}</text>` : ""}</g>
+    <g class="seclab" style="--fs:${fs.toFixed(1)}"><text class="n" x="${cx}" y="${cy}">${lab}</text></g>
     ${rowLabels(s)}
   </g>`;
 };
@@ -210,11 +211,11 @@ function hover(e) {
   if (e.pointerType === "touch") return;
   const g = e.target.closest(".sec"); if (!g) { hideTip(); return; }
   const s = SECTIONS.find(x => x.id === +g.dataset.s), c = CATS[s.cat], r = stage.getBoundingClientRect();
-  if (tipSec !== s.id) { tip.innerHTML = `<b>Section ${s.id} · ${esc(c.name)}</b><em>${eur(c.price)}</em><small>${esc(s.where)} · ${rowsTxt(s)} · ${s.seats.length} seats</small>`; tip.style.setProperty("--c2", c.color === "#55657d" ? "#9fb0c8" : c.color); tipSec = s.id; }
+  if (tipSec !== s.id) { tip.innerHTML = `<b>${esc(c.name)}</b><em>${eur(c.price)}</em><small>${esc(s.where)} · ${rowsTxt(s)} · free seating</small>`; tip.style.setProperty("--c2", c.color === "#55657d" ? "#9fb0c8" : c.color); tipSec = s.id; }
   tip.hidden = false; tip.style.left = (e.clientX - r.left) + "px"; tip.style.top = (e.clientY - r.top) + "px";
-  if (!state.sec && !state.cat) hl(new Set([s.id]), false);
+  if (!state.cat) hl(new Set(catSections(s.cat).map(x => x.id)), false);
 }
-function hideTip() { tip.hidden = true; tipSec = 0; if (!state.sec && !state.cat) hl(null); }
+function hideTip() { tip.hidden = true; tipSec = 0; if (!state.cat) hl(null); }
 
 /* ---------- state: overview / category / section ---------- */
 const state = { cat: null, sec: null };
@@ -229,42 +230,39 @@ const setHash = h => { try { history.replaceState(null, "", h ? "#" + h : locati
 function home() {
   state.cat = null; state.sec = null; hl(null); crumb.hidden = true; renderOverview(); animateTo(fitBase); setHash(""); syncChips();
 }
-function focusCat(k) {
-  state.cat = k; state.sec = null; const list = catSections(k); hl(new Set(list.map(s => s.id)));
-  animateTo(fit(unionBox(list), 36)); renderCat(k); showCrumb(`<i style="--c:${CATS[k].color}"></i>${esc(CATS[k].name)} · ${eur(CATS[k].price)}`); setHash(k); syncChips(); hideHint();
+function focusCat(k, id = null) {
+  state.cat = k; state.sec = id; const list = catSections(k); hl(new Set(list.map(s => s.id)));
+  let t; if (id) { const s = SECTIONS.find(x => x.id === id); t = fit(s.box, s.kind === "trib" ? 22 : 30); const mw = sz().width / 3.2;
+    if (t.w < mw) { const cx = t.x + t.w / 2, cy = t.y + t.h / 2, f = mw / t.w; t = { x: cx - t.w * f / 2, y: cy - t.h * f / 2, w: t.w * f, h: t.h * f }; } }
+  else t = fit(unionBox(list), 36);
+  animateTo(t); renderCat(k); showCrumb(`<i style="--c:${CATS[k].color}"></i>${esc(CATS[k].name)} · ${eur(CATS[k].price)}`); setHash(k); syncChips(); hideHint(); hideTip();
 }
-function selectSection(id) {
-  const s = SECTIONS.find(x => x.id === id); state.sec = id; state.cat = s.cat; hl(new Set([id]));
-  let t = fit(s.box, s.kind === "trib" ? 22 : 30); const mw = sz().width / 3.2;
-  if (t.w < mw) { const cx = t.x + t.w / 2, cy = t.y + t.h / 2, f = mw / t.w; t = { x: cx - t.w * f / 2, y: cy - t.h * f / 2, w: t.w * f, h: t.h * f }; }
-  animateTo(t); renderSection(s); showCrumb(`<i style="--c:${CATS[s.cat].color}"></i>Section ${id} · ${esc(CATS[s.cat].name)}`);
-  setHash("section-" + id); syncChips(); hideHint(); hideTip();
-}
+function selectSection(id) { focusCat(SECTIONS.find(x => x.id === id).cat, id); }
 function mbar() {
   const bar = $("#t-mbar"), k = state.cat; bar.hidden = !k; document.body.classList.toggle("has-mbar", !!k); if (!k) return;
-  const c = CATS[k]; $("#t-mbar-t").innerHTML = state.sec ? `Section ${state.sec} · ${esc(c.name)}<small>${rowsTxt(SECTIONS.find(s => s.id === state.sec))} · free seating</small>` : `${esc(c.name)}<small>${catSections(k).length} sections · free seating</small>`;
+  const c = CATS[k]; $("#t-mbar-t").innerHTML = `${esc(c.name)}<small>Free seating in all ${esc(c.name)} areas</small>`;
   const b = $("#t-mbar-buy"); b.dataset.k = k; b.lastElementChild.textContent = eur(c.price);
 }
 $("#t-mbar-buy").addEventListener("click", e => openCheckout(e.currentTarget.dataset.k));
 function showCrumb(html) { $("#t-crumb-t").innerHTML = html; crumb.hidden = false; }
 const mv = $("#t-mainview");
 mv.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPreview(); } });
-$("#t-crumb-back").addEventListener("click", () => state.sec && state.cat && catSections(state.cat).length > 1 ? focusCat(state.cat) : home());
+$("#t-crumb-back").addEventListener("click", home);
 
 /* ---------- panel ---------- */
 const SHIRTS = ["red", "yellow"];
 const shirt = (btn = true) => `<div class="t-shirt">${SHIRTS.map(c => btn
     ? `<button type="button" data-shirt="${c}" aria-label="Show the ${c} shirt, front and back"><img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy"></button>`
     : `<img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy">`).join("")}<span>The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.${btn ? " Tap a shirt to see front and back." : ""}</span></div>`;
-const card = k => { const c = CATS[k], secs = catSections(k).map(s => s.id).join(", ");
+const card = k => { const c = CATS[k], n = catSections(k).length;
   return `<button type="button" class="t-card" data-cat="${k}" style="--c:${c.color}">
     <div class="t-card-top"><h3>${esc(c.name)}</h3><span class="t-price">${eur(c.price)}</span></div>
-    <p class="t-meta">${c.seats} seats · section${catSections(k).length > 1 ? "s" : ""} ${secs}</p>
+    <p class="t-meta">${c.seats} seats · ${n} area${n > 1 ? "s" : ""} on the map</p>
     <ul class="t-inc">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
     ${k === "vip" ? shirt(false) : ""}
     <span class="t-card-go">Show on map &rarr;</span>
   </button>`; };
-const howto = `<div class="t-howto"><b>How free seating works</b>Your ticket is for a category, not a seat number. On the night, sit anywhere inside a section of your category. First come, first served. Our staff check that every guest stays in their category.</div>`;
+const howto = `<div class="t-howto"><b>How free seating works</b>You book a ticket type, not a seat. On the night, sit anywhere in the areas of your ticket type, e.g. any red VIP area. First come, first served. Our staff check that every guest stays in their category.</div>`;
 const perks = `<p class="t-small">VIP and Gold: you get your drink (and VIP shirt) voucher cards at the entrance after your ticket is scanned.</p>`;
 const buyBtn = k => `<button type="button" class="t-buy" data-buy="${k}"><span>Buy ${esc(CATS[k].name)} ticket</span><span>${eur(CATS[k].price)}</span></button>`;
 function bindPanel() {
@@ -275,40 +273,26 @@ function bindPanel() {
   });
   $$("[data-buy]", panel).forEach(b => b.addEventListener("click", () => openCheckout(b.dataset.buy)));
   $$("[data-shirt]", panel).forEach(b => b.addEventListener("click", () => openShirt(b.dataset.shirt)));
-  $$("[data-sec]", panel).forEach(b => {
-    b.addEventListener("click", () => selectSection(+b.dataset.sec));
-    b.addEventListener("mouseenter", () => hl(new Set([+b.dataset.sec]))); b.addEventListener("mouseleave", () => focusHL());
-  });
+  $$("[data-sec]", panel).forEach(b => b.addEventListener("click", () => selectSection(+b.dataset.sec)));
   const pv = $("#t-preview", panel); if (pv) pv.addEventListener("click", openPreview);
   const back = $(".t-back2", panel); if (back) back.addEventListener("click", () => back.dataset.to ? focusCat(back.dataset.to) : home());
 }
-const focusHL = () => state.sec ? hl(new Set([state.sec])) : state.cat ? hl(new Set(catSections(state.cat).map(s => s.id))) : hl(null);
 function renderOverview() {
   panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/venue-preview-sm.webp" alt="Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune" loading="lazy"><span>How LPAL 4 will look<small>AI visualisation of the planned setup · tap to enlarge</small></span></button>
-    <h1 class="t-ph">Pick your section</h1><p class="t-psub">Tap a section on the map, or choose a ticket type.</p>
+    <h1 class="t-ph">Pick your ticket</h1><p class="t-psub">Choose a ticket type, or tap an area on the map.</p>
     ${Object.keys(CATS).map(card).join("")}${howto}`;
   bindPanel();
 }
 function renderCat(k) {
-  const c = CATS[k], list = catSections(k);
+  const c = CATS[k], list = catSections(k), many = list.length > 1;
   panel.innerHTML = `<button type="button" class="t-back2">&larr; All ticket types</button>
     <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${esc(c.name[0])}</span><div><h2>${esc(c.name)}</h2><p>${eur(c.price)} per ticket · ${c.seats} seats</p></div></div>
     <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${k === "vip" ? shirt() : ""}
     ${buyBtn(k)}
-    <p class="t-psub" style="margin:18px 0 8px">Sections in this category</p>
-    ${list.map(s => `<button type="button" class="t-card" data-sec="${s.id}" style="--c:${c.color};padding:10px 12px 10px 14px"><div class="t-card-top"><h3>Section ${s.id}</h3><span class="t-meta" style="margin:0">${s.seats.length} seats</span></div><p class="t-meta" style="margin:2px 0 0">${esc(s.where)} · ${rowsTxt(s)}</p></button>`).join("")}
+    <p class="t-small">With a ${esc(c.name)} ticket you can sit anywhere in ${many ? `all ${list.length} ${esc(c.name)} areas` : `the ${esc(c.name)} area`}. No seat numbers: first come, first served.</p>
+    <p class="t-psub" style="margin:18px 0 8px">Where you can sit</p>
+    ${list.map(s => `<button type="button" class="t-card${state.sec === s.id ? " hl" : ""}" data-sec="${s.id}" style="--c:${c.color};padding:10px 12px 10px 14px"><div class="t-card-top"><h3 style="font-size:14.5px">${esc(s.where)}</h3></div><p class="t-meta" style="margin:2px 0 0">${rowsTxt(s)} · ${s.seats.length} seats</p></button>`).join("")}
     ${k === "vip" || k === "gold" ? perks : ""}`;
-  bindPanel();
-}
-function renderSection(s) {
-  const c = CATS[s.cat], others = catSections(s.cat).filter(x => x.id !== s.id).map(x => x.id);
-  panel.innerHTML = `<button type="button" class="t-back2"${catSections(s.cat).length > 1 ? ` data-to="${s.cat}"` : ""}>&larr; ${catSections(s.cat).length > 1 ? `All ${esc(c.name)} sections` : "All ticket types"}</button>
-    <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${s.id}</span><div><h2>Section ${s.id}</h2><p>${esc(c.name)} · ${eur(c.price)} per ticket</p></div></div>
-    <dl class="t-facts"><div><dt>Location</dt><dd>${esc(s.where)}</dd></div><div><dt>Rows</dt><dd>${rowsTxt(s)}</dd></div><div><dt>Seats</dt><dd>${s.seats.length} · free seating</dd></div><div><dt>Category</dt><dd>${esc(c.name)}</dd></div></dl>
-    <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${s.cat === "vip" ? shirt() : ""}
-    ${buyBtn(s.cat)}
-    <p class="t-small">A ${esc(c.name)} ticket lets you sit in any ${esc(c.name)} section${others.length ? ` (${[s.id, ...others].sort((a, b) => a - b).join(", ")})` : ""}, first come, first served.</p>
-    ${s.cat === "vip" || s.cat === "gold" ? perks : ""}`;
   bindPanel();
 }
 
@@ -358,7 +342,6 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !co.hidden) closeCo
 
 /* ---------- start ---------- */
 renderOverview();
-const h = location.hash.slice(1), m = h.match(/^section-(\d+)$/);
-if (m && SECTIONS.some(s => s.id === +m[1])) setTimeout(() => selectSection(+m[1]), 300);
-else if (CATS[h]) setTimeout(() => focusCat(h), 300);
+const h = location.hash.slice(1);
+if (CATS[h]) setTimeout(() => focusCat(h), 300);
 setTimeout(hideHint, 6000);
