@@ -234,13 +234,16 @@ function showCrumb(html) { $("#t-crumb-t").innerHTML = html; crumb.hidden = fals
 $("#t-crumb-back").addEventListener("click", () => state.sec && state.cat && catSections(state.cat).length > 1 ? focusCat(state.cat) : home());
 
 /* ---------- panel ---------- */
-const shirt = `<div class="t-shirt"><img src="assets/partners/jersey/front.webp" alt="LPAL 4 event shirt" loading="lazy"><span>The official LPAL 4 shirt is included. Pick your size (S–XXXXL) during checkout.</span></div>`;
+const SHIRTS = ["red", "yellow"];
+const shirt = (btn = true) => `<div class="t-shirt">${SHIRTS.map(c => btn
+    ? `<button type="button" data-shirt="${c}" aria-label="Show the ${c} shirt, front and back"><img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy"></button>`
+    : `<img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy">`).join("")}<span>The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.${btn ? " Tap a shirt to see front and back." : ""}</span></div>`;
 const card = k => { const c = CATS[k], secs = catSections(k).map(s => s.id).join(", ");
   return `<button type="button" class="t-card" data-cat="${k}" style="--c:${c.color}">
     <div class="t-card-top"><h3>${esc(c.name)}</h3><span class="t-price">${eur(c.price)}</span></div>
     <p class="t-meta">${c.seats} seats · section${catSections(k).length > 1 ? "s" : ""} ${secs}</p>
     <ul class="t-inc">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
-    ${k === "vip" ? shirt : ""}
+    ${k === "vip" ? shirt(false) : ""}
     <span class="t-card-go">Show on map &rarr;</span>
   </button>`; };
 const howto = `<div class="t-howto"><b>How free seating works</b>Your ticket is for a category, not a seat number. On the night, sit anywhere inside a section of your category. First come, first served. Our staff check that every guest stays in their category.</div>`;
@@ -253,6 +256,7 @@ function bindPanel() {
     b.addEventListener("mouseleave", () => { if (!state.cat) hl(null); });
   });
   $$("[data-buy]", panel).forEach(b => b.addEventListener("click", () => openCheckout(b.dataset.buy)));
+  $$("[data-shirt]", panel).forEach(b => b.addEventListener("click", () => openShirt(b.dataset.shirt)));
   $$("[data-sec]", panel).forEach(b => {
     b.addEventListener("click", () => selectSection(+b.dataset.sec));
     b.addEventListener("mouseenter", () => hl(new Set([+b.dataset.sec]))); b.addEventListener("mouseleave", () => focusHL());
@@ -269,7 +273,7 @@ function renderCat(k) {
   const c = CATS[k], list = catSections(k);
   panel.innerHTML = `<button type="button" class="t-back2">&larr; All ticket types</button>
     <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${esc(c.name[0])}</span><div><h2>${esc(c.name)}</h2><p>${eur(c.price)} per ticket · ${c.seats} seats</p></div></div>
-    <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${k === "vip" ? shirt : ""}
+    <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${k === "vip" ? shirt() : ""}
     ${buyBtn(k)}
     <p class="t-psub" style="margin:18px 0 8px">Sections in this category</p>
     ${list.map(s => `<button type="button" class="t-card" data-sec="${s.id}" style="--c:${c.color};padding:10px 12px 10px 14px"><div class="t-card-top"><h3>Section ${s.id}</h3><span class="t-meta" style="margin:0">${s.seats.length} seats</span></div><p class="t-meta" style="margin:2px 0 0">${esc(s.where)} · ${rowsTxt(s)}</p></button>`).join("")}
@@ -281,7 +285,7 @@ function renderSection(s) {
   panel.innerHTML = `<button type="button" class="t-back2"${catSections(s.cat).length > 1 ? ` data-to="${s.cat}"` : ""}>&larr; ${catSections(s.cat).length > 1 ? `All ${esc(c.name)} sections` : "All ticket types"}</button>
     <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${s.id}</span><div><h2>Section ${s.id}</h2><p>${esc(c.name)} · ${eur(c.price)} per ticket</p></div></div>
     <dl class="t-facts"><div><dt>Location</dt><dd>${esc(s.where)}</dd></div><div><dt>Rows</dt><dd>${rowsTxt(s)}</dd></div><div><dt>Seats</dt><dd>${s.seats.length} · free seating</dd></div><div><dt>Category</dt><dd>${esc(c.name)}</dd></div></dl>
-    <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${s.cat === "vip" ? shirt : ""}
+    <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${s.cat === "vip" ? shirt() : ""}
     ${buyBtn(s.cat)}
     <p class="t-small">A ${esc(c.name)} ticket lets you sit in any ${esc(c.name)} section${others.length ? ` (${[s.id, ...others].sort((a, b) => a - b).join(", ")})` : ""}, first come, first served.</p>
     ${s.cat === "vip" || s.cat === "gold" ? perks : ""}`;
@@ -305,6 +309,11 @@ function openCheckout(k) {
     : `<div class="t-soon"><h3>Tickets on sale soon</h3><p>Ticket sales for LPAL 4 open shortly. Follow us on Instagram to be the first to know.</p><a href="${SETTINGS.instagram}" target="_blank" rel="noopener">Follow LPAL on Instagram</a></div>`;
   $(".t-co-box").classList.toggle("soon", !SETTINGS.checkoutUrl);
   co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
+}
+function openShirt(c) {
+  $("#t-co-t").textContent = "LPAL 4 event shirt · front & back";
+  coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/shirt-${c}.webp" alt="LPAL 4 event shirt, ${c} design, front and back">`;
+  $(".t-co-box").classList.add("soon"); co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
 }
 const closeCo = () => { co.hidden = true; coBody.innerHTML = ""; document.body.style.overflow = ""; };
 $("#t-co-x").addEventListener("click", closeCo);
