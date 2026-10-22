@@ -111,6 +111,11 @@ svgEl.innerHTML = `<defs>
     <text class="tribtag" x="433" y="783">RAISED TRIBUNE · ROWS RISE TOWARDS THE BACK</text>
     <text class="tribtag" x="680" y="1044" style="text-anchor:middle">STAIRS</text>
     <text class="tribtag" x="680" y="404" style="text-anchor:middle">FLOOR LEVEL</text>
+    <g class="mainview" id="t-mainview" role="button" tabindex="0" aria-label="Main view towards the stage. Show the visualisation"><title>Main view towards the stage · tap to see the visualisation</title>
+      <rect x="956" y="590" width="62" height="70" fill="transparent"/>
+      <text class="mvlab" x="988" y="603">MAIN</text><text class="mvlab" x="988" y="617">VIEW</text>
+      <path class="mvarrow" d="M1014 648H966" marker-end="url(#arr)"/>
+    </g>
     <path class="entry" d="M990 1046l-9 13h18z"/><text class="entrylab" x="990" y="1076">ENTRANCE</text>
     ${SECTIONS.map(secSVG).join("")}
   </g>`;
@@ -168,7 +173,7 @@ const ptrs = new Map(); let gest = null;
 const hint = $("#t-hint"); const hideHint = () => hint.classList.add("off");
 svgEl.addEventListener("pointerdown", e => {
   svgEl.setPointerCapture(e.pointerId); ptrs.set(e.pointerId, [e.clientX, e.clientY]); cancelAnimationFrame(anim); hideTip();
-  if (ptrs.size === 1) gest = { type: "pan", x: e.clientX, y: e.clientY, v: { ...view }, moved: 0, sec: e.target.closest(".sec") };
+  if (ptrs.size === 1) gest = { type: "pan", x: e.clientX, y: e.clientY, v: { ...view }, moved: 0, sec: e.target.closest(".sec"), mv: e.target.closest(".mainview") };
   if (ptrs.size === 2) { const [a, b] = [...ptrs.values()]; gest = { type: "pinch", d: Math.hypot(a[0] - b[0], a[1] - b[1]), c: toSvg((a[0] + b[0]) / 2, (a[1] + b[1]) / 2), v: { ...view }, moved: 99 }; }
 });
 svgEl.addEventListener("pointermove", e => {
@@ -187,7 +192,7 @@ svgEl.addEventListener("pointermove", e => {
 });
 const endPtr = e => {
   if (!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId); svgEl.classList.remove("drag");
-  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); }
+  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); else if (gest.mv) openPreview(); }
   if (ptrs.size === 0) gest = null;
 };
 svgEl.addEventListener("pointerup", endPtr); svgEl.addEventListener("pointercancel", endPtr);
@@ -240,6 +245,8 @@ function mbar() {
 }
 $("#t-mbar-buy").addEventListener("click", e => openCheckout(e.currentTarget.dataset.k));
 function showCrumb(html) { $("#t-crumb-t").innerHTML = html; crumb.hidden = false; }
+const mv = $("#t-mainview");
+mv.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPreview(); } });
 $("#t-crumb-back").addEventListener("click", () => state.sec && state.cat && catSections(state.cat).length > 1 ? focusCat(state.cat) : home());
 
 /* ---------- panel ---------- */

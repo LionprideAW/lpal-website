@@ -114,6 +114,10 @@ img{display:block;max-width:100%}
 .t-map .riser{fill:#000;opacity:var(--d);pointer-events:none}
 .t-map .step{fill:#000;opacity:.22;pointer-events:none}
 .t-map.focus .sec:not(.hl):not(.sel) .step{opacity:.08}
+.t-map .mainview{cursor:pointer}
+.t-map .mvlab{fill:var(--red);font-family:var(--cond);font-weight:800;letter-spacing:.12em;text-anchor:middle;dominant-baseline:central;font-size:calc(12px / max(1, var(--ks) / 1.3))}
+.t-map .mvarrow{stroke:var(--red);stroke-width:3.2;fill:none}
+.t-map .mainview:hover .mvlab{fill:#111}
 .t-map .sec{cursor:pointer}
 .t-map .sec-bg{fill:var(--c);stroke:#fff;stroke-width:2;transition:filter .2s,opacity .35s,stroke-width .2s}
 .t-map .chair{fill:#fff;opacity:clamp(.3,calc((var(--ks) - .9) * .45 + .3),.95);pointer-events:none}
