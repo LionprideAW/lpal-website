@@ -5,7 +5,9 @@
 
 const SETTINGS = {
   // Ticket Tailor checkout link for LPAL 4. While empty, "Buy" shows "Tickets on sale soon".
-  checkoutUrl: "",
+  checkoutUrl: "https://tickets.lionpride-armwrestling.com/checkout/view-event/id/9342604/chk/521f720ecd00d8c3cdc2925ba9f5471f/?modal_widget=true&widget=true",
+  // The LPAL 4 event page on Ticket Tailor (fallback if the checkout cannot open inside our page).
+  eventUrl: "https://tickets.lionpride-armwrestling.com/events/lionpridearmwrestlingleague2/2489870",
   instagram: "https://www.instagram.com/lion_pride_armwrestling_league/"
 };
 
@@ -312,9 +314,9 @@ $("#t-legend").innerHTML = Object.values(CATS).map(c => `<p style="--c:${c.color
 /* ---------- checkout (Ticket Tailor) ---------- */
 const co = $("#t-co"), coBody = $("#t-co-body");
 function openCheckout(k) {
-  const c = CATS[k]; $("#t-co-t").textContent = `LPAL 4 · ${c.name} ticket · ${eur(c.price)}`;
+  const c = CATS[k]; $("#t-co-t").textContent = `LPAL 4 · choose “${c.name}” at checkout · ${eur(c.price)}`;
   coBody.innerHTML = SETTINGS.checkoutUrl
-    ? `<iframe src="${esc(SETTINGS.checkoutUrl)}" title="Ticket checkout" allow="payment"></iframe>`
+    ? `<iframe src="${esc(SETTINGS.checkoutUrl)}" title="Ticket checkout" allow="payment"></iframe><a class="t-co-alt" href="${esc(SETTINGS.eventUrl)}" target="_blank" rel="noopener">Checkout not loading? Open it in a new tab &rarr;</a>`
     : `<div class="t-soon"><h3>Tickets on sale soon</h3><p>Ticket sales for LPAL 4 open shortly. Follow us on Instagram to be the first to know.</p><a href="${SETTINGS.instagram}" target="_blank" rel="noopener">Follow LPAL on Instagram</a></div>`;
   $(".t-co-box").classList.toggle("soon", !SETTINGS.checkoutUrl);
   co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();

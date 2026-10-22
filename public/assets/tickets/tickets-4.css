@@ -160,7 +160,9 @@ img{display:block;max-width:100%}
 .t-co-bar p{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px}
 .t-co-bar button{font-size:28px;line-height:1;color:#fff;width:36px;height:36px}
 .t-co-body{flex:1;overflow:auto;position:relative}
-.t-co-body iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.t-co-body iframe{position:absolute;top:0;left:0;width:100%;height:calc(100% - 34px);border:0}
+.t-co-alt{position:absolute;left:0;right:0;bottom:0;height:34px;display:grid;place-items:center;background:#f3f3f3;border-top:1px solid var(--line);font-size:12.5px;color:var(--ink2);text-decoration:none}
+.t-co-alt:hover{color:var(--ink)}
 .t-soon{padding:40px 28px;text-align:center}
 .t-co-box.soon{height:auto}
 .t-co-box.soon .t-co-body{flex:none}
