@@ -112,7 +112,11 @@ svgEl.innerHTML = `<defs>
     <text class="tribtag" x="680" y="1044" style="text-anchor:middle">STAIRS</text>
     <text class="tribtag" x="680" y="404" style="text-anchor:middle">FLOOR LEVEL</text>
     <g class="mainview" id="t-mainview" role="button" tabindex="0" aria-label="Main view towards the stage. Show the visualisation"><title>Main view towards the stage · tap to see the visualisation</title>
-      <rect x="956" y="590" width="62" height="70" fill="transparent"/>
+      <rect x="956" y="552" width="62" height="108" fill="transparent"/>
+      <rect class="mvpulse" x="955" y="561" width="66" height="24" rx="12"/>
+      <rect class="mvbtn" x="955" y="561" width="66" height="24" rx="12"/>
+      <path class="mveye" d="M962 573c3-4.5 6.5-6.5 10-6.5s7 2 10 6.5c-3 4.5-6.5 6.5-10 6.5s-7-2-10-6.5z"/><circle class="mveyec" cx="972" cy="573" r="2.6"/>
+      <text class="mvbtnt" x="999" y="573.5">VIEW</text>
       <text class="mvlab" x="988" y="603">MAIN</text><text class="mvlab" x="988" y="617">VIEW</text>
       <path class="mvarrow" d="M1014 648H966" marker-end="url(#arr)"/>
     </g>
@@ -192,7 +196,7 @@ svgEl.addEventListener("pointermove", e => {
 });
 const endPtr = e => {
   if (!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId); svgEl.classList.remove("drag");
-  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); else if (gest.mv) openPreview(); }
+  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); else if (gest.mv) openPreview(e); }
   if (ptrs.size === 0) gest = null;
 };
 svgEl.addEventListener("pointerup", endPtr); svgEl.addEventListener("pointercancel", endPtr);
@@ -328,11 +332,22 @@ function openCheckout(k) {
   $(".t-co-box").classList.toggle("soon", !SETTINGS.checkoutUrl);
   co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
 }
-function openPreview() {
-  $("#t-co-t").textContent = "How LPAL 4 will look · AI visualisation";
-  coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/venue-preview.webp" alt="Visualisation of the LPAL 4 setup"><p class="t-small" style="padding:10px 16px 14px;margin:0">AI-generated visualisation of the planned setup. The real hall, lights and layout can differ.</p>`;
-  $(".t-co-box").classList.add("soon"); co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
+/* main view: the picture opens with a circular reveal from where you clicked */
+const pview = $("#t-view");
+function openPreview(e) {
+  let x = innerWidth / 2, y = innerHeight / 2;
+  if (e && e.clientX != null) { x = e.clientX; y = e.clientY; }
+  else { const b = $("#t-mainview").getBoundingClientRect(); if (b.width) { x = b.left + b.width / 2; y = b.top + b.height / 2; } }
+  pview.style.setProperty("--ox", x + "px"); pview.style.setProperty("--oy", y + "px");
+  pview.hidden = false; document.body.style.overflow = "hidden"; void pview.offsetWidth; pview.classList.add("open"); $("#t-view-x").focus();
 }
+function closePreview() {
+  pview.classList.remove("open"); document.body.style.overflow = "";
+  setTimeout(() => { if (!pview.classList.contains("open")) pview.hidden = true; }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 750);
+}
+$("#t-view-x").addEventListener("click", closePreview);
+pview.addEventListener("click", e => { if (e.target === pview || e.target.tagName === "IMG") closePreview(); });
+addEventListener("keydown", e => { if (e.key === "Escape" && !pview.hidden) closePreview(); });
 function openShirt(c) {
   $("#t-co-t").textContent = "LPAL 4 event shirt · front & back";
   coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/shirt-${c}.webp" alt="LPAL 4 event shirt, ${c} design, front and back">`;
