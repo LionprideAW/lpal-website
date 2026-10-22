@@ -14,7 +14,7 @@ const SETTINGS = {
 const CATS = {
   vip:  { name: "VIP", price: 90, color: "#d3211a",
           inc: ["First 3 rows next to the stage and the athlete walkout", "1 free drink", "1 LPAL 4 event shirt (choose your size at checkout)"] },
-  gold: { name: "Gold", price: 55, color: "#c8961a",
+  gold: { name: "Gold", price: 60, color: "#c8961a",
           inc: ["Rows 4–7, close to the stage", "1 free drink"] },
   ga:   { name: "General Access", price: 35, color: "#2462c6",
           inc: ["Back floor rows, the rows behind the commentators, or tribune rows 1–5"] },
