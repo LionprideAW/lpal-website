@@ -17,15 +17,16 @@ const CATS = {
   gold: { name: "Gold", price: 60, color: "#c8961a",
           inc: ["Rows 4–9, close to the stage", "1 free drink"] },
   ga:   { name: "General Access", price: 35, color: "#2462c6",
-          inc: ["Floor rows 10–12 left of the stage, the rows behind the commentators, or tribune rows 1–5"] },
+          inc: ["Floor rows 10–11 on both sides of the stage, the rows behind the commentators, or tribune rows 1–5"] },
   fan:  { name: "Fan Access", price: 30, color: "#55657d",
           inc: ["Tribune rows 6–10", "Raised view of the whole venue", "Cheapest ticket"] }
 };
 
 /* ---------- hall geometry (units follow the floor plan) ---------- */
-const BASE = { x: 190, y: 222, w: 1035, h: 862 };
+const BASE = { x: 190, y: 222, w: 1105, h: 862 };
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
-const leftX = r => 352 + (12 - r) * 22.6, rightX = r => 760 + (r - 1) * 22.5;
+// left side: 11 rows, with one free row between row 1 and the stage
+const leftX = r => 352 + (11 - r) * 22.6, rightX = r => 760 + (r - 1) * 22.5;
 const floorL = (half, rows) => rows.flatMap(r => range(0, 6).map(i => [leftX(r), (half === "u" ? 547 : 674) + i * 12.3, r]));
 const floorR = (half, rows) => rows.flatMap(r => range(0, 6).map(i => [rightX(r), (half === "u" ? 558 : 666) + i * 12, r]));
 const comm = rows => rows.flatMap(r => range(0, 9).map(j => [622 + j * 12.6, 515 - (r - 1) * 22.5, r]));
@@ -37,12 +38,14 @@ const SECTIONS = [
   { id: 2,  cat: "vip",  where: "Left of the stage · lower block",  rows: [1, 3],   seats: floorL("l", range(1, 3)),   rowLab: "bottom" },
   { id: 3,  cat: "gold", where: "Left of the stage · upper block",  rows: [4, 9],   seats: floorL("u", range(4, 9)),   rowLab: "top" },
   { id: 4,  cat: "gold", where: "Left of the stage · lower block",  rows: [4, 9],   seats: floorL("l", range(4, 9)),   rowLab: "bottom" },
-  { id: 5,  cat: "ga",   where: "Left of the stage · upper block",  rows: [10, 12], seats: floorL("u", range(10, 12)), rowLab: "top" },
-  { id: 6,  cat: "ga",   where: "Left of the stage · lower block",  rows: [10, 12], seats: floorL("l", range(10, 12)), rowLab: "bottom" },
+  { id: 5,  cat: "ga",   where: "Left of the stage · upper block",  rows: [10, 11], seats: floorL("u", range(10, 11)), rowLab: "top" },
+  { id: 6,  cat: "ga",   where: "Left of the stage · lower block",  rows: [10, 11], seats: floorL("l", range(10, 11)), rowLab: "bottom" },
   { id: 7,  cat: "vip",  where: "Right of the stage · upper block", rows: [1, 3],   seats: floorR("u", range(1, 3)),   rowLab: "top" },
   { id: 8,  cat: "vip",  where: "Right of the stage · lower block", rows: [1, 3],   seats: floorR("l", range(1, 3)),   rowLab: "bottom" },
   { id: 9,  cat: "gold", where: "Right of the stage · upper block", rows: [4, 9],   seats: floorR("u", range(4, 9)),   rowLab: "top" },
   { id: 10, cat: "gold", where: "Right of the stage · lower block", rows: [4, 9],   seats: floorR("l", range(4, 9)),   rowLab: "bottom" },
+  { id: 18, cat: "ga",   where: "Right of the stage · upper block", rows: [10, 11], seats: floorR("u", range(10, 11)), rowLab: "top" },
+  { id: 19, cat: "ga",   where: "Right of the stage · lower block", rows: [10, 11], seats: floorR("l", range(10, 11)), rowLab: "bottom" },
   { id: 11, cat: "ga",   where: "Behind the commentators · floor level", rows: [1, 5], seats: comm(range(1, 5)),        rowLab: "left", kind: "comm" },
   { id: 12, cat: "ga",   where: "Raised tribune · left half",       rows: [1, 5],   seats: trib("l", range(1, 5)),     rowLab: "left",  kind: "trib" },
   { id: 13, cat: "ga",   where: "Raised tribune · right half",      rows: [1, 5],   seats: trib("r", range(1, 5)),     rowLab: "right", kind: "trib" },
@@ -92,11 +95,11 @@ svgEl.innerHTML = `<defs>
     <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e1261c"/></marker>
   </defs>
   <g id="hall">
-    <rect class="floor" x="210" y="238" width="1005" height="812"/>
-    <path class="wall" d="M1215 238H210V1050H925M1055 1050H1215"/>
+    <rect class="floor" x="210" y="238" width="1075" height="812"/>
+    <path class="wall" d="M1285 238H210V1050H925M1055 1050H1285"/>
     <rect class="zone" x="705" y="246" width="280" height="137" rx="6"/><text class="zlab" x="845" y="314">FOOD &amp; DRINKS</text>
-    <rect class="zone" x="1021" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1092" y="584" transform="rotate(-90 1092 584)">FOOD &amp; DRINKS</text>
-    <text class="zlab" x="1205" y="262" style="text-anchor:end;font-size:11px">WC &rarr;</text>
+    <rect class="zone" x="1115" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1186" y="584" transform="rotate(-90 1186 584)">FOOD &amp; DRINKS</text>
+    <text class="zlab" x="1275" y="262" style="text-anchor:end;font-size:11px">WC &rarr;</text>
     <rect class="led" x="226" y="526" width="42" height="214" rx="3"/><text class="ledlab" x="247" y="633" transform="rotate(-90 247 633)">LED SCREEN</text>
     <path class="walk" d="M272 656H606" marker-end="url(#arr)"/><text class="walklab" x="470" y="643">ATHLETE WALKOUT</text>
     <rect class="stage" x="622" y="562" width="116" height="184" rx="3"/>
@@ -111,13 +114,13 @@ svgEl.innerHTML = `<defs>
     <text class="tribtag" x="680" y="1044" style="text-anchor:middle">STAIRS</text>
     <text class="tribtag" x="680" y="404" style="text-anchor:middle">FLOOR LEVEL</text>
     <g class="mainview" id="t-mainview" role="button" tabindex="0" aria-label="Main view towards the stage. Show the visualisation"><title>Main view towards the stage · tap to see the visualisation</title>
-      <rect x="956" y="552" width="62" height="108" fill="transparent"/>
-      <rect class="mvpulse" x="955" y="561" width="66" height="24" rx="12"/>
-      <rect class="mvbtn" x="955" y="561" width="66" height="24" rx="12"/>
-      <path class="mveye" d="M962 573c3-4.5 6.5-6.5 10-6.5s7 2 10 6.5c-3 4.5-6.5 6.5-10 6.5s-7-2-10-6.5z"/><circle class="mveyec" cx="972" cy="573" r="2.6"/>
-      <text class="mvbtnt" x="999" y="573.5">VIEW</text>
-      <text class="mvlab" x="988" y="603">MAIN</text><text class="mvlab" x="988" y="617">VIEW</text>
-      <path class="mvarrow" d="M1014 648H966" marker-end="url(#arr)"/>
+      <rect x="1018" y="552" width="62" height="108" fill="transparent"/>
+      <rect class="mvpulse" x="1017" y="561" width="66" height="24" rx="12"/>
+      <rect class="mvbtn" x="1017" y="561" width="66" height="24" rx="12"/>
+      <path class="mveye" d="M1024 573c3-4.5 6.5-6.5 10-6.5s7 2 10 6.5c-3 4.5-6.5 6.5-10 6.5s-7-2-10-6.5z"/><circle class="mveyec" cx="1034" cy="573" r="2.6"/>
+      <text class="mvbtnt" x="1061" y="573.5">VIEW</text>
+      <text class="mvlab" x="1050" y="603">MAIN</text><text class="mvlab" x="1050" y="617">VIEW</text>
+      <path class="mvarrow" d="M1076 648H1028" marker-end="url(#arr)"/>
     </g>
     <path class="entry" d="M990 1046l-9 13h18z"/><text class="entrylab" x="990" y="1076">ENTRANCE</text>
     ${SECTIONS.map(secSVG).join("")}
