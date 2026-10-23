@@ -196,7 +196,7 @@ img{display:block;max-width:100%}
   .t-hint{top:12px;font-size:11px;white-space:nowrap;padding:6px 12px}
   .t-note{font-size:12px}
   .t-main{display:flex;flex-direction:column}
-  .t-stage{order:1;height:calc(100vw * .86);min-height:300px;max-height:560px}
+  .t-stage{order:1;height:calc(100vw * .72);min-height:270px;max-height:520px}
   .t-mini{display:none}
   .t-legend{display:none}
   .t-mbar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 14px calc(10px + env(safe-area-inset-bottom));background:#0b0b0b;color:#fff;box-shadow:0 -8px 24px rgba(0,0,0,.2)}

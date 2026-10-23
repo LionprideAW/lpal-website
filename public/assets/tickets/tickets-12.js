@@ -23,7 +23,7 @@ const CATS = {
 };
 
 /* ---------- hall geometry (units follow the floor plan) ---------- */
-const BASE = { x: 190, y: 222, w: 1105, h: 862 };
+const BASE = { x: 190, y: 346, w: 1105, h: 738 };
 const range = (a, b) => Array.from({ length: b - a + 1 }, (_, i) => a + i);
 // left side: 11 rows, with one free row between row 1 and the stage
 const leftX = r => 352 + (11 - r) * 22.6, rightX = r => 760 + (r - 1) * 22.5;
@@ -95,12 +95,12 @@ svgEl.innerHTML = `<defs>
     <marker id="arr" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 10 5 0 10z" fill="#e1261c"/></marker>
   </defs>
   <g id="hall">
-    <rect class="floor" x="210" y="238" width="1075" height="812"/>
-    <path class="wall" d="M1285 238H210V1050H925M1055 1050H1285"/>
-    <rect class="zone" x="705" y="246" width="280" height="137" rx="6"/><text class="zlab" x="845" y="314">FOOD &amp; DRINKS</text>
+    <rect class="floor" x="210" y="362" width="1075" height="688"/>
+    <path class="wall" d="M1285 362H210V1050H925M1055 1050H1285"/>
+    <rect class="zone" x="795" y="392" width="230" height="120" rx="6"/><text class="zlab" x="910" y="452">FOOD &amp; DRINKS</text>
     <rect class="zone" x="1115" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1186" y="584" transform="rotate(-90 1186 584)">FOOD &amp; DRINKS</text>
-    <text class="zlab" x="1275" y="262" style="text-anchor:end;font-size:11px">WC &rarr;</text>
-    <rect class="zone merch" x="291" y="300" width="236" height="190" rx="6"><title>Merchandise &amp; sponsors area</title></rect><text class="zlab merch" x="409" y="386">MERCHANDISE</text><text class="zlab merch" x="409" y="406">&amp; SPONSORS</text>
+    <text class="zlab" x="1275" y="384" style="text-anchor:end;font-size:11px">WC &rarr;</text>
+    <rect class="zone merch" x="335" y="392" width="230" height="120" rx="6"><title>Merchandise &amp; sponsors area</title></rect><text class="zlab merch" x="450" y="442">MERCHANDISE</text><text class="zlab merch" x="450" y="462">&amp; SPONSORS</text>
     <rect class="led" x="226" y="526" width="42" height="214" rx="3"/><text class="ledlab" x="247" y="633" transform="rotate(-90 247 633)">LED SCREEN</text>
     <path class="walk" d="M272 656H606" marker-end="url(#arr)"/><text class="walklab" x="470" y="643">ATHLETE WALKOUT</text>
     <rect class="stage" x="622" y="562" width="116" height="184" rx="3"/>
