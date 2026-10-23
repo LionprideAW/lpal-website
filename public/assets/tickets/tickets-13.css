@@ -216,15 +216,21 @@ img{display:block;max-width:100%}
   .t-co.soonwrap{padding:12px}
 }
 
-/* main view picture: circular reveal from the click point + slow camera push */
-.t-view{position:fixed;inset:0;z-index:60;background:#000;display:grid;place-items:center;clip-path:circle(0px at var(--ox,50%) var(--oy,50%));transition:clip-path .75s cubic-bezier(.7,0,.2,1)}
+/* main view picture: the camera swoops down from above into the crowd */
+.t-view{position:fixed;inset:0;z-index:60;background:#000;overflow:hidden;perspective:1400px;opacity:0;transition:opacity .45s ease}
 .t-view[hidden]{display:none}
-.t-view.open{clip-path:circle(150vmax at var(--ox,50%) var(--oy,50%))}
-.t-view img{width:100%;height:100%;object-fit:contain;transform:scale(1.25);transition:transform 1.4s cubic-bezier(.2,.8,.2,1);cursor:zoom-out}
-.t-view.open img{transform:scale(1)}
-.t-view-cap{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:40px clamp(16px,3vw,32px) calc(18px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.85));color:#ddd;font-size:13.5px;opacity:0;transform:translateY(14px);transition:opacity .5s .55s,transform .5s .55s var(--ease)}
+.t-view.open{opacity:1}
+.t-view img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;transform-origin:50% 62%;cursor:zoom-out;
+  transform:translateY(16%) scale(2.1) rotateX(16deg);filter:blur(12px) brightness(.3);
+  transition:transform 2.3s cubic-bezier(.16,1,.3,1),filter 1.5s ease-out}
+.t-view.open img{transform:none;filter:none;animation:t-breathe 16s ease-in-out 2.3s infinite alternate}
+@keyframes t-breathe{from{transform:scale(1)}to{transform:scale(1.06)}}
+@media (min-aspect-ratio:4/3){.t-view img{object-position:100% 50%}}
+.t-view::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 55%,transparent 55%,rgba(0,0,0,.55))}
+.t-stage.diving .t-map{transition:filter .5s;filter:brightness(.85) blur(1px)}
+.t-view-cap{position:absolute;left:0;right:0;bottom:0;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:40px clamp(16px,3vw,32px) calc(18px + env(safe-area-inset-bottom));background:linear-gradient(transparent,rgba(0,0,0,.85));color:#ddd;font-size:13.5px;opacity:0;transform:translateY(14px);transition:opacity .6s 1.3s,transform .6s 1.3s var(--ease);z-index:1}
 .t-view.open .t-view-cap{opacity:1;transform:none}
 .t-view-cap b{display:block;font-family:var(--display);font-weight:400;font-size:clamp(30px,4vw,48px);line-height:1;color:#fff;letter-spacing:.03em}
 .t-view-cap button{flex:none;width:46px;height:46px;border:1px solid rgba(255,255,255,.5);color:#fff;font-size:28px;line-height:1;border-radius:50%;transition:background .2s}
 .t-view-cap button:hover{background:rgba(255,255,255,.15)}
-@media (prefers-reduced-motion:reduce){.t-view,.t-view img,.t-view-cap{transition:none}.t-map .mvpulse{animation:none}}
+@media (prefers-reduced-motion:reduce){.t-view,.t-view img,.t-view-cap{transition:none}.t-view.open img{animation:none}.t-map .mvpulse{animation:none}}

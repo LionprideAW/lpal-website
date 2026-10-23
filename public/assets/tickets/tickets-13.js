@@ -199,7 +199,7 @@ svgEl.addEventListener("pointermove", e => {
 });
 const endPtr = e => {
   if (!ptrs.has(e.pointerId)) return; ptrs.delete(e.pointerId); svgEl.classList.remove("drag");
-  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); else if (gest.mv) openPreview(e); }
+  if (gest && gest.type === "pan" && gest.moved <= 5 && ptrs.size === 0) { const s = gest.sec; if (s) selectSection(+s.dataset.s); else if (gest.mv) openPreview(e, true); }
   if (ptrs.size === 0) gest = null;
 };
 svgEl.addEventListener("pointerup", endPtr); svgEl.addEventListener("pointercancel", endPtr);
@@ -250,7 +250,7 @@ function mbar() {
 $("#t-mbar-buy").addEventListener("click", e => openCheckout(e.currentTarget.dataset.k));
 function showCrumb(html) { $("#t-crumb-t").innerHTML = html; crumb.hidden = false; }
 const mv = $("#t-mainview");
-mv.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPreview(); } });
+mv.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openPreview(null, true); } });
 $("#t-crumb-back").addEventListener("click", home);
 
 /* ---------- panel ---------- */
@@ -282,7 +282,7 @@ function bindPanel() {
   const back = $(".t-back2", panel); if (back) back.addEventListener("click", () => back.dataset.to ? focusCat(back.dataset.to) : home());
 }
 function renderOverview() {
-  panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/venue-preview-sm.webp" alt="Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune" loading="lazy"><span>How LPAL 4 will look<small>AI visualisation of the planned setup · tap to enlarge</small></span></button>
+  panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/main-view-sm.webp" alt="Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune" loading="lazy"><span>How LPAL 4 will look<small>AI visualisation of the planned setup · tap to enlarge</small></span></button>
     <h1 class="t-ph">Pick your ticket</h1><p class="t-psub">Choose a ticket type, or tap an area on the map.</p>
     ${Object.keys(CATS).map(card).join("")}${howto}`;
   bindPanel();
@@ -320,16 +320,23 @@ function openCheckout(k) {
 }
 /* main view: the picture opens with a circular reveal from where you clicked */
 const pview = $("#t-view");
-function openPreview(e) {
-  let x = innerWidth / 2, y = innerHeight / 2;
-  if (e && e.clientX != null) { x = e.clientX; y = e.clientY; }
-  else { const b = $("#t-mainview").getBoundingClientRect(); if (b.width) { x = b.left + b.width / 2; y = b.top + b.height / 2; } }
-  pview.style.setProperty("--ox", x + "px"); pview.style.setProperty("--oy", y + "px");
-  pview.hidden = false; document.body.style.overflow = "hidden"; void pview.offsetWidth; pview.classList.add("open"); $("#t-view-x").focus();
+// "Take your seat": from the map, the camera first flies to the MAIN VIEW spot,
+// then the picture swoops down from above until you are sitting in the crowd.
+let viewBefore = null, viewTimer = 0;
+const reduceMotion = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+function openPreview(e, fromMap = false) {
+  clearTimeout(viewTimer); hideTip(); hideHint();
+  const show = () => { pview.hidden = false; document.body.style.overflow = "hidden"; void pview.offsetWidth; pview.classList.add("open"); $("#t-view-x").focus(); };
+  if (fromMap && !reduceMotion()) {
+    viewBefore = { ...view };
+    const w = sz().width / 5.2 * 1.05; animateTo({ x: 1004 - w / 2, y: 648 - w * view.h / view.w / 2, w, h: w * view.h / view.w }, 650);
+    stage.classList.add("diving"); viewTimer = setTimeout(show, 520);
+  } else { viewBefore = null; show(); }
 }
 function closePreview() {
-  pview.classList.remove("open"); document.body.style.overflow = "";
-  setTimeout(() => { if (!pview.classList.contains("open")) pview.hidden = true; }, matchMedia("(prefers-reduced-motion: reduce)").matches ? 0 : 750);
+  clearTimeout(viewTimer); pview.classList.remove("open"); document.body.style.overflow = ""; stage.classList.remove("diving");
+  if (viewBefore) { animateTo(viewBefore, 700); viewBefore = null; }
+  viewTimer = setTimeout(() => { if (!pview.classList.contains("open")) pview.hidden = true; }, reduceMotion() ? 0 : 600);
 }
 $("#t-view-x").addEventListener("click", closePreview);
 pview.addEventListener("click", e => { if (e.target === pview || e.target.tagName === "IMG") closePreview(); });
