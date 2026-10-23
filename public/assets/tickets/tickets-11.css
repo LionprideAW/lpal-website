@@ -92,6 +92,8 @@ img{display:block;max-width:100%}
 .t-map .pillar{fill:#9aa1ab}
 .t-map .zone{fill:#e3e6ea;stroke:#cfd4da;stroke-width:1.5}
 .t-map .zlab{font-family:var(--cond);font-weight:800;letter-spacing:.12em;fill:#8a919b;text-anchor:middle;dominant-baseline:central;font-size:calc(13px / max(1, var(--ks)))}
+.t-map .zone.merch{fill:#f6eceb;stroke:#e6c9c6}
+.t-map .zlab.merch{fill:#b8473f}
 .t-map .led{fill:#111}
 .t-map .ledlab{fill:#fff;font-family:var(--cond);font-weight:800;font-size:calc(11px / max(1, var(--ks)));letter-spacing:.2em;text-anchor:middle;dominant-baseline:central}
 .t-map .walk{stroke:var(--red);stroke-width:2.2;stroke-dasharray:7 6;fill:none}

@@ -100,12 +100,13 @@ svgEl.innerHTML = `<defs>
     <rect class="zone" x="705" y="246" width="280" height="137" rx="6"/><text class="zlab" x="845" y="314">FOOD &amp; DRINKS</text>
     <rect class="zone" x="1115" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1186" y="584" transform="rotate(-90 1186 584)">FOOD &amp; DRINKS</text>
     <text class="zlab" x="1275" y="262" style="text-anchor:end;font-size:11px">WC &rarr;</text>
+    <rect class="zone merch" x="291" y="300" width="236" height="190" rx="6"><title>Merchandise &amp; sponsors area</title></rect><text class="zlab merch" x="409" y="386">MERCHANDISE</text><text class="zlab merch" x="409" y="406">&amp; SPONSORS</text>
     <rect class="led" x="226" y="526" width="42" height="214" rx="3"/><text class="ledlab" x="247" y="633" transform="rotate(-90 247 633)">LED SCREEN</text>
     <path class="walk" d="M272 656H606" marker-end="url(#arr)"/><text class="walklab" x="470" y="643">ATHLETE WALKOUT</text>
     <rect class="stage" x="622" y="562" width="116" height="184" rx="3"/>
     <text class="stagelab" x="680" y="600">STAGE</text>
     <rect class="table" x="666" y="642" width="28" height="22" rx="2"/><text class="stagesub" x="680" y="678">TABLE</text>
-    <rect class="comm" x="610" y="527" width="140" height="27" rx="3"><title>Commentators: not for sale</title></rect><text class="commlab" x="680" y="541">COMMENTATORS</text>
+    <rect class="comm" x="622" y="527" width="116" height="27" rx="3"><title>Commentators: not for sale</title></rect><text class="commlab" x="680" y="541">COMMENTATORS</text>
     <polygon class="trib-side" points="433,795 421,803 421,1036 433,1030"/><polygon class="trib-side" points="927,795 939,803 939,1036 927,1030"/>
     <rect class="trib-base" x="433" y="795" width="494" height="235"/>
     <g class="trib-stairs">${range(1, 10).map(rw => { const y = 808 + (rw - 1) * 22.6 - 11.3; return `<rect x="669.5" y="${y.toFixed(1)}" width="21" height="22.6"/><line x1="669.5" x2="690.5" y1="${(y + 1).toFixed(1)}" y2="${(y + 1).toFixed(1)}"/>`; }).join("")}</g>
