@@ -120,7 +120,7 @@ section{scroll-margin-top:76px}
 .kicker{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:var(--red)}
 .event-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;
   padding-bottom:24px;border-bottom:1px solid var(--line)}
-.event-title img{width:min(420px,78vw);height:auto;display:block}
+.event-title img{width:min(350px,70vw);height:auto;display:block}
 .event-title{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(52px,7vw,96px);line-height:.9;margin-top:4px}
 .event-meta{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin-top:14px;font-size:clamp(20px,2.2vw,28px);line-height:1.2;display:flex;flex-wrap:wrap;gap:0 12px}
 .event-meta .sep{color:var(--red)}
@@ -747,7 +747,7 @@ html,body{overflow-x:clip}
   background:linear-gradient(90deg,rgba(11,11,11,.96) 0%,rgba(11,11,11,.78) 45%,rgba(11,11,11,.55) 100%),
              linear-gradient(180deg,rgba(11,11,11,.85) 0%,transparent 30%,transparent 65%,#0b0b0b 100%)}
 .event-band .event-head{border-bottom:0;padding-bottom:0}
-.event-band .event-title img{width:min(440px,78vw);filter:drop-shadow(0 8px 26px rgba(0,0,0,.6))}
+.event-band .event-title img{width:min(370px,70vw);filter:drop-shadow(0 8px 26px rgba(0,0,0,.6))}
 .event-band .event-meta{color:#fff}
 .event-band .event-desc{color:#cfcfcf}
 .event-band .event-desc strong{color:#fff}
