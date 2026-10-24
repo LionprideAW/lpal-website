@@ -256,8 +256,8 @@ $("#t-crumb-back").addEventListener("click", home);
 /* ---------- panel ---------- */
 const SHIRTS = ["red", "yellow"];
 const shirt = (btn = true) => `<div class="t-shirt">${SHIRTS.map(c => btn
-    ? `<button type="button" data-shirt="${c}" aria-label="Show the ${c} shirt, front and back"><img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy"></button>`
-    : `<img src="assets/tickets/shirt-${c}-front-sm.webp" alt="" loading="lazy">`).join("")}<span>The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.${btn ? " Tap a shirt to see front and back." : ""}</span></div>`;
+    ? `<button type="button" data-shirt="${c}" aria-label="Show the ${c} shirt, front and back"><img src="assets/tickets/shirt-${c}-v2-front-sm.webp" alt="" loading="lazy"></button>`
+    : `<img src="assets/tickets/shirt-${c}-v2-front-sm.webp" alt="" loading="lazy">`).join("")}<span>The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.${btn ? " Tap a shirt to see front and back." : ""}</span></div>`;
 const card = k => { const c = CATS[k], n = catSections(k).length;
   return `<button type="button" class="t-card" data-cat="${k}" style="--c:${c.color}">
     <div class="t-card-top"><h3>${esc(c.name)}</h3><span class="t-price">${eur(c.price)}</span></div>
@@ -343,7 +343,7 @@ pview.addEventListener("click", e => { if (e.target === pview || e.target.tagNam
 addEventListener("keydown", e => { if (e.key === "Escape" && !pview.hidden) closePreview(); });
 function openShirt(c) {
   $("#t-co-t").textContent = "LPAL 4 event shirt · front & back";
-  coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/shirt-${c}.webp" alt="LPAL 4 event shirt, ${c} design, front and back">`;
+  coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/shirt-${c}-v2.webp" alt="LPAL 4 event shirt, ${c} design, front and back">`;
   $(".t-co-box").classList.add("soon"); co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
 }
 const closeCo = () => { co.hidden = true; coBody.innerHTML = ""; document.body.style.overflow = ""; };
