@@ -984,3 +984,11 @@ if (athletesEl) {
   }));
   $("#ath-q").addEventListener("input", apply);
 }
+
+/* ---------- venue promo: reveal on scroll ---------- */
+(() => {
+  const els = document.querySelectorAll(".venue .vr"); if (!els.length) return;
+  if (!("IntersectionObserver" in window)) { els.forEach(e => e.classList.add("in")); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .18 });
+  els.forEach(e => io.observe(e));
+})();

@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/styles-65.css">
+<link rel="stylesheet" href="assets/css/styles-66.css">
 </head>
 <body>
 
@@ -94,6 +94,45 @@
     <button class="sound-btn" id="sound-btn" aria-label="Turn sound on">
       <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path class="x" d="M16 9l5 6M21 9l-5 6" stroke="currentColor" stroke-width="2" fill="none"/><path class="wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none"/></svg>
     </button>
+  </section>
+
+  <!-- ================= VENUE / TICKETS PROMO ================= -->
+  <section class="venue" id="venue" aria-label="LPAL 4 at Motorworld Cologne, tickets on sale">
+    <div class="wrap">
+      <div class="venue-head vr">
+        <p class="kicker">Tickets on sale now</p>
+        <h2 class="venue-title">Motorworld Cologne</h2>
+        <p class="venue-sub">The home of LPAL 4. One stage, one table, a full arena around it.</p>
+      </div>
+      <div class="venue-pics">
+        <figure class="venue-pic vr vr-l">
+          <img src="assets/tickets/motorworld-outside-2-sm.webp" srcset="assets/tickets/motorworld-outside-2-sm.webp 1280w, assets/tickets/motorworld-outside-2.webp 2400w" sizes="(max-width:800px) 100vw, 50vw" alt="Motorworld Cologne from outside at sunset" loading="lazy">
+          <figcaption><span>01</span>Outside</figcaption>
+        </figure>
+        <figure class="venue-pic vr vr-r">
+          <img src="assets/tickets/venue-preview.webp" alt="Visualisation of LPAL 4 inside Motorworld: stage with the table, a full crowd and the raised tribune" loading="lazy">
+          <figcaption><span>02</span>Inside · AI visualisation</figcaption>
+        </figure>
+      </div>
+      <a class="ticket vr vr-up" href="tickets" aria-label="Buy tickets for LPAL 4">
+        <div class="ticket-main">
+          <p class="ticket-k">Admit one · LPAL 4</p>
+          <p class="ticket-date">Sat 9 Jan 2027 <i></i> 18:00</p>
+          <p class="ticket-venue">Motorworld Cologne, Germany</p>
+          <ul class="ticket-cats">
+            <li style="--c:#d3211a">VIP <b>€90</b></li>
+            <li style="--c:#c8961a">Gold <b>€60</b></li>
+            <li style="--c:#2462c6">General <b>€35</b></li>
+            <li style="--c:#7b8aa3">Fan Access <b>€30</b></li>
+          </ul>
+        </div>
+        <div class="ticket-stub">
+          <p class="ticket-from">from<b>€30</b></p>
+          <span class="ticket-btn">Buy tickets &rarr;</span>
+          <p class="ticket-note">Pick your seat on the hall map</p>
+        </div>
+      </a>
+    </div>
   </section>
 
   <!-- ================= UPCOMING EVENT ================= -->
@@ -319,6 +358,6 @@
 </footer>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script src="assets/js/main-88.js"></script>
+<script src="assets/js/main-89.js"></script>
 </body>
 </html>
