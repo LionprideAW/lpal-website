@@ -377,7 +377,7 @@ setTimeout(hideHint, 6000);
     t1.style.opacity = 1 - sm(.08, .32, p); t1.style.transform = `translateY(${-sm(.08, .32, p) * 40}px)`;
     t2.style.opacity = sm(.55, .78, p); t2.style.transform = `translateY(${(1 - sm(.55, .78, p)) * 30}px)`;
     t2.style.pointerEvents = p > .6 ? "auto" : "none";
-    sc.style.opacity = .85 * (1 - sm(.02, .12, p)); ai.style.opacity = sm(.4, .6, p);
+    sc.style.opacity = 1 - sm(.9, 1, p); sc.style.bottom = (Math.max(0, r.top) + 18) + "px"; ai.style.opacity = sm(.4, .6, p);
   };
   addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
   addEventListener("resize", frame); frame();

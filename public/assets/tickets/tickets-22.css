@@ -243,8 +243,9 @@ img{display:block;max-width:100%}
 .t-intro-in{opacity:0;background-position:50% 45%}
 @keyframes t-kb{from{transform:scale(1.14)}to{transform:scale(1.02)}}
 .t-intro-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,.35) 52%,rgba(0,0,0,.9) 100%);pointer-events:none}
-.t-intro-t{position:absolute;left:0;right:0;bottom:12vh;padding:0 20px;text-align:center;color:#fff;will-change:opacity,transform}
+.t-intro-t{position:absolute;left:0;right:0;bottom:calc(12vh + 50px);padding:0 20px;text-align:center;color:#fff;will-change:opacity,transform}
 .t-intro-t2{opacity:0}
+.t-intro-t1{bottom:calc(12vh + 110px)}
 .t-intro-k{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.2em;font-size:clamp(12px,1.3vw,15px);color:#ffd27a;text-shadow:0 2px 12px rgba(0,0,0,.6)}
 .t-intro-logo{width:clamp(170px,22vw,290px);height:auto;margin:14px auto 10px;filter:drop-shadow(0 8px 30px rgba(0,0,0,.7))}
 .t-intro-t1>*{animation:t-up .9s cubic-bezier(.2,.8,.2,1) both}
@@ -255,17 +256,21 @@ img{display:block;max-width:100%}
 .t-intro-big{font-size:clamp(54px,9vw,128px);margin:8px 0 18px}
 .t-intro-btn{display:inline-flex;align-items:center;gap:8px;padding:15px 24px;background:var(--red);color:#fff;text-decoration:none;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:15px;transition:background .2s,transform .2s}
 .t-intro-btn:hover{background:#c01d14;transform:translateY(-2px)}
-.t-intro-scroll{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;text-decoration:none;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.2em;font-size:11px;opacity:.85;transition:opacity .3s}
-.t-intro-scroll i{width:2px;height:34px;background:linear-gradient(#fff,transparent);animation:t-drip 1.8s ease-in-out infinite}
-@keyframes t-drip{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+.t-intro-scroll{position:absolute;left:50%;bottom:clamp(14px,3vh,28px);transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;text-decoration:none;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.18em;font-size:12px;text-shadow:0 2px 10px rgba(0,0,0,.8);transition:opacity .3s}
+.t-intro-scroll b{width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:var(--red);box-shadow:0 0 0 0 rgba(225,38,28,.6);animation:t-bounce 1.6s ease-in-out infinite,t-ring 1.6s ease-out infinite}
+.t-intro-scroll svg{width:28px;height:28px}
+@keyframes t-bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(9px)}}
+@keyframes t-ring{0%{box-shadow:0 0 0 0 rgba(225,38,28,.6)}100%{box-shadow:0 0 0 18px rgba(225,38,28,0)}}
+.t-intro-skip{position:absolute;top:16px;right:16px;z-index:3;padding:9px 14px;border:1px solid rgba(255,255,255,.55);background:rgba(0,0,0,.35);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;text-decoration:none;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.1em;font-size:12.5px;transition:background .2s}
+.t-intro-skip:hover{background:var(--red);border-color:var(--red)}
 .t-intro-ai{position:absolute;right:14px;bottom:10px;font-size:11px;color:rgba(255,255,255,.6);opacity:0}
 #t-pick{scroll-margin-top:0}
 .t-main{min-height:calc(100svh - 120px)}
 @media (prefers-reduced-motion:reduce){
   .t-intro{height:auto}.t-intro-pin{position:relative;height:100svh}
-  .t-intro-out,.t-intro-t1>*,.t-intro-scroll i{animation:none}
+  .t-intro-out,.t-intro-t1>*,.t-intro-scroll b{animation:none}
 }
-@media (max-width:900px){.t-intro{height:190svh}.t-intro-t{bottom:9vh}}
+@media (max-width:900px){.t-intro{height:190svh}.t-intro-t{bottom:calc(9vh + 70px)}.t-intro-t2{bottom:calc(9vh + 60px)}.t-intro-t1{bottom:calc(9vh + 130px)}}
 .t-intro-img{background-image:var(--img)}
 .t-intro-out{--img:url(motorworld-outside-2.webp)}
 .t-intro-in{--img:url(venue-preview.webp)}
