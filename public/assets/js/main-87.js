@@ -8,7 +8,7 @@ const SETTINGS = {
   eventStart: "2027-01-09T17:00:00+01:00",
   watchUrl: "https://kick.com/lionpridearmwrestling",
   // Ticket shop link. While empty, BUY TICKETS stays inactive.
-  ticketsUrl: "tickets"
+  ticketsUrl: "https://tickets.lionpride-armwrestling.com/events/lionpridearmwrestlingleague2/2489870"
 };
 
 // Country codes (ISO 2 letters) -> name shown under the athlete
@@ -185,7 +185,7 @@ const bust = p => p ? `assets/img/bust-v2/${p}.webp` : "assets/img/bust-v2/silho
 const body = p => p ? `assets/img/athletes-v2/${p}.webp` : "assets/img/silhouette-athlete.webp";
 const flag = c => c ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="22" height="16" loading="lazy" onerror="this.remove()">` : "";
 const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x.country] || "")}</span>` : "";
-const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="tickets" data-tickets>Buy tickets</a>`;
+const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="https://tickets.lionpride-armwrestling.com/events/lionpridearmwrestlingleague2/2489870" target="_blank" rel="noopener" data-tickets>Buy tickets</a>`;
 const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
 
 const IG_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;

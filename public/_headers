@@ -39,5 +39,7 @@
   X-Robots-Tag: noindex, nofollow
 /tickets
   Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
 /tickets.html
   Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
