@@ -242,7 +242,7 @@ img{display:block;max-width:100%}
 .t-intro-out{transform-origin:52% 70%;animation:t-kb 9s ease-out both}
 .t-intro-in{opacity:0;background-position:50% 45%}
 @keyframes t-kb{from{transform:scale(1.14)}to{transform:scale(1.02)}}
-.t-intro-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.55) 0%,rgba(0,0,0,.05) 35%,rgba(0,0,0,.15) 60%,rgba(0,0,0,.85) 100%);pointer-events:none}
+.t-intro-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,.35) 52%,rgba(0,0,0,.9) 100%);pointer-events:none}
 .t-intro-t{position:absolute;left:0;right:0;bottom:12vh;padding:0 20px;text-align:center;color:#fff;will-change:opacity,transform}
 .t-intro-t2{opacity:0}
 .t-intro-k{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.2em;font-size:clamp(12px,1.3vw,15px);color:#ffd27a;text-shadow:0 2px 12px rgba(0,0,0,.6)}
@@ -266,3 +266,5 @@ img{display:block;max-width:100%}
   .t-intro-out,.t-intro-t1>*,.t-intro-scroll i{animation:none}
 }
 @media (max-width:900px){.t-intro{height:210svh}.t-intro-t{bottom:15vh}}
+.t-intro-out{background-image:url(motorworld-outside-2.webp)}
+@media (max-width:900px){.t-intro-out{background-image:url(motorworld-outside-2-sm.webp)}}
