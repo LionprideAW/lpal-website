@@ -25,7 +25,9 @@ const MAIN_EVENT = {
   title: "LPAL World Title Match",
   reveal: "Announced 25 October",
   a: null,
-  b: null
+  b: null,
+  // true = the main event card is not shown in the fight card on the main page (sponsor pages are separate)
+  hidden: true
 };
 
 // photo = file name (without .webp). Chest-up crop in assets/img/bust-v2/, full body in assets/img/athletes-v2/. When photos change, save them in a new folder name (e.g. -v3) so browsers load the new ones.
@@ -273,7 +275,7 @@ const mainHTML = boutHTML({
   imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-me-b.webp"
 });
 
-if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
+if ($("#bouts")) $("#bouts").innerHTML = (me.hidden ? "" : mainHTML) + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: "",   // no match numbers: the order may still change
