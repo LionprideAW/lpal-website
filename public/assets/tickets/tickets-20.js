@@ -369,7 +369,7 @@ setTimeout(hideHint, 6000);
     const r = box.getBoundingClientRect(), total = r.height - innerHeight, p = clamp(-r.top / total);
     if (p > 0 && !started) { started = true; out.style.animation = "none"; }
     // 1) push towards the entrance  2) cross into the hall  3) settle in your seat
-    const push = sm(0, .55, p), cross = sm(.28, .58, p), settle = sm(.4, .95, p);
+    const push = sm(0, .6, p), cross = sm(.32, .62, p), settle = sm(.45, 1, p);
     if (started) out.style.transform = `scale(${1.02 + push * 1.25})`;
     out.style.opacity = 1 - cross; out.style.filter = `blur(${cross * 2.5}px) brightness(${1 + cross * .35})`;
     inn.style.opacity = cross; inn.style.transform = `scale(${1.45 - settle * .43}) translateY(${(1 - settle) * -3}%)`;
