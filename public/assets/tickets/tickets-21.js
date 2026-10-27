@@ -369,15 +369,15 @@ setTimeout(hideHint, 6000);
     const r = box.getBoundingClientRect(), total = r.height - innerHeight, p = clamp(-r.top / total);
     if (p > 0 && !started) { started = true; out.style.animation = "none"; }
     // 1) push towards the entrance  2) cross into the hall  3) settle in your seat
-    const push = sm(0, .6, p), cross = sm(.32, .62, p), settle = sm(.45, 1, p);
-    if (started) out.style.transform = `scale(${1.02 + push * 1.25})`;
-    out.style.opacity = 1 - cross; out.style.filter = `blur(${cross * 2.5}px) brightness(${1 + cross * .35})`;
-    inn.style.opacity = cross; inn.style.transform = `scale(${1.45 - settle * .43}) translateY(${(1 - settle) * -3}%)`;
-    inn.style.filter = `blur(${(1 - sm(.38, .66, p)) * 3}px)`;
-    t1.style.opacity = 1 - sm(.05, .28, p); t1.style.transform = `translateY(${-sm(.05, .28, p) * 40}px)`;
-    t2.style.opacity = sm(.68, .88, p); t2.style.transform = `translateY(${(1 - sm(.68, .88, p)) * 30}px)`;
-    t2.style.pointerEvents = p > .7 ? "auto" : "none";
-    sc.style.opacity = .85 * (1 - sm(.02, .12, p)); ai.style.opacity = sm(.6, .8, p);
+    // 1) fade from the outside picture to the inside picture  2) small zoom into the arena  3) then the page scrolls on as normal
+    const fade = sm(.12, .5, p), zoom = sm(.45, .85, p);
+    if (started) out.style.transform = `scale(${1.02 + fade * .05})`;
+    out.style.opacity = 1 - fade; out.style.filter = "none";
+    inn.style.opacity = fade; inn.style.transform = `scale(${1 + zoom * .12})`; inn.style.filter = "none";
+    t1.style.opacity = 1 - sm(.08, .32, p); t1.style.transform = `translateY(${-sm(.08, .32, p) * 40}px)`;
+    t2.style.opacity = sm(.55, .78, p); t2.style.transform = `translateY(${(1 - sm(.55, .78, p)) * 30}px)`;
+    t2.style.pointerEvents = p > .6 ? "auto" : "none";
+    sc.style.opacity = .85 * (1 - sm(.02, .12, p)); ai.style.opacity = sm(.4, .6, p);
   };
   addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
   addEventListener("resize", frame); frame();

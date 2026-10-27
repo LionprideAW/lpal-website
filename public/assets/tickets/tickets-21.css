@@ -236,10 +236,10 @@ img{display:block;max-width:100%}
 @media (prefers-reduced-motion:reduce){.t-view,.t-view img,.t-view-cap{transition:none}.t-view.open img{animation:none}.t-map .mvpulse{animation:none}}
 
 /* ---------- intro: from outside the venue into the arena ---------- */
-.t-intro{position:relative;height:230svh;background:#000;flex:none}
+.t-intro{position:relative;height:200svh;background:#000;flex:none}
 .t-intro-pin{position:sticky;top:0;height:100svh;overflow:hidden}
 .t-intro-img{position:absolute;inset:-2%;background-size:cover;background-position:center;will-change:transform,opacity}
-.t-intro-out{transform-origin:52% 70%;animation:t-kb 9s ease-out both}
+.t-intro-out{transform-origin:50% 55%;animation:t-kb 9s ease-out both}
 .t-intro-in{opacity:0;background-position:50% 45%}
 @keyframes t-kb{from{transform:scale(1.14)}to{transform:scale(1.02)}}
 .t-intro-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.45) 0%,rgba(0,0,0,0) 30%,rgba(0,0,0,.35) 52%,rgba(0,0,0,.9) 100%);pointer-events:none}
@@ -265,7 +265,7 @@ img{display:block;max-width:100%}
   .t-intro{height:auto}.t-intro-pin{position:relative;height:100svh}
   .t-intro-out,.t-intro-t1>*,.t-intro-scroll i{animation:none}
 }
-@media (max-width:900px){.t-intro{height:210svh}.t-intro-t{bottom:9vh}}
+@media (max-width:900px){.t-intro{height:190svh}.t-intro-t{bottom:9vh}}
 .t-intro-img{background-image:var(--img)}
 .t-intro-out{--img:url(motorworld-outside-2.webp)}
 .t-intro-in{--img:url(venue-preview.webp)}
