@@ -354,5 +354,32 @@ addEventListener("keydown", e => { if (e.key === "Escape" && !co.hidden) closeCo
 /* ---------- start ---------- */
 renderOverview();
 const h = location.hash.slice(1);
-if (CATS[h]) setTimeout(() => focusCat(h), 300);
+if (CATS[h]) { $("#t-pick").scrollIntoView(); setTimeout(() => focusCat(h), 300); }
 setTimeout(hideHint, 6000);
+
+/* ---------- intro: scroll from outside Motorworld into the arena ---------- */
+(function intro() {
+  const box = $("#t-intro"); if (!box) return;
+  const out = $(".t-intro-out", box), inn = $(".t-intro-in", box), t1 = $(".t-intro-t1", box), t2 = $(".t-intro-t2", box), sc = $(".t-intro-scroll", box), ai = $(".t-intro-ai", box);
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) { inn.style.opacity = 0; return; }
+  const clamp = v => Math.min(1, Math.max(0, v)), sm = (a, b, v) => { const t = clamp((v - a) / (b - a)); return t * t * (3 - 2 * t); };
+  let raf = 0, started = false;
+  const frame = () => {
+    raf = 0;
+    const r = box.getBoundingClientRect(), total = r.height - innerHeight, p = clamp(-r.top / total);
+    if (p > 0 && !started) { started = true; out.style.animation = "none"; }
+    // 1) push towards the entrance  2) cross into the hall  3) settle in your seat
+    const push = sm(0, .6, p), cross = sm(.32, .62, p), settle = sm(.45, 1, p);
+    if (started) out.style.transform = `scale(${1.02 + push * 1.25})`;
+    out.style.opacity = 1 - cross; out.style.filter = `blur(${cross * 2.5}px) brightness(${1 + cross * .35})`;
+    inn.style.opacity = cross; inn.style.transform = `scale(${1.45 - settle * .43}) translateY(${(1 - settle) * -3}%)`;
+    inn.style.filter = `blur(${(1 - sm(.38, .66, p)) * 3}px)`;
+    t1.style.opacity = 1 - sm(.05, .28, p); t1.style.transform = `translateY(${-sm(.05, .28, p) * 40}px)`;
+    t2.style.opacity = sm(.68, .88, p); t2.style.transform = `translateY(${(1 - sm(.68, .88, p)) * 30}px)`;
+    t2.style.pointerEvents = p > .7 ? "auto" : "none";
+    sc.style.opacity = .85 * (1 - sm(.02, .12, p)); ai.style.opacity = sm(.6, .8, p);
+  };
+  addEventListener("scroll", () => { if (!raf) raf = requestAnimationFrame(frame); }, { passive: true });
+  addEventListener("resize", frame); frame();
+  $$('a[href="#t-pick"]', box).forEach(a => a.addEventListener("click", e => { e.preventDefault(); $("#t-pick").scrollIntoView({ behavior: "smooth" }); }));
+})();
