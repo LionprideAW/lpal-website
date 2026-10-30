@@ -8,6 +8,8 @@
   },
   "routes": [
     { "pattern": "lionpride-armwrestling.com", "custom_domain": true },
-    { "pattern": "www.lionpride-armwrestling.com", "custom_domain": true }
+    { "pattern": "www.lionpride-armwrestling.com", "custom_domain": true },
+    { "pattern": "lpal.eu", "custom_domain": true },
+    { "pattern": "www.lpal.eu", "custom_domain": true }
   ]
 }
