@@ -520,10 +520,10 @@ body.no-scroll{overflow:hidden}
 
 /* story cards: photo and title only */
 .st-card::before{display:none}
-.st-card{border-radius:10px;clip-path:none;overflow:hidden;border:1px solid rgba(225,38,28,.9);
-  box-shadow:0 0 18px rgba(225,38,28,.45),0 0 2px rgba(225,38,28,.8);transition:transform .35s var(--ease),box-shadow .35s ease,border-color .3s}
-.st-card:hover{box-shadow:0 0 28px rgba(225,38,28,.65),0 0 2px rgba(225,38,28,.9)}
-.st-card.is-seen{border-color:rgba(255,255,255,.18);box-shadow:0 6px 18px rgba(0,0,0,.4)}
+.st-card{border-radius:10px;clip-path:none;overflow:hidden;border:1px solid rgba(255,255,255,.08);
+  box-shadow:0 6px 16px rgba(0,0,0,.55);transition:transform .35s var(--ease),box-shadow .35s ease,border-color .3s}
+.st-card:hover{box-shadow:0 12px 26px rgba(0,0,0,.65)}
+.st-card.is-seen{border-color:rgba(255,255,255,.08);box-shadow:0 6px 16px rgba(0,0,0,.55)}
 .st-row{padding:22px 22px 26px;margin:-16px -22px -20px;scroll-padding-left:22px}
 
 @media (max-width:860px){
