@@ -9,9 +9,9 @@ src = (ROOT / "index.html").read_text()
 PAIRS = [
  # head
  ('<html lang="en">', '<html lang="de">'),
- ('<title>LPAL | Lion Pride Armwrestling League</title>', '<title>LPAL | Lion Pride Armwrestling League – Armwrestling live in Köln</title>'),
+ ('<title>LPAL | Lion Pride Armwrestling League</title>', '<title>LPAL | Armwrestling &amp; Armdrücken live in Köln – Lion Pride Armwrestling League</title>'),
  ('content="Lion Pride Armwrestling League. Elite armwrestling live from Cologne, Germany on 9 January 2027. Fight card, countdown and free livestream.">',
-  'content="Lion Pride Armwrestling League (LPAL): Profi-Armwrestling live aus Köln am 9. Januar 2027. Fight Card, Tickets, Countdown und kostenloser Livestream.">'),
+  'content="Lion Pride Armwrestling League (LPAL): Profi-Armwrestling (Armdrücken) live aus Köln am 9. Januar 2027. Fight Card, Tickets, Countdown und kostenloser Livestream.">'),
  ('<meta property="og:title" content="The Official Home of the Lion Pride Armwrestling League | LPAL">', '<meta property="og:title" content="Die offizielle Seite der Lion Pride Armwrestling League | LPAL">'),
  ('content="The official home of the Lion Pride Armwrestling League. Fight cards, athletes, results and free livestreams. LPAL 4 · 9 January 2027 · Cologne, Germany.">',
   'content="Die offizielle Seite der Lion Pride Armwrestling League. Fight Cards, Athleten, Ergebnisse und kostenlose Livestreams. LPAL 4 · 9. Januar 2027 · Köln.">'),
@@ -36,7 +36,7 @@ PAIRS = [
  ('<a href="de" hreflang="de" lang="de">Deutsch</a>', '<a href="./" hreflang="en" lang="en">English</a>'),
  ('class="btn btn-red">Watch event</a>\n    </div>\n  </div>\n</header>', 'class="btn btn-red">Event ansehen</a>\n    </div>\n  </div>\n</header>'),
  # hero
- ('<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League</h1>', '<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League: Armwrestling live in Köln</h1>'),
+ ('<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League</h1>', '<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League: Armwrestling und Armdrücken live in Köln</h1>'),
  ('<p class="hero-date">Saturday 9 January 2027 &middot; Cologne, Germany</p>', '<p class="hero-date">Samstag, 9. Januar 2027 &middot; Köln</p>'),
  ('<p class="hero-sub">Main event: World title match</p>', '<p class="hero-sub">Hauptkampf: Weltmeisterschaftskampf</p>'),
  ('rel="noopener">Watch event</a>\n        <a class="btn btn-white" href="#event">View fight card</a>', 'rel="noopener">Event ansehen</a>\n        <a class="btn btn-white" href="#event">Zur Fight Card</a>'),
@@ -65,7 +65,7 @@ PAIRS = [
  ('<p class="kicker">Upcoming event</p>', '<p class="kicker">Nächstes Event</p>'),
  ('<p class="event-meta"><span>Saturday, 9 January 2027</span><span class="sep">&middot;</span><span>Cologne, Germany</span></p>', '<p class="event-meta"><span>Samstag, 9. Januar 2027</span><span class="sep">&middot;</span><span>Köln, Deutschland</span></p>'),
  ('<p class="event-desc">The biggest LPAL card yet: champions and fan favourites with a combined reach of <strong>5.6M+ followers</strong> on Instagram and TikTok, live from Cologne.</p>',
-  '<p class="event-desc">Die größte LPAL Fight Card bisher: Champions und Publikumslieblinge mit zusammen <strong>über 5,6 Mio. Followern</strong> auf Instagram und TikTok, live aus Köln.</p>'),
+  '<p class="event-desc">Die größte LPAL Fight Card bisher: Armdrücken auf Profi-Niveau mit Champions und Publikumslieblingen, die zusammen <strong>über 5,6 Mio. Follower</strong> auf Instagram und TikTok haben, live aus Köln.</p>'),
  ('aria-label="Time until the event"', 'aria-label="Zeit bis zum Event"'),
  ('<small>Days</small>', '<small>Tage</small>'), ('<small>Hrs</small>', '<small>Std</small>'), ('<small>Min</small>', '<small>Min</small>'), ('<small>Sec</small>', '<small>Sek</small>'),
  ('aria-label="5.6 million plus combined followers"><span class="reach-num">5.6M+</span><span class="reach-label">Combined followers<br>Instagram &amp; TikTok</span>',
@@ -98,7 +98,7 @@ PAIRS = [
  ('<p class="kicker">For athletes</p>', '<p class="kicker">Für Athleten</p>'),
  ('<h2 class="road-title">Road to LPAL</h2>', '<h2 class="road-title">Der Weg zur LPAL</h2>'),
  ('<p class="road-lead">Every LPAL event starts long before the lights go down. The LPAL Qualifier is open to athletes who want a place in the league.</p>',
-  '<p class="road-lead">Jedes LPAL Event beginnt lange bevor die Lichter ausgehen. Der LPAL Qualifier steht allen Athleten offen, die einen Platz in der Liga wollen.</p>'),
+  '<p class="road-lead">Jedes LPAL Event beginnt lange bevor die Lichter ausgehen. Der LPAL Qualifier, ein Armdrücken-Turnier am Eventtag, steht allen Athleten offen, die einen Platz in der Liga wollen.</p>'),
  ('<div class="road-bar"><p>How do I qualify and get the chance to be a part of the Lion Pride?</p></div>', '<div class="road-bar"><p>Wie qualifiziere ich mich und werde Teil der Lion Pride?</p></div>'),
  ('alt="Qualifier match at the table with two referees"', 'alt="Qualifier-Match am Tisch mit zwei Schiedsrichtern"'),
  ('<span class="road-when">Morning</span>', '<span class="road-when">Vormittag</span>'),
@@ -139,7 +139,7 @@ ld = json.loads(m.group(1))
 for node in ld["@graph"]:
     if node.get("@type") == "SportsEvent":
         node["name"] = "LPAL 4 – Lion Pride Armwrestling League in Köln"
-        node["description"] = "LPAL 4: Profi-Armwrestling live in der Motorworld Köln. 11 Matches mit Weltmeistern und Stars aus 17 Ländern, darunter der erste LPAL-Weltmeisterschaftskampf, Walkouts im WWE-Stil und ein kostenloser Livestream."
+        node["description"] = "LPAL 4: Profi-Armwrestling (Armdrücken) live in der Motorworld Köln. 11 Matches mit Weltmeistern und Stars aus 17 Ländern, darunter der erste LPAL-Weltmeisterschaftskampf, Walkouts im WWE-Stil und ein kostenloser Livestream."
         node["url"] = "https://lpal.eu/de"; node["inLanguage"] = "de"
     if node.get("@type") == "WebSite":
         node["url"] = "https://lpal.eu/de"; node["@id"] = "https://lpal.eu/de#website"
@@ -155,7 +155,7 @@ print("de.html written")
 tsrc = (ROOT / "tickets.html").read_text()
 TPAIRS = [
  ('<html lang="en">', '<html lang="de">'),
- ('<title>LPAL 4 Tickets | Lion Pride Armwrestling League</title>', '<title>LPAL 4 Tickets | Lion Pride Armwrestling League – Armwrestling in Köln</title>'),
+ ('<title>LPAL 4 Tickets | Lion Pride Armwrestling League</title>', '<title>LPAL 4 Tickets | Armwrestling &amp; Armdrücken in Köln – Lion Pride Armwrestling League</title>'),
  ('content="Tickets for LPAL 4, Saturday 9 January 2027, Motorworld Cologne. Pick your section on the hall map: VIP, Gold, General Access or Fan Access.">',
   'content="Tickets für LPAL 4 am Samstag, 9. Januar 2027 in der Motorworld Köln. Wähle deinen Bereich im Hallenplan: VIP, Gold, General Access oder Fan Access.">'),
  ('<meta property="og:description" content="Saturday 9 January 2027 · Motorworld Cologne. Pick your section on the hall map.">', '<meta property="og:description" content="Samstag, 9. Januar 2027 · Motorworld Köln. Wähle deinen Bereich im Hallenplan.">'),
