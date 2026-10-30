@@ -885,3 +885,7 @@ html,body{overflow-x:clip}
   .ticket-note{width:100%;text-align:left}
 }
 @media (prefers-reduced-motion:reduce){.vr,.venue-pic img{transition:none;opacity:1;transform:none}}
+
+/* language switch in the top bar */
+.nav-lang{opacity:.75;font-size:13px!important;letter-spacing:.1em}
+.nav-lang:hover{opacity:1}

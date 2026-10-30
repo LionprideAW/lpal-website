@@ -3,6 +3,9 @@
    Edit SETTINGS and CATS below.
    ========================================================== */
 
+/* language: tickets-de.html has <html lang="de"> */
+const LANG = document.documentElement.lang === "de" ? "de" : "en";
+const L = (en, de) => LANG === "de" ? de : en;
 const SETTINGS = {
   // Ticket Tailor checkout link for LPAL 4. While empty, "Buy" shows "Tickets on sale soon".
   checkoutUrl: "https://tickets.lionpride-armwrestling.com/checkout/view-event/id/9342604/chk/521f720ecd00d8c3cdc2925ba9f5471f/?modal_widget=true&widget=true",
@@ -13,13 +16,13 @@ const SETTINGS = {
 
 const CATS = {
   vip:  { name: "VIP", price: 90, color: "#d3211a",
-          inc: ["First 3 rows next to the stage and the athlete walkout", "1 free drink", "1 LPAL 4 event shirt (choose your size at checkout)"] },
+          inc: L(["First 3 rows next to the stage and the athlete walkout", "1 free drink", "1 LPAL 4 event shirt (choose your size at checkout)"], ["Die ersten 3 Reihen direkt an der Bühne und am Athleten-Walkout", "1 Freigetränk", "1 LPAL 4 Event-Shirt (Größe beim Checkout wählen)"]) },
   gold: { name: "Gold", price: 60, color: "#c8961a",
-          inc: ["Rows 4–9, close to the stage", "1 free drink"] },
+          inc: L(["Rows 4–9, close to the stage", "1 free drink"], ["Reihen 4–9, nah an der Bühne", "1 Freigetränk"]) },
   ga:   { name: "General Access", price: 35, color: "#2462c6",
-          inc: ["Floor rows 10–11 on both sides of the stage, the rows behind the commentators, or tribune rows 1–5"] },
+          inc: L(["Floor rows 10–11 on both sides of the stage, the rows behind the commentators, or tribune rows 1–5"], ["Reihen 10–11 auf beiden Seiten der Bühne, die Reihen hinter den Kommentatoren oder Tribünenreihen 1–5"]) },
   fan:  { name: "Fan Access", price: 30, color: "#55657d",
-          inc: ["Tribune rows 6–10", "Raised view of the whole venue", "Cheapest ticket"] }
+          inc: L(["Tribune rows 6–10", "Raised view of the whole venue", "Cheapest ticket"], ["Tribünenreihen 6–10", "Erhöhter Blick über die ganze Halle", "Günstigstes Ticket"]) }
 };
 
 /* ---------- hall geometry (units follow the floor plan) ---------- */
@@ -34,23 +37,23 @@ const comm = rows => rows.flatMap(r => range(0, 9).map(j => [622 + j * 12.6, 515
 const trib = (side, rows) => rows.flatMap(r => range(0, 19).map(j => [(side === "l" ? 443.5 : 701.5) + j * 11.3, 808 + (r - 1) * 22.6, r]));
 
 const SECTIONS = [
-  { id: 1,  cat: "vip",  where: "Left of the stage · upper block",  rows: [1, 3],   seats: floorL("u", range(1, 3)),   rowLab: "top" },
-  { id: 2,  cat: "vip",  where: "Left of the stage · lower block",  rows: [1, 3],   seats: floorL("l", range(1, 3)),   rowLab: "bottom" },
-  { id: 3,  cat: "gold", where: "Left of the stage · upper block",  rows: [4, 9],   seats: floorL("u", range(4, 9)),   rowLab: "top" },
-  { id: 4,  cat: "gold", where: "Left of the stage · lower block",  rows: [4, 9],   seats: floorL("l", range(4, 9)),   rowLab: "bottom" },
-  { id: 5,  cat: "ga",   where: "Left of the stage · upper block",  rows: [10, 11], seats: floorL("u", range(10, 11)), rowLab: "top" },
-  { id: 6,  cat: "ga",   where: "Left of the stage · lower block",  rows: [10, 11], seats: floorL("l", range(10, 11)), rowLab: "bottom" },
-  { id: 7,  cat: "vip",  where: "Right of the stage · upper block", rows: [1, 3],   seats: floorR("u", range(1, 3)),   rowLab: "top" },
-  { id: 8,  cat: "vip",  where: "Right of the stage · lower block", rows: [1, 3],   seats: floorR("l", range(1, 3)),   rowLab: "bottom" },
-  { id: 9,  cat: "gold", where: "Right of the stage · upper block", rows: [4, 9],   seats: floorR("u", range(4, 9)),   rowLab: "top" },
-  { id: 10, cat: "gold", where: "Right of the stage · lower block", rows: [4, 9],   seats: floorR("l", range(4, 9)),   rowLab: "bottom" },
-  { id: 18, cat: "ga",   where: "Right of the stage · upper block", rows: [10, 11], seats: floorR("u", range(10, 11)), rowLab: "top" },
-  { id: 19, cat: "ga",   where: "Right of the stage · lower block", rows: [10, 11], seats: floorR("l", range(10, 11)), rowLab: "bottom" },
-  { id: 11, cat: "ga",   where: "Behind the commentators · floor level", rows: [1, 5], seats: comm(range(1, 5)),        rowLab: "left", kind: "comm" },
-  { id: 12, cat: "ga",   where: "Raised tribune · left half",       rows: [1, 5],   seats: trib("l", range(1, 5)),     rowLab: "left",  kind: "trib" },
-  { id: 13, cat: "ga",   where: "Raised tribune · right half",      rows: [1, 5],   seats: trib("r", range(1, 5)),     rowLab: "right", kind: "trib" },
-  { id: 14, cat: "fan",  where: "Raised tribune · left half",       rows: [6, 10],  seats: trib("l", range(6, 10)),    rowLab: "left",  kind: "trib" },
-  { id: 15, cat: "fan",  where: "Raised tribune · right half",      rows: [6, 10],  seats: trib("r", range(6, 10)),    rowLab: "right", kind: "trib" }
+  { id: 1,  cat: "vip",  where: L("Left of the stage · upper block", "Links der Bühne · oberer Block"),  rows: [1, 3],   seats: floorL("u", range(1, 3)),   rowLab: "top" },
+  { id: 2,  cat: "vip",  where: L("Left of the stage · lower block", "Links der Bühne · unterer Block"),  rows: [1, 3],   seats: floorL("l", range(1, 3)),   rowLab: "bottom" },
+  { id: 3,  cat: "gold", where: L("Left of the stage · upper block", "Links der Bühne · oberer Block"),  rows: [4, 9],   seats: floorL("u", range(4, 9)),   rowLab: "top" },
+  { id: 4,  cat: "gold", where: L("Left of the stage · lower block", "Links der Bühne · unterer Block"),  rows: [4, 9],   seats: floorL("l", range(4, 9)),   rowLab: "bottom" },
+  { id: 5,  cat: "ga",   where: L("Left of the stage · upper block", "Links der Bühne · oberer Block"),  rows: [10, 11], seats: floorL("u", range(10, 11)), rowLab: "top" },
+  { id: 6,  cat: "ga",   where: L("Left of the stage · lower block", "Links der Bühne · unterer Block"),  rows: [10, 11], seats: floorL("l", range(10, 11)), rowLab: "bottom" },
+  { id: 7,  cat: "vip",  where: L("Right of the stage · upper block", "Rechts der Bühne · oberer Block"), rows: [1, 3],   seats: floorR("u", range(1, 3)),   rowLab: "top" },
+  { id: 8,  cat: "vip",  where: L("Right of the stage · lower block", "Rechts der Bühne · unterer Block"), rows: [1, 3],   seats: floorR("l", range(1, 3)),   rowLab: "bottom" },
+  { id: 9,  cat: "gold", where: L("Right of the stage · upper block", "Rechts der Bühne · oberer Block"), rows: [4, 9],   seats: floorR("u", range(4, 9)),   rowLab: "top" },
+  { id: 10, cat: "gold", where: L("Right of the stage · lower block", "Rechts der Bühne · unterer Block"), rows: [4, 9],   seats: floorR("l", range(4, 9)),   rowLab: "bottom" },
+  { id: 18, cat: "ga",   where: L("Right of the stage · upper block", "Rechts der Bühne · oberer Block"), rows: [10, 11], seats: floorR("u", range(10, 11)), rowLab: "top" },
+  { id: 19, cat: "ga",   where: L("Right of the stage · lower block", "Rechts der Bühne · unterer Block"), rows: [10, 11], seats: floorR("l", range(10, 11)), rowLab: "bottom" },
+  { id: 11, cat: "ga",   where: L("Behind the commentators · floor level", "Hinter den Kommentatoren · ebenerdig"), rows: [1, 5], seats: comm(range(1, 5)),        rowLab: "left", kind: "comm" },
+  { id: 12, cat: "ga",   where: L("Raised tribune · left half", "Erhöhte Tribüne · linke Hälfte"),       rows: [1, 5],   seats: trib("l", range(1, 5)),     rowLab: "left",  kind: "trib" },
+  { id: 13, cat: "ga",   where: L("Raised tribune · right half", "Erhöhte Tribüne · rechte Hälfte"),      rows: [1, 5],   seats: trib("r", range(1, 5)),     rowLab: "right", kind: "trib" },
+  { id: 14, cat: "fan",  where: L("Raised tribune · left half", "Erhöhte Tribüne · linke Hälfte"),       rows: [6, 10],  seats: trib("l", range(6, 10)),    rowLab: "left",  kind: "trib" },
+  { id: 15, cat: "fan",  where: L("Raised tribune · right half", "Erhöhte Tribüne · rechte Hälfte"),      rows: [6, 10],  seats: trib("r", range(6, 10)),    rowLab: "right", kind: "trib" }
 ];
 SECTIONS.forEach(s => {
   const xs = s.seats.map(p => p[0]), ys = s.seats.map(p => p[1]), pad = s.kind === "trib" ? 6 : 7;
@@ -63,8 +66,8 @@ Object.entries(CATS).forEach(([k, c]) => { c.key = k; c.seats = catSections(k).r
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-const eur = n => "€" + n;
-const rowsTxt = s => s.rows[0] === s.rows[1] ? `Row ${s.rows[0]}` : `Rows ${s.rows[0]}–${s.rows[1]}`;
+const eur = n => LANG === "de" ? n + " €" : "€" + n;
+const rowsTxt = s => s.rows[0] === s.rows[1] ? `${L("Row", "Reihe")} ${s.rows[0]}` : `${L("Rows", "Reihen")} ${s.rows[0]}–${s.rows[1]}`;
 const svgEl = $("#t-map"), stage = $("#t-stage"), mini = $("#t-mini"), tip = $("#t-tip");
 
 /* ---------- draw the hall ---------- */
@@ -82,7 +85,7 @@ const secSVG = s => {
   const c = CATS[s.cat], b = s.box, lab = { vip: "VIP", gold: "GOLD", ga: "GENERAL", fan: "FAN ACCESS" }[s.cat];
   const fs = Math.min(s.kind === "trib" ? 26 : 21, (b.w - 14) / (lab.length * .56)), cx = b.x + b.w / 2, cy = b.y + b.h / 2;
   const tw = s.kind ? [9, 9] : [10, 9];
-  return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="${esc(c.name)} area, ${esc(s.where)}, ${eur(c.price)}">
+  return `<g class="sec" data-s="${s.id}" style="--c:${c.color}" tabindex="0" role="button" aria-label="${esc(c.name)} ${L("area", "Bereich")}, ${esc(s.where)}, ${eur(c.price)}">
     <rect class="sec-bg" x="${b.x.toFixed(1)}" y="${b.y.toFixed(1)}" width="${b.w.toFixed(1)}" height="${b.h.toFixed(1)}" rx="4"/>
     ${s.kind === "trib" ? range(s.rows[0], s.rows[1]).map(rw => { const y = 808 + (rw - 1) * 22.6; return `<rect class="riser" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="22.6" style="--d:${((rw - 1) * .028).toFixed(3)}"/><rect class="step" x="${b.x.toFixed(1)}" y="${(y - 11.3).toFixed(1)}" width="${b.w.toFixed(1)}" height="3.2"/>`; }).join("") : ""}
     ${s.seats.map(p => chair(p[0], p[1], tw[0], tw[1])).join("")}
@@ -97,33 +100,33 @@ svgEl.innerHTML = `<defs>
   <g id="hall">
     <rect class="floor" x="210" y="362" width="1075" height="688"/>
     <path class="wall" d="M1285 362H210V1050H925M1055 1050H1285"/>
-    <rect class="zone" x="795" y="392" width="230" height="120" rx="6"/><text class="zlab" x="910" y="452">FOOD &amp; DRINKS</text>
-    <rect class="zone" x="1115" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1186" y="584" transform="rotate(-90 1186 584)">FOOD &amp; DRINKS</text>
+    <rect class="zone" x="795" y="392" width="230" height="120" rx="6"/><text class="zlab" x="910" y="452">${L("FOOD &amp; DRINKS", "ESSEN &amp; GETRÄNKE")}</text>
+    <rect class="zone" x="1115" y="397" width="142" height="375" rx="6"/><text class="zlab" x="1186" y="584" transform="rotate(-90 1186 584)">${L("FOOD &amp; DRINKS", "ESSEN &amp; GETRÄNKE")}</text>
     <text class="zlab" x="1275" y="384" style="text-anchor:end;font-size:11px">WC &rarr;</text>
-    <rect class="zone merch" x="335" y="392" width="230" height="120" rx="6"><title>Merchandise &amp; sponsors area</title></rect><text class="zlab merch" x="450" y="442">MERCHANDISE</text><text class="zlab merch" x="450" y="462">&amp; SPONSORS</text>
-    <rect class="led" x="226" y="526" width="42" height="214" rx="3"/><text class="ledlab" x="247" y="633" transform="rotate(-90 247 633)">LED SCREEN</text>
-    <path class="walk" d="M272 656H606" marker-end="url(#arr)"/><text class="walklab" x="470" y="643">ATHLETE WALKOUT</text>
+    <rect class="zone merch" x="335" y="392" width="230" height="120" rx="6"><title>${L("Merchandise &amp; sponsors area", "Merchandise- &amp; Sponsorenbereich")}</title></rect><text class="zlab merch" x="450" y="442">MERCHANDISE</text><text class="zlab merch" x="450" y="462">${L("&amp; SPONSORS", "&amp; SPONSOREN")}</text>
+    <rect class="led" x="226" y="526" width="42" height="214" rx="3"/><text class="ledlab" x="247" y="633" transform="rotate(-90 247 633)">${L("LED SCREEN", "LED-WAND")}</text>
+    <path class="walk" d="M272 656H606" marker-end="url(#arr)"/><text class="walklab" x="470" y="643">${L("ATHLETE WALKOUT", "ATHLETEN-WALKOUT")}</text>
     <rect class="stage" x="622" y="562" width="116" height="184" rx="3"/>
-    <text class="stagelab" x="680" y="600">STAGE</text>
-    <rect class="table" x="666" y="642" width="28" height="22" rx="2"/><text class="stagesub" x="680" y="678">TABLE</text>
-    <rect class="comm" x="622" y="527" width="116" height="27" rx="3"><title>Commentators: not for sale</title></rect><text class="commlab" x="680" y="541">COMMENTATORS</text>
+    <text class="stagelab" x="680" y="600">${L("STAGE", "BÜHNE")}</text>
+    <rect class="table" x="666" y="642" width="28" height="22" rx="2"/><text class="stagesub" x="680" y="678">${L("TABLE", "TISCH")}</text>
+    <rect class="comm" x="622" y="527" width="116" height="27" rx="3"><title>${L("Commentators: not for sale", "Kommentatoren: nicht im Verkauf")}</title></rect><text class="commlab" x="680" y="541">${L("COMMENTATORS", "KOMMENTATOREN")}</text>
     <polygon class="trib-side" points="433,795 421,803 421,1036 433,1030"/><polygon class="trib-side" points="927,795 939,803 939,1036 927,1030"/>
     <rect class="trib-base" x="433" y="795" width="494" height="235"/>
     <g class="trib-stairs">${range(1, 10).map(rw => { const y = 808 + (rw - 1) * 22.6 - 11.3; return `<rect x="669.5" y="${y.toFixed(1)}" width="21" height="22.6"/><line x1="669.5" x2="690.5" y1="${(y + 1).toFixed(1)}" y2="${(y + 1).toFixed(1)}"/>`; }).join("")}</g>
     <line class="trib-rail" x1="433" x2="927" y1="795" y2="795"/>
-    <text class="tribtag" x="433" y="783">RAISED TRIBUNE · ROWS RISE TOWARDS THE BACK</text>
-    <text class="tribtag" x="680" y="1044" style="text-anchor:middle">STAIRS</text>
-    <text class="tribtag" x="680" y="404" style="text-anchor:middle">FLOOR LEVEL</text>
-    <g class="mainview" id="t-mainview" role="button" tabindex="0" aria-label="Main view towards the stage. Show the visualisation"><title>Main view towards the stage · tap to see the visualisation</title>
+    <text class="tribtag" x="433" y="783">${L("RAISED TRIBUNE · ROWS RISE TOWARDS THE BACK", "ERHÖHTE TRIBÜNE · REIHEN STEIGEN NACH HINTEN AN")}</text>
+    <text class="tribtag" x="680" y="1044" style="text-anchor:middle">${L("STAIRS", "TREPPE")}</text>
+    <text class="tribtag" x="680" y="404" style="text-anchor:middle">${L("FLOOR LEVEL", "EBENERDIG")}</text>
+    <g class="mainview" id="t-mainview" role="button" tabindex="0" aria-label="${L("Main view towards the stage. Show the visualisation", "Hauptblick zur Bühne. Visualisierung zeigen")}"><title>${L("Main view towards the stage · tap to see the visualisation", "Hauptblick zur Bühne · antippen für die Visualisierung")}</title>
       <rect x="1018" y="552" width="62" height="108" fill="transparent"/>
       <rect class="mvpulse" x="1017" y="561" width="66" height="24" rx="12"/>
       <rect class="mvbtn" x="1017" y="561" width="66" height="24" rx="12"/>
       <path class="mveye" d="M1024 573c3-4.5 6.5-6.5 10-6.5s7 2 10 6.5c-3 4.5-6.5 6.5-10 6.5s-7-2-10-6.5z"/><circle class="mveyec" cx="1034" cy="573" r="2.6"/>
-      <text class="mvbtnt" x="1061" y="573.5">VIEW</text>
-      <text class="mvlab" x="1050" y="603">MAIN</text><text class="mvlab" x="1050" y="617">VIEW</text>
+      <text class="mvbtnt" x="1061" y="573.5">${L("VIEW", "BLICK")}</text>
+      <text class="mvlab" x="1050" y="603">${L("MAIN", "HAUPT-")}</text><text class="mvlab" x="1050" y="617">${L("VIEW", "BLICK")}</text>
       <path class="mvarrow" d="M1076 648H1028" marker-end="url(#arr)"/>
     </g>
-    <path class="entry" d="M990 1046l-9 13h18z"/><text class="entrylab" x="990" y="1076">ENTRANCE</text>
+    <path class="entry" d="M990 1046l-9 13h18z"/><text class="entrylab" x="990" y="1076">${L("ENTRANCE", "EINGANG")}</text>
     ${SECTIONS.map(secSVG).join("")}
   </g>`;
 mini.setAttribute("viewBox", `${BASE.x} ${BASE.y} ${BASE.w} ${BASE.h}`);
@@ -215,7 +218,7 @@ function hover(e) {
   if (e.pointerType === "touch") return;
   const g = e.target.closest(".sec"); if (!g) { hideTip(); return; }
   const s = SECTIONS.find(x => x.id === +g.dataset.s), c = CATS[s.cat], r = stage.getBoundingClientRect();
-  if (tipSec !== s.id) { tip.innerHTML = `<b>${esc(c.name)}</b><em>${eur(c.price)}</em><small>${esc(s.where)} · ${rowsTxt(s)} · free seating</small>`; tip.style.setProperty("--c2", c.color === "#55657d" ? "#9fb0c8" : c.color); tipSec = s.id; }
+  if (tipSec !== s.id) { tip.innerHTML = `<b>${esc(c.name)}</b><em>${eur(c.price)}</em><small>${esc(s.where)} · ${rowsTxt(s)} · ${L("free seating", "freie Platzwahl")}</small>`; tip.style.setProperty("--c2", c.color === "#55657d" ? "#9fb0c8" : c.color); tipSec = s.id; }
   tip.hidden = false; tip.style.left = (e.clientX - r.left) + "px"; tip.style.top = (e.clientY - r.top) + "px";
   if (!state.cat) hl(new Set(catSections(s.cat).map(x => x.id)), false);
 }
@@ -244,7 +247,7 @@ function focusCat(k, id = null) {
 function selectSection(id) { focusCat(SECTIONS.find(x => x.id === id).cat, id); }
 function mbar() {
   const bar = $("#t-mbar"), k = state.cat; bar.hidden = !k; document.body.classList.toggle("has-mbar", !!k); if (!k) return;
-  const c = CATS[k]; $("#t-mbar-t").innerHTML = `${esc(c.name)}<small>Free seating in all ${esc(c.name)} areas</small>`;
+  const c = CATS[k]; $("#t-mbar-t").innerHTML = `${esc(c.name)}<small>${L(`Free seating in all ${esc(c.name)} areas`, `Freie Platzwahl in allen ${esc(c.name)}-Bereichen`)}</small>`;
   const b = $("#t-mbar-buy"); b.dataset.k = k; b.lastElementChild.textContent = eur(c.price);
 }
 $("#t-mbar-buy").addEventListener("click", e => openCheckout(e.currentTarget.dataset.k));
@@ -256,19 +259,19 @@ $("#t-crumb-back").addEventListener("click", home);
 /* ---------- panel ---------- */
 const SHIRTS = ["red", "yellow"], SHIRT_V = { red: "v3", yellow: "v2" };
 const shirt = (btn = true) => `<div class="t-shirt">${SHIRTS.map(c => btn
-    ? `<button type="button" data-shirt="${c}" aria-label="Show the ${c} shirt, front and back"><img src="assets/tickets/shirt-${c}-${SHIRT_V[c]}-front-sm.webp" alt="" loading="lazy"></button>`
-    : `<img src="assets/tickets/shirt-${c}-${SHIRT_V[c]}-front-sm.webp" alt="" loading="lazy">`).join("")}<span>The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.${btn ? " Tap a shirt to see front and back." : ""}</span></div>`;
+    ? `<button type="button" data-shirt="${c}" aria-label="${L(`Show the ${c} shirt, front and back`, `Shirt ${c === "red" ? "Rot" : "Gelb"} ansehen, vorne und hinten`)}"><img src="assets/tickets/shirt-${c}-${SHIRT_V[c]}-front-sm.webp" alt="" loading="lazy"></button>`
+    : `<img src="assets/tickets/shirt-${c}-${SHIRT_V[c]}-front-sm.webp" alt="" loading="lazy">`).join("")}<span>${L("The official LPAL 4 event shirt is included. Pick your size (S–XXXXL) during checkout.", "Das offizielle LPAL 4 Event-Shirt ist inklusive. Größe (S–XXXXL) beim Checkout wählen.")}${btn ? L(" Tap a shirt to see front and back.", " Shirt antippen für Vorder- und Rückseite.") : ""}</span></div>`;
 const card = k => { const c = CATS[k], n = catSections(k).length;
   return `<button type="button" class="t-card" data-cat="${k}" style="--c:${c.color}">
     <div class="t-card-top"><h3>${esc(c.name)}</h3><span class="t-price">${eur(c.price)}</span></div>
-    <p class="t-meta">${c.seats} seats · ${n} area${n > 1 ? "s" : ""} on the map</p>
+    <p class="t-meta">${L(`${c.seats} seats · ${n} area${n > 1 ? "s" : ""} on the map`, `${c.seats} Plätze · ${n} ${n > 1 ? "Bereiche" : "Bereich"} im Plan`)}</p>
     <ul class="t-inc">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>
     ${k === "vip" ? shirt(false) : ""}
-    <span class="t-card-go">Show on map &rarr;</span>
+    <span class="t-card-go">${L("Show on map", "Im Plan zeigen")} &rarr;</span>
   </button>`; };
-const howto = `<div class="t-howto"><b>How free seating works</b>You book a ticket type, not a seat. On the night, sit anywhere in the areas of your ticket type, e.g. any red VIP area. First come, first served. Our staff check that every guest stays in their category.</div>`;
-const perks = `<p class="t-small">VIP and Gold: you get your drink (and VIP shirt) voucher cards at the entrance after your ticket is scanned.</p>`;
-const buyBtn = k => `<button type="button" class="t-buy" data-buy="${k}"><span>Buy ${esc(CATS[k].name)} ticket</span><span>${eur(CATS[k].price)}</span></button>`;
+const howto = `<div class="t-howto">${L("<b>How free seating works</b>You book a ticket type, not a seat. On the night, sit anywhere in the areas of your ticket type, e.g. any red VIP area. First come, first served. Our staff check that every guest stays in their category.", "<b>So funktioniert die freie Platzwahl</b>Du buchst eine Ticketkategorie, keinen festen Platz. Am Abend sitzt du überall in den Bereichen deiner Kategorie, z. B. in jedem roten VIP-Bereich. Wer zuerst kommt, sitzt vorne. Unser Team achtet darauf, dass jeder Gast in seiner Kategorie bleibt.")}</div>`;
+const perks = `<p class="t-small">${L("VIP and Gold: you get your drink (and VIP shirt) voucher cards at the entrance after your ticket is scanned.", "VIP und Gold: Deine Gutscheinkarten für Getränk (und VIP-Shirt) bekommst du am Eingang, nachdem dein Ticket gescannt wurde.")}</p>`;
+const buyBtn = k => `<button type="button" class="t-buy" data-buy="${k}"><span>${L(`Buy ${esc(CATS[k].name)} ticket`, `${esc(CATS[k].name)}-Ticket kaufen`)}</span><span>${eur(CATS[k].price)}</span></button>`;
 function bindPanel() {
   $$(".t-card", panel).forEach(b => {
     b.addEventListener("click", () => focusCat(b.dataset.cat));
@@ -282,38 +285,38 @@ function bindPanel() {
   const back = $(".t-back2", panel); if (back) back.addEventListener("click", () => back.dataset.to ? focusCat(back.dataset.to) : home());
 }
 function renderOverview() {
-  panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/main-view-sm.webp" alt="Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune" loading="lazy"><span>How LPAL 4 will look<small>AI visualisation of the planned setup · tap to enlarge</small></span></button>
-    <h1 class="t-ph">Pick your ticket</h1><p class="t-psub">Choose a ticket type, or tap an area on the map.</p>
+  panel.innerHTML = `<button type="button" class="t-preview" id="t-preview"><img src="assets/tickets/main-view-sm.webp" alt="${L("Visualisation of the LPAL 4 setup: stage with the table in the middle, chairs on the floor and a raised tribune", "Visualisierung von LPAL 4: Bühne mit Tisch in der Mitte, Stühle auf dem Boden und erhöhte Tribüne")}" loading="lazy"><span>${L("How LPAL 4 will look", "So wird LPAL 4 aussehen")}<small>${L("AI visualisation of the planned setup · tap to enlarge", "KI-Visualisierung des geplanten Aufbaus · antippen zum Vergrößern")}</small></span></button>
+    <h1 class="t-ph">${L("Pick your ticket", "Wähle dein Ticket")}</h1><p class="t-psub">${L("Choose a ticket type, or tap an area on the map.", "Wähle eine Ticketkategorie oder tippe auf einen Bereich im Plan.")}</p>
     ${Object.keys(CATS).map(card).join("")}${howto}`;
   bindPanel();
 }
 function renderCat(k) {
   const c = CATS[k], list = catSections(k), many = list.length > 1;
-  panel.innerHTML = `<button type="button" class="t-back2">&larr; All ticket types</button>
-    <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${esc(c.name[0])}</span><div><h2>${esc(c.name)}</h2><p>${eur(c.price)} per ticket · ${c.seats} seats</p></div></div>
+  panel.innerHTML = `<button type="button" class="t-back2">&larr; ${L("All ticket types", "Alle Ticketkategorien")}</button>
+    <div class="t-sec-head" style="--c:${c.color}"><span class="t-sec-num">${esc(c.name[0])}</span><div><h2>${esc(c.name)}</h2><p>${L(`${eur(c.price)} per ticket · ${c.seats} seats`, `${eur(c.price)} pro Ticket · ${c.seats} Plätze`)}</p></div></div>
     <ul class="t-inc" style="--c:${c.color}">${c.inc.map(i => `<li>${esc(i)}</li>`).join("")}</ul>${k === "vip" ? shirt() : ""}
     ${buyBtn(k)}
-    <p class="t-small">With a ${esc(c.name)} ticket you can sit anywhere in ${many ? `all ${list.length} ${esc(c.name)} areas` : `the ${esc(c.name)} area`}. No seat numbers: first come, first served.</p>
-    <p class="t-psub" style="margin:18px 0 8px">Where you can sit</p>
-    ${list.map(s => `<button type="button" class="t-card${state.sec === s.id ? " hl" : ""}" data-sec="${s.id}" style="--c:${c.color};padding:10px 12px 10px 14px"><div class="t-card-top"><h3 style="font-size:14.5px">${esc(s.where)}</h3></div><p class="t-meta" style="margin:2px 0 0">${rowsTxt(s)} · ${s.seats.length} seats</p></button>`).join("")}
+    <p class="t-small">${L(`With a ${esc(c.name)} ticket you can sit anywhere in ${many ? `all ${list.length} ${esc(c.name)} areas` : `the ${esc(c.name)} area`}. No seat numbers: first come, first served.`, `Mit einem ${esc(c.name)}-Ticket sitzt du überall in ${many ? `allen ${list.length} ${esc(c.name)}-Bereichen` : `dem ${esc(c.name)}-Bereich`}. Keine Platznummern: Wer zuerst kommt, sitzt vorne.`)}</p>
+    <p class="t-psub" style="margin:18px 0 8px">${L("Where you can sit", "Wo du sitzen kannst")}</p>
+    ${list.map(s => `<button type="button" class="t-card${state.sec === s.id ? " hl" : ""}" data-sec="${s.id}" style="--c:${c.color};padding:10px 12px 10px 14px"><div class="t-card-top"><h3 style="font-size:14.5px">${esc(s.where)}</h3></div><p class="t-meta" style="margin:2px 0 0">${rowsTxt(s)} · ${s.seats.length} ${L("seats", "Plätze")}</p></button>`).join("")}
     ${k === "vip" || k === "gold" ? perks : ""}`;
   bindPanel();
 }
 
 /* ---------- filters + legend ---------- */
 const chips = $("#t-filters");
-chips.innerHTML = `<button type="button" class="t-chip on" data-k="">All tickets</button>` +
+chips.innerHTML = `<button type="button" class="t-chip on" data-k="">${L("All tickets", "Alle Tickets")}</button>` +
   Object.entries(CATS).map(([k, c]) => `<button type="button" class="t-chip" data-k="${k}" style="--c:${c.color}"><i></i>${esc(c.name)} <b>${eur(c.price)}</b></button>`).join("");
 $$(".t-chip", chips).forEach(b => b.addEventListener("click", () => b.dataset.k ? focusCat(b.dataset.k) : home()));
 function syncChips() { mbar(); $$(".t-chip", chips).forEach(b => b.classList.toggle("on", (b.dataset.k || null) === (state.cat || null))); }
-$("#t-legend").innerHTML = Object.values(CATS).map(c => `<p style="--c:${c.color}"><i></i>${esc(c.name)} · ${eur(c.price)}</p>`).join("") + `<p><i class="na"></i>Not for sale</p>`;
+$("#t-legend").innerHTML = Object.values(CATS).map(c => `<p style="--c:${c.color}"><i></i>${esc(c.name)} · ${eur(c.price)}</p>`).join("") + `<p><i class="na"></i>${L("Not for sale", "Nicht im Verkauf")}</p>`;
 
 /* ---------- checkout (Ticket Tailor) ---------- */
 const co = $("#t-co"), coBody = $("#t-co-body");
 function openCheckout(k) {
-  const c = CATS[k]; $("#t-co-t").textContent = `LPAL 4 · choose “${c.name}” at checkout · ${eur(c.price)}`;
+  const c = CATS[k]; $("#t-co-t").textContent = L(`LPAL 4 · choose “${c.name}” at checkout · ${eur(c.price)}`, `LPAL 4 · beim Checkout „${c.name}“ wählen · ${eur(c.price)}`);
   coBody.innerHTML = SETTINGS.checkoutUrl
-    ? `<iframe src="${esc(SETTINGS.checkoutUrl)}" title="Ticket checkout" allow="payment"></iframe><a class="t-co-alt" href="${esc(SETTINGS.eventUrl)}" target="_blank" rel="noopener">Checkout not loading? Open it in a new tab &rarr;</a>`
+    ? `<iframe src="${esc(SETTINGS.checkoutUrl)}" title="${L("Ticket checkout", "Ticket-Checkout")}" allow="payment"></iframe><a class="t-co-alt" href="${esc(SETTINGS.eventUrl)}" target="_blank" rel="noopener">${L("Checkout not loading? Open it in a new tab", "Checkout lädt nicht? In neuem Tab öffnen")} &rarr;</a>`
     : `<div class="t-soon"><h3>Tickets on sale soon</h3><p>Ticket sales for LPAL 4 open shortly. Follow us on Instagram to be the first to know.</p><a href="${SETTINGS.instagram}" target="_blank" rel="noopener">Follow LPAL on Instagram</a></div>`;
   $(".t-co-box").classList.toggle("soon", !SETTINGS.checkoutUrl);
   co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
@@ -342,7 +345,7 @@ $("#t-view-x").addEventListener("click", closePreview);
 pview.addEventListener("click", e => { if (e.target === pview || e.target.tagName === "IMG") closePreview(); });
 addEventListener("keydown", e => { if (e.key === "Escape" && !pview.hidden) closePreview(); });
 function openShirt(c) {
-  $("#t-co-t").textContent = "LPAL 4 event shirt · front & back";
+  $("#t-co-t").textContent = L("LPAL 4 event shirt · front & back", "LPAL 4 Event-Shirt · vorne & hinten");
   coBody.innerHTML = `<img class="t-shirt-big" src="assets/tickets/shirt-${c}-${SHIRT_V[c]}.webp" alt="LPAL 4 event shirt, ${c} design, front and back">`;
   $(".t-co-box").classList.add("soon"); co.hidden = false; document.body.style.overflow = "hidden"; $("#t-co-x").focus();
 }

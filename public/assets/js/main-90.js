@@ -11,6 +11,33 @@ const SETTINGS = {
   ticketsUrl: "tickets"
 };
 
+/* ---------- language: pages with <html lang="de"> show German texts ---------- */
+const LANG = document.documentElement.lang === "de" ? "de" : "en";
+const DE = {
+  "Buy tickets": "Tickets kaufen", "Watch here": "Hier ansehen", "To be announced": "Wird bekannt gegeben",
+  "Main event": "Hauptkampf", "Main event athlete to be announced": "Athlet des Hauptkampfs wird bekannt gegeben",
+  "Show details": "Details anzeigen", "Country": "Land", "Age": "Alter", "Height": "Größe", "Weight": "Gewicht", "Accolades": "Erfolge",
+  "LPAL World Title Match": "LPAL-Weltmeisterschaftskampf", "Announced 25 October": "Bekanntgabe am 25. Oktober",
+  "Open story": "Story öffnen", "Open poster": "Poster öffnen", "LPAL 4 Fight Posters": "LPAL 4 Fight-Poster",
+  "Latest on Instagram": "Neu auf Instagram", "Follow": "Folgen", "Open on Instagram": "Auf Instagram öffnen",
+  "View more on Instagram": "Mehr auf Instagram", "more": "mehr", "Play": "Abspielen", "Pause": "Pause",
+  "Tickets on sale soon": "Tickets bald erhältlich", "LPAL World Champion belt": "LPAL-Weltmeistergürtel"
+};
+const T = s => (LANG === "de" && DE[s]) || s;
+// weight classes and arms in German
+const TD = s => LANG !== "de" || !s ? s : String(s)
+  .replace("Women's Open Weight", "Frauen · Offene Klasse").replace("Women's Middleweight", "Frauen · Mittelgewicht")
+  .replace("Super Heavyweight", "Superschwergewicht").replace("Light Heavyweight", "Halbschwergewicht").replace("Heavyweight", "Schwergewicht")
+  .replace("Middleweight", "Mittelgewicht").replace("Welterweight", "Weltergewicht").replace("Lightweight", "Leichtgewicht")
+  .replace("Right arm", "Rechter Arm").replace("Left arm", "Linker Arm").replace(/(\d)kg/g, "$1 kg");
+const COUNTRIES_DE = {
+  at: "Österreich", bg: "Bulgarien", de: "Deutschland", fr: "Frankreich", ge: "Georgien", gr: "Griechenland", it: "Italien",
+  lt: "Litauen", lv: "Lettland", ma: "Marokko", rs: "Serbien", se: "Schweden", sk: "Slowakei", tr: "Türkei", cz: "Tschechien",
+  hu: "Ungarn", mk: "Nordmazedonien", pl: "Polen", ca: "Kanada", hr: "Kroatien", md: "Moldau", ro: "Rumänien", ua: "Ukraine",
+  es: "Spanien", ci: "Elfenbeinküste"
+};
+const cname = c => (LANG === "de" && COUNTRIES_DE[c]) || COUNTRIES[c] || "";
+
 // Country codes (ISO 2 letters) -> name shown under the athlete
 const COUNTRIES = {
   at: "Austria", bg: "Bulgaria", de: "Germany", fr: "France", ge: "Georgia",
@@ -162,7 +189,7 @@ soundBtn.addEventListener("click", () => {
   video.muted = !video.muted;
   if (!video.muted) video.play().catch(() => {});
   soundBtn.classList.toggle("on", !video.muted);
-  soundBtn.setAttribute("aria-label", video.muted ? "Turn sound on" : "Turn sound off");
+  soundBtn.setAttribute("aria-label", LANG === "de" ? (video.muted ? "Ton an" : "Ton aus") : (video.muted ? "Turn sound on" : "Turn sound off"));
 });
 }
 
@@ -184,9 +211,9 @@ if ($("#countdown")) { tick(); setInterval(tick, 1000); }
 const bust = p => p ? `assets/img/bust-v2/${p}.webp` : "assets/img/bust-v2/silhouette-athlete.webp";
 const body = p => p ? `assets/img/athletes-v2/${p}.webp` : "assets/img/silhouette-athlete.webp";
 const flag = c => c ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${c}.svg" alt="" width="22" height="16" loading="lazy" onerror="this.remove()">` : "";
-const country = x => x && x.country ? `${flag(x.country)}<span>${esc(COUNTRIES[x.country] || "")}</span>` : "";
-const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="tickets" data-tickets>Buy tickets</a>`;
-const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">Watch here</a>`;
+const country = x => x && x.country ? `${flag(x.country)}<span>${esc(cname(x.country))}</span>` : "";
+const ticketsBtn = `<a class="btn btn-ghost-dark btn-sm" href="${LANG === "de" ? "tickets-de" : "tickets"}" data-tickets>${T("Buy tickets")}</a>`;
+const watchBtn = `<a class="btn btn-red btn-sm" href="${SETTINGS.watchUrl}" target="_blank" rel="noopener">${T("Watch here")}</a>`;
 
 const IG_ICON = `<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
 // One Instagram icon next to each athlete's name; opens their profile without closing the match.
@@ -206,7 +233,7 @@ const ttIcon = x => {
 // Instagram + TikTok icons kept together (side by side on phones too).
 const socials = (x, rev) => { const i = rev ? ttIcon(x) + igIcon(x) : igIcon(x) + ttIcon(x); return i ? `<span class="bd-soc">${i}</span>` : ""; };
 const STATS = [
-  ["Country", x => x.country ? COUNTRIES[x.country] : ""],
+  ["Country", x => x.country ? cname(x.country) : ""],
   ["Age", x => x.age],
   ["Height", x => x.height],
   ["Weight", x => x.weight],
@@ -215,19 +242,19 @@ const STATS = [
 
 const nameBlock = (x, side) => x
   ? `<div class="b-name b-name-${side}">${x.first || x.nick ? `<span class="b-first">${firstHTML(x)}</span>` : ""}<span class="b-last">${esc(x.last)}</span>${x.note ? `<span class="b-note">${esc(x.note)}</span>` : ""}</div>`
-  : `<div class="b-name b-name-${side}"><span class="b-first">To be announced</span><span class="b-last b-tba">TBA</span></div>`;
+  : `<div class="b-name b-name-${side}"><span class="b-first">${T("To be announced")}</span><span class="b-last b-tba">TBA</span></div>`;
 
 const detailHTML = (a, b, division, arm) => {
   const rows = STATS.map(([label, get]) => {
     const va = get(a) || "", vb = get(b) || "";
     if (!va && !vb) return "";
-    return `<tr><td class="sa">${label === "Country" ? esc(va) : va || "&ndash;"}</td><th>${label}</th><td class="sb">${label === "Country" ? esc(vb) : vb || "&ndash;"}</td></tr>`;
+    return `<tr><td class="sa">${label === "Country" ? esc(va) : va || "&ndash;"}</td><th>${T(label)}</th><td class="sb">${label === "Country" ? esc(vb) : vb || "&ndash;"}</td></tr>`;
   }).join("");
   return `
     <div class="bout-detail" aria-hidden="true"><div class="bd-inner">
       <div class="bd-head">
         <span class="bd-name bd-name-a"><span class="bd-full">${[firstHTML(a), esc(a.last)].filter(Boolean).join(" ")}</span>${socials(a, false)}</span>
-        <span class="bd-div">${esc(division)}${arm ? ` &middot; ${esc(arm)}` : ""}</span>
+        <span class="bd-div">${esc(TD(division))}${arm ? ` &middot; ${esc(TD(arm))}` : ""}</span>
         <span class="bd-name bd-name-b">${socials(b, true)}<span class="bd-full">${[firstHTML(b), esc(b.last)].filter(Boolean).join(" ")}</span></span>
       </div>
       <div class="bd-body">
@@ -242,17 +269,17 @@ const boutHTML = ({ a, b, label, sub, imgA, imgB, main, division, arm }) => {
   const canOpen = a && b;
   return `
   <li class="bout${main ? " bout-main" : ""}">
-    <div class="bout-card${canOpen ? " can-open" : ""}"${canOpen ? ` role="button" tabindex="0" aria-expanded="false" aria-label="Show details: ${esc(full(a))} vs ${esc(full(b))}"` : ""}>
+    <div class="bout-card${canOpen ? " can-open" : ""}"${canOpen ? ` role="button" tabindex="0" aria-expanded="false" aria-label="${T("Show details")}: ${esc(full(a))} vs ${esc(full(b))}"` : ""}>
       ${canOpen ? `<span class="b-expand" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-7 7M10 20H4v-6M4 20l7-7" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>` : ""}
       <div class="bout-compact"><div>
         <p class="bout-label">${label}</p>
         <div class="bout-row">
-          <div class="b-photo b-photo-a"><img src="${imgA}" alt="${a ? esc(full(a)) : "Main event athlete to be announced"}" loading="lazy"></div>
+          <div class="b-photo b-photo-a"><img src="${imgA}" alt="${a ? esc(full(a)) : T("Main event athlete to be announced")}" loading="lazy"></div>
           ${nameBlock(a, "a")}
           <span class="b-vs">vs</span>
           ${nameBlock(b, "b")}
-          <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : "Main event athlete to be announced"}" loading="lazy"></div>
-          ${main ? `<img class="me-belt" src="assets/img/lpal-belt.webp" alt="LPAL World Champion belt">` : ""}
+          <div class="b-photo b-photo-b"><img src="${imgB}" alt="${b ? esc(full(b)) : T("Main event athlete to be announced")}" loading="lazy"></div>
+          ${main ? `<img class="me-belt" src="assets/img/lpal-belt.webp" alt="${T("LPAL World Champion belt")}">` : ""}
         </div>
       </div></div>
       ${canOpen ? detailHTML(a, b, division, arm) : ""}
@@ -269,15 +296,15 @@ const boutHTML = ({ a, b, label, sub, imgA, imgB, main, division, arm }) => {
 const me = MAIN_EVENT;
 const mainHTML = boutHTML({
   a: me.a, b: me.b, main: true, division: me.title, arm: me.arm,
-  label: `<span class="tag tag-red">Main event</span> ${esc(me.title)}`,
-  sub: `<span class="b-reveal">${esc(me.reveal)}</span>`,
+  label: `<span class="tag tag-red">${T("Main event")}</span> ${esc(T(me.title))}`,
+  sub: `<span class="b-reveal">${esc(T(me.reveal))}</span>`,
   imgA: me.a && me.a.photo ? bust(me.a.photo) : "assets/img/bust-v2/silhouette-me-a.webp",
   imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-me-b.webp"
 });
 
 if ($("#bouts")) $("#bouts").innerHTML = (me.hidden ? "" : mainHTML) + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
-  label: `${esc(m.division)}${m.arm ? ` &middot; ${esc(m.arm)}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
+  label: `${esc(TD(m.division))}${m.arm ? ` &middot; ${esc(TD(m.arm))}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: "",   // no match numbers: the order may still change
   imgA: bust(m.a.photo), imgB: bust(m.b.photo)
 })).join("");
@@ -487,10 +514,10 @@ const showToast = msg => {
 };
 $$("[data-tickets]").forEach(a => {
   if (SETTINGS.ticketsUrl) {
-    a.href = SETTINGS.ticketsUrl; a.removeAttribute("aria-disabled");
+    a.href = LANG === "de" && SETTINGS.ticketsUrl === "tickets" ? "tickets-de" : SETTINGS.ticketsUrl; a.removeAttribute("aria-disabled");
     if (/^https?:/.test(SETTINGS.ticketsUrl)) { a.target = "_blank"; a.rel = "noopener"; }
   } else {
-    a.addEventListener("click", e => { e.preventDefault(); showToast("Tickets on sale soon"); });
+    a.addEventListener("click", e => { e.preventDefault(); showToast(T("Tickets on sale soon")); });
   }
 });
 
@@ -517,6 +544,15 @@ const STORIES = [
     title: "The first LPAL World Title Match",
     text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 25 October." }
 ];
+const STORIES_DE = {
+  "ellen-signs": { tag: "Neuzugang", title: "Ellen B. Åkesson unterschreibt bei LPAL",
+    text: "Die ehemalige WWE-Athletin und Schwedens stärkste Frau Ellen B. Åkesson ist offiziell LPAL-Athletin." },
+  "ellen-two-opponents": { tag: "Geschichte", title: "Zwei Gegnerinnen, ein Abend",
+    text: "Ellen B. Åkesson tritt als erste Frau überhaupt bei einem Event gegen zwei verschiedene Gegnerinnen an.\n\nBeide Gegnerinnen sind WAF-Spitzenathletinnen. Die Matches werden bald bekannt gegeben." },
+  "world-title-match": { tag: "Weltmeistertitel", title: "Der erste LPAL-Weltmeisterschaftskampf",
+    text: "Der allererste LPAL-Weltmeisterschaftskampf findet am 9. Januar 2027 in Köln statt.\n\nDie Paarung wird am 25. Oktober bekannt gegeben." }
+};
+if (LANG === "de") STORIES.forEach(s => Object.assign(s, STORIES_DE[s.id] || {}));
 const STORY_MS = 7000;
 /* LPAL 4 fight posters, in fight-card order. Files in assets/img/posters/ (name.webp + name-sm.webp). */
 const POSTERS = [
@@ -537,7 +573,7 @@ const sv = $("#sv");
 const storyViewer = sv ? (() => {
   const bars = $("#sv-bars"), img = $("#sv-img"), card = $(".sv-card");
   const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const fmt = d => { try { return new Date(d).toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" }); } catch (e) { return ""; } };
+  const fmt = d => { try { return new Date(d).toLocaleDateString(LANG === "de" ? "de-DE" : "en-GB", { day: "numeric", month: "long", year: "numeric" }); } catch (e) { return ""; } };
   let R = null, cur = 0, timer = null, start = 0, elapsed = 0, paused = false, lastFocus = null;
 
   const setBars = () => {
@@ -577,7 +613,7 @@ const storyViewer = sv ? (() => {
     if (v) { elapsed += performance.now() - start; cancelAnimationFrame(timer); }
     else { start = performance.now(); timer = requestAnimationFrame(tick); }
     paused = v; sv.classList.toggle("is-paused", v);
-    $("#sv-pause").setAttribute("aria-label", v ? "Play" : "Pause");
+    $("#sv-pause").setAttribute("aria-label", T(v ? "Play" : "Pause"));
   };
   // open: the photo grows out of the clicked card and dissolves in
   const flipFrom = el => {
@@ -678,13 +714,13 @@ function storyRail(cfg) {
 }
 
 storyRail({ row: "#st-row", prev: "#st-prev", next: "#st-next", items: STORIES, seenKey: "lpal-stories-seen",
-  src: s => `assets/img/stories/${s.photo}`, brand: "Lion Pride News", label: "Open story" });
+  src: s => `assets/img/stories/${s.photo}`, brand: "Lion Pride News", label: T("Open story") });
 
 /* Fight posters: cards rise in one after another when the row comes into view,
    and tilt gently like a cover flow while the row is scrolled sideways. */
 storyRail({ row: "#ps-row", prev: "#ps-prev", next: "#ps-next", items: POSTERS, seenKey: "lpal-posters-seen",
   src: s => `assets/img/posters/${s.file}.webp`, thumb: s => `assets/img/posters/${s.file}-sm.webp`,
-  brand: "LPAL 4 Fight Posters", label: "Open poster", poster: true, cardClass: "ps-card", ms: 6000,
+  brand: T("LPAL 4 Fight Posters"), label: T("Open poster"), poster: true, cardClass: "ps-card", ms: 6000,
   onRender: row => {
     const section = row.closest(".posters"), bar = $("#ps-bar");
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -741,7 +777,7 @@ const IG = {
 };
 const igBox = $("#ig-feed");
 if (igBox) {
-  const fmtDate = t => { try { return new Date(t).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return ""; } };
+  const fmtDate = t => { try { return new Date(t).toLocaleDateString(LANG === "de" ? "de-DE" : "en-GB", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return ""; } };
   const num = n => n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1).replace(/\.0$/, "") + "K" : String(n);
   const pic = p => (p.sizes && (p.sizes.large || p.sizes.medium || p.sizes.full) || {}).mediaUrl || p.thumbnailUrl || p.mediaUrl || "";
   const thumb = p => (p.sizes && (p.sizes.small || p.sizes.medium) || {}).mediaUrl || p.thumbnailUrl || p.mediaUrl || "";
@@ -770,17 +806,17 @@ if (igBox) {
       const IG_LOGO = `<svg class="ig-logo" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="6.5" r="1.3" fill="currentColor"/></svg>`;
       igBox.innerHTML = `
         ${IG_LOGO}
-        <h3 class="ig-headline">Latest on Instagram</h3>
+        <h3 class="ig-headline">${T("Latest on Instagram")}</h3>
         <article class="ig-embed">
           <div class="ig-head">
             <span class="ig-avatar"><img src="${esc(avatar)}" alt=""></span>
             <div class="ig-who">
               <p class="ig-name">${esc(user)}</p>
-              <p class="ig-sub">Instagram &middot; <a class="ig-follow" href="${IG.profile}" target="_blank" rel="noopener">Follow</a></p>
+              <p class="ig-sub">Instagram &middot; <a class="ig-follow" href="${IG.profile}" target="_blank" rel="noopener">${T("Follow")}</a></p>
             </div>
-            <a class="ig-mark" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener" aria-label="Open on Instagram">${IG_LOGO}</a>
+            <a class="ig-mark" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener" aria-label="${T("Open on Instagram")}">${IG_LOGO}</a>
           </div>
-          ${cap ? `<p class="ig-caption" data-full="${esc(cap)}">${esc(short)}${cap.length > short.length ? ` <button class="ig-more">more</button>` : ""}</p>` : ""}
+          ${cap ? `<p class="ig-caption" data-full="${esc(cap)}">${esc(short)}${cap.length > short.length ? ` <button class="ig-more">${T("more")}</button>` : ""}</p>` : ""}
           <a class="ig-post" href="${esc(p.permalink || IG.profile)}" target="_blank" rel="noopener">
             <img src="${esc(pic(p))}" alt="${esc(short || "Latest LPAL Instagram post")}" loading="lazy">
             ${p.mediaType === "VIDEO" ? `<span class="ig-play" aria-hidden="true">${PLAY_ICON}</span>` : ""}
@@ -789,7 +825,7 @@ if (igBox) {
           <div class="ig-meta">${likes}${comments}</div>
         </article>
         ${posts.length > 1 ? `<div class="ig-thumbs">${posts.slice(1, 4).map(q => `<a href="${esc(q.permalink || IG.profile)}" target="_blank" rel="noopener"><img src="${esc(thumb(q))}" alt="LPAL Instagram post" loading="lazy"></a>`).join("")}</div>` : ""}
-        <a class="btn btn-ig btn-sm" href="${IG.profile}" target="_blank" rel="noopener">View more on Instagram</a>`;
+        <a class="btn btn-ig btn-sm" href="${IG.profile}" target="_blank" rel="noopener">${T("View more on Instagram")}</a>`;
       const more = $(".ig-more", igBox);
       if (more) more.addEventListener("click", e => { const c = e.target.closest(".ig-caption"); c.textContent = c.dataset.full; });
     })

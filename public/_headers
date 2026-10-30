@@ -43,3 +43,13 @@
 /tickets.html
   Cache-Control: no-cache
   X-Robots-Tag: noindex, nofollow
+/de
+  Cache-Control: no-cache
+/de.html
+  Cache-Control: no-cache
+/tickets-de
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
+/tickets-de.html
+  Cache-Control: no-cache
+  X-Robots-Tag: noindex, nofollow
