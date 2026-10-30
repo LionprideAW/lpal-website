@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /partners-lpal4
+Disallow: /partners-lpal4-premium
+Disallow: /partners-lpal4-kick
+
+Sitemap: https://lpal.eu/sitemap.xml

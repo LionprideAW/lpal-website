@@ -62,6 +62,9 @@ export default {
     if (url.hostname === "lionpride-armwrestling.com" || url.hostname === "www.lionpride-armwrestling.com" || url.hostname === "www.lpal.eu") {
       return Response.redirect("https://lpal.eu" + url.pathname + url.search, 301);
     }
+    // old Webflow pages that search engines still list
+    const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/" };
+    if (OLD[url.pathname]) return Response.redirect("https://lpal.eu" + OLD[url.pathname], 301);
     if (url.pathname === "/api/youtube-latest") {
       try { return await latest(ctx); }
       catch (e) { return new Response(JSON.stringify({ videos: [] }), { status: 502, headers: { "content-type": "application/json" } }); }
