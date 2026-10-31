@@ -6,7 +6,7 @@
 //   STRIPE_SECRET_KEY, TICKETTAILOR_API_KEY, STRIPE_WEBHOOK_SECRET, QUALIFIER_ADMIN_KEY
 // Optional plain variable: TT_EVENT_ID (default below)
 
-const TT_EVENT_DEFAULT = "ev_2489870";
+const TT_EVENT_DEFAULT = "ev_9342604";
 const SITE = "https://lpal.eu";
 
 // Prices in cents. Entry (both arms) depends on the evening ticket; one arm is €10 less.
@@ -465,12 +465,17 @@ async function admin(request, env, url) {
   if (action === "ttcheck") {
     try {
       const events = await tt(env, "/events?limit=100");
+      diag.tt_events = await Promise.all((events.data || []).map(async e => {
+        let tickets = null;
+        try { tickets = (await ttAll(env, "/issued_tickets?event_id=" + e.id)).filter(t => !t.event_id || t.event_id === e.id).length; } catch (x) {}
+        return { id: e.id, name: e.name, status: e.status || "", start: (e.start && (e.start.date || e.start.formatted || e.start.iso)) || "", tickets };
+      }));
       const list = await ticketIndex(env, true);
-      diag.tt_events = (events.data || []).map(e => ({ id: e.id, name: e.name, start: e.start && (e.start.date || e.start.iso) }));
       diag.tt_tickets = list.length;
       diag.tt_valid = list.filter(t => t.valid).length;
-      diag.tt_types = (await ticketTypes(env)).map(t => ({ name: t.name, id: t.id, tier: TIER_NAME[t.tier], left: t.left, status: t.status }));
     } catch (e) { diag.tt_error = String(e.message || e); }
+    try { diag.tt_types = (await ticketTypes(env)).map(t => ({ name: t.name, id: t.id, tier: TIER_NAME[t.tier], left: t.left, status: t.status })); }
+    catch (e) { diag.tt_types_error = String(e.message || e); }
   }
   const rows = (await d.prepare("SELECT * FROM registrations ORDER BY created_at DESC").all()).results || [];
   return json({ diag, registrations: rows });

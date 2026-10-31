@@ -83,7 +83,10 @@ tr.pending td,tr.expired td{opacity:.55}
     h.push('<span>Stripe webhook: <b class="'+(g.webhook==="set"?"ok":"warn")+'">'+(g.webhook==="set"?"set":"not set yet")+'</b></span>');
     h.push('<span>LPAL 4 event id: <b>'+esc(g.event_id)+'</b></span>');
     if(g.tt_error) h.push('<br><span class="bad">Ticket Tailor error: '+esc(g.tt_error)+'</span>');
-    if(g.tt_events){ h.push('<br><span class="ok">Ticket Tailor connected. LPAL 4 tickets found: <b>'+g.tt_tickets+'</b> ('+g.tt_valid+' valid)</span><br><span>Events: '+g.tt_events.map(function(e){return esc(e.name)+' = <b>'+esc(e.id)+'</b>'}).join(" · ")+'</span>'); }
+    if(g.tt_events){ h.push('<br><span class="ok">Ticket Tailor connected. Tickets found for the event in use ('+esc(g.event_id)+'): <b>'+(g.tt_tickets==null?'?':g.tt_tickets)+'</b> ('+(g.tt_valid==null?'?':g.tt_valid)+' valid)</span>');
+      h.push('<br><b>Events in Ticket Tailor:</b><br>'+g.tt_events.map(function(e){return '· '+esc(e.name)+' = <b>'+esc(e.id)+'</b>'+(e.start?' · '+esc(e.start):'')+(e.status?' · '+esc(e.status):'')+' · tickets: <b>'+(e.tickets==null?'?':e.tickets)+'</b>'+(e.id===g.event_id?' <span class="ok">← in use</span>':'')}).join('<br>')); }
+    if(g.tt_types){ h.push('<br><b>Ticket types of '+esc(g.event_id)+':</b><br>'+g.tt_types.map(function(t){return '· '+esc(t.name)+' → <b>'+esc(t.tier)+'</b>'+(t.status?' · '+esc(t.status):'')}).join('<br>')); }
+    if(g.tt_types_error) h.push('<br><span class="bad">Ticket types error: '+esc(g.tt_types_error)+'</span>');
     $("#diag").innerHTML=h.join("");
     var all=$("#f-all").checked, rows=data.registrations.filter(function(r){return all||r.status==="paid"});
     var paid=data.registrations.filter(function(r){return r.status==="paid"});
