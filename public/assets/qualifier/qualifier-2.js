@@ -39,7 +39,7 @@
     cls_women_note: "Noch nicht final. Schreib uns im Kommentarfeld, welche Klasse zu dir passt.",
     price_title: "Startgebühr",
     arm_one: "Ein Arm", arm_both: "Beide Arme", arm_left: "Linker Arm", arm_right: "Rechter Arm",
-    with_ticket: "mit LPAL 4 Ticket",
+    with_ticket: "mit einem LPAL 4 Event-Ticket",
     tix_k: "Bleib zur Abendshow",
     tix_p: "Kauf zuerst dein LPAL 4 Ticket und spar bis zu 10 € bei der Startgebühr. Wir finden dein Ticket automatisch über deine E-Mail.",
     tix_btn: "LPAL 4 Ticket holen",

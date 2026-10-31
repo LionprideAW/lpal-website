@@ -81,7 +81,8 @@ button,input,textarea,select{font:inherit;color:inherit}
 .q-price-k{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px;color:var(--mut)}
 .q-price-n{font-family:var(--display);font-size:64px;line-height:1;margin:6px 0 4px}
 .q-price-d{color:#d0d0d0;font-size:15px}
-.q-price-d b{color:var(--gold);font-size:19px}
+.q-price-d{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 8px}
+.q-price-d b{color:var(--gold);font-family:var(--display);font-weight:400;font-size:34px;line-height:1}
 .q-price-tix{border-color:rgba(246,184,0,.45);background:linear-gradient(135deg,rgba(246,184,0,.1),rgba(246,184,0,.02))}
 .q-price-tix .q-price-k{color:var(--gold)}
 .q-price-txt{margin:8px 0 16px;color:#ddd;font-size:15px}
