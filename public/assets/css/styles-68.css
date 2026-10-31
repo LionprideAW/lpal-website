@@ -889,3 +889,4 @@ html,body{overflow-x:clip}
 /* language switch in the top bar */
 .nav-lang{opacity:.75;font-size:13px!important;letter-spacing:.1em}
 .nav-lang:hover{opacity:1}
+.copy a.legal-link{color:inherit;text-decoration:underline;text-underline-offset:2px}
