@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-12.css">
+<link rel="stylesheet" href="assets/qualifier/qualifier-13.css">
 </head>
 <body>
 
@@ -47,8 +47,8 @@
       <ul class="q-facts">
         <li><b data-t="f_start_k">Start</b><span data-t="f_start">11:30</span></li>
         <li><b data-t="f_end_k">End</b><span data-t="f_end">around 15:00–16:00</span></li>
-        <li><b data-t="f_where_k">Venue</b><span>MOTORWORLD Köln Rheinland</span></li>
-        <li><b data-t="f_live_k">Live</b><span data-t="f_live">on our Kick channel</span></li>
+        <li class="q-fact-a"><a href="https://www.google.com/maps/search/?api=1&amp;query=MOTORWORLD+K%C3%B6ln+Rheinland" target="_blank" rel="noopener"><b data-t="f_where_k">Venue</b><span>MOTORWORLD Köln Rheinland <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg></span></a></li>
+        <li class="q-fact-a q-fact-kick"><a href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener"><b data-t="f_live_k">Live</b><span><span data-t="f_live">on our Kick channel</span> <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h5v5h2V6h2V3h7v6h-2v2h-2v2h2v2h2v6h-7v-3h-2v-2H9v5H4z" fill="currentColor"/></svg></span></a></li>
       </ul>
       <a class="q-btn q-btn-red" href="#register" data-t="hero_btn">Register now</a>
     </div>
@@ -80,16 +80,19 @@
           <p class="q-time-d q-time-red" data-t="sch_fri_d">Fri · 8 Jan 2027 · 18:00–21:00</p>
           <h3 data-t="sch_fri_h">Weigh-in at the hotel</h3>
           <p>V8 Hotel Köln @ MOTORWORLD</p>
+          <a class="q-maplink" href="https://www.google.com/maps/search/?api=1&amp;query=V8+Hotel+K%C3%B6ln+%40+MOTORWORLD" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg><span data-t="map_open">Open in Google Maps</span></a>
         </li>
         <li>
           <p class="q-time-d q-time-red" data-t="sch_sat_d">Sat · 9 Jan 2027 · 09:00–11:00</p>
           <h3 data-t="sch_sat_h">Weigh-in at the venue</h3>
           <p>MOTORWORLD Köln Rheinland · <b data-t="sch_tol">1 kg tolerance on this day only</b></p>
+          <a class="q-maplink" href="https://www.google.com/maps/search/?api=1&amp;query=MOTORWORLD+K%C3%B6ln+Rheinland" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg><span data-t="map_open">Open in Google Maps</span></a>
         </li>
         <li class="q-time-main">
           <p class="q-time-d" data-t="sch_start_d">Sat · 9 Jan 2027 · 11:30</p>
           <h3 data-t="sch_start_h">Tournament start</h3>
           <p data-t="sch_start_p">Ends around 15:00–16:00 · live on Kick</p>
+          <a class="q-maplink q-kicklink" href="https://kick.com/lionpridearmwrestling" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 3h5v5h2V6h2V3h7v6h-2v2h-2v2h2v2h2v6h-7v-3h-2v-2H9v5H4z" fill="currentColor"/></svg><span data-t="kick_watch">Watch live on Kick</span></a>
         </li>
         <li>
           <p class="q-time-d" data-t="sch_eve_d">Sat · 9 Jan 2027 · 18:00</p>
@@ -296,8 +299,8 @@
         <p class="q-done-ticket" id="q-done-ticket" hidden></p>
         <p data-t="done_p1">You'll get a payment receipt by email. Come to one of the weigh-ins with your ID:</p>
         <ul class="q-done-list">
-          <li data-t="done_fri">Fri 8 Jan, 18:00–21:00 · V8 Hotel Köln @ MOTORWORLD</li>
-          <li data-t="done_sat">Sat 9 Jan, 09:00–11:00 · MOTORWORLD (1 kg tolerance)</li>
+          <li><span data-t="done_fri">Fri 8 Jan, 18:00–21:00 · V8 Hotel Köln @ MOTORWORLD</span> <a class="q-maplink" href="https://www.google.com/maps/search/?api=1&amp;query=V8+Hotel+K%C3%B6ln+%40+MOTORWORLD" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg><span data-t="map_short">Map</span></a></li>
+          <li><span data-t="done_sat">Sat 9 Jan, 09:00–11:00 · MOTORWORLD (1 kg tolerance)</span> <a class="q-maplink" href="https://www.google.com/maps/search/?api=1&amp;query=MOTORWORLD+K%C3%B6ln+Rheinland" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" fill="currentColor"/></svg><span data-t="map_short">Map</span></a></li>
         </ul>
         <div class="q-done-tix">
           <p data-t="done_tix">Bring your crew: friends and family can watch you, then stay for the LPAL 4 night show.</p>
@@ -380,6 +383,6 @@
   </div>
 </div>
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-9.js"></script>
+<script src="assets/qualifier/qualifier-13.js"></script>
 </body>
 </html>

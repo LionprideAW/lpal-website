@@ -321,3 +321,18 @@ button.q-bund.on{border-color:var(--gold);box-shadow:inset 0 0 0 2px var(--gold)
 .q-pol-body ul{padding-left:20px;margin-bottom:8px}
 .q-pol-meta{color:var(--mut);font-size:13.5px;border-bottom:1px solid #2a2a2a;padding-bottom:12px}
 .q-tbd-i{background:rgba(246,184,0,.18);color:var(--gold);border-radius:3px;padding:0 4px}
+
+/* links: Google Maps + Kick */
+.q-fact-a{padding:0!important}
+.q-fact-a a{display:flex;flex-direction:column;padding:9px 14px;text-decoration:none;color:inherit;border-radius:6px;transition:background .2s}
+.q-fact-a a:hover{background:rgba(255,255,255,.07)}
+.q-fact-a span{display:inline-flex;align-items:center;gap:6px}
+.q-fact-a svg{width:15px;height:15px;color:var(--gold);flex:0 0 auto}
+.q-fact-kick{border-color:rgba(83,252,24,.45)!important}
+.q-fact-kick svg{color:#53fc18}
+.q-maplink{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:7px 12px;border:1px solid #3a3a3a;border-radius:5px;text-decoration:none;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em;font-size:12.5px;color:#fff;background:#0e0e0e;transition:border-color .2s}
+.q-maplink:hover{border-color:var(--gold)}
+.q-maplink svg{width:15px;height:15px;color:var(--gold)}
+.q-kicklink svg{color:#53fc18}
+.q-kicklink:hover{border-color:#53fc18}
+.q-done-list .q-maplink{margin:0 0 0 8px;padding:3px 8px;font-size:11.5px;vertical-align:middle}
