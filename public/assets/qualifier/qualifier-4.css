@@ -244,3 +244,14 @@ button,input,textarea,select{font:inherit;color:inherit}
   .q-ptab td{font-size:15px;padding:11px 4px}
   .q-ptab td.t{font-size:24px}
 }
+
+/* hall plan pictures */
+.q-plan{margin:22px 0 4px}
+.q-plan img{width:100%;height:auto;border-radius:6px;background:#eeeff3}
+.q-plan figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin-top:10px;font-size:14px;color:#cfcfcf}
+.q-lg{display:inline-flex;align-items:center;gap:7px;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.04em}
+.q-lg::before{content:"";width:14px;height:14px;border-radius:3px;background:var(--c)}
+.q-plan-note{color:var(--mut);margin-left:auto}
+.q-plan-pick{margin:14px 0 0}
+.q-plan-pick figcaption{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--gold)}
+@media (max-width:640px){.q-plan-note{margin-left:0;flex-basis:100%}}

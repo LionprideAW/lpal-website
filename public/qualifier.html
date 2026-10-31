@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-3.css">
+<link rel="stylesheet" href="assets/qualifier/qualifier-4.css">
 </head>
 <body>
 
@@ -127,7 +127,7 @@
         <h2 class="q-pt-h"><span data-t="pt_title">Tournament entry:</span> <b>€60</b></h2>
         <p class="q-pt-sub" data-t="pt_sub">Buy an evening ticket and your entry costs less.</p>
         <table class="q-ptab">
-          <thead><tr><th data-t="pt_th1">Evening ticket</th><th data-t="pt_th2">Ticket</th><th data-t="pt_th3">Entry</th><th data-t="pt_th4">You pay</th></tr></thead>
+          <thead><tr><th data-t="pt_th1">Evening ticket</th><th data-t="pt_th2">LPAL 4 ticket</th><th data-t="pt_th3">Tournament entry</th><th data-t="pt_th4">You pay</th></tr></thead>
           <tbody>
             <tr><td data-t="pt_none">No ticket</td><td>–</td><td class="g">€60</td><td class="t">€60</td></tr>
             <tr><td>Fan</td><td>€30</td><td class="g">€50</td><td class="t">€80</td></tr>
@@ -136,10 +136,14 @@
             <tr><td>VIP</td><td>€90</td><td class="g">€30</td><td class="t">€120</td></tr>
           </tbody>
         </table>
-        <p class="q-pt-arm" data-t="pt_arm"><b>One arm only?</b> Your entry is €5 less. Prices above are for both arms.</p>
+        <p class="q-pt-arm" data-t="pt_arm"><b>One arm only?</b> Your tournament entry is €5 less. Prices above are for both arms.</p>
+        <figure class="q-plan">
+          <img src="assets/qualifier/plan/plan-all.webp" alt="Hall plan of LPAL 4 at MOTORWORLD Cologne with the VIP, Gold, General and Fan areas" width="1400" height="939" loading="lazy">
+          <figcaption><span class="q-lg" style="--c:#d3211a">VIP</span><span class="q-lg" style="--c:#c8961a">Gold</span><span class="q-lg" style="--c:#2462c6">General</span><span class="q-lg" style="--c:#55657d">Fan</span><span class="q-plan-note" data-t="plan_note">Where you sit with each LPAL 4 ticket</span></figcaption>
+        </figure>
         <ul class="q-pt-why">
           <li data-t="why_hall"><b>The hall is cleared after the tournament.</b> One hour later the doors open for LPAL 4, and only people with an evening ticket get back in.</li>
-          <li data-t="why_have"><b>Already have a ticket?</b> Enter your email in the form. We find your ticket automatically and you get the same entry price.</li>
+          <li data-t="why_have"><b>Already have a ticket?</b> Enter your email in the form. We find your ticket automatically and you get the same tournament entry price.</li>
           <li data-t="why_picked"><b>Picked for a super match?</b> We refund your entry fee and your evening ticket.</li>
           <li data-t="why_fair">Your ticket has no effect on the draw or on scouting.</li>
         </ul>
@@ -223,6 +227,10 @@
             <label class="q-show q-show-wide"><input type="radio" name="show" value="have"><span class="q-show-in"><b class="q-show-n" data-t="show_have">I already have an LPAL 4 ticket</b><i class="q-show-p" id="q-have-p" data-t="show_have_p">We check it with your email</i><em class="q-show-t" id="q-have-t"></em></span></label>
             <label class="q-show q-show-wide q-show-none"><input type="radio" name="show" value="none"><span class="q-show-in"><b class="q-show-n" data-t="show_none">No evening ticket</b><i class="q-show-p" data-t="show_none_p">Tournament only, you leave after the tournament</i><em class="q-show-t" data-total="none"></em></span></label>
           </div>
+          <figure class="q-plan q-plan-pick" id="q-plan-pick" hidden>
+            <img id="q-plan-img" src="assets/qualifier/plan/plan-all.webp" alt="" width="1400" height="939">
+            <figcaption id="q-plan-cap"></figcaption>
+          </figure>
           <div class="q-tk" id="q-tk" data-state="idle" hidden>
             <p class="q-tk-msg" id="q-tk-msg" data-t="tk_idle">Enter your email above and we check your ticket automatically.</p>
             <div class="q-tk-actions" id="q-tk-actions">
@@ -293,6 +301,6 @@
 </footer>
 
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-3.js"></script>
+<script src="assets/qualifier/qualifier-4.js"></script>
 </body>
 </html>

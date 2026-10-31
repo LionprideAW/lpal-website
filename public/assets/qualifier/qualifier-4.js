@@ -87,10 +87,11 @@
     checking_pay: "Wir prüfen deine Zahlung…",
     ask_k: "Fragen?", ask_p: "Schreib uns auf Instagram oder per E-Mail.",
     pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
-    pt_th1: "Abend-Ticket", pt_th2: "Ticket", pt_th3: "Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
-    pt_arm: "<b>Nur ein Arm?</b> Dein Start kostet 5 € weniger. Die Preise oben gelten für beide Arme.",
+    pt_th1: "Abend-Ticket", pt_th2: "LPAL 4 Ticket", pt_th3: "Turnier-Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
+    plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
+    pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 5 € weniger. Die Preise oben gelten für beide Arme.",
     why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
-    why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Startpreis.",
+    why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
     why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
     why_fair: "Dein Ticket hat keinen Einfluss auf die Auslosung oder das Scouting.",
     show_help: "Nach dem Turnier wird die Halle geräumt. Mit einem Abend-Ticket kommst du zur LPAL 4 Show wieder rein, und dein Start wird günstiger.",
@@ -100,16 +101,18 @@
   var MSG = {
     en: {
       tk_checking: "Checking your LPAL 4 ticket…",
-      tk_found: "{tier} ticket found. Your entry: €{price}.",
-      tk_found_n: "{n} free LPAL 4 tickets found. Using your {tier} ticket, entry: €{price}.",
-      ticket_plus: "Ticket €{t} + entry €{e}",
+      tk_found: "{tier} ticket found. Your tournament entry: €{price}.",
+      tk_found_n: "{n} free LPAL 4 tickets found. Using your {tier} ticket, tournament entry: €{price}.",
+      ticket_plus: "LPAL 4 ticket €{t} + tournament entry €{e}",
+      plan_cap: "Your seats with a {tier} ticket",
+      sum_entry: "Tournament entry",
       entry_only: "Entry €{e}",
-      have_entry: "Your {tier} ticket · entry €{e}",
+      have_entry: "Your {tier} ticket · tournament entry €{e}",
       e_have: "We couldn't find your LPAL 4 ticket. Check your email or ticket code, or pick another option.",
       e_sold_out: "This ticket category is sold out. Please pick another one.",
       done_ticket: "Your {tier} evening ticket: <b>{code}</b>. Show it at the entrance.",
       done_ticket_wait: "Your {tier} evening ticket is being issued and will be sent to {email}.",
-      sum_ticket: "{tier} evening ticket",
+      sum_ticket: "LPAL 4 ticket ({tier})",
       tk_none: "No LPAL 4 ticket found with this email.",
       tk_none_code: "We couldn't find this ticket code. Check the code in your ticket email, or register at the normal price.",
       tk_used: "This ticket has already been used for a discount.",
@@ -132,16 +135,18 @@
     },
     de: {
       tk_checking: "Wir prüfen dein LPAL 4 Ticket…",
-      tk_found: "{tier} Ticket gefunden. Dein Start: {price} €.",
-      tk_found_n: "{n} freie LPAL 4 Tickets gefunden. Mit deinem {tier} Ticket kostet der Start {price} €.",
-      ticket_plus: "Ticket {t} € + Start {e} €",
+      tk_found: "{tier} Ticket gefunden. Dein Turnier-Start: {price} €.",
+      tk_found_n: "{n} freie LPAL 4 Tickets gefunden. Mit deinem {tier} Ticket kostet der Turnier-Start {price} €.",
+      ticket_plus: "LPAL 4 Ticket {t} € + Turnier-Start {e} €",
+      plan_cap: "Deine Plätze mit einem {tier} Ticket",
+      sum_entry: "Turnier-Start",
       entry_only: "Start {e} €",
-      have_entry: "Dein {tier} Ticket · Start {e} €",
+      have_entry: "Dein {tier} Ticket · Turnier-Start {e} €",
       e_have: "Wir haben dein LPAL 4 Ticket nicht gefunden. Prüf deine E-Mail oder den Ticketcode, oder wähle eine andere Option.",
       e_sold_out: "Diese Ticketkategorie ist ausverkauft. Bitte wähle eine andere.",
       done_ticket: "Dein {tier} Abend-Ticket: <b>{code}</b>. Zeig es am Eingang.",
       done_ticket_wait: "Dein {tier} Abend-Ticket wird ausgestellt und an {email} geschickt.",
-      sum_ticket: "{tier} Abend-Ticket",
+      sum_ticket: "LPAL 4 Ticket ({tier})",
       tk_none: "Kein LPAL 4 Ticket mit dieser E-Mail gefunden.",
       tk_none_code: "Diesen Ticketcode haben wir nicht gefunden. Prüf den Code in deiner Ticket-E-Mail oder melde dich zum normalen Preis an.",
       tk_used: "Dieses Ticket wurde schon für einen Rabatt verwendet.",
@@ -242,6 +247,11 @@
       $("#q-have-t").textContent = money(e);
     } else { $("#q-have-p").innerHTML = text("show_have_p"); $("#q-have-t").textContent = ""; }
     $("#q-tk").hidden = val("show") !== "have";
+    // hall plan: where you sit with the chosen ticket
+    var sh = val("show"), pt = TICKET[sh] ? sh : (sh === "have" && hasDiscount() ? tk.tier : null), fig = $("#q-plan-pick");
+    fig.hidden = !pt;
+    if (pt) { var src = "assets/qualifier/plan/plan-" + pt + ".webp"; if ($("#q-plan-img").getAttribute("src") !== src) $("#q-plan-img").setAttribute("src", src);
+      $("#q-plan-img").alt = m("plan_cap", { tier: TIER_EN[pt] }); $("#q-plan-cap").textContent = m("plan_cap", { tier: TIER_EN[pt] }); }
   }
   function updateSummary() {
     renderShows();
@@ -252,7 +262,7 @@
     var first = [];
     if (div) first.push(text("div_" + div) + (cls ? " " + cls.replace("-", "−") + " kg" : ""));
     first.push(text("arm_" + arms));
-    var html = esc(first.join(" · ")) + ": " + money(entry);
+    var html = esc(m("sum_entry") + " · " + first.join(" · ")) + ": " + money(entry);
     if (ticket) html += "<br>" + esc(m("sum_ticket", { tier: TIER_EN[val("show")] })) + ": " + money(ticket);
     line.innerHTML = html;
     n.textContent = money(entry + ticket);
