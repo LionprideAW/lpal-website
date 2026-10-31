@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-6.css">
+<link rel="stylesheet" href="assets/qualifier/qualifier-8.css">
 </head>
 <body>
 
@@ -145,7 +145,7 @@
             <div class="q-step-b">
               <p class="q-step-k" data-t="st2_k">LPAL 4 ticket only</p>
               <ul class="q-tixl">
-                <li><span>Fan</span><b>€30</b></li><li><span>General</span><b>€35</b></li><li><span>Gold</span><b>€60</b></li><li><span>VIP</span><b>€90</b></li>
+                <li><button type="button" data-pick="fan"><span>Fan</span><b>€30</b></button></li><li><button type="button" data-pick="ga"><span>General</span><b>€35</b></button></li><li><button type="button" data-pick="gold"><span>Gold</span><b>€60</b></button></li><li><button type="button" data-pick="vip"><span>VIP</span><b>€90</b></button></li>
               </ul>
               <p class="q-step-s" data-t="st2_s">Normal ticket prices for the LPAL 4 evening show at 18:00.</p>
             </div>
@@ -160,9 +160,10 @@
         </div>
         <div class="q-bundles" id="q-bundles"></div>
         <p class="q-pt-have" id="q-pt-have"></p>
-        <figure class="q-plan">
-          <img src="assets/qualifier/plan/plan-all.webp" alt="Hall plan of LPAL 4 at MOTORWORLD Cologne with the VIP, Gold, General and Fan areas" width="1400" height="939" loading="lazy">
-          <figcaption><span class="q-lg" style="--c:#d3211a">VIP</span><span class="q-lg" style="--c:#c8961a">Gold</span><span class="q-lg" style="--c:#2462c6">General</span><span class="q-lg" style="--c:#55657d">Fan</span><span class="q-plan-note" data-t="plan_note">Where you sit with each LPAL 4 ticket</span></figcaption>
+        <p class="q-plan-tip" data-t="plan_tip">Tap a ticket or a bundle to see where you sit.</p>
+        <figure class="q-plan" id="q-plan-main">
+          <img id="q-plan-main-img" src="assets/qualifier/plan/plan-all.webp" alt="Hall plan of LPAL 4 at MOTORWORLD Cologne with the VIP, Gold, General and Fan areas" width="1400" height="939" loading="lazy">
+          <figcaption><span class="q-lg" style="--c:#d3211a">VIP</span><span class="q-lg" style="--c:#c8961a">Gold</span><span class="q-lg" style="--c:#2462c6">General</span><span class="q-lg" style="--c:#55657d">Fan</span><span class="q-plan-note" id="q-plan-main-cap" data-t="plan_note">Where you sit with each LPAL 4 ticket</span></figcaption>
         </figure>
         <ul class="q-pt-why">
           <li data-t="why_hall"><b>The hall is cleared after the tournament.</b> One hour later the doors open for LPAL 4, and only people with an evening ticket get back in.</li>
@@ -333,6 +334,6 @@
   </div>
 </div>
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-7.js"></script>
+<script src="assets/qualifier/qualifier-8.js"></script>
 </body>
 </html>

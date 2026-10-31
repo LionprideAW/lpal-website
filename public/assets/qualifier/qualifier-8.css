@@ -303,3 +303,15 @@ button,input,textarea,select{font:inherit;color:inherit}
 .q-pol-foot .q-btn{width:100%}
 @media (max-width:900px){.q-bundles{grid-template-columns:1fr 1fr}.q-steps{grid-template-columns:1fr}}
 @media (max-width:520px){.q-tixl{grid-template-columns:1fr 1fr}.q-bund-p b{font-size:38px}}
+
+/* clickable tickets/bundles → hall plan */
+.q-tixl li{padding:0;border:0;background:none}
+.q-tixl button,button.q-bund{font:inherit;color:inherit;text-align:left;cursor:pointer;width:100%;transition:border-color .2s,background .2s,transform .15s}
+.q-tixl button{display:flex;flex-direction:column;background:#161616;border:1px solid #2c2c2c;border-radius:5px;padding:8px 10px}
+.q-tixl button:hover,button.q-bund:hover{border-color:#777}
+.q-tixl button.on{border-color:var(--gold);background:rgba(246,184,0,.12);box-shadow:inset 0 0 0 1px var(--gold)}
+button.q-bund.on{border-color:var(--gold);box-shadow:inset 0 0 0 2px var(--gold);background:linear-gradient(160deg,rgba(246,184,0,.26),rgba(246,184,0,.06))}
+.q-tixl button:focus-visible,button.q-bund:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.q-plan-tip{margin-top:18px;color:var(--gold);font-size:14.5px;font-weight:500}
+.q-plan-tip+.q-plan{margin-top:8px}
+.q-plan-note.on{color:var(--gold);font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.05em}

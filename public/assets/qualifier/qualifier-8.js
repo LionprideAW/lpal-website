@@ -89,6 +89,7 @@
     pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
     pt_th1: "Abend-Ticket", pt_th2: "LPAL 4 Ticket", pt_th3: "Turnier-Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
     plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
+    plan_tip: "Tipp auf ein Ticket oder Bundle, um zu sehen, wo du sitzt.",
     pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 10 € weniger. Die Preise oben gelten für beide Arme.",
     why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
     why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
@@ -194,7 +195,7 @@
     $$("[data-t]").forEach(function (el) { var v = text(el.dataset.t); if (v != null) el.innerHTML = v; });
     $("#q-lang").textContent = lang === "de" ? "EN" : "DE";
     $("#q-lang").setAttribute("aria-label", lang === "de" ? "English" : "Deutsch");
-    renderClasses(); updateSummary(); renderTicket(); renderBar(); renderPrices();
+    renderClasses(); updateSummary(); renderTicket(); renderBar(); renderPrices(); showPlan();
   }
 
   /* ---------- config: test mode / connected? ---------- */
@@ -296,13 +297,31 @@
     $$(".q-armtog button").forEach(function (b) { b.classList.toggle("on", b.dataset.arm === priceArms); });
     $("#q-bundles").innerHTML = ["fan", "ga", "gold", "vip"].map(function (t) {
       var e = entryFor(t, a), sum = none + TICKET[t];
-      return '<div class="q-bund"><p class="q-bund-n">' + esc(m("b_name", { tier: TIER_EN[t] })) + '</p><p class="q-bund-w">' + esc(m("b_what", { tier: TIER_EN[t] })) + "</p>" +
+      return '<button type="button" class="q-bund' + (planPick === t ? " on" : "") + '" data-pick="' + t + '"><p class="q-bund-n">' + esc(m("b_name", { tier: TIER_EN[t] })) + '</p><p class="q-bund-w">' + esc(m("b_what", { tier: TIER_EN[t] })) + "</p>" +
         '<p class="q-bund-p"><b>' + money(e + TICKET[t]) + '</b><s>' + esc(m("b_instead", { sum: money(sum) })) + "</s></p>" +
-        '<p class="q-bund-save">' + esc(m("b_save", { s: money(sum - e - TICKET[t]) })) + "</p></div>";
+        '<p class="q-bund-save">' + esc(m("b_save", { s: money(sum - e - TICKET[t]) })) + "</p></button>";
     }).join("");
     $("#q-pt-have").innerHTML = m("have_line", { list: ["fan", "ga", "gold", "vip"].map(function (t) { return TIER_EN[t] + " " + money(entryFor(t, a)); }).join(" · ") });
   }
   $$(".q-armtog button").forEach(function (b) { b.addEventListener("click", function () { priceArms = b.dataset.arm; renderPrices(); }); });
+
+  // tap a ticket or bundle: the hall plan below shows where you sit (tap again: whole hall)
+  var planPick = null;
+  function showPlan() {
+    var img = $("#q-plan-main-img"), cap = $("#q-plan-main-cap");
+    img.setAttribute("src", "assets/qualifier/plan/plan-" + (planPick || "all") + ".webp");
+    cap.textContent = planPick ? m("plan_cap", { tier: TIER_EN[planPick] }) : text("plan_note");
+    cap.classList.toggle("on", !!planPick);
+    $$("#q-pt [data-pick]").forEach(function (b) { b.classList.toggle("on", b.dataset.pick === planPick); b.setAttribute("aria-pressed", b.dataset.pick === planPick ? "true" : "false"); });
+  }
+  $("#q-pt").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-pick]"); if (!b) return;
+    planPick = planPick === b.dataset.pick ? null : b.dataset.pick;
+    showPlan();
+    if (planPick) { var f = $("#q-plan-main"), r = f.getBoundingClientRect(); if (r.top > innerHeight * .75 || r.bottom < 80) f.scrollIntoView({ behavior: "smooth", block: "center" }); }
+  });
+  // preload the highlighted plans so switching is instant
+  ["fan", "ga", "gold", "vip"].forEach(function (t) { var i = new Image(); i.src = "assets/qualifier/plan/plan-" + t + ".webp"; });
 
   var pol = $("#q-pol"), polFrom = null;
   function polOpen() { polFrom = document.activeElement; pol.hidden = false; document.body.style.overflow = "hidden"; $("#q-pol-body").scrollTop = 0; $("#q-pol-x").focus(); }
