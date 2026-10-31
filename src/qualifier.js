@@ -9,8 +9,21 @@
 const TT_EVENT_DEFAULT = "ev_2489870";
 const SITE = "https://lpal.eu";
 
-// prices in cents: [normal, with LPAL 4 ticket]
-const PRICES = { one: [3000, 2500], both: [5000, 4000] };
+// Prices in cents. Entry (both arms) depends on the evening ticket; one arm is €5 less.
+const ENTRY = { none: 6000, fan: 5000, ga: 4500, gold: 4000, vip: 3000 };
+const ONE_ARM_OFF = 500;
+const TICKET_PRICE = { fan: 3000, ga: 3500, gold: 6000, vip: 9000 };
+const TIER_NAME = { fan: "Fan Access", ga: "General Access", gold: "Gold", vip: "VIP" };
+const TIER_RANK = { vip: 4, gold: 3, ga: 2, fan: 1 };
+const SHOWS = ["none", "fan", "ga", "gold", "vip", "have"];
+function tierOf(name) {
+  const n = String(name || "").toLowerCase();
+  if (/vip/.test(n)) return "vip";
+  if (/gold/.test(n)) return "gold";
+  if (/fan/.test(n)) return "fan";
+  return "ga";
+}
+const entryPrice = (tier, arms) => ENTRY[tier] - (arms === "both" ? 0 : ONE_ARM_OFF);
 
 const CLASSES = {
   senior: ["-77", "-85", "-95", "-110", "+110"],
@@ -47,6 +60,11 @@ async function db(env) {
         ticket_key TEXT PRIMARY KEY, ticket_id TEXT, registration_id TEXT, status TEXT, expires_at INTEGER)`),
       env.DB.prepare(`CREATE TABLE IF NOT EXISTS kv (k TEXT PRIMARY KEY, v TEXT, updated_at INTEGER)`)
     ]);
+    // newer columns (bundle tickets, refunds); ignore "duplicate column" on existing tables
+    for (const col of ["show_type TEXT", "tier TEXT", "entry_price INTEGER", "ticket_price INTEGER", "issued_ticket_id TEXT",
+      "issued_code TEXT", "issue_error TEXT", "selected INTEGER", "refunded_at INTEGER"]) {
+      try { await env.DB.prepare("ALTER TABLE registrations ADD COLUMN " + col).run(); } catch (e) {}
+    }
     schemaReady = true;
   }
   return env.DB;
@@ -104,12 +122,56 @@ async function ticketIndex(env, fresh = false) {
       return {
         id: t.id, code: t.barcode || t.code || "", email: normEmail(t.email), buyer: normEmail(buyer),
         type: clean(t.description || t.ticket_type_name || "", 80),
+        tier: tierOf(t.description || t.ticket_type_name || ""),
         valid: !ticketVoid(t) && !orderVoid(o)
       };
     });
   await d.prepare("INSERT INTO kv (k,v,updated_at) VALUES ('tt_index',?,?) ON CONFLICT(k) DO UPDATE SET v=excluded.v, updated_at=excluded.updated_at")
     .bind(JSON.stringify(list), now()).run();
   return list;
+}
+
+// LPAL 4 ticket types (Fan, General, Gold, VIP) with their Ticket Tailor ids
+async function ticketTypes(env) {
+  const ev = env.TT_EVENT_ID || TT_EVENT_DEFAULT;
+  const e = await tt(env, "/events/" + ev);
+  return (e.ticket_types || []).map(t => {
+    const left = t.quantity_available ?? t.available ?? (t.quantity != null && t.quantity_issued != null ? t.quantity - t.quantity_issued : null);
+    return { id: t.id, name: t.name, tier: tierOf(t.name), status: t.status, left,
+      soldOut: String(t.status || "").toLowerCase().includes("sold_out") || left === 0 };
+  });
+}
+
+// After payment: create the evening ticket in Ticket Tailor (bundle). Safe to call again.
+async function issueBundleTicket(env, reg) {
+  const d = await db(env);
+  if (!reg.show_type || !TICKET_PRICE[reg.show_type] || reg.issued_ticket_id) return reg;
+  try {
+    if (!env.TICKETTAILOR_API_KEY) throw new Error("no Ticket Tailor key");
+    const types = await ticketTypes(env);
+    const t = types.find(x => x.tier === reg.show_type);
+    if (!t) throw new Error("ticket type not found: " + TIER_NAME[reg.show_type]);
+    const body = new URLSearchParams({
+      event_id: env.TT_EVENT_ID || TT_EVENT_DEFAULT, ticket_type_id: t.id,
+      full_name: `${reg.first_name} ${reg.last_name}`, email: reg.email, reference: "Qualifier " + reg.id
+    });
+    const r = await fetch("https://api.tickettailor.com/v1/issued_tickets", {
+      method: "POST", body,
+      headers: { authorization: "Basic " + btoa(env.TICKETTAILOR_API_KEY + ":"), accept: "application/json", "content-type": "application/x-www-form-urlencoded" }
+    });
+    const out = await r.json().catch(() => ({}));
+    if (!r.ok || !out.id) throw new Error("Ticket Tailor " + r.status + " " + JSON.stringify(out).slice(0, 160));
+    const code = out.barcode || "";
+    await d.prepare("UPDATE registrations SET issued_ticket_id=?, issued_code=?, issue_error=NULL WHERE id=?").bind(out.id, code, reg.id).run();
+    // a bundle ticket can't be used again for the "already have a ticket" price
+    if (code) await d.prepare(`INSERT INTO ticket_claims (ticket_key, ticket_id, registration_id, status, expires_at) VALUES (?,?,?,'used',0)
+      ON CONFLICT(ticket_key) DO NOTHING`).bind(normCode(code), out.id, reg.id).run();
+    return { ...reg, issued_ticket_id: out.id, issued_code: code, issue_error: null };
+  } catch (e) {
+    const msg = String(e.message || e).slice(0, 300);
+    await d.prepare("UPDATE registrations SET issue_error=? WHERE id=?").bind(msg, reg.id).run();
+    return { ...reg, issue_error: msg };
+  }
 }
 
 async function claimedKeys(env) {
@@ -133,7 +195,8 @@ async function findTickets(env, { email, code }, fresh = false) {
     if (!matches.length) matches = list.filter(t => t.buyer === e).sort((x, y) => (x.email && x.email !== e ? 1 : 0) - (y.email && y.email !== e ? 1 : 0));
   }
   const used = await claimedKeys(env);
-  const free = matches.filter(t => t.valid && !used.has(normCode(t.code)));
+  // best ticket first (VIP > Gold > General > Fan): it gives the cheapest entry
+  const free = matches.filter(t => t.valid && !used.has(normCode(t.code))).sort((a, b) => TIER_RANK[b.tier] - TIER_RANK[a.tier]);
   return { matches, free, used };
 }
 
@@ -185,7 +248,7 @@ function validate(b) {
     instagram: clean(b.instagram, 60).replace(/^@+/, ""), club: clean(b.club, 80),
     division: clean(b.division, 10), weight_class: clean(b.weight_class, 6), arms: clean(b.arms, 6),
     guardian_name: clean(b.guardian_name, 80), guardian_email: normEmail(b.guardian_email).slice(0, 120),
-    code: clean(b.code, 30), use_ticket: !!b.use_ticket,
+    code: clean(b.code, 30), show: SHOWS.includes(b.show) ? b.show : "",
     comment: String(b.comment == null ? "" : b.comment).replace(/\r/g, "").trim().slice(0, 1000)
   };
   const err = [];
@@ -198,6 +261,7 @@ function validate(b) {
   if (!CLASSES[r.division]) err.push("division");
   else if (!CLASSES[r.division].includes(r.weight_class)) err.push("weight_class");
   if (!ARM_NAME[r.arms]) err.push("arms");
+  if (!r.show) err.push("show");
   if (!b.accept_rules) err.push("accept_rules");
   if (r.age !== undefined && r.age < 18) {
     if (!r.guardian_name) err.push("guardian_name");
@@ -219,7 +283,8 @@ async function startCheckout(request, env) {
 
   // ticket discount: find a free ticket and reserve it for this registration
   let ticket = null;
-  if (r.use_ticket && env.TICKETTAILOR_API_KEY) {
+  if (r.show === "have") {
+    if (!env.TICKETTAILOR_API_KEY) return json({ error: "ticket_check_failed" }, 502);
     let found;
     try { found = await findTickets(env, { email: r.code ? "" : r.email, code: r.code }, true); }
     catch (e) { return json({ error: "ticket_check_failed" }, 502); }
@@ -233,13 +298,27 @@ async function startCheckout(request, env) {
     if (!ticket) return json({ error: found.matches.length ? "ticket_used" : "ticket_not_found" }, 409);
   }
 
-  const price = PRICES[r.arms === "both" ? "both" : "one"][ticket ? 1 : 0];
+  const bundle = TICKET_PRICE[r.show] ? r.show : null;
+  if (bundle && env.TICKETTAILOR_API_KEY) {
+    try {
+      const tt = (await ticketTypes(env)).find(t => t.tier === bundle);
+      if (tt && tt.soldOut) return json({ error: "sold_out", tier: bundle }, 409);
+    } catch (e) { /* Ticket Tailor unreachable: still sell, the ticket is issued after payment or by hand */ }
+  }
+  const tier = bundle || (ticket ? ticket.tier : "none");
+  const entry = entryPrice(tier, r.arms);
+  const ticketPrice = bundle ? TICKET_PRICE[bundle] : 0;
+  const price = entry + ticketPrice;
   const cls = `${r.weight_class.replace("-", "−")} kg`;
-  const title = `LPAL Qualifier presented by TitanGrip · ${DIV_NAME[r.division]} ${cls} · ${ARM_NAME[r.arms]}${ticket ? " · LPAL 4 ticket discount" : ""}`;
+  const title = `LPAL Qualifier presented by TitanGrip · ${DIV_NAME[r.division]} ${cls} · ${ARM_NAME[r.arms]}` +
+    (ticket ? ` · with ${TIER_NAME[ticket.tier]} ticket` : "");
+  const lines = { 0: { quantity: 1, price_data: { currency: "eur", unit_amount: entry, product_data: { name: title } } } };
+  if (bundle) lines[1] = { quantity: 1, price_data: { currency: "eur", unit_amount: ticketPrice,
+    product_data: { name: `LPAL 4 evening ticket · ${TIER_NAME[bundle]} · Sat 9 Jan 2027, MOTORWORLD Cologne` } } };
   const meta = {
     registration: id, name: `${r.first_name} ${r.last_name}`, dob: r.dob, age: r.age, country: r.country,
     division: DIV_NAME[r.division], weight_class: cls, arms: ARM_NAME[r.arms], instagram: r.instagram,
-    club: r.club, comment: r.comment.slice(0, 480), ticket_code: ticket ? ticket.code : "", guardian: r.guardian_name ? `${r.guardian_name} <${r.guardian_email}>` : ""
+    club: r.club, comment: r.comment.slice(0, 480), ticket_code: ticket ? ticket.code : "", evening_ticket: bundle ? TIER_NAME[bundle] + " (bundle)" : (ticket ? TIER_NAME[ticket.tier] + " (had already)" : "none"), guardian: r.guardian_name ? `${r.guardian_name} <${r.guardian_email}>` : ""
   };
   let session;
   try {
@@ -249,9 +328,9 @@ async function startCheckout(request, env) {
       customer_email: r.email,
       client_reference_id: id,
       expires_at: expires,
-      line_items: { 0: { quantity: 1, price_data: { currency: "eur", unit_amount: price, product_data: { name: title } } } },
+      line_items: lines,
       metadata: meta,
-      payment_intent_data: { description: title + " · " + meta.name, metadata: meta, receipt_email: r.email },
+      payment_intent_data: { description: title + (bundle ? ` + ${TIER_NAME[bundle]} ticket` : "") + " · " + meta.name, metadata: meta, receipt_email: r.email },
       success_url: `${SITE}/qualifier?paid={CHECKOUT_SESSION_ID}${r.lang === "de" ? "&lang=de" : ""}`,
       cancel_url: `${SITE}/qualifier?cancelled=1${r.lang === "de" ? "&lang=de" : ""}`
     });
@@ -260,11 +339,13 @@ async function startCheckout(request, env) {
     return json({ error: "payment_unavailable", detail: String(e.message || e).slice(0, 200) }, 502);
   }
   await d.prepare(`INSERT INTO registrations (id, created_at, status, session_id, lang, first_name, last_name, email, dob, age, country, instagram, club,
-      division, weight_class, arms, price, discount, tt_ticket_id, tt_code, tt_type, guardian_name, guardian_email, livemode, comment)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      division, weight_class, arms, price, discount, tt_ticket_id, tt_code, tt_type, guardian_name, guardian_email, livemode, comment,
+      show_type, tier, entry_price, ticket_price)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
     .bind(id, now(), "pending", session.id, r.lang, r.first_name, r.last_name, r.email, r.dob, r.age, r.country, r.instagram, r.club,
       r.division, r.weight_class, r.arms, price, ticket ? 1 : 0, ticket ? ticket.id : null, ticket ? ticket.code : null, ticket ? ticket.type : null,
-      r.guardian_name || null, r.guardian_email || null, session.livemode ? 1 : 0, r.comment || null).run();
+      r.guardian_name || null, r.guardian_email || null, session.livemode ? 1 : 0, r.comment || null,
+      r.show, tier, entry, ticketPrice).run();
   return json({ url: session.url });
 }
 
@@ -288,7 +369,7 @@ async function markFromSession(env, s) {
         await d.prepare("UPDATE registrations SET note=? WHERE id=?").bind("Ticket was also used by registration " + claim.registration_id, id).run();
       }
     }
-    return { ...reg, status: "paid" };
+    return await issueBundleTicket(env, { ...reg, status: "paid" });
   }
   if (s.status === "expired" && reg.status === "pending") {
     await d.prepare("UPDATE registrations SET status='expired' WHERE id=?").bind(id).run();
@@ -307,7 +388,8 @@ async function status(url, env) {
   if (!reg) return json({ error: "not_found" }, 404);
   return json({
     paid: s.payment_status === "paid", first_name: reg.first_name, division: reg.division, weight_class: reg.weight_class,
-    arms: reg.arms, amount: s.amount_total, discount: !!reg.discount, email: reg.email
+    arms: reg.arms, amount: s.amount_total, discount: !!reg.discount, email: reg.email,
+    show: reg.show_type, tier: reg.tier, ticket_code: reg.issued_code || null, ticket_pending: !!(TICKET_PRICE[reg.show_type] && !reg.issued_ticket_id)
   });
 }
 
@@ -330,7 +412,7 @@ async function ticketCheck(request, env) {
   if (!code && !isEmail(email)) return json({ error: "bad_request" }, 400);
   try {
     const { matches, free } = await findTickets(env, { email: code ? "" : email, code });
-    return json({ found: matches.length, available: free.length, discount: free.length > 0 });
+    return json({ found: matches.length, available: free.length, discount: free.length > 0, tier: free.length ? free[0].tier : null });
   } catch (e) {
     return json({ error: "ticket_check_failed" }, 502);
   }
@@ -366,6 +448,19 @@ async function admin(request, env, url) {
       await d.prepare("UPDATE registrations SET ticket_ok=?, ticket_checked_at=? WHERE id=?").bind(t && t.valid ? 1 : 0, now(), r.id).run();
     }
   }
+  if (action === "sync") {
+    const todo = (await d.prepare("SELECT * FROM registrations WHERE status='paid' AND show_type IN ('fan','ga','gold','vip') AND issued_ticket_id IS NULL").all()).results || [];
+    for (const r of todo) await issueBundleTicket(env, r);
+  }
+  if (action === "refund" && request.method === "POST") {
+    const id = url.searchParams.get("id") || "";
+    const reg = await d.prepare("SELECT * FROM registrations WHERE id=?").bind(id).first();
+    if (!reg || reg.status !== "paid" || !reg.payment_intent) return json({ error: "not_refundable" }, 400);
+    try {
+      await stripe(env, "POST", "/refunds", { payment_intent: reg.payment_intent, metadata: { reason: "Selected for LPAL 4 super match" } });
+    } catch (e) { return json({ error: "refund_failed", detail: String(e.message || e).slice(0, 200) }, 502); }
+    await d.prepare("UPDATE registrations SET status='refunded', selected=1, refunded_at=? WHERE id=?").bind(now(), id).run();
+  }
   if (action === "ttcheck") {
     try {
       const events = await tt(env, "/events?limit=100");
@@ -373,6 +468,7 @@ async function admin(request, env, url) {
       diag.tt_events = (events.data || []).map(e => ({ id: e.id, name: e.name, start: e.start && (e.start.date || e.start.iso) }));
       diag.tt_tickets = list.length;
       diag.tt_valid = list.filter(t => t.valid).length;
+      diag.tt_types = (await ticketTypes(env)).map(t => ({ name: t.name, id: t.id, tier: TIER_NAME[t.tier], left: t.left, status: t.status }));
     } catch (e) { diag.tt_error = String(e.message || e); }
   }
   const rows = (await d.prepare("SELECT * FROM registrations ORDER BY created_at DESC").all()).results || [];
@@ -385,7 +481,7 @@ export async function handleQualifier(request, env, url) {
   try {
     if (p === "/api/qualifier/config") {
       const mode = !env.STRIPE_SECRET_KEY ? "off" : (/^(sk|rk)_live/.test(env.STRIPE_SECRET_KEY) ? "live" : "test");
-      return json({ payments: mode, tickets: !!env.TICKETTAILOR_API_KEY, prices: PRICES, classes: CLASSES });
+      return json({ payments: mode, tickets: !!env.TICKETTAILOR_API_KEY, entry: ENTRY, oneArmOff: ONE_ARM_OFF, ticketPrice: TICKET_PRICE, classes: CLASSES });
     }
     if (p === "/api/qualifier/ticket" && request.method === "POST") return await ticketCheck(request, env);
     if (p === "/api/qualifier/checkout" && request.method === "POST") return await startCheckout(request, env);

@@ -4,7 +4,10 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  var PRICES = { one: [30, 25], both: [50, 40] };
+  var ENTRY = { none: 60, fan: 50, ga: 45, gold: 40, vip: 30 }, ONE_ARM_OFF = 5;
+  var TICKET = { fan: 30, ga: 35, gold: 60, vip: 90 };
+  var TIER_EN = { fan: "Fan", ga: "General", gold: "Gold", vip: "VIP" };
+  function entryFor(tier, arms) { return ENTRY[tier] - (arms && arms !== "both" ? ONE_ARM_OFF : 0); }
   var CLASSES = { senior: ["-77", "-85", "-95", "-110", "+110"], amateur: ["-80", "+80"], women: ["-60", "-70", "+70"] };
   var EVENT_DAY = [2027, 1, 9];
 
@@ -63,8 +66,8 @@
     lg_cat: "Kategorie", l_class: "Gewichtsklasse", l_arms: "Arm",
     pick_div_first: "Wähle zuerst eine Kategorie.",
     women_hint: "Die Frauenklassen sind noch nicht final. Wähle die passendste und schreib uns unten im Kommentarfeld, welche Klassen für dich passen würden.",
-    lg_ticket: "LPAL 4 Ticket-Rabatt",
-    tk_idle: "Du hast ein Ticket für die LPAL 4 Abendshow? Gib oben deine E-Mail ein, wir prüfen es automatisch.",
+    lg_ticket: "Abend-Ticket für LPAL 4",
+    tk_idle: "Gib oben deine E-Mail ein, wir prüfen dein Ticket automatisch.",
     tk_other: "Ticket mit einer anderen E-Mail gekauft? Ticketcode eingeben",
     tk_buy: "Noch kein Ticket? Hol dir eins und spar bis zu 10 €",
     l_code: "Ticketcode (steht in deiner Ticket-E-Mail)",
@@ -72,30 +75,48 @@
     lg_comment: "Fragen oder Wünsche",
     comment_help: "Möchtest du uns etwas sagen oder fragen? Schreib es hier.",
     accept: "Ich nehme auf eigene Verantwortung teil und akzeptiere die Turnier- und Wiegeregeln. Ich bin einverstanden, dass die LPAL das Turnier filmt und fotografiert und die Aufnahmen nutzt, auch im Livestream auf Kick.",
-    sum_k: "Deine Startgebühr",
+    sum_k: "Du zahlst",
     submit: "Weiter zur Zahlung",
     secure: "Sichere Zahlung mit Stripe: Karte, Apple Pay, Google Pay und mehr. Deine Daten werden nur für die Organisation des Turniers verwendet.",
     done_title: "Du bist angemeldet!",
     done_p1: "Du bekommst eine Zahlungsbestätigung per E-Mail. Komm mit deinem Ausweis zu einem der Wiegetermine:",
     done_fri: "Fr 8. Jan, 18:00–21:00 · V8 Hotel Köln @ MOTORWORLD",
     done_sat: "Sa 9. Jan, 09:00–11:00 · MOTORWORLD (1 kg Toleranz)",
-    done_tix: "Freunde und Familie können dir zuschauen und danach zur LPAL 4 Abendshow bleiben.",
+    done_tix: "Bring deine Leute mit: Freunde und Familie können dir zuschauen und danach zur LPAL 4 Abendshow bleiben.",
     done_tix_btn: "Tickets für LPAL 4",
     checking_pay: "Wir prüfen deine Zahlung…",
-    ask_k: "Fragen?", ask_p: "Schreib uns auf Instagram oder per E-Mail."
+    ask_k: "Fragen?", ask_p: "Schreib uns auf Instagram oder per E-Mail.",
+    pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
+    pt_th1: "Abend-Ticket", pt_th2: "Ticket", pt_th3: "Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
+    pt_arm: "<b>Nur ein Arm?</b> Dein Start kostet 5 € weniger. Die Preise oben gelten für beide Arme.",
+    why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
+    why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Startpreis.",
+    why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
+    why_fair: "Dein Ticket hat keinen Einfluss auf die Auslosung oder das Scouting.",
+    show_help: "Nach dem Turnier wird die Halle geräumt. Mit einem Abend-Ticket kommst du zur LPAL 4 Show wieder rein, und dein Start wird günstiger.",
+    show_have: "Ich habe schon ein LPAL 4 Ticket", show_have_p: "Wir prüfen es über deine E-Mail",
+    show_none: "Kein Abend-Ticket", show_none_p: "Nur Turnier, nach dem Turnier musst du gehen"
   };
   var MSG = {
     en: {
       tk_checking: "Checking your LPAL 4 ticket…",
-      tk_found: "LPAL 4 ticket found. Discount applied.",
-      tk_found_n: "LPAL 4 tickets found ({n} still free). Discount applied.",
+      tk_found: "{tier} ticket found. Your entry: €{price}.",
+      tk_found_n: "{n} free LPAL 4 tickets found. Using your {tier} ticket, entry: €{price}.",
+      ticket_plus: "Ticket €{t} + entry €{e}",
+      entry_only: "Entry €{e}",
+      have_entry: "Your {tier} ticket · entry €{e}",
+      e_have: "We couldn't find your LPAL 4 ticket. Check your email or ticket code, or pick another option.",
+      e_sold_out: "This ticket category is sold out. Please pick another one.",
+      done_ticket: "Your {tier} evening ticket: <b>{code}</b>. Show it at the entrance.",
+      done_ticket_wait: "Your {tier} evening ticket is being issued and will be sent to {email}.",
+      sum_ticket: "{tier} evening ticket",
       tk_none: "No LPAL 4 ticket found with this email.",
       tk_none_code: "We couldn't find this ticket code. Check the code in your ticket email, or register at the normal price.",
       tk_used: "This ticket has already been used for a discount.",
       tk_used_email: "The LPAL 4 tickets of this email have already been used for a discount.",
       tk_error: "We couldn't check tickets right now. Try again in a minute, or register at the normal price.",
       tk_off: "The ticket check is not connected yet.",
-      sum_pick: "Pick your category, weight class and arm",
+      sum_pick: "Pick your category, arm and evening ticket",
       sum_disc: "LPAL 4 ticket discount",
       e_fields: "Please fill in the marked fields.",
       e_ticket_used: "This ticket was just used for another registration. We removed the discount, please check the price and try again.",
@@ -111,15 +132,23 @@
     },
     de: {
       tk_checking: "Wir prüfen dein LPAL 4 Ticket…",
-      tk_found: "LPAL 4 Ticket gefunden. Rabatt abgezogen.",
-      tk_found_n: "LPAL 4 Tickets gefunden ({n} noch frei). Rabatt abgezogen.",
+      tk_found: "{tier} Ticket gefunden. Dein Start: {price} €.",
+      tk_found_n: "{n} freie LPAL 4 Tickets gefunden. Mit deinem {tier} Ticket kostet der Start {price} €.",
+      ticket_plus: "Ticket {t} € + Start {e} €",
+      entry_only: "Start {e} €",
+      have_entry: "Dein {tier} Ticket · Start {e} €",
+      e_have: "Wir haben dein LPAL 4 Ticket nicht gefunden. Prüf deine E-Mail oder den Ticketcode, oder wähle eine andere Option.",
+      e_sold_out: "Diese Ticketkategorie ist ausverkauft. Bitte wähle eine andere.",
+      done_ticket: "Dein {tier} Abend-Ticket: <b>{code}</b>. Zeig es am Eingang.",
+      done_ticket_wait: "Dein {tier} Abend-Ticket wird ausgestellt und an {email} geschickt.",
+      sum_ticket: "{tier} Abend-Ticket",
       tk_none: "Kein LPAL 4 Ticket mit dieser E-Mail gefunden.",
       tk_none_code: "Diesen Ticketcode haben wir nicht gefunden. Prüf den Code in deiner Ticket-E-Mail oder melde dich zum normalen Preis an.",
       tk_used: "Dieses Ticket wurde schon für einen Rabatt verwendet.",
       tk_used_email: "Die LPAL 4 Tickets dieser E-Mail wurden schon für einen Rabatt verwendet.",
       tk_error: "Wir können die Tickets gerade nicht prüfen. Versuch es gleich nochmal oder melde dich zum normalen Preis an.",
       tk_off: "Die Ticketprüfung ist noch nicht verbunden.",
-      sum_pick: "Wähle Kategorie, Gewichtsklasse und Arm",
+      sum_pick: "Wähle Kategorie, Arm und Abend-Ticket",
       sum_disc: "LPAL 4 Ticket-Rabatt",
       e_fields: "Bitte fülle die markierten Felder aus.",
       e_ticket_used: "Dieses Ticket wurde gerade für eine andere Anmeldung verwendet. Wir haben den Rabatt entfernt, prüf den Preis und versuch es nochmal.",
@@ -139,7 +168,7 @@
   var lang = params.get("lang") === "de" ? "de" : (params.get("lang") === "en" ? "en" : ((navigator.language || "").toLowerCase().indexOf("de") === 0 ? "de" : "en"));
   var EN = {};
   $$("[data-t]").forEach(function (el) { if (!(el.dataset.t in EN)) EN[el.dataset.t] = el.innerHTML; });
-  function m(k, vars) { var s = MSG[lang][k] || MSG.en[k] || k; for (var v in vars) s = s.replace("{" + v + "}", vars[v]); return s; }
+  function m(k, vars) { var s = MSG[lang][k] || MSG.en[k] || k; for (var v in vars) s = s.split("{" + v + "}").join(vars[v]); return s; }
   function text(k) { return lang === "de" && DE[k] ? DE[k] : EN[k]; }
 
   function applyLang() {
@@ -162,7 +191,7 @@
 
   /* ---------- form logic ---------- */
   var form = $("#q-form");
-  var tk = { state: "idle", available: 0, code: "", via: "" };
+  var tk = { state: "idle", available: 0, code: "", via: "", tier: null };
 
   function val(name) { var el = form.elements[name]; if (!el) return ""; if (el.length && !el.tagName) { var c = $$("input[name=" + name + "]:checked", form)[0]; return c ? c.value : ""; } return el.type === "checkbox" ? el.checked : el.value.trim(); }
 
@@ -192,18 +221,41 @@
   }
 
   function hasDiscount() { return tk.state === "found"; }
+  function currentTier() {
+    var show = val("show");
+    if (TICKET[show]) return show;
+    if (show === "none") return "none";
+    if (show === "have") return hasDiscount() ? tk.tier : null;
+    return null;
+  }
+  function renderShows() {
+    var arms = val("arms");
+    Object.keys(TICKET).forEach(function (t) {
+      var e = entryFor(t, arms);
+      $('[data-show="' + t + '"]').textContent = m("ticket_plus", { t: TICKET[t], e: e }).replace(/€(\d+)/g, function (_, n) { return money(n); }).replace(/(\d+) €/g, "$1 €");
+      $('[data-total="' + t + '"]').textContent = money(TICKET[t] + e);
+    });
+    $('[data-total="none"]').textContent = money(entryFor("none", arms));
+    if (hasDiscount()) {
+      var e = entryFor(tk.tier, arms);
+      $("#q-have-p").textContent = m("have_entry", { tier: TIER_EN[tk.tier], e: e });
+      $("#q-have-t").textContent = money(e);
+    } else { $("#q-have-p").innerHTML = text("show_have_p"); $("#q-have-t").textContent = ""; }
+    $("#q-tk").hidden = val("show") !== "have";
+  }
   function updateSummary() {
-    var arms = val("arms"), div = val("division"), cls = val("weight_class");
+    renderShows();
+    var arms = val("arms"), div = val("division"), cls = val("weight_class"), tier = currentTier();
     var line = $("#q-sum-line"), n = $("#q-sum-n");
-    if (!arms) { line.textContent = m("sum_pick"); n.textContent = lang === "de" ? "– €" : "€–"; return; }
-    var p = PRICES[arms === "both" ? "both" : "one"], price = p[hasDiscount() ? 1 : 0];
-    var parts = [];
-    if (div) parts.push(text("div_" + div) + (cls ? " " + cls.replace("-", "−") + " kg" : ""));
-    parts.push(text("arm_" + arms));
-    var html = parts.map(esc).join(" · ");
-    if (hasDiscount()) html += '<br><s>' + money(p[0]) + "</s>" + esc(m("sum_disc")) + " −" + money(p[0] - p[1]);
+    if (!arms || !tier) { line.textContent = m("sum_pick"); n.textContent = lang === "de" ? "– €" : "€–"; return; }
+    var entry = entryFor(tier, arms), ticket = TICKET[val("show")] || 0;
+    var first = [];
+    if (div) first.push(text("div_" + div) + (cls ? " " + cls.replace("-", "−") + " kg" : ""));
+    first.push(text("arm_" + arms));
+    var html = esc(first.join(" · ")) + ": " + money(entry);
+    if (ticket) html += "<br>" + esc(m("sum_ticket", { tier: TIER_EN[val("show")] })) + ": " + money(ticket);
     line.innerHTML = html;
-    n.textContent = money(price);
+    n.textContent = money(entry + ticket);
   }
   function money(v) { return lang === "de" ? v + " €" : "€" + v; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
@@ -215,7 +267,7 @@
     box.dataset.state = tk.state;
     if (tk.state === "idle") msg.innerHTML = text("tk_idle");
     else if (tk.state === "checking") msg.textContent = m("tk_checking");
-    else if (tk.state === "found") msg.textContent = tk.available > 1 ? m("tk_found_n", { n: tk.available }) : m("tk_found");
+    else if (tk.state === "found") { var pr = entryFor(tk.tier, val("arms")); msg.textContent = tk.available > 1 ? m("tk_found_n", { n: tk.available, tier: TIER_EN[tk.tier], price: pr }) : m("tk_found", { tier: TIER_EN[tk.tier], price: pr }); }
     else if (tk.state === "none") msg.textContent = m(tk.via === "code" ? "tk_none_code" : "tk_none");
     else if (tk.state === "used") msg.textContent = m(tk.via === "code" ? "tk_used" : "tk_used_email");
     else if (tk.state === "error") msg.textContent = m("tk_error");
@@ -233,8 +285,13 @@
       .then(function (d) {
         if (seq !== tkSeq) return;
         if (d.error) return setTk({ state: d.error === "not_ready" ? "off" : "error" });
-        if (d.available > 0) setTk({ state: "found", available: d.available, code: body.code || "" });
-        else setTk({ state: d.found ? "used" : "none", available: 0, code: "" });
+        if (d.available > 0) {
+          // ticket found: pre-select "I already have a ticket" if nothing is chosen yet
+          var cur = val("show");
+          if (!cur) { var r = $('input[name=show][value=have]', form); r.checked = true; }
+          setTk({ state: "found", available: d.available, code: body.code || "", tier: d.tier || "ga" });
+        }
+        else setTk({ state: d.found ? "used" : "none", available: 0, code: "", tier: null });
       })
       .catch(function () { if (seq === tkSeq) setTk({ state: "error" }); });
   }
@@ -263,6 +320,7 @@
     var n = e.target.name;
     if (n === "division") renderClasses();
     if (n === "dob") updateGuardian();
+    if (n === "show" || n === "arms") renderTicket();
     clearBad(e.target);
     updateSummary();
   });
@@ -278,6 +336,7 @@
     if (name === "division") return $("#q-div");
     if (name === "weight_class") return $("#q-classes");
     if (name === "arms") return $(".q-seg-arms");
+    if (name === "show") return $("#q-shows");
     if (!el) return null;
     return el.closest(".q-field") || el.closest(".q-check") || el;
   }
@@ -298,6 +357,7 @@
     if (!val("division")) bad.push("division");
     else if (!val("weight_class")) bad.push("weight_class");
     if (!val("arms")) bad.push("arms");
+    if (!val("show")) bad.push("show");
     if (a !== null && a < 18) {
       if (!val("guardian_name")) bad.push("guardian_name");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val("guardian_email"))) bad.push("guardian_email");
@@ -313,13 +373,14 @@
     if (busy) return;
     var bad = localCheck();
     if (bad.length) return showErr(m("e_fields"), bad);
+    if (val("show") === "have" && !hasDiscount()) return showErr(m("e_have"));
     if (cfg.payments === "off") return showErr(m("e_off"));
     var body = {
       lang: lang, first_name: val("first_name"), last_name: val("last_name"), email: val("email"), dob: val("dob"),
       country: val("country"), instagram: val("instagram"), club: val("club"), division: val("division"),
       weight_class: val("weight_class"), arms: val("arms"), guardian_name: val("guardian_name"), guardian_email: val("guardian_email"),
       guardian_consent: !!val("guardian_consent"), accept_rules: !!val("accept_rules"), comment: form.elements.comment.value,
-      use_ticket: hasDiscount(), code: hasDiscount() && tk.via === "code" ? tk.code : ""
+      show: val("show"), code: val("show") === "have" && tk.via === "code" ? tk.code : ""
     };
     busy = true;
     var btn = $("#q-submit"); btn.disabled = true; btn.firstElementChild.textContent = m("paying");
@@ -332,6 +393,7 @@
         if (err === "invalid") showErr(m("e_fields"), res.d.fields);
         else if (err === "ticket_used" || err === "ticket_not_found") { setTk({ state: err === "ticket_used" ? "used" : "none", available: 0 }); showErr(m(err === "ticket_used" ? "e_ticket_used" : "e_ticket_nf")); }
         else if (err === "not_ready") showErr(m("e_off"));
+        else if (err === "sold_out") showErr(m("e_sold_out"), ["show"]);
         else showErr(m("e_pay"));
       })
       .catch(function () { busy = false; btn.disabled = false; btn.firstElementChild.textContent = text("submit"); showErr(m("e_net")); });
@@ -348,6 +410,9 @@
           $("#q-checking").hidden = true; $("#q-done").hidden = false;
           $("#q-done-sum").textContent = m("done_sum", { div: text("div_" + d.division), cls: String(d.weight_class).replace("-", "−"), arms: text("arm_" + d.arms), amt: (d.amount / 100).toFixed(0) });
           $("#q-done").dataset.ok = "1";
+          var tl = $("#q-done-ticket");
+          if (d.ticket_code) { tl.innerHTML = m("done_ticket", { tier: TIER_EN[d.show], code: esc(d.ticket_code) }); tl.hidden = false; }
+          else if (d.ticket_pending) { tl.textContent = m("done_ticket_wait", { tier: TIER_EN[d.show], email: d.email }); tl.hidden = false; }
         } else if (++tries < 6) setTimeout(poll, 2000);
         else { $("#q-checking").textContent = m("not_paid"); }
       }).catch(function () { if (++tries < 6) setTimeout(poll, 2000); else $("#q-checking").textContent = m("not_paid"); });

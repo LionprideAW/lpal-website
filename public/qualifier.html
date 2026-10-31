@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-2.css">
+<link rel="stylesheet" href="assets/qualifier/qualifier-3.css">
 </head>
 <body>
 
@@ -123,23 +123,26 @@
         </div>
       </div>
 
-      <h2 class="q-h2 q-h2-sm" data-t="price_title">Entry fee</h2>
-      <div class="q-prices">
-        <div class="q-price">
-          <p class="q-price-k" data-t="arm_one">One arm</p>
-          <p class="q-price-n">€30</p>
-          <p class="q-price-d"><b>€25</b> <span data-t="with_ticket">with an LPAL 4 event ticket</span></p>
-        </div>
-        <div class="q-price">
-          <p class="q-price-k" data-t="arm_both">Both arms</p>
-          <p class="q-price-n">€50</p>
-          <p class="q-price-d"><b>€40</b> <span data-t="with_ticket">with an LPAL 4 event ticket</span></p>
-        </div>
-        <div class="q-price q-price-tix">
-          <p class="q-price-k" data-t="tix_k">Stay for the night show</p>
-          <p class="q-price-txt" data-t="tix_p">Buy your LPAL 4 ticket first and save up to €10 on your entry fee. We find your ticket automatically by your email.</p>
-          <a class="q-btn q-btn-gold" href="/tickets" target="_blank" rel="noopener" data-t="tix_btn">Get your LPAL 4 ticket</a>
-        </div>
+      <div class="q-pt">
+        <h2 class="q-pt-h"><span data-t="pt_title">Tournament entry:</span> <b>€60</b></h2>
+        <p class="q-pt-sub" data-t="pt_sub">Buy an evening ticket and your entry costs less.</p>
+        <table class="q-ptab">
+          <thead><tr><th data-t="pt_th1">Evening ticket</th><th data-t="pt_th2">Ticket</th><th data-t="pt_th3">Entry</th><th data-t="pt_th4">You pay</th></tr></thead>
+          <tbody>
+            <tr><td data-t="pt_none">No ticket</td><td>–</td><td class="g">€60</td><td class="t">€60</td></tr>
+            <tr><td>Fan</td><td>€30</td><td class="g">€50</td><td class="t">€80</td></tr>
+            <tr><td>General</td><td>€35</td><td class="g">€45</td><td class="t">€80</td></tr>
+            <tr><td>Gold</td><td>€60</td><td class="g">€40</td><td class="t">€100</td></tr>
+            <tr><td>VIP</td><td>€90</td><td class="g">€30</td><td class="t">€120</td></tr>
+          </tbody>
+        </table>
+        <p class="q-pt-arm" data-t="pt_arm"><b>One arm only?</b> Your entry is €5 less. Prices above are for both arms.</p>
+        <ul class="q-pt-why">
+          <li data-t="why_hall"><b>The hall is cleared after the tournament.</b> One hour later the doors open for LPAL 4, and only people with an evening ticket get back in.</li>
+          <li data-t="why_have"><b>Already have a ticket?</b> Enter your email in the form. We find your ticket automatically and you get the same entry price.</li>
+          <li data-t="why_picked"><b>Picked for a super match?</b> We refund your entry fee and your evening ticket.</li>
+          <li data-t="why_fair">Your ticket has no effect on the draw or on scouting.</li>
+        </ul>
       </div>
     </div>
   </section>
@@ -210,12 +213,20 @@
         </fieldset>
 
         <fieldset>
-          <legend data-t="lg_ticket">LPAL 4 ticket discount</legend>
-          <div class="q-tk" id="q-tk" data-state="idle">
-            <p class="q-tk-msg" id="q-tk-msg" data-t="tk_idle">Have a ticket for the LPAL 4 night show? Enter your email above and we check it automatically.</p>
+          <legend data-t="lg_ticket">Evening ticket for LPAL 4</legend>
+          <p class="q-help q-show-help" data-t="show_help">The hall is cleared after the tournament. With an evening ticket you come back in for the LPAL 4 show, and your entry costs less.</p>
+          <div class="q-shows" id="q-shows" role="radiogroup">
+            <label class="q-show"><input type="radio" name="show" value="fan" required><span class="q-show-in"><b class="q-show-n">Fan</b><i class="q-show-p" data-show="fan"></i><em class="q-show-t" data-total="fan"></em></span></label>
+            <label class="q-show"><input type="radio" name="show" value="ga"><span class="q-show-in"><b class="q-show-n">General</b><i class="q-show-p" data-show="ga"></i><em class="q-show-t" data-total="ga"></em></span></label>
+            <label class="q-show"><input type="radio" name="show" value="gold"><span class="q-show-in"><b class="q-show-n">Gold</b><i class="q-show-p" data-show="gold"></i><em class="q-show-t" data-total="gold"></em></span></label>
+            <label class="q-show"><input type="radio" name="show" value="vip"><span class="q-show-in"><b class="q-show-n">VIP</b><i class="q-show-p" data-show="vip"></i><em class="q-show-t" data-total="vip"></em></span></label>
+            <label class="q-show q-show-wide"><input type="radio" name="show" value="have"><span class="q-show-in"><b class="q-show-n" data-t="show_have">I already have an LPAL 4 ticket</b><i class="q-show-p" id="q-have-p" data-t="show_have_p">We check it with your email</i><em class="q-show-t" id="q-have-t"></em></span></label>
+            <label class="q-show q-show-wide q-show-none"><input type="radio" name="show" value="none"><span class="q-show-in"><b class="q-show-n" data-t="show_none">No evening ticket</b><i class="q-show-p" data-t="show_none_p">Tournament only, you leave after the tournament</i><em class="q-show-t" data-total="none"></em></span></label>
+          </div>
+          <div class="q-tk" id="q-tk" data-state="idle" hidden>
+            <p class="q-tk-msg" id="q-tk-msg" data-t="tk_idle">Enter your email above and we check your ticket automatically.</p>
             <div class="q-tk-actions" id="q-tk-actions">
               <button type="button" class="q-link" id="q-tk-codebtn" data-t="tk_other">Ticket bought with another email? Enter the ticket code</button>
-              <a class="q-link" href="/tickets" target="_blank" rel="noopener" data-t="tk_buy">No ticket yet? Get one and save up to €10</a>
             </div>
             <div class="q-tk-code" id="q-tk-code" hidden>
               <label class="q-field"><span data-t="l_code">Ticket code (in your ticket email)</span><input id="q-code" maxlength="20" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="xd9XzGZ"></label>
@@ -235,7 +246,7 @@
 
         <div class="q-sum" id="q-sum">
           <div>
-            <p class="q-sum-k" data-t="sum_k">Your entry fee</p>
+            <p class="q-sum-k" data-t="sum_k">You pay</p>
             <p class="q-sum-line" id="q-sum-line">–</p>
           </div>
           <p class="q-sum-n" id="q-sum-n">€0</p>
@@ -250,13 +261,14 @@
         <div class="q-done-ic" aria-hidden="true">✓</div>
         <h2 class="q-h2" data-t="done_title">You're registered!</h2>
         <p class="q-done-sum" id="q-done-sum"></p>
+        <p class="q-done-ticket" id="q-done-ticket" hidden></p>
         <p data-t="done_p1">You'll get a payment receipt by email. Come to one of the weigh-ins with your ID:</p>
         <ul class="q-done-list">
           <li data-t="done_fri">Fri 8 Jan, 18:00–21:00 · V8 Hotel Köln @ MOTORWORLD</li>
           <li data-t="done_sat">Sat 9 Jan, 09:00–11:00 · MOTORWORLD (1 kg tolerance)</li>
         </ul>
         <div class="q-done-tix">
-          <p data-t="done_tix">Friends and family can watch you, then stay for the LPAL 4 night show.</p>
+          <p data-t="done_tix">Bring your crew: friends and family can watch you, then stay for the LPAL 4 night show.</p>
           <a class="q-btn q-btn-gold" href="/tickets" data-t="done_tix_btn">Tickets for LPAL 4</a>
         </div>
       </div>
@@ -281,6 +293,6 @@
 </footer>
 
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-2.js"></script>
+<script src="assets/qualifier/qualifier-3.js"></script>
 </body>
 </html>

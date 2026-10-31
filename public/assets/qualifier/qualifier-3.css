@@ -196,3 +196,51 @@ button,input,textarea,select{font:inherit;color:inherit}
   .q-prize-big{padding:20px}
 }
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* price table (entry depends on the evening ticket) */
+.q-pt{margin-top:clamp(40px,5vw,60px);background:var(--card);border:1px solid var(--line);border-radius:8px;padding:clamp(20px,3vw,32px)}
+.q-pt-h{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(36px,4.4vw,56px);line-height:1}
+.q-pt-sub{color:#cfcfcf;margin:6px 0 18px;font-size:17px}
+.q-ptab{width:100%;border-collapse:collapse}
+.q-ptab th{font-family:var(--cond);font-weight:800;font-size:14px;text-align:right;padding:10px 8px;border-bottom:1px solid #3a3a3a;color:#ddd}
+.q-ptab td{font-size:17px;text-align:right;padding:13px 8px;border-bottom:1px solid #2a2a2a;color:#cfcfcf}
+.q-ptab th:first-child,.q-ptab td:first-child{text-align:left;font-family:var(--cond);font-weight:800;color:#fff;font-size:18px}
+.q-ptab td.g{color:var(--gold);font-weight:500}
+.q-ptab td.t{font-family:var(--display);font-size:30px;color:#fff;line-height:1}
+.q-ptab tr:last-child td{border-bottom:0}
+.q-pt-arm{margin-top:14px;color:#d6d6d6}
+.q-pt-arm b{color:#fff}
+.q-pt-why{list-style:none;display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px;padding-top:20px;border-top:3px solid var(--gold)}
+.q-pt-why li{color:#d0d0d0;font-size:15px;padding-left:16px;position:relative}
+.q-pt-why li::before{content:"";position:absolute;left:0;top:9px;width:6px;height:6px;background:var(--gold);border-radius:50%}
+.q-pt-why b{color:#fff}
+
+/* evening ticket choice in the form */
+.q-show-help{margin:2px 0 14px}
+.q-shows{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.q-shows.is-bad{outline:1px solid var(--red);outline-offset:4px;border-radius:6px}
+.q-show{position:relative;cursor:pointer}
+.q-show input{position:absolute;opacity:0;pointer-events:none}
+.q-show-in{display:flex;flex-direction:column;gap:2px;height:100%;padding:12px 12px 13px;border:1px solid #333;border-radius:6px;background:#0e0e0e;transition:border-color .2s,background .2s}
+.q-show:hover .q-show-in{border-color:#666}
+.q-show input:checked+.q-show-in{border-color:var(--gold);background:rgba(246,184,0,.1);box-shadow:inset 0 0 0 1px var(--gold)}
+.q-show input:focus-visible+.q-show-in{outline:2px solid var(--gold);outline-offset:2px}
+.q-show-n{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.03em;font-size:16px}
+.q-show-p{font-style:normal;font-size:13px;color:var(--mut);line-height:1.35}
+.q-show-t{font-style:normal;font-family:var(--display);font-size:30px;line-height:1;margin-top:auto;padding-top:6px}
+.q-show-wide{grid-column:span 2}
+.q-show-wide .q-show-in{flex-direction:row;flex-wrap:wrap;align-items:baseline;column-gap:10px}
+.q-show-wide .q-show-n{flex:1 1 auto}
+.q-show-wide .q-show-p{order:3;flex-basis:100%}
+.q-show-wide .q-show-t{margin:0;padding:0}
+.q-show-none .q-show-n{color:#bbb}
+.q-tk{margin-top:14px;padding:14px;border:1px dashed #3a3a3a;border-radius:6px}
+.q-done-ticket{background:#0e0e0e;border:1px solid var(--gold);border-radius:6px;padding:12px 16px;margin:0 auto 18px;max-width:480px;color:#eee}
+.q-done-ticket b{color:var(--gold);font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}
+@media (max-width:760px){
+  .q-shows{grid-template-columns:1fr 1fr}
+  .q-pt-why{grid-template-columns:1fr}
+  .q-ptab th{font-size:12.5px;padding:8px 4px}
+  .q-ptab td{font-size:15px;padding:11px 4px}
+  .q-ptab td.t{font-size:24px}
+}
