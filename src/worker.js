@@ -1,5 +1,7 @@
 // LPAL site worker: serves the static site, plus /api/youtube-latest
 // which reads the channel's public RSS feed and returns the newest videos.
+import { handleQualifier } from "./qualifier.js";
+
 const CHANNEL_HANDLE = "LionPrideArmwrestlingLeague";
 const CHANNEL_ID = "UCSxV_nzYThkWks1sVMAHuaw";
 const UA = { "user-agent": "Mozilla/5.0 (compatible; LPAL-site/1.0)" };
@@ -65,6 +67,7 @@ export default {
     // old Webflow pages that search engines still list
     const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/" };
     if (OLD[url.pathname]) return Response.redirect("https://lpal.eu" + OLD[url.pathname], 301);
+    if (url.pathname.startsWith("/api/qualifier/")) return handleQualifier(request, env, url);
     if (url.pathname === "/api/youtube-latest") {
       try { return await latest(ctx); }
       catch (e) { return new Response(JSON.stringify({ videos: [] }), { status: 502, headers: { "content-type": "application/json" } }); }

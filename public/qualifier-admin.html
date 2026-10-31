@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Qualifier Registrations | LPAL</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+:root{--red:#e1261c;--gold:#f6b800;--bg:#0b0b0b;--card:#161616;--line:#2a2a2a;--mut:#9a9a9a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#eee;font:15px/1.5 Roboto,system-ui,sans-serif;padding:20px 16px 60px}
+h1{font:800 26px/1.1 "Roboto Condensed",Arial Narrow,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+.sub{color:var(--mut);margin-bottom:18px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px}
+input{background:#0e0e0e;border:1px solid #333;border-radius:5px;padding:10px 12px;color:#fff;font:inherit;min-width:220px}
+button{background:var(--red);color:#fff;border:0;border-radius:5px;padding:10px 16px;font:700 14px "Roboto Condensed",sans-serif;text-transform:uppercase;letter-spacing:.05em;cursor:pointer}
+button.ghost{background:transparent;border:1px solid #555}
+button[disabled]{opacity:.5}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.diag span{display:inline-block;margin:0 14px 6px 0}
+.ok{color:#7ddc7d}.bad{color:#ff7a70}.warn{color:var(--gold)}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-width:120px}
+.stat b{display:block;font-size:24px}
+.stat small{color:var(--mut);text-transform:uppercase;font-size:11px;letter-spacing:.1em}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:1100px}
+th,td{padding:8px 10px;border-bottom:1px solid #222;text-align:left;vertical-align:top}
+th{background:#111;position:sticky;top:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+tr.pending td,tr.expired td{opacity:.55}
+.pill{display:inline-block;border-radius:3px;padding:1px 7px;font-size:11.5px;font-weight:700;text-transform:uppercase}
+.p-paid{background:#1f4d24;color:#9ef0a5}.p-pending{background:#4d431f;color:#f0dc9e}.p-expired{background:#333;color:#aaa}
+.cm{max-width:260px;white-space:pre-wrap;color:var(--gold)}
+.filters{margin-bottom:10px}
+.err{color:#ff7a70;margin-top:8px}
+</style>
+</head>
+<body>
+<h1>LPAL Qualifier · Registrations</h1>
+<p class="sub">Private page. Not linked anywhere and hidden from Google.</p>
+
+<div class="box" id="login">
+  <form class="row" id="lf">
+    <input type="password" id="key" placeholder="Admin password" autocomplete="current-password">
+    <button type="submit">Open</button>
+  </form>
+  <p class="err" id="lerr" hidden>Wrong password, or the password is not set in Cloudflare yet.</p>
+</div>
+
+<div id="app" hidden>
+  <div class="box diag" id="diag"></div>
+  <div class="row filters">
+    <button type="button" id="b-sync">Refresh + check payments and tickets</button>
+    <button type="button" class="ghost" id="b-tt">Test Ticket Tailor connection</button>
+    <button type="button" class="ghost" id="b-csv">Download Excel/CSV (paid only)</button>
+    <label><input type="checkbox" id="f-all" style="min-width:0"> show unpaid / cancelled</label>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div class="wrap"><table><thead><tr>
+    <th>Status</th><th>Date</th><th>Name</th><th>Category</th><th>Class</th><th>Arm</th><th>Paid</th><th>Ticket discount</th>
+    <th>Age</th><th>Country</th><th>Email</th><th>Instagram</th><th>Club</th><th>Guardian</th><th>Comment</th>
+  </tr></thead><tbody id="tb"></tbody></table></div>
+</div>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var DIV={senior:"Senior Men",amateur:"Amateur Men",women:"Women"}, ARM={left:"Left",right:"Right",both:"Both"};
+  var key="", data=null;
+  try{key=sessionStorage.getItem("qk")||""}catch(e){}
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function load(action){
+    return fetch("/api/qualifier/admin"+(action?"?action="+action:""),{headers:{"x-admin-key":key}})
+      .then(function(r){if(r.status===401)throw new Error("auth");return r.json()})
+      .then(function(d){data=d;render()});
+  }
+  function render(){
+    $("#login").hidden=true;$("#app").hidden=false;
+    var g=data.diag, h=[];
+    h.push('<span>Stripe: <b class="'+(g.stripe==="live"?"ok":g.stripe==="test"?"warn":"bad")+'">'+(g.stripe==="test"?"TEST mode":g.stripe==="live"?"LIVE":"not connected")+'</b></span>');
+    h.push('<span>Ticket Tailor: <b class="'+(g.tickettailor==="set"?"ok":"bad")+'">'+(g.tickettailor==="set"?"key set":"not connected")+'</b></span>');
+    h.push('<span>Stripe webhook: <b class="'+(g.webhook==="set"?"ok":"warn")+'">'+(g.webhook==="set"?"set":"not set yet")+'</b></span>');
+    h.push('<span>LPAL 4 event id: <b>'+esc(g.event_id)+'</b></span>');
+    if(g.tt_error) h.push('<br><span class="bad">Ticket Tailor error: '+esc(g.tt_error)+'</span>');
+    if(g.tt_events){ h.push('<br><span class="ok">Ticket Tailor connected. LPAL 4 tickets found: <b>'+g.tt_tickets+'</b> ('+g.tt_valid+' valid)</span><br><span>Events: '+g.tt_events.map(function(e){return esc(e.name)+' = <b>'+esc(e.id)+'</b>'}).join(" · ")+'</span>'); }
+    $("#diag").innerHTML=h.join("");
+    var all=$("#f-all").checked, rows=data.registrations.filter(function(r){return all||r.status==="paid"});
+    var paid=data.registrations.filter(function(r){return r.status==="paid"});
+    var sum=paid.reduce(function(a,r){return a+(r.amount_paid||r.price||0)},0);
+    var by={}; paid.forEach(function(r){var k=DIV[r.division]+" "+r.weight_class.replace("-","−");by[k]=(by[k]||0)+1});
+    var st='<div class="stat"><small>Registered (paid)</small><b>'+paid.length+'</b></div>'+
+      '<div class="stat"><small>Money in Stripe</small><b>€'+(sum/100).toFixed(0)+'</b></div>'+
+      '<div class="stat"><small>With ticket discount</small><b>'+paid.filter(function(r){return r.discount}).length+'</b></div>'+
+      '<div class="stat"><small>Under 18</small><b>'+paid.filter(function(r){return r.age<18}).length+'</b></div>';
+    Object.keys(by).sort().forEach(function(k){st+='<div class="stat"><small>'+esc(k)+' kg</small><b>'+by[k]+'</b></div>'});
+    $("#stats").innerHTML=st;
+    $("#tb").innerHTML=rows.map(function(r){
+      var t=r.discount?(esc(r.tt_code)+" "+(r.ticket_ok===0?'<b class="bad">⚠ ticket refunded/void</b>':r.ticket_ok===1?'<span class="ok">✓ valid</span>':"")+(r.note?'<br><span class="bad">'+esc(r.note)+'</span>':"")):"–";
+      return '<tr class="'+r.status+'"><td><span class="pill p-'+r.status+'">'+r.status+'</span>'+(r.livemode?"":' <small class="warn">test</small>')+'</td>'+
+        '<td>'+new Date(r.created_at*1000).toLocaleString("de-AT",{dateStyle:"short",timeStyle:"short"})+'</td>'+
+        '<td><b>'+esc(r.first_name+" "+r.last_name)+'</b></td><td>'+esc(DIV[r.division])+'</td><td>'+esc(r.weight_class.replace("-","−"))+' kg</td><td>'+esc(ARM[r.arms])+'</td>'+
+        '<td>€'+((r.amount_paid||r.price)/100).toFixed(0)+'</td><td>'+t+'</td><td>'+esc(r.age)+(r.age<18?' <b class="warn">U18</b>':"")+'</td><td>'+esc(r.country)+'</td>'+
+        '<td>'+esc(r.email)+'</td><td>'+(r.instagram?'<a style="color:#fff" target="_blank" rel="noopener" href="https://instagram.com/'+encodeURIComponent(r.instagram)+'">@'+esc(r.instagram)+'</a>':"")+'</td><td>'+esc(r.club)+'</td>'+
+        '<td>'+(r.guardian_name?esc(r.guardian_name)+"<br>"+esc(r.guardian_email):"")+'</td><td class="cm">'+esc(r.comment)+'</td></tr>';
+    }).join("")||'<tr><td colspan="15" style="color:#888;padding:20px">No registrations yet.</td></tr>';
+  }
+  function csv(){
+    var cols=["first_name","last_name","division","weight_class","arms","amount_paid","discount","tt_code","age","dob","country","email","instagram","club","guardian_name","guardian_email","comment","created_at"];
+    var lines=[cols.join(";")].concat(data.registrations.filter(function(r){return r.status==="paid"}).map(function(r){
+      return cols.map(function(c){var v=r[c];if(c==="division")v=DIV[v];if(c==="arms")v=ARM[v];if(c==="amount_paid")v=((v||0)/100).toFixed(2).replace(".",",");if(c==="created_at")v=new Date(v*1000).toISOString().slice(0,16).replace("T"," ");v=String(v==null?"":v);return '"'+v.replace(/"/g,'""').replace(/\n/g," ")+'"'}).join(";");
+    }));
+    var a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["﻿"+lines.join("\r\n")],{type:"text/csv"}));a.download="lpal-qualifier-registrations.csv";a.click();
+  }
+  function busy(b,p){b.disabled=true;var t=b.textContent;b.textContent="Working…";p.catch(function(){}).then(function(){b.disabled=false;b.textContent=t})}
+  $("#lf").addEventListener("submit",function(e){e.preventDefault();key=$("#key").value;load().then(function(){try{sessionStorage.setItem("qk",key)}catch(e){}}).catch(function(){$("#lerr").hidden=false})});
+  $("#b-sync").addEventListener("click",function(){busy(this,load("sync"))});
+  $("#b-tt").addEventListener("click",function(){busy(this,load("ttcheck"))});
+  $("#b-csv").addEventListener("click",csv);
+  $("#f-all").addEventListener("change",render);
+  if(key) load().catch(function(){});
+})();
+</script>
+</body>
+</html>

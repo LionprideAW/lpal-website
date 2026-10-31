@@ -9,6 +9,10 @@
     // Images, styles and scripts under /assets are served directly (no worker request used).
     "run_worker_first": ["/*", "!/assets/*"]
   },
+  // Qualifier registrations (LPAL Qualifier presented by TitanGrip)
+  "d1_databases": [
+    { "binding": "DB", "database_name": "lpal-qualifier", "database_id": "41adb3f9-7287-491e-8afa-c19ff911ccd6" }
+  ],
   "routes": [
     { "pattern": "lionpride-armwrestling.com", "custom_domain": true },
     { "pattern": "www.lionpride-armwrestling.com", "custom_domain": true },
