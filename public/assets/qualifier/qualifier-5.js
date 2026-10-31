@@ -4,7 +4,7 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  var ENTRY = { none: 60, fan: 50, ga: 45, gold: 40, vip: 30 }, ONE_ARM_OFF = 5;
+  var ENTRY = { none: 60, fan: 50, ga: 45, gold: 40, vip: 30 }, ONE_ARM_OFF = 10;
   var TICKET = { fan: 30, ga: 35, gold: 60, vip: 90 };
   var TIER_EN = { fan: "Fan", ga: "General", gold: "Gold", vip: "VIP" };
   function entryFor(tier, arms) { return ENTRY[tier] - (arms && arms !== "both" ? ONE_ARM_OFF : 0); }
@@ -89,7 +89,7 @@
     pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
     pt_th1: "Abend-Ticket", pt_th2: "LPAL 4 Ticket", pt_th3: "Turnier-Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
     plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
-    pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 5 € weniger. Die Preise oben gelten für beide Arme.",
+    pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 10 € weniger. Die Preise oben gelten für beide Arme.",
     why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
     why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
     why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
