@@ -4,7 +4,7 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  var ENTRY = { none: 60, fan: 50, ga: 45, gold: 40, vip: 30 }, ONE_ARM_OFF = 10;
+  var ENTRY = { none: 60, fan: 50, ga: 50, gold: 40, vip: 30 }, ONE_ARM_OFF = 10;
   var TICKET = { fan: 30, ga: 35, gold: 60, vip: 90 };
   var TIER_EN = { fan: "Fan", ga: "General", gold: "Gold", vip: "VIP" };
   function entryFor(tier, arms) { return ENTRY[tier] - (arms && arms !== "both" ? ONE_ARM_OFF : 0); }
