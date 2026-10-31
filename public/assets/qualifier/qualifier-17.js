@@ -52,6 +52,7 @@
     rule_tol: "<b>Toleranz:</b> 1 kg, nur beim Wiegen am Samstag in der Halle. Am Freitag im Hotel gibt es keine Toleranz.",
     rule_age: "<b>Kein Mindestalter.</b> Unter 18 braucht ein Elternteil oder eine erziehungsberechtigte Person (18+), die für dich unterschreibt.",
     rule_id: "<b>Bring deinen Ausweis</b> zum Wiegen mit.",
+    rule_final: "<b>Keine Rückerstattung.</b> Alle Zahlungen sind endgültig, auch wenn du nicht kommen kannst.",
     rule_refund: "<b>Rückerstattung:</b> Die 4 Athleten, die für die Super Matches ausgewählt werden, bekommen ihren Turnier-Start und ihr LPAL 4 Ticket erstattet.",
     form_kicker: "Online-Anmeldung",
     form_title: "Melde dich zum Qualifier an",
