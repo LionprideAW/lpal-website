@@ -114,7 +114,7 @@
       ticket_plus: "LPAL 4 ticket €{t} + tournament entry €{e}",
       plan_cap: "Your seats with a {tier} ticket",
       b_name: "{tier} bundle", b_what: "Tournament entry + {tier} ticket", b_instead: "instead of {sum}", b_save: "You save {s}",
-      b_detail: "{e} entry + {t} ticket", b_card: "Tournament entry + {tier} ticket", b_card_save: "instead of {sum} · save {s}",
+      b_detail: "{e} entry + {t} ticket", b_entry: "Tournament entry {e}", b_card: "Tournament entry + {tier} ticket", b_card_save: "instead of {sum} · save {s}",
       have_line: "<b>Already bought an LPAL 4 ticket?</b> You still get the bundle price and only pay the rest as tournament entry: {list}. We find your ticket by your email.",
       sum_bundle: "{tier} bundle: tournament entry + LPAL 4 ticket", sum_instead: "instead of {sum}, you save {s}",
       sum_entry: "Tournament entry",
@@ -152,7 +152,7 @@
       ticket_plus: "LPAL 4 Ticket {t} € + Turnier-Start {e} €",
       plan_cap: "Deine Plätze mit einem {tier} Ticket",
       b_name: "{tier} Bundle", b_what: "Turnier-Start + {tier} Ticket", b_instead: "statt {sum}", b_save: "Du sparst {s}",
-      b_detail: "{e} Start + {t} Ticket", b_card: "Turnier-Start + {tier} Ticket", b_card_save: "statt {sum} · spar {s}",
+      b_detail: "{e} Start + {t} Ticket", b_entry: "Turnier-Start {e}", b_card: "Turnier-Start + {tier} Ticket", b_card_save: "statt {sum} · spar {s}",
       have_line: "<b>Schon ein LPAL 4 Ticket gekauft?</b> Du bekommst trotzdem den Bundle-Preis und zahlst nur den Rest als Turnier-Start: {list}. Wir finden dein Ticket über deine E-Mail.",
       sum_bundle: "{tier} Bundle: Turnier-Start + LPAL 4 Ticket", sum_instead: "statt {sum}, du sparst {s}",
       sum_entry: "Turnier-Start",
@@ -300,7 +300,8 @@
     $("#q-bundles").innerHTML = ["fan", "ga", "gold", "vip"].map(function (t) {
       var e = entryFor(t, a), sum = none + TICKET[t];
       return '<button type="button" class="q-bund' + (planPick === t ? " on" : "") + '" data-pick="' + t + '"><p class="q-bund-n">' + esc(m("b_name", { tier: TIER_EN[t] })) + '</p><p class="q-bund-w">' + esc(m("b_what", { tier: TIER_EN[t] })) + "</p>" +
-        '<p class="q-bund-p"><b>' + money(e + TICKET[t]) + '</b><s>' + esc(m("b_instead", { sum: money(sum) })) + "</s></p>" +
+        '<p class="q-bund-e">' + esc(m("b_entry", { e: money(e) })) + "</p>" +
+        '<p class="q-bund-p"><b>'  + money(e + TICKET[t]) + '</b><s>' + esc(m("b_instead", { sum: money(sum) })) + "</s></p>" +
         '<p class="q-bund-save">' + esc(m("b_save", { s: money(sum - e - TICKET[t]) })) + "</p></button>";
     }).join("");
     $("#q-pt-have").innerHTML = m("have_line", { list: ["fan", "ga", "gold", "vip"].map(function (t) { return TIER_EN[t] + " " + money(entryFor(t, a)); }).join(" · ") });
