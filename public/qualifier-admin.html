@@ -30,7 +30,7 @@ th,td{padding:8px 10px;border-bottom:1px solid #222;text-align:left;vertical-ali
 th{background:#111;position:sticky;top:0;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
 tr.pending td,tr.expired td{opacity:.55}
 .pill{display:inline-block;border-radius:3px;padding:1px 7px;font-size:11.5px;font-weight:700;text-transform:uppercase}
-.p-paid{background:#1f4d24;color:#9ef0a5}.p-pending{background:#4d431f;color:#f0dc9e}.p-expired{background:#333;color:#aaa}
+.p-paid{background:#1f4d24;color:#9ef0a5}.p-refunded{background:#1f3a4d;color:#9ed3f0}.p-pending{background:#4d431f;color:#f0dc9e}.p-expired{background:#333;color:#aaa}
 .cm{max-width:260px;white-space:pre-wrap;color:var(--gold)}
 .filters{margin-bottom:10px}
 .err{color:#ff7a70;margin-top:8px}
@@ -54,12 +54,12 @@ tr.pending td,tr.expired td{opacity:.55}
     <button type="button" id="b-sync">Refresh + check payments and tickets</button>
     <button type="button" class="ghost" id="b-tt">Test Ticket Tailor connection</button>
     <button type="button" class="ghost" id="b-csv">Download Excel/CSV (paid only)</button>
-    <label><input type="checkbox" id="f-all" style="min-width:0"> show unpaid / cancelled</label>
+    <label><input type="checkbox" id="f-all" style="min-width:0"> show unpaid / cancelled / refunded</label>
   </div>
   <div class="stats" id="stats"></div>
   <div class="wrap"><table><thead><tr>
-    <th>Status</th><th>Date</th><th>Name</th><th>Category</th><th>Class</th><th>Arm</th><th>Paid</th><th>Ticket discount</th>
-    <th>Age</th><th>Country</th><th>Email</th><th>Instagram</th><th>Club</th><th>Guardian</th><th>Comment</th>
+    <th>Status</th><th>Date</th><th>Name</th><th>Category</th><th>Class</th><th>Arm</th><th>Paid</th><th>Evening ticket</th>
+    <th>Age</th><th>Country</th><th>Email</th><th>Instagram</th><th>Club</th><th>Guardian</th><th>Comment</th><th>Selected</th>
   </tr></thead><tbody id="tb"></tbody></table></div>
 </div>
 
@@ -91,19 +91,22 @@ tr.pending td,tr.expired td{opacity:.55}
     var by={}; paid.forEach(function(r){var k=DIV[r.division]+" "+r.weight_class.replace("-","−");by[k]=(by[k]||0)+1});
     var st='<div class="stat"><small>Registered (paid)</small><b>'+paid.length+'</b></div>'+
       '<div class="stat"><small>Money in Stripe</small><b>€'+(sum/100).toFixed(0)+'</b></div>'+
-      '<div class="stat"><small>With ticket discount</small><b>'+paid.filter(function(r){return r.discount}).length+'</b></div>'+
+      '<div class="stat"><small>With evening ticket</small><b>'+paid.filter(function(r){return r.discount||["fan","ga","gold","vip"].indexOf(r.show_type)>-1}).length+'</b></div>'+
+      '<div class="stat"><small>Bundles sold</small><b>'+paid.filter(function(r){return ["fan","ga","gold","vip"].indexOf(r.show_type)>-1}).length+'</b></div>'+
       '<div class="stat"><small>Under 18</small><b>'+paid.filter(function(r){return r.age<18}).length+'</b></div>';
     Object.keys(by).sort().forEach(function(k){st+='<div class="stat"><small>'+esc(k)+' kg</small><b>'+by[k]+'</b></div>'});
     $("#stats").innerHTML=st;
     $("#tb").innerHTML=rows.map(function(r){
-      var t=r.discount?(esc(r.tt_code)+" "+(r.ticket_ok===0?'<b class="bad">⚠ ticket refunded/void</b>':r.ticket_ok===1?'<span class="ok">✓ valid</span>':"")+(r.note?'<br><span class="bad">'+esc(r.note)+'</span>':"")):"–";
+      var TN={fan:"Fan",ga:"General",gold:"Gold",vip:"VIP"}, t="–";
+      if(TN[r.show_type]) t='<b>'+TN[r.show_type]+'</b> (bundle)<br>'+(r.issued_code?'<span class="ok">✓ '+esc(r.issued_code)+'</span>':r.status==="paid"?'<b class="bad">⚠ issue ticket manually in Ticket Tailor</b>'+(r.issue_error?'<br><small>'+esc(r.issue_error)+'</small>':''):'');
+      else if(r.discount) t='<b>'+(TN[r.tier]||"")+'</b> (had already)<br>'+esc(r.tt_code)+" "+(r.ticket_ok===0?'<b class="bad">⚠ ticket refunded/void</b>':r.ticket_ok===1?'<span class="ok">✓ valid</span>':"")+(r.note?'<br><span class="bad">'+esc(r.note)+'</span>':"");
       return '<tr class="'+r.status+'"><td><span class="pill p-'+r.status+'">'+r.status+'</span>'+(r.livemode?"":' <small class="warn">test</small>')+'</td>'+
         '<td>'+new Date(r.created_at*1000).toLocaleString("de-AT",{dateStyle:"short",timeStyle:"short"})+'</td>'+
         '<td><b>'+esc(r.first_name+" "+r.last_name)+'</b></td><td>'+esc(DIV[r.division])+'</td><td>'+esc(r.weight_class.replace("-","−"))+' kg</td><td>'+esc(ARM[r.arms])+'</td>'+
         '<td>€'+((r.amount_paid||r.price)/100).toFixed(0)+'</td><td>'+t+'</td><td>'+esc(r.age)+(r.age<18?' <b class="warn">U18</b>':"")+'</td><td>'+esc(r.country)+'</td>'+
         '<td>'+esc(r.email)+'</td><td>'+(r.instagram?'<a style="color:#fff" target="_blank" rel="noopener" href="https://instagram.com/'+encodeURIComponent(r.instagram)+'">@'+esc(r.instagram)+'</a>':"")+'</td><td>'+esc(r.club)+'</td>'+
-        '<td>'+(r.guardian_name?esc(r.guardian_name)+"<br>"+esc(r.guardian_email):"")+'</td><td class="cm">'+esc(r.comment)+'</td></tr>';
-    }).join("")||'<tr><td colspan="15" style="color:#888;padding:20px">No registrations yet.</td></tr>';
+        '<td>'+(r.guardian_name?esc(r.guardian_name)+"<br>"+esc(r.guardian_email):"")+'</td><td class="cm">'+esc(r.comment)+'</td><td>'+(r.status==="paid"?'<button type="button" class="ghost" data-refund="'+esc(r.id)+'" data-name="'+esc(r.first_name+" "+r.last_name)+'">Selected → refund</button>':r.selected?'<b class="ok">Selected, refunded</b>':'')+'</td></tr>';
+    }).join("")||'<tr><td colspan="16" style="color:#888;padding:20px">No registrations yet.</td></tr>';
   }
   function csv(){
     var cols=["first_name","last_name","division","weight_class","arms","amount_paid","discount","tt_code","age","dob","country","email","instagram","club","guardian_name","guardian_email","comment","created_at"];
@@ -118,6 +121,12 @@ tr.pending td,tr.expired td{opacity:.55}
   $("#b-tt").addEventListener("click",function(){busy(this,load("ttcheck"))});
   $("#b-csv").addEventListener("click",csv);
   $("#f-all").addEventListener("change",render);
+  document.addEventListener("click",function(e){
+    var b=e.target.closest("[data-refund]"); if(!b)return;
+    if(!confirm("Refund the full payment to "+b.dataset.name+" (selected for a super match)? This can't be undone."))return;
+    busy(b,fetch("/api/qualifier/admin?action=refund&id="+encodeURIComponent(b.dataset.refund),{method:"POST",headers:{"x-admin-key":key}})
+      .then(function(r){return r.json()}).then(function(d){if(d.error){alert("Refund failed: "+(d.detail||d.error));return}data=d;render()}));
+  });
   if(key) load().catch(function(){});
 })();
 </script>
