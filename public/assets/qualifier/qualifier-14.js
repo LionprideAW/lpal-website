@@ -89,6 +89,7 @@
     pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
     pt_th1: "Abend-Ticket", pt_th2: "LPAL 4 Ticket", pt_th3: "Turnier-Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
     plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
+    hint_loc: "Klick für den Standort", hint_live: "Klick zum Livestream",
     map_open: "In Google Maps öffnen", map_short: "Karte", kick_watch: "Live auf Kick ansehen",
     plan_tip: "Tipp auf ein Ticket oder Bundle, um zu sehen, wo du sitzt.",
     pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 10 € weniger. Die Preise oben gelten für beide Arme.",
