@@ -91,7 +91,7 @@
     plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
     hint_loc: "Klick für den Standort", hint_live: "Klick zum Livestream",
     map_open: "In Google Maps öffnen", map_short: "Karte", kick_watch: "Live auf Kick ansehen",
-    plan_tip: "Tipp auf ein Ticket oder Bundle, um zu sehen, wo du sitzt.",
+    plan_tip: "👆 Tipp auf ein Ticket oder Bundle, um zu sehen, wo du sitzt.",
     pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 10 € weniger. Die Preise oben gelten für beide Arme.",
     why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
     why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
