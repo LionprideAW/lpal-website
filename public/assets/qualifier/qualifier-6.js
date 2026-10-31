@@ -66,7 +66,7 @@
     lg_cat: "Kategorie", l_class: "Gewichtsklasse", l_arms: "Arm",
     pick_div_first: "Wähle zuerst eine Kategorie.",
     women_hint: "Die Frauenklassen sind noch nicht final. Wähle die passendste und schreib uns unten im Kommentarfeld, welche Klassen für dich passen würden.",
-    lg_ticket: "Abend-Ticket für LPAL 4",
+    lg_ticket: "Bundle oder nur Turnier",
     tk_idle: "Gib oben deine E-Mail ein, wir prüfen dein Ticket automatisch.",
     tk_other: "Ticket mit einer anderen E-Mail gekauft? Ticketcode eingeben",
     tk_buy: "Noch kein Ticket? Hol dir eins und spar bis zu 10 €",
@@ -94,9 +94,14 @@
     why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
     why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
     why_fair: "Dein Ticket hat keinen Einfluss auf die Auslosung oder das Scouting.",
-    show_help: "Nach dem Turnier wird die Halle geräumt. Mit einem Abend-Ticket kommst du zur LPAL 4 Show wieder rein, und dein Start wird günstiger.",
+    show_help: "Wähle ein Bundle (Turnier-Start + LPAL 4 Ticket) und spar bis zu 30 €, oder melde dich nur für das Turnier an.",
     show_have: "Ich habe schon ein LPAL 4 Ticket", show_have_p: "Wir prüfen es über deine E-Mail",
-    show_none: "Kein Abend-Ticket", show_none_p: "Nur Turnier, nach dem Turnier musst du gehen"
+    show_none: "Nur Turnier-Start", show_none_p: "Nur Turnier, nach dem Turnier musst du gehen",
+    pt_title2: "Preise",
+    st1_k: "Nur Turnier-Start", st1_s: "Du ziehst beim Qualifier. Nach dem Turnier wird die Halle geräumt und du musst gehen.",
+    st2_k: "Nur LPAL 4 Ticket", st2_s: "Normale Ticketpreise für die LPAL 4 Abendshow um 18:00.",
+    st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 30 €.",
+    pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert"
   };
   var MSG = {
     en: {
@@ -105,6 +110,10 @@
       tk_found_n: "{n} free LPAL 4 tickets found. Using your {tier} ticket, tournament entry: €{price}.",
       ticket_plus: "LPAL 4 ticket €{t} + tournament entry €{e}",
       plan_cap: "Your seats with a {tier} ticket",
+      b_name: "{tier} bundle", b_what: "Tournament entry + {tier} ticket", b_instead: "instead of {sum}", b_save: "You save {s}",
+      b_detail: "{e} entry + {t} ticket", b_card: "Tournament entry + {tier} ticket", b_card_save: "instead of {sum} · save {s}",
+      have_line: "<b>Already bought an LPAL 4 ticket?</b> You still get the bundle price and only pay the rest as tournament entry: {list}. We find your ticket by your email.",
+      sum_bundle: "{tier} bundle: tournament entry + LPAL 4 ticket", sum_instead: "instead of {sum}, you save {s}",
       sum_entry: "Tournament entry",
       entry_only: "Entry €{e}",
       have_entry: "Your {tier} ticket · tournament entry €{e}",
@@ -139,6 +148,10 @@
       tk_found_n: "{n} freie LPAL 4 Tickets gefunden. Mit deinem {tier} Ticket kostet der Turnier-Start {price} €.",
       ticket_plus: "LPAL 4 Ticket {t} € + Turnier-Start {e} €",
       plan_cap: "Deine Plätze mit einem {tier} Ticket",
+      b_name: "{tier} Bundle", b_what: "Turnier-Start + {tier} Ticket", b_instead: "statt {sum}", b_save: "Du sparst {s}",
+      b_detail: "{e} Start + {t} Ticket", b_card: "Turnier-Start + {tier} Ticket", b_card_save: "statt {sum} · spar {s}",
+      have_line: "<b>Schon ein LPAL 4 Ticket gekauft?</b> Du bekommst trotzdem den Bundle-Preis und zahlst nur den Rest als Turnier-Start: {list}. Wir finden dein Ticket über deine E-Mail.",
+      sum_bundle: "{tier} Bundle: Turnier-Start + LPAL 4 Ticket", sum_instead: "statt {sum}, du sparst {s}",
       sum_entry: "Turnier-Start",
       entry_only: "Start {e} €",
       have_entry: "Dein {tier} Ticket · Turnier-Start {e} €",
@@ -181,7 +194,7 @@
     $$("[data-t]").forEach(function (el) { var v = text(el.dataset.t); if (v != null) el.innerHTML = v; });
     $("#q-lang").textContent = lang === "de" ? "EN" : "DE";
     $("#q-lang").setAttribute("aria-label", lang === "de" ? "English" : "Deutsch");
-    renderClasses(); updateSummary(); renderTicket(); renderBar();
+    renderClasses(); updateSummary(); renderTicket(); renderBar(); renderPrices();
   }
 
   /* ---------- config: test mode / connected? ---------- */
@@ -237,8 +250,9 @@
     var arms = val("arms");
     Object.keys(TICKET).forEach(function (t) {
       var e = entryFor(t, arms);
-      $('[data-show="' + t + '"]').textContent = m("ticket_plus", { t: TICKET[t], e: e }).replace(/€(\d+)/g, function (_, n) { return money(n); }).replace(/(\d+) €/g, "$1 €");
+      $('[data-show="' + t + '"]').textContent = m("b_card", { tier: TIER_EN[t] });
       $('[data-total="' + t + '"]').textContent = money(TICKET[t] + e);
+      $('[data-save="' + t + '"]').textContent = m("b_card_save", { sum: money(TICKET[t] + entryFor("none", arms)), s: money(entryFor("none", arms) - e) });
     });
     $('[data-total="none"]').textContent = money(entryFor("none", arms));
     if (hasDiscount()) {
@@ -262,13 +276,42 @@
     var first = [];
     if (div) first.push(text("div_" + div) + (cls ? " " + cls.replace("-", "−") + " kg" : ""));
     first.push(text("arm_" + arms));
-    var html = esc(m("sum_entry") + " · " + first.join(" · ")) + ": " + money(entry);
-    if (ticket) html += "<br>" + esc(m("sum_ticket", { tier: TIER_EN[val("show")] })) + ": " + money(ticket);
+    var html;
+    if (ticket) {
+      var full = entryFor("none", arms) + ticket;
+      html = "<b>" + esc(m("sum_bundle", { tier: TIER_EN[val("show")] })) + "</b><br>" + esc(first.join(" · ")) +
+        '<br><span class="q-sum-save">' + esc(m("sum_instead", { sum: money(full), s: money(full - entry - ticket) })) + "</span>";
+    } else html = esc(m("sum_entry") + " · " + first.join(" · ")) + ": " + money(entry);
     line.innerHTML = html;
     n.textContent = money(entry + ticket);
   }
   function money(v) { return lang === "de" ? v + " €" : "€" + v; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  /* ---------- price section (steps 1-3) ---------- */
+  var priceArms = "both";
+  function renderPrices() {
+    var a = priceArms === "both" ? "both" : "left", none = entryFor("none", a);
+    $("#q-p-entry").textContent = money(none);
+    $$(".q-armtog button").forEach(function (b) { b.classList.toggle("on", b.dataset.arm === priceArms); });
+    $("#q-bundles").innerHTML = ["fan", "ga", "gold", "vip"].map(function (t) {
+      var e = entryFor(t, a), sum = none + TICKET[t];
+      return '<div class="q-bund"><p class="q-bund-n">' + esc(m("b_name", { tier: TIER_EN[t] })) + '</p><p class="q-bund-w">' + esc(m("b_what", { tier: TIER_EN[t] })) + "</p>" +
+        '<p class="q-bund-p"><b>' + money(e + TICKET[t]) + '</b><s>' + esc(m("b_instead", { sum: money(sum) })) + "</s></p>" +
+        '<p class="q-bund-save">' + esc(m("b_save", { s: money(sum - e - TICKET[t]) })) + "</p></div>";
+    }).join("");
+    $("#q-pt-have").innerHTML = m("have_line", { list: ["fan", "ga", "gold", "vip"].map(function (t) { return TIER_EN[t] + " " + money(entryFor(t, a)); }).join(" · ") });
+  }
+  $$(".q-armtog button").forEach(function (b) { b.addEventListener("click", function () { priceArms = b.dataset.arm; renderPrices(); }); });
+
+  var pol = $("#q-pol"), polFrom = null;
+  function polOpen() { polFrom = document.activeElement; pol.hidden = false; document.body.style.overflow = "hidden"; $("#q-pol-body").scrollTop = 0; $("#q-pol-x").focus(); }
+  function polClose() { pol.hidden = true; document.body.style.overflow = ""; if (polFrom) polFrom.focus(); }
+  $$(".q-pol-open").forEach(function (b) { b.addEventListener("click", function (e) { e.preventDefault(); polOpen(); }); });
+  $("#q-pol-x").addEventListener("click", polClose);
+  pol.addEventListener("click", function (e) { if (e.target === pol) polClose(); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && !pol.hidden) polClose(); });
+  $("#q-pol-ok").addEventListener("click", function () { form.elements.accept_policy.checked = true; clearBad(form.elements.accept_policy); polClose(); });
 
   /* ---------- ticket check ---------- */
   var lastEmail = "", tkTimer = 0, tkSeq = 0;
@@ -331,6 +374,7 @@
     if (n === "division") renderClasses();
     if (n === "dob") updateGuardian();
     if (n === "show" || n === "arms") renderTicket();
+    if (n === "arms") { priceArms = e.target.value === "both" ? "both" : "one"; renderPrices(); }
     clearBad(e.target);
     updateSummary();
   });
@@ -373,6 +417,7 @@
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(val("guardian_email"))) bad.push("guardian_email");
       if (!val("guardian_consent")) bad.push("guardian_consent");
     }
+    if (!val("accept_policy")) bad.push("accept_policy");
     if (!val("accept_rules")) bad.push("accept_rules");
     return bad;
   }
@@ -389,7 +434,7 @@
       lang: lang, first_name: val("first_name"), last_name: val("last_name"), email: val("email"), dob: val("dob"),
       country: val("country"), instagram: val("instagram"), club: val("club"), division: val("division"),
       weight_class: val("weight_class"), arms: val("arms"), guardian_name: val("guardian_name"), guardian_email: val("guardian_email"),
-      guardian_consent: !!val("guardian_consent"), accept_rules: !!val("accept_rules"), comment: form.elements.comment.value,
+      guardian_consent: !!val("guardian_consent"), accept_rules: !!val("accept_rules"), accept_policy: !!val("accept_policy"), comment: form.elements.comment.value,
       show: val("show"), code: val("show") === "have" && tk.via === "code" ? tk.code : ""
     };
     busy = true;

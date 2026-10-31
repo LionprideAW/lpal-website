@@ -262,6 +262,7 @@ function validate(b) {
   else if (!CLASSES[r.division].includes(r.weight_class)) err.push("weight_class");
   if (!ARM_NAME[r.arms]) err.push("arms");
   if (!r.show) err.push("show");
+  if (!b.accept_policy) err.push("accept_policy");
   if (!b.accept_rules) err.push("accept_rules");
   if (r.age !== undefined && r.age < 18) {
     if (!r.guardian_name) err.push("guardian_name");

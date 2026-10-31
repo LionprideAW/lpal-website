@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-4.css">
+<link rel="stylesheet" href="assets/qualifier/qualifier-6.css">
 </head>
 <body>
 
@@ -123,27 +123,49 @@
         </div>
       </div>
 
-      <div class="q-pt">
-        <h2 class="q-pt-h"><span data-t="pt_title">Tournament entry:</span> <b>€60</b></h2>
-        <p class="q-pt-sub" data-t="pt_sub">Buy an evening ticket and your entry costs less.</p>
-        <table class="q-ptab">
-          <thead><tr><th data-t="pt_th1">Evening ticket</th><th data-t="pt_th2">LPAL 4 ticket</th><th data-t="pt_th3">Tournament entry</th><th data-t="pt_th4">You pay</th></tr></thead>
-          <tbody>
-            <tr><td data-t="pt_none">No ticket</td><td>–</td><td class="g">€60</td><td class="t">€60</td></tr>
-            <tr><td>Fan</td><td>€30</td><td class="g">€50</td><td class="t">€80</td></tr>
-            <tr><td>General</td><td>€35</td><td class="g">€45</td><td class="t">€80</td></tr>
-            <tr><td>Gold</td><td>€60</td><td class="g">€40</td><td class="t">€100</td></tr>
-            <tr><td>VIP</td><td>€90</td><td class="g">€30</td><td class="t">€120</td></tr>
-          </tbody>
-        </table>
-        <p class="q-pt-arm" data-t="pt_arm"><b>One arm only?</b> Your tournament entry is €10 less. Prices above are for both arms.</p>
+      <div class="q-pt" id="q-pt">
+        <div class="q-pt-top">
+          <h2 class="q-pt-h" data-t="pt_title2">Prices</h2>
+          <div class="q-armtog" role="group" aria-label="Arms">
+            <button type="button" class="on" data-arm="both" data-t="arm_both">Both arms</button>
+            <button type="button" data-arm="one" data-t="arm_one">One arm</button>
+          </div>
+        </div>
+        <div class="q-steps">
+          <div class="q-step">
+            <span class="q-step-n">1</span>
+            <div class="q-step-b">
+              <p class="q-step-k" data-t="st1_k">Tournament entry only</p>
+              <p class="q-step-big" id="q-p-entry">€60</p>
+              <p class="q-step-s" data-t="st1_s">You pull at the qualifier. After the tournament the hall is cleared and you have to leave.</p>
+            </div>
+          </div>
+          <div class="q-step">
+            <span class="q-step-n">2</span>
+            <div class="q-step-b">
+              <p class="q-step-k" data-t="st2_k">LPAL 4 ticket only</p>
+              <ul class="q-tixl">
+                <li><span>Fan</span><b>€30</b></li><li><span>General</span><b>€35</b></li><li><span>Gold</span><b>€60</b></li><li><span>VIP</span><b>€90</b></li>
+              </ul>
+              <p class="q-step-s" data-t="st2_s">Normal ticket prices for the LPAL 4 evening show at 18:00.</p>
+            </div>
+          </div>
+        </div>
+        <div class="q-bund-head">
+          <span class="q-step-n q-step-n3">3</span>
+          <div>
+            <p class="q-step-k q-gold" data-t="st3_k">Bundle: tournament entry + LPAL 4 ticket</p>
+            <p class="q-step-s" data-t="st3_s">Buy both together and save up to €30.</p>
+          </div>
+        </div>
+        <div class="q-bundles" id="q-bundles"></div>
+        <p class="q-pt-have" id="q-pt-have"></p>
         <figure class="q-plan">
           <img src="assets/qualifier/plan/plan-all.webp" alt="Hall plan of LPAL 4 at MOTORWORLD Cologne with the VIP, Gold, General and Fan areas" width="1400" height="939" loading="lazy">
           <figcaption><span class="q-lg" style="--c:#d3211a">VIP</span><span class="q-lg" style="--c:#c8961a">Gold</span><span class="q-lg" style="--c:#2462c6">General</span><span class="q-lg" style="--c:#55657d">Fan</span><span class="q-plan-note" data-t="plan_note">Where you sit with each LPAL 4 ticket</span></figcaption>
         </figure>
         <ul class="q-pt-why">
           <li data-t="why_hall"><b>The hall is cleared after the tournament.</b> One hour later the doors open for LPAL 4, and only people with an evening ticket get back in.</li>
-          <li data-t="why_have"><b>Already have a ticket?</b> Enter your email in the form. We find your ticket automatically and you get the same tournament entry price.</li>
           <li data-t="why_picked"><b>Picked for a super match?</b> We refund your entry fee and your evening ticket.</li>
           <li data-t="why_fair">Your ticket has no effect on the draw or on scouting.</li>
         </ul>
@@ -217,15 +239,15 @@
         </fieldset>
 
         <fieldset>
-          <legend data-t="lg_ticket">Evening ticket for LPAL 4</legend>
-          <p class="q-help q-show-help" data-t="show_help">The hall is cleared after the tournament. With an evening ticket you come back in for the LPAL 4 show, and your entry costs less.</p>
+          <legend data-t="lg_ticket">Bundle or tournament only</legend>
+          <p class="q-help q-show-help" data-t="show_help">Pick a bundle (tournament entry + LPAL 4 ticket) and save up to €30, or register for the tournament only.</p>
           <div class="q-shows" id="q-shows" role="radiogroup">
-            <label class="q-show"><input type="radio" name="show" value="fan" required><span class="q-show-in"><b class="q-show-n">Fan</b><i class="q-show-p" data-show="fan"></i><em class="q-show-t" data-total="fan"></em></span></label>
-            <label class="q-show"><input type="radio" name="show" value="ga"><span class="q-show-in"><b class="q-show-n">General</b><i class="q-show-p" data-show="ga"></i><em class="q-show-t" data-total="ga"></em></span></label>
-            <label class="q-show"><input type="radio" name="show" value="gold"><span class="q-show-in"><b class="q-show-n">Gold</b><i class="q-show-p" data-show="gold"></i><em class="q-show-t" data-total="gold"></em></span></label>
-            <label class="q-show"><input type="radio" name="show" value="vip"><span class="q-show-in"><b class="q-show-n">VIP</b><i class="q-show-p" data-show="vip"></i><em class="q-show-t" data-total="vip"></em></span></label>
+            <label class="q-show"><input type="radio" name="show" value="fan" required><span class="q-show-in"><b class="q-show-n">Fan bundle</b><i class="q-show-p" data-show="fan"></i><em class="q-show-t" data-total="fan"></em><small class="q-show-save" data-save="fan"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="ga"><span class="q-show-in"><b class="q-show-n">General bundle</b><i class="q-show-p" data-show="ga"></i><em class="q-show-t" data-total="ga"></em><small class="q-show-save" data-save="ga"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="gold"><span class="q-show-in"><b class="q-show-n">Gold bundle</b><i class="q-show-p" data-show="gold"></i><em class="q-show-t" data-total="gold"></em><small class="q-show-save" data-save="gold"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="vip"><span class="q-show-in"><b class="q-show-n">VIP bundle</b><i class="q-show-p" data-show="vip"></i><em class="q-show-t" data-total="vip"></em><small class="q-show-save" data-save="vip"></small></span></label>
             <label class="q-show q-show-wide"><input type="radio" name="show" value="have"><span class="q-show-in"><b class="q-show-n" data-t="show_have">I already have an LPAL 4 ticket</b><i class="q-show-p" id="q-have-p" data-t="show_have_p">We check it with your email</i><em class="q-show-t" id="q-have-t"></em></span></label>
-            <label class="q-show q-show-wide q-show-none"><input type="radio" name="show" value="none"><span class="q-show-in"><b class="q-show-n" data-t="show_none">No evening ticket</b><i class="q-show-p" data-t="show_none_p">Tournament only, you leave after the tournament</i><em class="q-show-t" data-total="none"></em></span></label>
+            <label class="q-show q-show-wide q-show-none"><input type="radio" name="show" value="none"><span class="q-show-in"><b class="q-show-n" data-t="show_none">Tournament entry only</b><i class="q-show-p" data-t="show_none_p">Tournament only, you leave after the tournament</i><em class="q-show-t" data-total="none"></em></span></label>
           </div>
           <figure class="q-plan q-plan-pick" id="q-plan-pick" hidden>
             <img id="q-plan-img" src="assets/qualifier/plan/plan-all.webp" alt="" width="1400" height="939">
@@ -249,6 +271,7 @@
         </fieldset>
 
         <fieldset>
+          <label class="q-check"><input type="checkbox" name="accept_policy" required><span><span data-t="pol_accept">I have read and accept the</span> <button type="button" class="q-link q-pol-open" data-t="pol_link">participation policy</button></span></label>
           <label class="q-check"><input type="checkbox" name="accept_rules" required><span data-t="accept">I take part at my own risk and accept the tournament and weigh-in rules. I agree that LPAL films and photographs the tournament and uses the footage, including the live stream on Kick.</span></label>
         </fieldset>
 
@@ -300,7 +323,16 @@
   <p>&copy; 2026 Lion Pride Armwrestling League</p>
 </footer>
 
+<div class="q-pol" id="q-pol" hidden>
+  <div class="q-pol-box" role="dialog" aria-modal="true" aria-labelledby="q-pol-t">
+    <div class="q-pol-bar"><p id="q-pol-t" data-t="pol_title">Participation policy</p><button type="button" id="q-pol-x" aria-label="Close">&times;</button></div>
+    <div class="q-pol-body" id="q-pol-body">
+      <p class="q-tbd" style="padding:12px 14px;border-radius:6px">The participation policy (injuries, liability, rules) will be added here. LPAL will send the text.</p>
+    </div>
+    <div class="q-pol-foot"><button type="button" class="q-btn q-btn-red" id="q-pol-ok" data-t="pol_ok">I have read it and accept</button></div>
+  </div>
+</div>
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-5.js"></script>
+<script src="assets/qualifier/qualifier-6.js"></script>
 </body>
 </html>
