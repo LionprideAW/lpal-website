@@ -65,7 +65,7 @@ export default {
       return Response.redirect("https://lpal.eu" + url.pathname + url.search, 301);
     }
     // old Webflow pages that search engines still list
-    const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/" };
+    const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/", "/imprint": "/terms#imprint", "/impressum": "/terms#imprint", "/privacy": "/terms#privacy", "/datenschutz": "/terms#privacy" };
     if (OLD[url.pathname]) return Response.redirect("https://lpal.eu" + OLD[url.pathname], 301);
     if (url.pathname.startsWith("/api/qualifier/")) return handleQualifier(request, env, url);
     if (url.pathname === "/api/youtube-latest") {
