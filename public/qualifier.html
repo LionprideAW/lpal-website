@@ -17,8 +17,8 @@
 <link rel="apple-touch-icon" href="assets/img/apple-touch-lpal2.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/qualifier/qualifier-22.css">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&subset=cyrillic,latin-ext&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/qualifier/qualifier-24.css">
 </head>
 <body>
 
@@ -27,7 +27,7 @@
 <header class="q-top">
   <a class="q-logo" href="/" aria-label="LPAL home"><img src="assets/img/logo-white-2.png" alt="LPAL"></a>
   <nav class="q-topnav">
-    <button type="button" class="q-lang" id="q-lang" aria-label="Deutsch">DE</button>
+    <select class="q-lang" id="q-lang" aria-label="Language"></select>
     <a class="q-cta-top" href="#register" data-t="nav_register">Register</a>
   </nav>
 </header>
@@ -247,10 +247,10 @@
           <legend data-t="lg_ticket">Bundle or tournament only</legend>
           <p class="q-help q-show-help" data-t="show_help">Pick a bundle (tournament entry + LPAL 4 ticket) and save up to €30, or register for the tournament only.</p>
           <div class="q-shows" id="q-shows" role="radiogroup">
-            <label class="q-show"><input type="radio" name="show" value="fan" required><span class="q-show-in"><b class="q-show-n">Fan bundle</b><i class="q-show-p" data-show="fan"></i><em class="q-show-t" data-total="fan"></em><small class="q-show-save" data-save="fan"></small></span></label>
-            <label class="q-show"><input type="radio" name="show" value="ga"><span class="q-show-in"><b class="q-show-n">General bundle</b><i class="q-show-p" data-show="ga"></i><em class="q-show-t" data-total="ga"></em><small class="q-show-save" data-save="ga"></small></span></label>
-            <label class="q-show"><input type="radio" name="show" value="gold"><span class="q-show-in"><b class="q-show-n">Gold bundle</b><i class="q-show-p" data-show="gold"></i><em class="q-show-t" data-total="gold"></em><small class="q-show-save" data-save="gold"></small></span></label>
-            <label class="q-show"><input type="radio" name="show" value="vip"><span class="q-show-in"><b class="q-show-n">VIP bundle</b><i class="q-show-p" data-show="vip"></i><em class="q-show-t" data-total="vip"></em><small class="q-show-save" data-save="vip"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="fan" required><span class="q-show-in"><b class="q-show-n" data-bname="fan">Fan bundle</b><i class="q-show-p" data-show="fan"></i><em class="q-show-t" data-total="fan"></em><small class="q-show-save" data-save="fan"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="ga"><span class="q-show-in"><b class="q-show-n" data-bname="ga">General bundle</b><i class="q-show-p" data-show="ga"></i><em class="q-show-t" data-total="ga"></em><small class="q-show-save" data-save="ga"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="gold"><span class="q-show-in"><b class="q-show-n" data-bname="gold">Gold bundle</b><i class="q-show-p" data-show="gold"></i><em class="q-show-t" data-total="gold"></em><small class="q-show-save" data-save="gold"></small></span></label>
+            <label class="q-show"><input type="radio" name="show" value="vip"><span class="q-show-in"><b class="q-show-n" data-bname="vip">VIP bundle</b><i class="q-show-p" data-show="vip"></i><em class="q-show-t" data-total="vip"></em><small class="q-show-save" data-save="vip"></small></span></label>
             <label class="q-show q-show-wide"><input type="radio" name="show" value="have"><span class="q-show-in"><b class="q-show-n" data-t="show_have">I already have an LPAL 4 ticket</b><i class="q-show-p" id="q-have-p" data-t="show_have_p">We check it with your email</i><em class="q-show-t" id="q-have-t"></em></span></label>
             <label class="q-show q-show-wide q-show-none"><input type="radio" name="show" value="none"><span class="q-show-in"><b class="q-show-n" data-t="show_none">Tournament entry only</b><i class="q-show-p" data-t="show_none_p">Tournament only, you leave after the tournament</i><em class="q-show-t" data-total="none"></em></span></label>
           </div>
@@ -332,6 +332,7 @@
 <div class="q-pol" id="q-pol" hidden>
   <div class="q-pol-box" role="dialog" aria-modal="true" aria-labelledby="q-pol-t">
     <div class="q-pol-bar"><p id="q-pol-t" data-t="pol_title">Participation terms</p><button type="button" id="q-pol-x" aria-label="Close">&times;</button></div>
+    <p class="q-pol-lang" id="q-pol-lang" hidden></p>
     <div class="q-pol-body" id="q-pol-body">
       <p class="q-pol-meta">LPAL Qualifier Tournament presented by TitanGrip · 9 January 2027 · MOTORWORLD Köln Rheinland<br>Participation terms and privacy information</p>
 
@@ -395,6 +396,6 @@
   </div>
 </div>
 <datalist id="q-countries"></datalist>
-<script src="assets/qualifier/qualifier-22.js"></script>
+<script src="assets/qualifier/qualifier-24.js"></script>
 </body>
 </html>

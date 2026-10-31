@@ -11,105 +11,9 @@
   var CLASSES = { senior: ["-77", "-85", "-95", "-110", "+110"], amateur: ["-80", "+80"], women: ["-60", "-70", "+70"] };
   var EVENT_DAY = [2027, 1, 9];
 
-  /* ---------- German texts (English is in the HTML) ---------- */
-  var DE = {
-    nav_register: "Anmelden",
-    hero_kicker: "Samstag · 9. Januar 2027 · MOTORWORLD Köln",
-    hero_title: "Qualifier-Turnier",
-    presented: "präsentiert von",
-    hero_lead: "Zieh dich auf die LPAL 4 Bühne. Unser Scouting-Team wählt 4 Athleten aus dem Turnier für Super Matches in den Prelims der Abendshow.",
-    f_start_k: "Start", f_start: "11:30 Uhr",
-    f_end_k: "Ende", f_end: "ca. 15:00–16:00 Uhr",
-    f_where_k: "Ort",
-    f_live_k: "Live", f_live: "auf unserem Kick-Kanal",
-    hero_btn: "Jetzt anmelden",
-    prize_kicker: "Worum es geht",
-    prize_title: "Vom Turnier auf die LPAL 4 Bühne",
-    prize_big: "Athleten kommen in die Prelims von LPAL 4",
-    prize_p1: "Unser Scouting-Team schaut sich das ganze Turnier an und wählt 4 Athleten für Super Matches in den Prelims der LPAL 4 Abendshow.",
-    prize_p2: "Das kann ein Turnierfinale sein oder die Sieger zweier verschiedener Gewichtsklassen, zum Beispiel der Sieger der −85 kg gegen den Sieger der −95 kg. Das Scouting-Team entscheidet am Tag des Events.",
-    prize_p3: "Nur die Senior-Klassen der Männer und die Frauenklassen können sich später für die Liga qualifizieren.",
-    sch_kicker: "Ablauf",
-    sch_title: "Wiegen und Turnier",
-    sch_fri_d: "Fr · 8. Jan 2027 · 18:00–21:00", sch_fri_h: "Wiegen im Hotel",
-    sch_sat_d: "Sa · 9. Jan 2027 · 09:00–11:00", sch_sat_h: "Wiegen in der Halle", sch_tol: "1 kg Toleranz nur an diesem Tag",
-    sch_start_d: "Sa · 9. Jan 2027 · 11:30", sch_start_h: "Turnierstart", sch_start_p: "Ende ca. 15:00–16:00 · live auf Kick",
-    sch_eve_d: "Sa · 9. Jan 2027 · 18:00", sch_eve_h: "LPAL 4 Abendshow", sch_eve_p: "Die 4 ausgewählten Athleten ziehen ihre Super Matches in den Prelims.",
-    cls_kicker: "Kategorien",
-    cls_title: "Gewichtsklassen · linker und rechter Arm",
-    div_senior: "Senior Männer", div_women: "Frauen", div_amateur: "Amateur Männer",
-    cls_can_q: "Kann sich für die Liga qualifizieren",
-    cls_women_note: "Noch nicht final. Schreib uns im Kommentarfeld, welche Klasse zu dir passt.",
-    price_title: "Startgebühr",
-    arm_one: "Ein Arm", arm_both: "Beide Arme", arm_left: "Linker Arm", arm_right: "Rechter Arm",
-    with_ticket: "mit einem LPAL 4 Event-Ticket",
-    tix_k: "Bleib zur Abendshow",
-    tix_p: "Kauf zuerst dein LPAL 4 Ticket und spar bis zu 10 € bei der Startgebühr. Wir finden dein Ticket automatisch über deine E-Mail.",
-    tix_btn: "LPAL 4 Ticket holen",
-    rules_kicker: "Gut zu wissen",
-    rules_title: "Regeln",
-    rule_heavy: "<b>Zu schwer?</b> Wenn du mehr wiegst als deine Klasse erlaubt, startest du in der nächstschwereren Klasse.",
-    rule_tol: "<b>Toleranz:</b> 1 kg, nur beim Wiegen am Samstag in der Halle. Am Freitag im Hotel gibt es keine Toleranz.",
-    rule_age: "<b>Kein Mindestalter.</b> Unter 18 braucht ein Elternteil oder eine erziehungsberechtigte Person (18+), die für dich unterschreibt.",
-    rule_id: "<b>Bring deinen Ausweis</b> zum Wiegen mit.",
-    rule_final: "<b>Keine Rückerstattung.</b> Alle Zahlungen sind endgültig, auch wenn du nicht kommen kannst.",
-    rule_refund: "<b>Rückerstattung:</b> Die 4 Athleten, die für die Super Matches ausgewählt werden, bekommen ihren Turnier-Start und ihr LPAL 4 Ticket erstattet.",
-    form_kicker: "Online-Anmeldung",
-    form_title: "Melde dich zum Qualifier an",
-    cancelled: "Zahlung abgebrochen. Es wurde nichts abgebucht. Du kannst es unten erneut versuchen.",
-    lg_you: "Über dich",
-    l_first: "Vorname", l_last: "Nachname", l_email: "E-Mail", l_dob: "Geburtsdatum", l_country: "Land",
-    l_insta: "Instagram", l_club: "Verein oder Team", optional: "(optional)",
-    lg_guardian: "Elternteil oder Erziehungsberechtigte(r)",
-    guardian_help: "Der Athlet ist am Turniertag unter 18. Deshalb muss ein Elternteil oder eine erziehungsberechtigte Person (18+) für ihn unterschreiben.",
-    l_gname: "Name des Elternteils / Erziehungsberechtigten", l_gemail: "E-Mail des Elternteils / Erziehungsberechtigten",
-    guardian_consent: "Ich bin Elternteil oder erziehungsberechtigt (18+) für diesen Athleten. Ich erlaube die Teilnahme und akzeptiere die Regeln in seinem Namen.",
-    lg_cat: "Kategorie", l_class: "Gewichtsklasse", l_arms: "Arm",
-    pick_div_first: "Wähle zuerst eine Kategorie.",
-    women_hint: "Die Frauenklassen sind noch nicht final. Wähle die passendste und schreib uns unten im Kommentarfeld, welche Klassen für dich passen würden.",
-    lg_ticket: "Bundle oder nur Turnier",
-    tk_idle: "Gib oben deine E-Mail ein, wir prüfen dein Ticket automatisch.",
-    tk_other: "Ticket mit einer anderen E-Mail gekauft? Ticketcode eingeben",
-    tk_buy: "Noch kein Ticket? Hol dir eins und spar bis zu 10 €",
-    l_code: "Ticketcode (steht in deiner Ticket-E-Mail)",
-    tk_check: "Prüfen",
-    lg_comment: "Fragen oder Wünsche",
-    comment_help: "Möchtest du uns etwas sagen oder fragen? Schreib es hier.",
-    accept: "Ich nehme auf eigene Verantwortung teil und akzeptiere die Turnier- und Wiegeregeln. Mir ist bekannt, dass das Turnier gefilmt und live auf Kick gestreamt wird, mit meinem Namen, Land, Klasse und Ergebnissen.",
-    sum_k: "Du zahlst",
-    submit: "Weiter zur Zahlung",
-    secure: "Sichere Zahlung mit Stripe: Karte, Apple Pay, Google Pay und mehr. Deine Daten werden nur für die Organisation des Turniers verwendet.",
-    done_title: "Du bist angemeldet!",
-    done_p1: "Du bekommst eine Zahlungsbestätigung per E-Mail. Komm mit deinem Ausweis zu einem der Wiegetermine:",
-    done_fri: "Fr 8. Jan, 18:00–21:00 · V8 Hotel Köln @ MOTORWORLD",
-    done_sat: "Sa 9. Jan, 09:00–11:00 · MOTORWORLD (1 kg Toleranz)",
-    done_tix: "Bring deine Leute mit: Freunde und Familie können dir zuschauen und danach zur LPAL 4 Abendshow bleiben.",
-    done_tix_btn: "Tickets für LPAL 4",
-    checking_pay: "Wir prüfen deine Zahlung…",
-    ask_k: "Fragen?", ask_p: "Schreib uns auf Instagram oder per E-Mail.",
-    pt_title: "Startgebühr:", pt_sub: "Kauf ein Abend-Ticket dazu und dein Start wird günstiger.",
-    pt_th1: "Abend-Ticket", pt_th2: "LPAL 4 Ticket", pt_th3: "Turnier-Start", pt_th4: "Du zahlst", pt_none: "Kein Ticket",
-    plan_note: "Wo du mit welchem LPAL 4 Ticket sitzt",
-    hint_loc: "Klick für den Standort", hint_live: "Klick zum Livestream",
-    map_open: "In Google Maps öffnen", map_short: "Karte", kick_watch: "Live auf Kick ansehen",
-    plan_tip: "👆 Tipp auf ein Ticket oder Bundle, um zu sehen, wo du sitzt.",
-    pt_arm: "<b>Nur ein Arm?</b> Dein Turnier-Start kostet 20 € weniger. Die Preise oben gelten für beide Arme.",
-    why_hall: "<b>Nach dem Turnier wird die Halle geräumt.</b> Eine Stunde später öffnen die Türen für LPAL 4, und nur wer ein Abend-Ticket hat, kommt wieder rein.",
-    why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
-    why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
-    why_fair: "Dein Ticket hat keinen Einfluss auf die Auslosung oder das Scouting.",
-    show_help: "Wähle ein Bundle (Turnier-Start + LPAL 4 Ticket) und spar bis zu 30 €, oder melde dich nur für das Turnier an.",
-    show_have: "Ich habe schon ein LPAL 4 Ticket", show_have_p: "Wir prüfen es über deine E-Mail",
-    show_none: "Nur Turnier-Start", show_none_p: "Nur Turnier, nach dem Turnier musst du gehen",
-    pt_title2: "Preise",
-    st1_k: "Nur Turnier-Start", st1_s: "Du ziehst beim Qualifier. Nach dem Turnier wird die Halle geräumt und du musst gehen.",
-    st2_k: "Nur LPAL 4 Ticket", st2_s: "Normale Ticketpreise für die LPAL 4 Abendshow um 18:00.",
-    st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 30 €.",
-    pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_accept2: "und habe die Datenschutzhinweise gelesen.", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert",
-    promo: "<b>Ja, zeigt mich in zukünftigen LPAL Inhalten!</b> Die LPAL darf Fotos und Videos von mir für die Werbung für zukünftige Lion Pride Armwrestling League Events nutzen. Freiwillig, ich kann das jederzeit widerrufen."
-  };
   var MSG = {
     en: {
+      comment_help_women: "Do the women's classes suit you? Which classes would you like? Any questions? Write them here.",
       tk_checking: "Checking your LPAL 4 ticket…",
       tk_found: "{tier} ticket found. Your tournament entry: €{price}.",
       tk_found_n: "{n} free LPAL 4 tickets found. Using your {tier} ticket, tournament entry: €{price}.",
@@ -146,59 +50,46 @@
       paying: "Opening payment…",
       done_sum: "{div} {cls} kg · {arms} · €{amt}",
       not_paid: "We couldn't confirm the payment yet. If you paid, refresh this page in a minute."
-    },
-    de: {
-      tk_checking: "Wir prüfen dein LPAL 4 Ticket…",
-      tk_found: "{tier} Ticket gefunden. Dein Turnier-Start: {price} €.",
-      tk_found_n: "{n} freie LPAL 4 Tickets gefunden. Mit deinem {tier} Ticket kostet der Turnier-Start {price} €.",
-      ticket_plus: "LPAL 4 Ticket {t} € + Turnier-Start {e} €",
-      plan_cap: "Deine Plätze mit einem {tier} Ticket",
-      b_name: "{tier} Bundle", b_what: "Turnier-Start + {tier} Ticket", b_instead: "statt {sum}", b_save: "Du sparst {s}",
-      b_detail: "{e} Start + {t} Ticket", b_entry: "Turnier-Start {e}", b_card: "Turnier-Start + {tier} Ticket", b_card_save: "statt {sum} · spar {s}",
-      have_line: "<b>Schon ein LPAL 4 Ticket gekauft?</b> Du bekommst trotzdem den Bundle-Preis und zahlst nur den Rest als Turnier-Start: {list}. Wir finden dein Ticket über deine E-Mail.",
-      sum_bundle: "{tier} Bundle: Turnier-Start + LPAL 4 Ticket", sum_instead: "statt {sum}, du sparst {s}",
-      sum_entry: "Turnier-Start",
-      entry_only: "Start {e} €",
-      have_entry: "Dein {tier} Ticket · Turnier-Start {e} €",
-      e_have: "Wir haben dein LPAL 4 Ticket nicht gefunden. Prüf deine E-Mail oder den Ticketcode, oder wähle eine andere Option.",
-      e_sold_out: "Diese Ticketkategorie ist ausverkauft. Bitte wähle eine andere.",
-      done_ticket: "Dein {tier} Abend-Ticket: <b>{code}</b>. Zeig es am Eingang.",
-      done_ticket_wait: "Dein {tier} Abend-Ticket wird ausgestellt und an {email} geschickt.",
-      sum_ticket: "LPAL 4 Ticket ({tier})",
-      tk_none: "Kein LPAL 4 Ticket mit dieser E-Mail gefunden.",
-      tk_none_code: "Diesen Ticketcode haben wir nicht gefunden. Prüf den Code in deiner Ticket-E-Mail oder melde dich zum normalen Preis an.",
-      tk_used: "Dieses Ticket wurde schon für einen Rabatt verwendet.",
-      tk_used_email: "Die LPAL 4 Tickets dieser E-Mail wurden schon für einen Rabatt verwendet.",
-      tk_error: "Wir können die Tickets gerade nicht prüfen. Versuch es gleich nochmal oder melde dich zum normalen Preis an.",
-      tk_off: "Die Ticketprüfung ist noch nicht verbunden.",
-      sum_pick: "Wähle Kategorie, Arm und Abend-Ticket",
-      sum_disc: "LPAL 4 Ticket-Rabatt",
-      e_fields: "Bitte fülle die markierten Felder aus.",
-      e_ticket_used: "Dieses Ticket wurde gerade für eine andere Anmeldung verwendet. Wir haben den Rabatt entfernt, prüf den Preis und versuch es nochmal.",
-      e_ticket_nf: "Wir konnten dein Ticket nicht bestätigen. Wir haben den Rabatt entfernt, prüf den Preis und versuch es nochmal.",
-      e_pay: "Die Zahlung ist gerade nicht verfügbar. Bitte versuch es in ein paar Minuten nochmal.",
-      e_off: "Die Online-Zahlung ist noch nicht verbunden (Testversion).",
-      e_net: "Verbindungsproblem. Bitte versuch es nochmal.",
-      test: "Testversion · Stripe Testmodus · keine echten Zahlungen",
-      off: "Testversion · Zahlung noch nicht verbunden",
-      paying: "Zahlung wird geöffnet…",
-      done_sum: "{div} {cls} kg · {arms} · {amt} €",
-      not_paid: "Wir konnten die Zahlung noch nicht bestätigen. Wenn du bezahlt hast, lade die Seite in einer Minute neu."
     }
   };
 
   var params = new URLSearchParams(location.search);
-  var lang = params.get("lang") === "de" ? "de" : (params.get("lang") === "en" ? "en" : ((navigator.language || "").toLowerCase().indexOf("de") === 0 ? "de" : "en"));
+  // languages: English is built into the page, the others load from assets/qualifier/i18n/<code>.json
+  var LANGS = [["en", "English"], ["de", "Deutsch"], ["fr", "Français"], ["it", "Italiano"], ["pl", "Polski"], ["cs", "Čeština"], ["sk", "Slovenčina"],
+    ["sr", "Srpski"], ["uk", "Українська"], ["ru", "Русский"], ["ka", "ქართული"]];
+  var I18N_V = "1";
+  var CODES = LANGS.map(function (l) { return l[0]; });
+  function pickLang() {
+    var q = (params.get("lang") || "").toLowerCase();
+    if (CODES.indexOf(q) > -1) return q;
+    var nav = navigator.languages || [navigator.language || ""];
+    for (var i = 0; i < nav.length; i++) {
+      var c = String(nav[i] || "").toLowerCase().split("-")[0];
+      if (c === "hr" || c === "bs" || c === "me" || c === "sh") c = "sr";
+      if (CODES.indexOf(c) > -1) return c;
+    }
+    return "en";
+  }
+  var lang = pickLang();
+  var L = { t: {}, m: {} }, CACHE = {};
   var EN = {};
   $$("[data-t]").forEach(function (el) { if (!(el.dataset.t in EN)) EN[el.dataset.t] = el.innerHTML; });
-  function m(k, vars) { var s = MSG[lang][k] || MSG.en[k] || k; for (var v in vars) s = s.split("{" + v + "}").join(vars[v]); return s; }
-  function text(k) { return lang === "de" && DE[k] ? DE[k] : EN[k]; }
+  function m(k, vars) { var s = (lang !== "en" && L.m[k]) || MSG.en[k] || k; for (var v in vars) s = s.split("{" + v + "}").join(vars[v]); return s; }
+  function text(k) { return lang !== "en" && L.t[k] ? L.t[k] : EN[k]; }
+  function loadLang(code, done) {
+    if (code === "en") { L = { t: {}, m: {} }; return done(); }
+    if (CACHE[code]) { L = CACHE[code]; return done(); }
+    fetch("assets/qualifier/i18n/" + code + ".json?v=" + I18N_V).then(function (r) { return r.json(); })
+      .then(function (d) { CACHE[code] = { t: d.t || {}, m: d.m || {} }; L = CACHE[code]; done(); })
+      .catch(function () { lang = "en"; L = { t: {}, m: {} }; done(); });
+  }
 
   function applyLang() {
     document.documentElement.lang = lang;
     $$("[data-t]").forEach(function (el) { var v = text(el.dataset.t); if (v != null) el.innerHTML = v; });
-    $("#q-lang").textContent = lang === "de" ? "EN" : "DE";
-    $("#q-lang").setAttribute("aria-label", lang === "de" ? "English" : "Deutsch");
+    $("#q-lang").value = lang;
+    var pl = $("#q-pol-lang"); pl.hidden = lang === "en" || !L.t.pol_en; pl.textContent = L.t.pol_en || "";
+    $$(".q-show-n[data-bname]").forEach(function (b) { b.textContent = m("b_name", { tier: TIER_EN[b.dataset.bname] }); });
     renderClasses(); updateSummary(); renderTicket(); renderBar(); renderPrices(); showPlan();
   }
 
@@ -228,7 +119,7 @@
     $("#q-women-hint").hidden = div !== "women";
     var help = $("#q-comment-help");
     help.innerHTML = div === "women"
-      ? (lang === "de" ? "Passen die Frauenklassen für dich? Welche Klassen würdest du dir wünschen? Fragen? Schreib es hier." : "Do the women's classes suit you? Which classes would you like? Any questions? Write them here.")
+      ? m("comment_help_women")
       : text("comment_help");
   }
 
@@ -276,7 +167,7 @@
     renderShows();
     var arms = val("arms"), div = val("division"), cls = val("weight_class"), tier = currentTier();
     var line = $("#q-sum-line"), n = $("#q-sum-n");
-    if (!arms || !tier) { line.textContent = m("sum_pick"); n.textContent = lang === "de" ? "– €" : "€–"; return; }
+    if (!arms || !tier) { line.textContent = m("sum_pick"); n.textContent = lang === "en" ? "€–" : "– €"; return; }
     var entry = entryFor(tier, arms), ticket = TICKET[val("show")] || 0;
     var first = [];
     if (div) first.push(text("div_" + div) + (cls ? " " + cls.replace("-", "−") + " kg" : ""));
@@ -290,7 +181,7 @@
     line.innerHTML = html;
     n.textContent = money(entry + ticket);
   }
-  function money(v) { return lang === "de" ? v + " €" : "€" + v; }
+  function money(v) { return lang === "en" ? "€" + v : v + " €"; }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
 
   /* ---------- price section (steps 1-3) ---------- */
@@ -298,6 +189,7 @@
   function renderPrices() {
     var a = priceArms === "both" ? "both" : "left", none = entryFor("none", a);
     $("#q-p-entry").textContent = money(none);
+    $$(".q-tixl [data-pick]").forEach(function (b) { b.querySelector("b").textContent = money(TICKET[b.dataset.pick]); });
     $$(".q-armtog button").forEach(function (b) { b.classList.toggle("on", b.dataset.arm === priceArms); });
     $("#q-bundles").innerHTML = ["fan", "ga", "gold", "vip"].map(function (t) {
       var e = entryFor(t, a), sum = none + TICKET[t];
@@ -502,13 +394,15 @@
   var COUNTRIES = "Albania,Armenia,Austria,Azerbaijan,Belarus,Belgium,Bosnia and Herzegovina,Brazil,Bulgaria,Canada,Croatia,Cyprus,Czech Republic,Denmark,Egypt,Estonia,Finland,France,Georgia,Germany,Greece,Hungary,Iceland,India,Iran,Ireland,Israel,Italy,Ivory Coast,Kazakhstan,Kosovo,Kyrgyzstan,Latvia,Lebanon,Liechtenstein,Lithuania,Luxembourg,Malta,Moldova,Montenegro,Morocco,Netherlands,North Macedonia,Norway,Poland,Portugal,Romania,Russia,Serbia,Slovakia,Slovenia,Spain,Sweden,Switzerland,Tunisia,Turkey,Ukraine,United Kingdom,United States,Uzbekistan";
   $("#q-countries").innerHTML = COUNTRIES.split(",").map(function (c) { return '<option value="' + c + '">'; }).join("");
 
-  $("#q-lang").addEventListener("click", function () {
-    lang = lang === "de" ? "en" : "de";
+  $("#q-lang").innerHTML = LANGS.map(function (l) { return '<option value="' + l[0] + '">' + l[1] + "</option>"; }).join("");
+  $("#q-lang").addEventListener("change", function () {
+    lang = this.value;
     var u = new URL(location.href); u.searchParams.set("lang", lang); history.replaceState(null, "", u);
-    applyLang();
+    loadLang(lang, applyLang);
   });
 
   applyLang();
+  if (lang !== "en") loadLang(lang, applyLang);
   fetch("/api/qualifier/config").then(function (r) { return r.json(); }).then(function (d) {
     cfg = d; renderBar(); if (tk.state === "off" && cfg.tickets) { lastEmail = ""; onEmail(); }
   }).catch(function () { renderBar(); });

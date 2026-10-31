@@ -38,6 +38,9 @@ const CLASSES = {
 const DIV_NAME = { senior: "Senior Men", amateur: "Amateur Men", women: "Women" };
 const ARM_NAME = { left: "Left arm", right: "Right arm", both: "Both arms" };
 const EVENT_DAY = "2027-01-09";
+const LANGS = ["en", "de", "fr", "it", "pl", "cs", "sk", "sr", "uk", "ru", "ka"];
+// languages Stripe Checkout supports; others get "auto" (Stripe picks from the browser)
+const STRIPE_LOCALES = ["en", "de", "fr", "it", "pl", "cs", "sk", "ru"];
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status, headers: { "content-type": "application/json", "cache-control": "no-store" }
@@ -253,7 +256,7 @@ function ageOn(dob, day = EVENT_DAY) {
 
 function validate(b) {
   const r = {
-    lang: b.lang === "de" ? "de" : "en",
+    lang: LANGS.includes(b.lang) ? b.lang : "en",
     first_name: clean(b.first_name, 60), last_name: clean(b.last_name, 60),
     email: normEmail(b.email).slice(0, 120), dob: clean(b.dob, 10), country: clean(b.country, 60),
     instagram: clean(b.instagram, 60).replace(/^@+/, ""), club: clean(b.club, 80),
@@ -337,15 +340,15 @@ async function startCheckout(request, env) {
   try {
     session = await stripe(env, "POST", "/checkout/sessions", {
       mode: "payment",
-      locale: r.lang,
+      locale: STRIPE_LOCALES.includes(r.lang) ? r.lang : "auto",
       customer_email: r.email,
       client_reference_id: id,
       expires_at: expires,
       line_items: lines,
       metadata: meta,
       payment_intent_data: { description: title + (bundle ? ` + ${TIER_NAME[bundle]} ticket` : "") + " · " + meta.name, metadata: meta, receipt_email: r.email },
-      success_url: `${SITE}${QUALIFIER_PATH}?paid={CHECKOUT_SESSION_ID}${r.lang === "de" ? "&lang=de" : ""}`,
-      cancel_url: `${SITE}${QUALIFIER_PATH}?cancelled=1${r.lang === "de" ? "&lang=de" : ""}`
+      success_url: `${SITE}${QUALIFIER_PATH}?paid={CHECKOUT_SESSION_ID}${r.lang !== "en" ? "&lang=" + r.lang : ""}`,
+      cancel_url: `${SITE}${QUALIFIER_PATH}?cancelled=1${r.lang !== "en" ? "&lang=" + r.lang : ""}`
     });
   } catch (e) {
     if (ticket) await d.prepare("DELETE FROM ticket_claims WHERE ticket_key=? AND registration_id=?").bind(normCode(ticket.code), id).run();
