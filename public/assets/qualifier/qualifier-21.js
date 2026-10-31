@@ -4,7 +4,7 @@
   var $ = function (s, r) { return (r || document).querySelector(s); };
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 
-  var ENTRY = { none: 60, fan: 50, ga: 50, gold: 45, vip: 35 }, ONE_ARM_OFF = 20;
+  var ENTRY = { none: 60, fan: 50, ga: 50, gold: 40, vip: 30 }, ONE_ARM_OFF = 20;
   var TICKET = { fan: 30, ga: 35, gold: 60, vip: 90 };
   var TIER_EN = { fan: "Fan", ga: "General", gold: "Gold", vip: "VIP" };
   function entryFor(tier, arms) { return ENTRY[tier] - (arms && arms !== "both" ? ONE_ARM_OFF : 0); }
@@ -98,13 +98,13 @@
     why_have: "<b>Du hast schon ein Ticket?</b> Gib im Formular deine E-Mail ein. Wir finden dein Ticket automatisch und du bekommst denselben Preis für den Turnier-Start.",
     why_picked: "<b>Für ein Super Match ausgewählt?</b> Wir erstatten dir Startgebühr und Abend-Ticket.",
     why_fair: "Dein Ticket hat keinen Einfluss auf die Auslosung oder das Scouting.",
-    show_help: "Wähle ein Bundle (Turnier-Start + LPAL 4 Ticket) und spar bis zu 25 €, oder melde dich nur für das Turnier an.",
+    show_help: "Wähle ein Bundle (Turnier-Start + LPAL 4 Ticket) und spar bis zu 30 €, oder melde dich nur für das Turnier an.",
     show_have: "Ich habe schon ein LPAL 4 Ticket", show_have_p: "Wir prüfen es über deine E-Mail",
     show_none: "Nur Turnier-Start", show_none_p: "Nur Turnier, nach dem Turnier musst du gehen",
     pt_title2: "Preise",
     st1_k: "Nur Turnier-Start", st1_s: "Du ziehst beim Qualifier. Nach dem Turnier wird die Halle geräumt und du musst gehen.",
     st2_k: "Nur LPAL 4 Ticket", st2_s: "Normale Ticketpreise für die LPAL 4 Abendshow um 18:00.",
-    st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 25 €.",
+    st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 30 €.",
     pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_accept2: "und habe die Datenschutzhinweise gelesen.", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert",
     promo: "Optional: Die LPAL darf Fotos und Videos von mir auch für die Werbung für zukünftige Lion Pride Armwrestling League Events nutzen. Ich kann das jederzeit widerrufen."
   };
