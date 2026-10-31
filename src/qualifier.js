@@ -10,7 +10,7 @@ const TT_EVENT_DEFAULT = "ev_9342604";
 const SITE = "https://lpal.eu";
 
 // Prices in cents. Entry (both arms) depends on the evening ticket; one arm is €20 less.
-const ENTRY = { none: 6000, fan: 5000, ga: 5000, gold: 4000, vip: 3000 };
+const ENTRY = { none: 6000, fan: 5000, ga: 5000, gold: 4500, vip: 3500 };
 const ONE_ARM_OFF = 2000;
 const TICKET_PRICE = { fan: 3000, ga: 3500, gold: 6000, vip: 9000 };
 const TIER_NAME = { fan: "Fan Access", ga: "General Access", gold: "Gold", vip: "VIP" };
