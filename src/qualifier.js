@@ -146,6 +146,12 @@ async function ticketTypes(env) {
 async function issueBundleTicket(env, reg) {
   const d = await db(env);
   if (!reg.show_type || !TICKET_PRICE[reg.show_type] || reg.issued_ticket_id) return reg;
+  // Stripe test payments never create real tickets in the (live) Ticket Tailor box office
+  if (!reg.livemode) {
+    const code = "TEST-" + reg.show_type.toUpperCase();
+    await d.prepare("UPDATE registrations SET issued_ticket_id='test', issued_code=?, issue_error=NULL WHERE id=?").bind(code, reg.id).run();
+    return { ...reg, issued_ticket_id: "test", issued_code: code, issue_error: null };
+  }
   try {
     if (!env.TICKETTAILOR_API_KEY) throw new Error("no Ticket Tailor key");
     const types = await ticketTypes(env);
