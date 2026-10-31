@@ -62,7 +62,7 @@ async function db(env) {
     ]);
     // newer columns (bundle tickets, refunds); ignore "duplicate column" on existing tables
     for (const col of ["show_type TEXT", "tier TEXT", "entry_price INTEGER", "ticket_price INTEGER", "issued_ticket_id TEXT",
-      "issued_code TEXT", "issue_error TEXT", "selected INTEGER", "refunded_at INTEGER"]) {
+      "issued_code TEXT", "issue_error TEXT", "selected INTEGER", "refunded_at INTEGER", "promo_ok INTEGER"]) {
       try { await env.DB.prepare("ALTER TABLE registrations ADD COLUMN " + col).run(); } catch (e) {}
     }
     schemaReady = true;
@@ -254,6 +254,7 @@ function validate(b) {
     instagram: clean(b.instagram, 60).replace(/^@+/, ""), club: clean(b.club, 80),
     division: clean(b.division, 10), weight_class: clean(b.weight_class, 6), arms: clean(b.arms, 6),
     guardian_name: clean(b.guardian_name, 80), guardian_email: normEmail(b.guardian_email).slice(0, 120),
+    promo_ok: b.promo_ok ? 1 : 0,
     code: clean(b.code, 30), show: SHOWS.includes(b.show) ? b.show : "",
     comment: String(b.comment == null ? "" : b.comment).replace(/\r/g, "").trim().slice(0, 1000)
   };
@@ -325,7 +326,7 @@ async function startCheckout(request, env) {
   const meta = {
     registration: id, name: `${r.first_name} ${r.last_name}`, dob: r.dob, age: r.age, country: r.country,
     division: DIV_NAME[r.division], weight_class: cls, arms: ARM_NAME[r.arms], instagram: r.instagram,
-    club: r.club, comment: r.comment.slice(0, 480), ticket_code: ticket ? ticket.code : "", evening_ticket: bundle ? TIER_NAME[bundle] + " (bundle)" : (ticket ? TIER_NAME[ticket.tier] + " (had already)" : "none"), guardian: r.guardian_name ? `${r.guardian_name} <${r.guardian_email}>` : ""
+    club: r.club, promo_consent: r.promo_ok ? "yes" : "no", comment: r.comment.slice(0, 480), ticket_code: ticket ? ticket.code : "", evening_ticket: bundle ? TIER_NAME[bundle] + " (bundle)" : (ticket ? TIER_NAME[ticket.tier] + " (had already)" : "none"), guardian: r.guardian_name ? `${r.guardian_name} <${r.guardian_email}>` : ""
   };
   let session;
   try {
@@ -347,12 +348,12 @@ async function startCheckout(request, env) {
   }
   await d.prepare(`INSERT INTO registrations (id, created_at, status, session_id, lang, first_name, last_name, email, dob, age, country, instagram, club,
       division, weight_class, arms, price, discount, tt_ticket_id, tt_code, tt_type, guardian_name, guardian_email, livemode, comment,
-      show_type, tier, entry_price, ticket_price)
-      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
+      show_type, tier, entry_price, ticket_price, promo_ok)
+      VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`)
     .bind(id, now(), "pending", session.id, r.lang, r.first_name, r.last_name, r.email, r.dob, r.age, r.country, r.instagram, r.club,
       r.division, r.weight_class, r.arms, price, ticket ? 1 : 0, ticket ? ticket.id : null, ticket ? ticket.code : null, ticket ? ticket.type : null,
       r.guardian_name || null, r.guardian_email || null, session.livemode ? 1 : 0, r.comment || null,
-      r.show, tier, entry, ticketPrice).run();
+      r.show, tier, entry, ticketPrice, r.promo_ok).run();
   return json({ url: session.url });
 }
 

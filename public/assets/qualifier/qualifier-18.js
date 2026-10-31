@@ -75,7 +75,7 @@
     tk_check: "Prüfen",
     lg_comment: "Fragen oder Wünsche",
     comment_help: "Möchtest du uns etwas sagen oder fragen? Schreib es hier.",
-    accept: "Ich nehme auf eigene Verantwortung teil und akzeptiere die Turnier- und Wiegeregeln. Ich bin einverstanden, dass die LPAL das Turnier filmt und fotografiert und die Aufnahmen nutzt, auch im Livestream auf Kick.",
+    accept: "Ich nehme auf eigene Verantwortung teil und akzeptiere die Turnier- und Wiegeregeln. Mir ist bekannt, dass das Turnier gefilmt und live auf Kick gestreamt wird, mit meinem Namen, Land, Klasse und Ergebnissen.",
     sum_k: "Du zahlst",
     submit: "Weiter zur Zahlung",
     secure: "Sichere Zahlung mit Stripe: Karte, Apple Pay, Google Pay und mehr. Deine Daten werden nur für die Organisation des Turniers verwendet.",
@@ -105,7 +105,8 @@
     st1_k: "Nur Turnier-Start", st1_s: "Du ziehst beim Qualifier. Nach dem Turnier wird die Halle geräumt und du musst gehen.",
     st2_k: "Nur LPAL 4 Ticket", st2_s: "Normale Ticketpreise für die LPAL 4 Abendshow um 18:00.",
     st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 30 €.",
-    pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert"
+    pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_accept2: "und habe die Datenschutzhinweise gelesen.", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert",
+    promo: "Optional: Die LPAL darf Fotos und Videos von mir auch für die Werbung für zukünftige Lion Pride Armwrestling League Events nutzen. Ich kann das jederzeit widerrufen."
   };
   var MSG = {
     en: {
@@ -457,7 +458,7 @@
       lang: lang, first_name: val("first_name"), last_name: val("last_name"), email: val("email"), dob: val("dob"),
       country: val("country"), instagram: val("instagram"), club: val("club"), division: val("division"),
       weight_class: val("weight_class"), arms: val("arms"), guardian_name: val("guardian_name"), guardian_email: val("guardian_email"),
-      guardian_consent: !!val("guardian_consent"), accept_rules: !!val("accept_rules"), accept_policy: !!val("accept_policy"), comment: form.elements.comment.value,
+      guardian_consent: !!val("guardian_consent"), accept_rules: !!val("accept_rules"), accept_policy: !!val("accept_policy"), promo_ok: !!val("promo_ok"), comment: form.elements.comment.value,
       show: val("show"), code: val("show") === "have" && tk.via === "code" ? tk.code : ""
     };
     busy = true;
