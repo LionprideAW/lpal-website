@@ -106,7 +106,7 @@
     st2_k: "Nur LPAL 4 Ticket", st2_s: "Normale Ticketpreise für die LPAL 4 Abendshow um 18:00.",
     st3_k: "Bundle: Turnier-Start + LPAL 4 Ticket", st3_s: "Kauf beides zusammen und spar bis zu 30 €.",
     pol_accept: "Ich akzeptiere die", pol_link: "Teilnahmebedingungen", pol_accept2: "und habe die Datenschutzhinweise gelesen.", pol_title: "Teilnahmebedingungen", pol_ok: "Gelesen und akzeptiert",
-    promo: "Optional: Die LPAL darf Fotos und Videos von mir auch für die Werbung für zukünftige Lion Pride Armwrestling League Events nutzen. Ich kann das jederzeit widerrufen."
+    promo: "<b>Ja, zeigt mich in zukünftigen LPAL Inhalten!</b> Die LPAL darf Fotos und Videos von mir für die Werbung für zukünftige Lion Pride Armwrestling League Events nutzen. Freiwillig, ich kann das jederzeit widerrufen."
   };
   var MSG = {
     en: {
