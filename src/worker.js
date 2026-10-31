@@ -1,6 +1,6 @@
 // LPAL site worker: serves the static site, plus /api/youtube-latest
 // which reads the channel's public RSS feed and returns the newest videos.
-import { handleQualifier } from "./qualifier.js";
+import { handleQualifier, QUALIFIER_PATH, ADMIN_PATH, QUALIFIER_HIDDEN } from "./qualifier.js";
 
 const CHANNEL_HANDLE = "LionPrideArmwrestlingLeague";
 const CHANNEL_ID = "UCSxV_nzYThkWks1sVMAHuaw";
@@ -68,6 +68,18 @@ export default {
     const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/", "/imprint": "/terms#imprint", "/impressum": "/terms#imprint", "/privacy": "/terms#privacy", "/datenschutz": "/terms#privacy" };
     if (OLD[url.pathname]) return Response.redirect("https://lpal.eu" + OLD[url.pathname], 301);
     if (url.pathname.startsWith("/api/qualifier/")) return handleQualifier(request, env, url);
+    // qualifier registration + private list: served on their (secret) addresses only
+    const internal = { [QUALIFIER_PATH]: "/qualifier", [ADMIN_PATH]: "/qualifier-admin" };
+    if (internal[url.pathname] && internal[url.pathname] !== url.pathname) {
+      const r = await env.ASSETS.fetch(new Request(new URL(internal[url.pathname], url.origin), request));
+      const res = new Response(r.body, r);
+      res.headers.set("X-Robots-Tag", "noindex, nofollow");
+      res.headers.set("Cache-Control", "no-store");
+      return res;
+    }
+    if (QUALIFIER_HIDDEN && /^\/qualifier(-admin)?(\.html)?\/?$/.test(url.pathname)) {
+      return Response.redirect("https://lpal.eu/", 302);
+    }
     if (url.pathname === "/api/youtube-latest") {
       try { return await latest(ctx); }
       catch (e) { return new Response(JSON.stringify({ videos: [] }), { status: 502, headers: { "content-type": "application/json" } }); }

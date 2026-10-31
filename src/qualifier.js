@@ -8,6 +8,11 @@
 
 const TT_EVENT_DEFAULT = "ev_9342604";
 const SITE = "https://lpal.eu";
+// Until launch the registration page and the private list live on secret addresses.
+// At launch: set QUALIFIER_PATH to "/qualifier" and QUALIFIER_HIDDEN to false.
+export const QUALIFIER_PATH = "/q-2d8ba956";
+export const ADMIN_PATH = "/qa-402119aa09";
+export const QUALIFIER_HIDDEN = true;
 
 // Prices in cents. Entry (both arms) depends on the evening ticket; one arm is €20 less.
 const ENTRY = { none: 6000, fan: 5000, ga: 5000, gold: 4000, vip: 3000 };
@@ -339,8 +344,8 @@ async function startCheckout(request, env) {
       line_items: lines,
       metadata: meta,
       payment_intent_data: { description: title + (bundle ? ` + ${TIER_NAME[bundle]} ticket` : "") + " · " + meta.name, metadata: meta, receipt_email: r.email },
-      success_url: `${SITE}/qualifier?paid={CHECKOUT_SESSION_ID}${r.lang === "de" ? "&lang=de" : ""}`,
-      cancel_url: `${SITE}/qualifier?cancelled=1${r.lang === "de" ? "&lang=de" : ""}`
+      success_url: `${SITE}${QUALIFIER_PATH}?paid={CHECKOUT_SESSION_ID}${r.lang === "de" ? "&lang=de" : ""}`,
+      cancel_url: `${SITE}${QUALIFIER_PATH}?cancelled=1${r.lang === "de" ? "&lang=de" : ""}`
     });
   } catch (e) {
     if (ticket) await d.prepare("DELETE FROM ticket_claims WHERE ticket_key=? AND registration_id=?").bind(normCode(ticket.code), id).run();
