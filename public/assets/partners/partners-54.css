@@ -783,3 +783,7 @@ a{color:inherit}
   .k-overview>div{grid-template-columns:1fr;gap:4px;padding:14px 16px}
   .p-pack-btns .p-btn{flex:1 1 auto;text-align:center}
 }
+
+/* credibility grid: last photo spans the full width */
+.p-cred-grid figure.p-cred-wide:last-child{grid-column:1/-1}
+.p-cred-grid figure.p-cred-wide:last-child img{aspect-ratio:21/9}

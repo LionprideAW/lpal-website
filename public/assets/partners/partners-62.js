@@ -19,7 +19,7 @@ const STATS = [
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
   { n: "2.8M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
-  { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
+  { n: "11", l: "Matches", s: "Incl. two women's matches" },
   { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
 ];
 
@@ -94,9 +94,6 @@ const PACKAGES = [
   { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 1000, once: true },
   { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 1000, once: true },
 
-  { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
-    items: ["The first LPAL World Title Match carries your name", "Your representative presents the championship belt",
-            "Logo on the athlete introduction graphics", "Clip of the title match with your name in the title, posted on our socials and the athletes' socials after the event"] },
   { id: "challenger", cat: "matches", name: "Challenger Match Partner", price: 3500, tag: "2 available",
     items: ["One of the two challenger matches carries your name: the fight for the No. 1 contender spot in its division", "Announced on stage and on stream as “This match for the No. 1 contender in the [division] is presented by [your brand]”, plus one sentence about your brand", "You hand over the challenge on stage", "Clip with your name in the title, posted on our socials and the athletes' socials after the event"] },
   { id: "match", cat: "matches", name: "Match Partner", price: 2000, tag: "8 available",
@@ -208,9 +205,6 @@ const isShown = p => !p.hide;
 
 
 /* ---------- fight card ---------- */
-// Main event: names stay out of this file until the official reveal on 25 October
-// (fill in a/b like the matches below and set revealMainEvent: true).
-const MAIN_EVENT = { title: "LPAL World Title Match", reveal: "Revealed 25 October", a: {}, b: {} };
 // followers: combined Instagram + TikTok (only where known)
 const MATCHES = [
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
@@ -286,7 +280,7 @@ const bout = (m, main) => `<li class="p-bout${main ? " p-bout-main" : ""}">
   <div class="p-bout-row">${side(m.a, "a", main && !SETTINGS.revealMainEvent)}<span class="p-vs">vs</span>${side(m.b, "b", main && !SETTINGS.revealMainEvent)}</div>
   ${main && !SETTINGS.revealMainEvent ? `<p class="p-reveal">${esc(m.reveal)}</p>` : ""}
 </li>`;
-$("#p-bouts").innerHTML = bout(MAIN_EVENT, true) + MATCHES.map(m => bout(m, false)).join("");
+$("#p-bouts").innerHTML = MATCHES.map(m => bout(m, false)).join("");
 
 /* ---------- packages + selection (qty for packages with several spots) ---------- */
 const sel = new Map();
