@@ -205,6 +205,8 @@ const isShown = p => !p.hide;
 
 
 /* ---------- fight card ---------- */
+// One more match, names stay hidden until it is announced.
+const NEXT_MATCH = { title: "One more match to be announced", reveal: "Announced soon", a: {}, b: {} };
 // followers: combined Instagram + TikTok (only where known)
 const MATCHES = [
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
@@ -276,11 +278,11 @@ const side = (x, k, hide) => {
   </div>`;
 };
 const bout = (m, main) => `<li class="p-bout${main ? " p-bout-main" : ""}">
-  <p class="p-div">${main ? `<span class="p-tag">Main event</span> ` : ""}${esc(main ? m.title : m.division)}</p>
+  <p class="p-div">${esc(main ? m.title : m.division)}</p>
   <div class="p-bout-row">${side(m.a, "a", main && !SETTINGS.revealMainEvent)}<span class="p-vs">vs</span>${side(m.b, "b", main && !SETTINGS.revealMainEvent)}</div>
   ${main && !SETTINGS.revealMainEvent ? `<p class="p-reveal">${esc(m.reveal)}</p>` : ""}
 </li>`;
-$("#p-bouts").innerHTML = MATCHES.map(m => bout(m, false)).join("");
+$("#p-bouts").innerHTML = bout(NEXT_MATCH, true) + MATCHES.map(m => bout(m, false)).join("");
 
 /* ---------- packages + selection (qty for packages with several spots) ---------- */
 const sel = new Map();
