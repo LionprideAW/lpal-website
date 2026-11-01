@@ -10,9 +10,10 @@ const TT_EVENT_DEFAULT = "ev_9342604";
 const SITE = "https://lpal.eu";
 // Until launch the registration page and the private list live on secret addresses.
 // At launch: set QUALIFIER_PATH to "/qualifier" and QUALIFIER_HIDDEN to false.
-export const QUALIFIER_PATH = "/q-2d8ba956";
+export const QUALIFIER_PATH = "/qualifier";
+export const OLD_QUALIFIER_PATH = "/q-2d8ba956";
 export const ADMIN_PATH = "/qa-402119aa09";
-export const QUALIFIER_HIDDEN = true;
+export const QUALIFIER_HIDDEN = false;
 
 // Prices in cents. Entry (both arms) depends on the evening ticket; one arm is €20 less.
 const ENTRY = { none: 6000, fan: 5000, ga: 5000, gold: 4000, vip: 3000 };

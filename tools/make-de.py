@@ -113,9 +113,11 @@ PAIRS = [
  ('<span class="road-when">Qualified</span>', '<span class="road-when">Qualifiziert</span>'),
  ('<h3>Win and you\'re in</h3>', '<h3>Gewinnen und du bist dabei</h3>'),
  ('<p>Whoever wins a super match is officially qualified for the upcoming LPAL events. Only the Senior men\'s classes and the women\'s classes can qualify for the league.</p>', '<p>Wer ein Super Match gewinnt, ist offiziell für die kommenden LPAL Events qualifiziert. Qualifizieren können sich nur die Senior-Klassen der Männer und die Frauenklassen.</p>'),
- ('<p>Want to pull at the next qualifier? Send us a message on Instagram.</p>', '<p>Du willst beim nächsten Qualifier antreten? Schreib uns auf Instagram.</p>'),
- ('rel="noopener">Message LPAL on Instagram</a>', 'rel="noopener">LPAL auf Instagram schreiben</a>'),
- # follow + footer
+ ('<p>Pull at the LPAL 4 Qualifier · 9 January 2027 · Cologne</p>', '<p>Tritt beim LPAL 4 Qualifier an · 9. Januar 2027 · Köln</p>'),
+ ('<a class="btn btn-red" href="qualifier">Register for the qualifier</a>', '<a class="btn btn-red" href="qualifier?lang=de">Jetzt zum Qualifier anmelden</a>'),
+ ('<a href="qualifier" class="nav-link">Qualifier</a>', '<a href="qualifier?lang=de" class="nav-link">Qualifier</a>'),
+ ('<a href="qualifier">Qualifier <small>Register for 9 Jan 2027</small></a>', '<a href="qualifier?lang=de">Qualifier <small>Anmeldung für 9. Jan 2027</small></a>'),
+  # follow + footer
  ('<h2 class="follow-title">Every match. Live and free.</h2>', '<h2 class="follow-title">Jedes Match. Live und kostenlos.</h2>'),
  ('<p class="follow-text">Watch LPAL 4 in Cologne live on Kick, and catch every match from LPAL 1, 2 and 3 on YouTube.</p>', '<p class="follow-text">Sieh LPAL 4 aus Köln live auf Kick und alle Matches von LPAL 1, 2 und 3 auf YouTube.</p>'),
  ('rel="noopener">Watch on Kick</a>', 'rel="noopener">Auf Kick ansehen</a>'),

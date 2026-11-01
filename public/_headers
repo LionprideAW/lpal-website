@@ -55,10 +55,8 @@
   X-Robots-Tag: noindex, nofollow
 /qualifier
   Cache-Control: no-cache
-  X-Robots-Tag: noindex, nofollow
 /qualifier.html
   Cache-Control: no-cache
-  X-Robots-Tag: noindex, nofollow
 /qualifier-admin
   Cache-Control: no-store, max-age=0
   X-Robots-Tag: noindex, nofollow
