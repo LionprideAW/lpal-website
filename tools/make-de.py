@@ -115,6 +115,13 @@ PAIRS = [
  ('<p>Whoever wins a super match is officially qualified for the upcoming LPAL events. Only the Senior men\'s classes and the women\'s classes can qualify for the league.</p>', '<p>Wer ein Super Match gewinnt, ist offiziell für die kommenden LPAL Events qualifiziert. Qualifizieren können sich nur die Senior-Klassen der Männer und die Frauenklassen.</p>'),
  ('<p>Pull at the LPAL 4 Qualifier · 9 January 2027 · Cologne</p>', '<p>Tritt beim LPAL 4 Qualifier an · 9. Januar 2027 · Köln</p>'),
  ('<a class="btn btn-red" href="qualifier">Register for the qualifier</a>', '<a class="btn btn-red" href="qualifier?lang=de">Jetzt zum Qualifier anmelden</a>'),
+ ('<p class="kicker">For athletes · presented by TitanGrip</p>', '<p class="kicker">Für Athleten · präsentiert von TitanGrip</p>'),
+ ('<p class="qual-sub">Saturday, 9 January 2027 · MOTORWORLD Cologne. Senior, women\'s and amateur classes. Our scouting team picks 4 athletes for super matches on the LPAL 4 stage.</p>',
+  '<p class="qual-sub">Samstag, 9. Januar 2027 · MOTORWORLD Köln. Senior-, Frauen- und Amateurklassen. Unser Scouting-Team wählt 4 Athleten für Super Matches auf der LPAL 4 Bühne.</p>'),
+ ('aria-label="Previous poster"', 'aria-label="Vorheriges Poster"'),
+ ('aria-label="Next poster"', 'aria-label="Nächstes Poster"'),
+ ('<a class="qual-btn" href="qualifier"><span class="qual-btn-t">Register for the qualifier</span><span class="qual-btn-s">From €40 · Bundle with an LPAL 4 ticket and save up to €30</span></a>',
+  '<a class="qual-btn" href="qualifier?lang=de"><span class="qual-btn-t">Jetzt zum Qualifier anmelden</span><span class="qual-btn-s">Ab 40 € · Im Bundle mit LPAL 4 Ticket bis zu 30 € sparen</span></a>'),
  ('<a href="qualifier" class="nav-link">Qualifier</a>', '<a href="qualifier?lang=de" class="nav-link">Qualifier</a>'),
  ('<a href="qualifier">Qualifier <small>Register for 9 Jan 2027</small></a>', '<a href="qualifier?lang=de">Qualifier <small>Anmeldung für 9. Jan 2027</small></a>'),
   # follow + footer

@@ -1028,3 +1028,30 @@ if (athletesEl) {
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .18 });
   els.forEach(e => io.observe(e));
 })();
+
+/* ---------- LPAL 4 Qualifier: poster slideshow ---------- */
+(() => {
+  const track = document.getElementById("qual-track");
+  if (!track) return;
+  const slides = Array.from(track.children), dots = document.getElementById("qual-dots");
+  const step = () => slides[1] ? slides[1].offsetLeft - slides[0].offsetLeft : track.clientWidth;
+  const index = () => Math.round(track.scrollLeft / step());
+  const maxIndex = () => Math.max(0, Math.round((track.scrollWidth - track.clientWidth) / step()));
+  // one dot per scroll position (3 on desktop where 3 posters are visible, 5 on phones)
+  const drawDots = () => { const n = maxIndex() + 1; if (dots.children.length !== n) dots.innerHTML = "<i></i>".repeat(n); };
+  const sync = () => { drawDots(); const i = Math.min(index(), maxIndex()); Array.from(dots.children).forEach((d, k) => d.classList.toggle("on", k === i)); };
+  addEventListener("resize", sync);
+  const go = i => { const m = maxIndex(); track.scrollTo({ left: (i > m ? 0 : i < 0 ? m : i) * step() }); };
+  document.querySelector(".qual-prev").addEventListener("click", () => { go(index() - 1); hold(); });
+  document.querySelector(".qual-next").addEventListener("click", () => { go(index() + 1); hold(); });
+  track.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
+  // auto-advance every 4 s while visible; pauses on hover/touch and after manual use
+  let timer = 0, visible = false, pausedUntil = 0;
+  const hold = () => { pausedUntil = Date.now() + 8000; };
+  ["pointerdown", "touchstart", "wheel"].forEach(e => track.addEventListener(e, hold, { passive: true }));
+  track.addEventListener("mouseenter", () => { pausedUntil = Infinity; });
+  track.addEventListener("mouseleave", () => { pausedUntil = Date.now() + 1500; });
+  const tick = () => { if (visible && Date.now() > pausedUntil && !matchMedia("(prefers-reduced-motion: reduce)").matches) go(index() + 1); };
+  new IntersectionObserver(es => es.forEach(e => { visible = e.isIntersecting; clearInterval(timer); if (visible) timer = setInterval(tick, 4000); }), { threshold: .4 }).observe(track);
+  sync();
+})();
