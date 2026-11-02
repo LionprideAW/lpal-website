@@ -39,7 +39,7 @@ PAIRS = [
  ('<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League</h1>', '<h1 class="sr-only">LPAL 4, Lion Pride Armwrestling League: Armwrestling und Armdrücken live in Köln</h1>'),
  ('<p class="hero-date">Saturday 9 January 2027 &middot; Cologne, Germany</p>', '<p class="hero-date">Samstag, 9. Januar 2027 &middot; Köln</p>'),
  ('<p class="hero-sub">Main event: World title match</p>', '<p class="hero-sub">Hauptkampf: Weltmeisterschaftskampf</p>'),
- ('<p><span>Held under the <b>WAF</b></span><small>World Armwrestling Federation</small></p>', '<p><span>Ausgetragen unter der <b>WAF</b></span><small>World Armwrestling Federation</small></p>'),
+ ('<p><span>Tournament held under the <b>WAF</b></span><small>World Armwrestling Federation</small></p>', '<p><span>Turnier unter dem Dach der <b>WAF</b></span><small>World Armwrestling Federation</small></p>'),
  ('rel="noopener">Watch event</a>\n        <a class="btn btn-white" href="#event">View fight card</a>', 'rel="noopener">Event ansehen</a>\n        <a class="btn btn-white" href="#event">Zur Fight Card</a>'),
  ('aria-label="Turn sound on"', 'aria-label="Ton an"'),
  # venue + ticket

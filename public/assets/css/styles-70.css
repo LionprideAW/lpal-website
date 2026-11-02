@@ -914,9 +914,10 @@ html,body{overflow-x:clip}
 .qual-btn-s{font-family:var(--cond);font-weight:700;font-size:clamp(13px,1.2vw,15px);letter-spacing:.04em;text-transform:uppercase;opacity:.92;text-align:center}
 @media (max-width:900px){.qual-slide{flex-basis:calc((100% - clamp(12px,1.6vw,22px)) / 2)}}
 @media (max-width:600px){.qual-slide{flex-basis:84%}.qual-nav{display:none}.qual-track{padding-left:0}}
-/* WAF sanction badge in hero */
-.hero-waf{display:inline-flex;align-items:center;gap:12px;padding:8px 18px 8px 10px;border-radius:999px;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);margin-bottom:4px}
-.hero-waf img{width:52px;height:auto;flex:none}
-.hero-waf p{display:flex;flex-direction:column;align-items:flex-start;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:15px;line-height:1.15;text-align:left}
-.hero-waf b{color:#f6b800}
-.hero-waf small{font-size:11px;font-weight:600;letter-spacing:.12em;opacity:.8;margin-top:2px}
+/* WAF badge in the qualifier section */
+.qual-waf{display:inline-flex;align-items:center;gap:12px;margin-top:18px;padding:8px 20px 8px 10px;border-radius:999px;background:#111;color:#fff;box-shadow:0 8px 20px rgba(0,0,0,.18)}
+.qual-waf img{width:52px;height:auto;flex:none}
+.qual-waf p{display:flex;flex-direction:column;align-items:flex-start;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:15px;line-height:1.15;text-align:left}
+.qual-waf b{color:#f6b800}
+.qual-waf small{font-size:11px;font-weight:600;letter-spacing:.12em;opacity:.75;margin-top:2px}
+@media (max-width:480px){.qual-waf{gap:10px;padding:7px 16px 7px 8px}.qual-waf img{width:44px}.qual-waf p{font-size:12.5px;letter-spacing:.05em}.qual-waf small{font-size:10px;letter-spacing:.08em}}
