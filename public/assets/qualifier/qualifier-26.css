@@ -356,3 +356,9 @@ html[lang=ka] .q-h2{font-size:clamp(28px,4.4vw,52px)}
 html[lang=uk] .q-h1,html[lang=ru] .q-h1{font-size:clamp(46px,9vw,118px)}
 
 .q-tz{margin:-14px 0 22px;color:var(--mut);font-size:14.5px}
+/* WAF sanction badge */
+.q-waf{display:flex;align-items:center;gap:14px;margin:-6px 0 22px}
+.q-waf img{width:62px;height:auto;flex:none}
+.q-waf p{display:flex;flex-direction:column;font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.1em;font-size:15px;color:#fff;line-height:1.2}
+.q-waf b{color:#f6b800}
+.q-waf small{font-size:12px;letter-spacing:.12em;color:var(--mut);font-weight:600;margin-top:3px}
