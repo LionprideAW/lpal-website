@@ -39,9 +39,9 @@ const CLASSES = {
 const DIV_NAME = { senior: "Senior Men", amateur: "Amateur Men", women: "Women" };
 const ARM_NAME = { left: "Left arm", right: "Right arm", both: "Both arms" };
 const EVENT_DAY = "2027-01-09";
-const LANGS = ["en", "de", "fr", "it", "pl", "cs", "sk", "sr", "uk", "ru", "ka"];
+const LANGS = ["en", "de", "fr", "it", "pl", "cs", "sk", "sr", "uk", "ru", "ka", "es", "bg"];
 // languages Stripe Checkout supports; others get "auto" (Stripe picks from the browser)
-const STRIPE_LOCALES = ["en", "de", "fr", "it", "pl", "cs", "sk", "ru"];
+const STRIPE_LOCALES = ["en", "de", "fr", "it", "pl", "cs", "sk", "ru", "es", "bg"];
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status, headers: { "content-type": "application/json", "cache-control": "no-store" }

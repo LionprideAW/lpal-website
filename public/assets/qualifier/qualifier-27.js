@@ -56,8 +56,8 @@
   var params = new URLSearchParams(location.search);
   // languages: English is built into the page, the others load from assets/qualifier/i18n/<code>.json
   var LANGS = [["en", "English"], ["de", "Deutsch"], ["fr", "Français"], ["it", "Italiano"], ["pl", "Polski"], ["cs", "Čeština"], ["sk", "Slovenčina"],
-    ["sr", "Srpski"], ["uk", "Українська"], ["ru", "Русский"], ["ka", "ქართული"]];
-  var I18N_V = "3";
+    ["sr", "Srpski"], ["uk", "Українська"], ["ru", "Русский"], ["ka", "ქართული"], ["es", "Español"], ["bg", "Български"]];
+  var I18N_V = "4";
   var CODES = LANGS.map(function (l) { return l[0]; });
   function pickLang() {
     var q = (params.get("lang") || "").toLowerCase();
