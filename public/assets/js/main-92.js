@@ -65,12 +65,12 @@ const MAIN_EVENT = {
 //   e.g. age: 27, height: "185 cm", weight: "95 kg", achievements: ["European Champion 2024", "LPAL 2 winner"]
 // A row only appears once at least one of the two athletes has that value.
 const MATCHES = [
-  { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
-    b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
-    division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
     b: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
     division: "Heavyweight 115kg", arm: "Left arm" },
+  { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
+    b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
+    division: "Middleweight 95kg", arm: "Right arm" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc" },
     b: { first: "", last: "Black Buffalo", country: "ci", photo: "black-buffalo-3", instagram: "black_buffalo.24", tiktok: "black_buffalo24" },
     division: "Middleweight 95kg", arm: "Right arm" },
@@ -556,8 +556,8 @@ if (LANG === "de") STORIES.forEach(s => Object.assign(s, STORIES_DE[s.id] || {})
 const STORY_MS = 7000;
 /* LPAL 4 fight posters, in fight-card order. Files in assets/img/posters/ (name.webp + name-sm.webp). */
 const POSTERS = [
-  { id: "p-tsinadze-grujic", file: "tsinadze-grujic", title: "Tsinadze vs Grujic" },
   { id: "p-tutberidze-sedis", file: "tutberidze-sedis", title: "Tutberidze vs Sedis" },
+  { id: "p-tsinadze-grujic", file: "tsinadze-grujic", title: "Tsinadze vs Grujic" },
   { id: "p-ellouah-black-buffalo", file: "ellouah-black-buffalo-2", title: "Ellouah vs Black Buffalo" },
   { id: "p-maliuc-stahlhofen", file: "maliuc-stahlhofen", title: "VladTren vs Stahlhofen" },
   { id: "p-akesson-hradska", file: "akesson-hradska", title: "Åkesson vs Hradská" },
