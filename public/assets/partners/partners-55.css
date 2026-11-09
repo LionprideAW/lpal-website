@@ -787,3 +787,12 @@ a{color:inherit}
 /* credibility grid: last photo spans the full width */
 .p-cred-grid figure.p-cred-wide:last-child{grid-column:1/-1}
 .p-cred-grid figure.p-cred-wide:last-child img{aspect-ratio:21/9}
+/* Kick partnership */
+.p-kickpart{background:#0f0f0f;border-top:1px solid var(--line);border-bottom:3px solid #53fc18;padding:clamp(36px,5vw,60px) 0}
+.p-kickpart-in{display:flex;align-items:center;gap:clamp(22px,4vw,56px)}
+.p-kickpart-logo{width:clamp(130px,18vw,230px);height:auto;flex:none}
+.p-kickpart .p-kicker{color:#53fc18}
+.p-kickpart-h{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(30px,4vw,48px);line-height:.95;margin:6px 0 10px}
+.p-kickpart-p{color:var(--mut);font-size:17px;max-width:66ch}
+.p-kickpart-p strong{color:var(--fg)}
+@media (max-width:700px){.p-kickpart-in{flex-direction:column;align-items:flex-start}}

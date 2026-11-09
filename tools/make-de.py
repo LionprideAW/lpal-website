@@ -7,6 +7,12 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent / "public"
 src = (ROOT / "index.html").read_text()
 
 PAIRS = [
+ ('aria-label="Official streaming partner: Kick"', 'aria-label="Offizieller Streaming-Partner: Kick"'),
+ ('<p class="kickband-kicker">Official streaming partner</p>', '<p class="kickband-kicker">Offizieller Streaming-Partner</p>'),
+ ("<p class=\"kickband-p\">LPAL is officially partnered with <b>Kick</b>, one of the biggest streaming platforms in the world. On <b>9 January 2027</b>, LPAL 4 will be featured on Kick's main page and event page, live and free worldwide.</p>",
+  '<p class="kickband-p">LPAL ist offizieller Partner von <b>Kick</b>, einer der größten Streaming-Plattformen der Welt. Am <b>9. Januar 2027</b> wird LPAL 4 auf der Startseite und der Event-Seite von Kick präsentiert, live und kostenlos weltweit.</p>'),
+ ("<span>Official streaming partner · Featured on Kick's main page and event page on 9 January</span>",
+  '<span>Offizieller Streaming-Partner · Am 9. Januar auf der Startseite und der Event-Seite von Kick</span>'),
  # head
  ('<html lang="en">', '<html lang="de">'),
  ('<title>LPAL | Lion Pride Armwrestling League</title>', '<title>LPAL | Armwrestling &amp; Armdrücken live in Köln – Lion Pride Armwrestling League</title>'),

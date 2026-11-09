@@ -921,3 +921,14 @@ html,body{overflow-x:clip}
 .qual-waf b{color:#f6b800}
 .qual-waf small{font-size:11px;font-weight:600;letter-spacing:.12em;opacity:.75;margin-top:2px}
 @media (max-width:480px){.qual-waf{gap:10px;padding:7px 16px 7px 8px}.qual-waf img{width:44px}.qual-waf p{font-size:12.5px;letter-spacing:.05em}.qual-waf small{font-size:10px;letter-spacing:.08em}}
+/* Kick partnership band (main page) */
+.kickband{background:#0b0b0b;color:#fff;border-top:1px solid #1f1f1f;border-bottom:3px solid #53fc18}
+.kickband-in{display:flex;align-items:center;gap:clamp(18px,3vw,40px);padding-top:clamp(22px,3vw,34px);padding-bottom:clamp(22px,3vw,34px)}
+.kickband-logo{flex:none}
+.kickband-logo img{width:clamp(110px,14vw,170px);height:auto;display:block}
+.kickband-kicker{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.18em;font-size:13px;color:#53fc18}
+.kickband-p{margin-top:6px;font-size:clamp(15px,1.4vw,18px);line-height:1.5;color:#d6d6d6;max-width:70ch}
+.kickband-p b{color:#fff}
+@media (max-width:640px){.kickband-in{flex-direction:column;align-items:flex-start;gap:14px}}
+.event-kick{display:flex;align-items:center;gap:12px;margin-top:16px;font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.08em;font-size:13px;line-height:1.35}
+.event-kick img{width:72px;height:auto;flex:none}
