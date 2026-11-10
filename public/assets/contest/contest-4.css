@@ -149,3 +149,13 @@ button,input,select{font:inherit;color:inherit}
   .c-links a{flex-basis:calc(100% - 90px)}
   .c-link-top{display:none}
 }
+/* what counts as an edit */
+.c-lead-sm{font-size:clamp(16px,1.4vw,18px);margin-bottom:22px}
+.c-lead a{color:#fff}
+.c-ideas{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.c-ideas li{background:var(--card);border:1px solid var(--line);border-left:3px solid var(--red);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.c-ideas b{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:16px}
+.c-ideas span{color:var(--mut);font-size:14.5px}
+.c-ideas-note{margin-top:16px}
+@media (max-width:900px){.c-ideas{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.c-ideas{grid-template-columns:1fr}}
