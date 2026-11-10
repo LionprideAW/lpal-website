@@ -3,8 +3,6 @@
   "use strict";
   var $ = function (s) { return document.querySelector(s); };
   var API = "/api/contest/";
-  // set this to the watermark file when it's ready, e.g. "assets/contest/lpal-kick-watermark.zip"
-  var WATERMARK = "";
 
   function call(path, body) {
     return fetch(API + path, {
@@ -34,11 +32,6 @@
     server: "Something went wrong. Please try again in a minute."
   };
   var msg = function (d) { return MSG[d.error] || MSG.server; };
-
-  // watermark button
-  var wm = $("#c-wm-btn");
-  if (WATERMARK) { wm.href = WATERMARK; wm.setAttribute("download", ""); wm.removeAttribute("aria-disabled"); wm.textContent = "Download watermark"; }
-  else wm.addEventListener("click", function (e) { e.preventDefault(); });
 
   // copy caption
   $("#c-copy-btn").addEventListener("click", function () {

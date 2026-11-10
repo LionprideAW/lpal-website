@@ -63,7 +63,11 @@ button,input,select{font:inherit;color:inherit}
 .c-kick-logo{width:100%;height:auto;margin-top:8px}
 .c-copy{display:flex;gap:10px;align-items:stretch;margin:18px 0 22px;background:#000;border:1px dashed #3a3a3a;border-radius:6px;padding:10px}
 .c-copy code{flex:1;font-family:var(--body);font-size:14.5px;color:#eaeaea;padding:4px 6px;word-break:break-word}
-.c-wm{display:flex;justify-content:space-between;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px 18px}
+.c-wm-title{margin:4px 0 12px}
+.c-wm-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.c-wm{display:flex;align-items:center;gap:16px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.c-wm img{width:110px;height:110px;object-fit:contain;flex:none;background:repeating-conic-gradient(#2a2a2a 0 25%,#1c1c1c 0 50%) 0 0/16px 16px;border-radius:6px;padding:6px}
+.c-wm .c-btn{margin-top:10px}
 .c-wm-h{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:16px}
 .c-kick-follow{display:inline-block;margin-top:18px;color:var(--green);font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px;text-decoration:none}
 
@@ -135,7 +139,7 @@ button,input,select{font:inherit;color:inherit}
   .c-steps li::before{font-size:32px;width:28px}
   .c-steps span{flex-basis:100%;padding-left:40px;margin-top:-4px}
   .c-copy{flex-direction:column}
-  .c-wm{flex-direction:column;align-items:flex-start}
+  .c-wm-grid{grid-template-columns:1fr}
   .c-add{flex-direction:column;align-items:stretch}
   .c-links li{flex-wrap:wrap}
   .c-links a{flex-basis:calc(100% - 90px)}
