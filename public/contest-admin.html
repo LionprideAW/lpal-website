@@ -61,7 +61,7 @@ tr.top1 .rank{color:var(--gold)}
   <div class="stats" id="stats"></div>
   <div id="million"></div>
 
-  <h2>Ranking (combined views of valid links)</h2>
+  <h2>Ranking (combined views of valid links · grand prize needs at least 1,000,000)</h2>
   <div class="row" style="margin-bottom:10px">
     <button type="button" class="ghost" id="b-reload">Refresh</button>
     <button type="button" class="ghost" id="b-csv">Download Excel/CSV</button>
@@ -104,13 +104,13 @@ tr.top1 .rank{color:var(--gold)}
     $("#stats").innerHTML=[["Participants",d.users.length],["Links",d.links.length],["Never checked",unchecked],["Total views",fmt(totalViews)]]
       .map(function(s){return '<div class="stat"><small>'+s[0]+'</small><b>'+s[1]+'</b></div>'}).join("");
     var f=d.first_million;
-    $("#million").innerHTML=f?'<div class="million">🏆 <b>First to 1,000,000 views:</b> '+esc(f.name)+' ('+esc(f.email)+') · <a href="'+esc(f.url)+'" target="_blank" rel="noopener">their edit</a> · reached on '+dt(f.million_at,true)+'. Send them the merch prize.</div>'
+    $("#million").innerHTML=f?'<div class="million">🏆 <b>First to 1,000,000 views:</b> '+esc(f.name)+' ('+esc(f.email)+') · <a href="'+esc(f.url)+'" target="_blank" rel="noopener">their edit</a> · reached on '+dt(f.million_at,true)+'. Send them the LPAL 4 shirt (ask for their address).</div>'
       :'<div class="box mut">Nobody has reached 1,000,000 views on one edit yet.</div>';
     $("#users").innerHTML=ranked.map(function(u,i){
       var a=age(u.dob), acc=[];
       if(u.instagram)acc.push('<a href="https://www.instagram.com/'+esc(u.instagram)+'/" target="_blank" rel="noopener">IG @'+esc(u.instagram)+'</a>');
       if(u.tiktok)acc.push('<a href="https://www.tiktok.com/@'+esc(u.tiktok)+'" target="_blank" rel="noopener">TT @'+esc(u.tiktok)+'</a>');
-      return '<tr class="'+(u.disqualified?"dq":"")+(i===0&&!u.disqualified&&u.total>0?" top1":"")+'"><td class="rank">'+(u.disqualified?"–":i+1)+'</td><td><b>'+esc(u.name)+'</b>'+(a!==null&&a<18?' <span class="pill u18" title="Guardian: '+esc(u.guardian_name)+' '+esc(u.guardian_email)+'">under 18</span>':'')+(u.note?'<br><span class="mut">'+esc(u.note)+'</span>':'')+'</td><td>'+acc.join("<br>")+'</td><td>'+esc(u.country)+'</td><td>'+esc(u.email)+'</td><td>'+u.links.length+'</td><td class="num">'+fmt(u.total)+'</td><td>'+dt(u.created_at)+'</td><td>'+(u.promo_ok?'<span class="ok" style="color:#7ddc7d">yes</span>':'<span class="mut">no</span>')+'</td>'
+      return '<tr class="'+(u.disqualified?"dq":"")+(i===0&&!u.disqualified&&u.total>0?" top1":"")+'"><td class="rank">'+(u.disqualified?"–":i+1)+'</td><td><b>'+esc(u.name)+'</b>'+(a!==null&&a<18?' <span class="pill u18" title="Guardian: '+esc(u.guardian_name)+' '+esc(u.guardian_email)+'">under 18</span>':'')+(u.note?'<br><span class="mut">'+esc(u.note)+'</span>':'')+'</td><td>'+acc.join("<br>")+'</td><td>'+esc(u.country)+'</td><td>'+esc(u.email)+'</td><td>'+u.links.length+'</td><td class="num">'+fmt(u.total)+(u.total>=1e6&&!u.disqualified?'<br><span class="pill m">qualifies</span>':'')+'</td><td>'+dt(u.created_at)+'</td><td>'+(u.promo_ok?'<span class="ok" style="color:#7ddc7d">yes</span>':'<span class="mut">no</span>')+'</td>'
         +'<td class="act"><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="sm ghost" data-dqu="'+u.id+'" data-on="'+(u.disqualified?0:1)+'">'+(u.disqualified?"Undo disqualify":"Disqualify")+'</button><button class="sm ghost" data-pw="'+u.id+'">New password</button></div><div class="pwout" id="pw-'+u.id+'"></div></td></tr>';
     }).join("")||'<tr><td colspan="10" class="mut">No participants yet.</td></tr>';
     renderLinks();

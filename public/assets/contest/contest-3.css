@@ -79,6 +79,7 @@ button,input,select{font:inherit;color:inherit}
 .c-steps li::before{content:counter(s);font-family:var(--display);font-size:42px;line-height:1;color:var(--red)}
 .c-steps b{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:16px}
 .c-steps span{color:var(--mut);font-size:14.5px}
+.c-steps a{color:#fff}
 
 .c-tabs{display:flex;gap:6px;margin-bottom:-1px}
 .c-tab{background:transparent;border:1px solid var(--line);border-bottom:0;border-radius:8px 8px 0 0;padding:12px 20px;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.06em;font-size:14px;color:var(--mut);cursor:pointer}
