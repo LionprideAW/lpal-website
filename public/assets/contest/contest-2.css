@@ -58,6 +58,9 @@ button,input,select{font:inherit;color:inherit}
 .c-prize-win{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:19px;color:var(--red);margin-bottom:10px}
 .c-prize-gold .c-prize-win{color:var(--gold)}
 .c-prize p:last-child{color:#cfcfcf}
+.c-prize-list{list-style:none;margin-top:10px;display:flex;flex-direction:column;gap:8px;color:#cfcfcf}
+.c-prize-list li{padding-left:14px;border-left:3px solid var(--gold)}
+.c-prize-list b{color:#fff}
 
 .c-mission{display:grid;grid-template-columns:220px 1fr;gap:clamp(24px,4vw,56px);align-items:start}
 .c-kick-logo{width:100%;height:auto;margin-top:8px}
