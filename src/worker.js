@@ -1,6 +1,7 @@
 // LPAL site worker: serves the static site, plus /api/youtube-latest
 // which reads the channel's public RSS feed and returns the newest videos.
 import { handleQualifier, QUALIFIER_PATH, OLD_QUALIFIER_PATH, ADMIN_PATH, QUALIFIER_HIDDEN } from "./qualifier.js";
+import { handleContest, CONTEST_PATH, CONTEST_ADMIN_PATH, CONTEST_PUBLIC } from "./contest.js";
 
 const CHANNEL_HANDLE = "LionPrideArmwrestlingLeague";
 const CHANNEL_ID = "UCSxV_nzYThkWks1sVMAHuaw";
@@ -68,8 +69,10 @@ export default {
     const OLD = { "/contact": "/#qualify", "/contact-us": "/#qualify", "/events": "/#event", "/about": "/", "/imprint": "/terms#imprint", "/impressum": "/terms#imprint", "/privacy": "/terms#privacy", "/datenschutz": "/terms#privacy" };
     if (OLD[url.pathname]) return Response.redirect("https://lpal.eu" + OLD[url.pathname], 301);
     if (url.pathname.startsWith("/api/qualifier/")) return handleQualifier(request, env, url);
+    if (url.pathname.startsWith("/api/contest/")) return handleContest(request, env, url);
     // qualifier registration + private list: served on their (secret) addresses only
-    const internal = { [QUALIFIER_PATH]: "/qualifier", [ADMIN_PATH]: "/qualifier-admin" };
+    const internal = { [QUALIFIER_PATH]: "/qualifier", [ADMIN_PATH]: "/qualifier-admin", [CONTEST_PATH]: "/contest", [CONTEST_ADMIN_PATH]: "/contest-admin" };
+    if (CONTEST_PUBLIC) internal["/edit-contest"] = "/contest";
     if (internal[url.pathname] && internal[url.pathname] !== url.pathname) {
       const r = await env.ASSETS.fetch(new Request(new URL(internal[url.pathname], url.origin), request));
       const res = new Response(r.body, r);
@@ -82,7 +85,7 @@ export default {
       return Response.redirect("https://lpal.eu" + QUALIFIER_PATH + url.search, 301);
     }
     // the private list only opens on its secret address
-    if (/^\/qualifier-admin(\.html)?\/?$/.test(url.pathname) || (QUALIFIER_HIDDEN && /^\/qualifier(\.html)?\/?$/.test(url.pathname))) {
+    if (/^\/(qualifier|contest)-admin(\.html)?\/?$/.test(url.pathname) || /^\/contest(\.html)?\/?$/.test(url.pathname) || (QUALIFIER_HIDDEN && /^\/qualifier(\.html)?\/?$/.test(url.pathname))) {
       return Response.redirect("https://lpal.eu/", 302);
     }
     if (url.pathname === "/api/youtube-latest") {

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Edit Contest Admin | LPAL</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+:root{--red:#e1261c;--gold:#f6b800;--green:#53fc18;--bg:#0b0b0b;--card:#161616;--line:#2a2a2a;--mut:#9a9a9a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:#eee;font:15px/1.5 Roboto,system-ui,sans-serif;padding:20px 16px 60px}
+h1{font:800 26px/1.1 "Roboto Condensed",Arial Narrow,sans-serif;text-transform:uppercase;letter-spacing:.02em;margin-bottom:4px}
+h2{font:800 18px/1.2 "Roboto Condensed",Arial Narrow,sans-serif;text-transform:uppercase;letter-spacing:.04em;margin:26px 0 10px}
+.sub{color:var(--mut);margin-bottom:18px}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:14px}
+input{background:#0e0e0e;border:1px solid #333;border-radius:5px;padding:9px 11px;color:#fff;font:inherit}
+button{background:var(--red);color:#fff;border:0;border-radius:5px;padding:9px 14px;font:700 13.5px "Roboto Condensed",sans-serif;text-transform:uppercase;letter-spacing:.05em;cursor:pointer}
+button.ghost{background:transparent;border:1px solid #555}
+button.sm{padding:5px 9px;font-size:12px}
+button[disabled]{opacity:.5}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:10px 14px;min-width:130px}
+.stat b{display:block;font-size:24px}
+.stat small{color:var(--mut);text-transform:uppercase;font-size:11px;letter-spacing:.1em}
+.million{background:linear-gradient(90deg,rgba(246,184,0,.18),transparent);border:1px solid var(--gold);border-radius:8px;padding:14px 16px;margin-bottom:14px}
+.million b{color:var(--gold)}
+.wrap{overflow-x:auto;border:1px solid var(--line);border-radius:8px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:980px}
+th,td{padding:8px 10px;border-bottom:1px solid #222;text-align:left;vertical-align:middle}
+th{background:#111;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mut)}
+td.num{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+tr.dq td{opacity:.45;text-decoration:line-through}
+tr.dq td.act{text-decoration:none;opacity:1}
+.pill{display:inline-block;border-radius:3px;padding:1px 7px;font-size:11px;font-weight:700;text-transform:uppercase}
+.ig{background:#c13584;color:#fff}.tk{background:#fff;color:#000}.m{background:var(--gold);color:#111}.u18{background:#4d431f;color:#f0dc9e}
+.views{width:130px;text-align:right}
+.old{color:var(--gold)}
+.mut{color:var(--mut)}
+a{color:#ddd}
+.err{color:#ff7a70;margin-top:8px}
+.temp{font-family:ui-monospace,monospace;background:#000;padding:2px 6px;border-radius:3px;color:var(--green)}
+.rank{font:800 18px "Roboto Condensed",sans-serif;color:var(--mut)}
+tr.top1 .rank{color:var(--gold)}
+</style>
+</head>
+<body>
+<h1>LPAL Edit Contest · Admin</h1>
+<p class="sub">Private page. Not linked anywhere and hidden from Google. Contest ends 20 December 2026, 23:59.</p>
+
+<div class="box" id="login">
+  <form class="row" id="lf">
+    <input type="password" id="key" placeholder="Admin password" autocomplete="current-password" style="min-width:240px">
+    <button type="submit">Open</button>
+  </form>
+  <p class="err" id="lerr" hidden>Wrong password.</p>
+</div>
+
+<div id="app" hidden>
+  <div class="stats" id="stats"></div>
+  <div id="million"></div>
+
+  <h2>Ranking (combined views of valid links)</h2>
+  <div class="row" style="margin-bottom:10px">
+    <button type="button" class="ghost" id="b-reload">Refresh</button>
+    <button type="button" class="ghost" id="b-csv">Download Excel/CSV</button>
+  </div>
+  <div class="wrap"><table><thead><tr>
+    <th>#</th><th>Name</th><th>Accounts</th><th>Country</th><th>Email</th><th>Links</th><th>Total views</th><th>Joined</th><th>Repost OK</th><th></th>
+  </tr></thead><tbody id="users"></tbody></table></div>
+
+  <h2>All links</h2>
+  <div class="row" style="margin-bottom:10px">
+    <input id="q" placeholder="Search name or link" style="min-width:240px">
+    <label class="mut"><input type="checkbox" id="f-old" style="width:auto"> only links not checked in the last 3 days</label>
+  </div>
+  <p class="mut" style="margin-bottom:10px">Type the views shown on the post and press Enter (or Save). The first link to reach 1,000,000 is remembered with date and time.</p>
+  <div class="wrap"><table><thead><tr>
+    <th>Participant</th><th></th><th>Link</th><th>Added</th><th>Views</th><th>Last checked</th><th></th>
+  </tr></thead><tbody id="links"></tbody></table></div>
+</div>
+
+<script>
+(function(){
+  var $=function(s){return document.querySelector(s)}, key="", data=null;
+  try{key=sessionStorage.getItem("ck")||""}catch(e){}
+  function api(action,body){
+    return fetch("/api/contest/admin"+(action?"?action="+action:""),{method:body?"POST":"GET",headers:Object.assign({"x-admin-key":key},body?{"content-type":"application/json"}:{}),body:body?JSON.stringify(body):undefined})
+      .then(function(r){if(r.status===401)throw new Error("auth");return r.json()});
+  }
+  function esc(s){return String(s==null?"":s).replace(/[&<>"']/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})}
+  function fmt(n){return n==null?"–":Number(n).toLocaleString("de-AT")}
+  function dt(ms,withTime){if(!ms)return"–";var d=new Date(ms);return d.toLocaleDateString("de-AT")+(withTime?" "+d.toLocaleTimeString("de-AT",{hour:"2-digit",minute:"2-digit"}):"")}
+  function age(dob){var b=new Date(dob+"T00:00:00"),n=new Date();if(isNaN(b))return null;var y=n.getFullYear()-b.getFullYear();if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate()))y--;return y}
+
+  function build(d){
+    data=d;
+    var users={}; d.users.forEach(function(u){u.links=[];u.total=0;users[u.id]=u});
+    d.links.forEach(function(l){var u=users[l.user_id];if(!u)return;l.user=u;u.links.push(l);if(!l.disqualified&&!u.disqualified)u.total+=l.views||0});
+    var ranked=d.users.slice().sort(function(a,b){return (b.disqualified?-1:b.total)-(a.disqualified?-1:a.total)});
+    var totalViews=ranked.reduce(function(s,u){return s+(u.disqualified?0:u.total)},0);
+    var unchecked=d.links.filter(function(l){return l.views==null}).length;
+    $("#stats").innerHTML=[["Participants",d.users.length],["Links",d.links.length],["Never checked",unchecked],["Total views",fmt(totalViews)]]
+      .map(function(s){return '<div class="stat"><small>'+s[0]+'</small><b>'+s[1]+'</b></div>'}).join("");
+    var f=d.first_million;
+    $("#million").innerHTML=f?'<div class="million">🏆 <b>First to 1,000,000 views:</b> '+esc(f.name)+' ('+esc(f.email)+') · <a href="'+esc(f.url)+'" target="_blank" rel="noopener">their edit</a> · reached on '+dt(f.million_at,true)+'. Send them the merch prize.</div>'
+      :'<div class="box mut">Nobody has reached 1,000,000 views on one edit yet.</div>';
+    $("#users").innerHTML=ranked.map(function(u,i){
+      var a=age(u.dob), acc=[];
+      if(u.instagram)acc.push('<a href="https://www.instagram.com/'+esc(u.instagram)+'/" target="_blank" rel="noopener">IG @'+esc(u.instagram)+'</a>');
+      if(u.tiktok)acc.push('<a href="https://www.tiktok.com/@'+esc(u.tiktok)+'" target="_blank" rel="noopener">TT @'+esc(u.tiktok)+'</a>');
+      return '<tr class="'+(u.disqualified?"dq":"")+(i===0&&!u.disqualified&&u.total>0?" top1":"")+'"><td class="rank">'+(u.disqualified?"–":i+1)+'</td><td><b>'+esc(u.name)+'</b>'+(a!==null&&a<18?' <span class="pill u18" title="Guardian: '+esc(u.guardian_name)+' '+esc(u.guardian_email)+'">under 18</span>':'')+(u.note?'<br><span class="mut">'+esc(u.note)+'</span>':'')+'</td><td>'+acc.join("<br>")+'</td><td>'+esc(u.country)+'</td><td>'+esc(u.email)+'</td><td>'+u.links.length+'</td><td class="num">'+fmt(u.total)+'</td><td>'+dt(u.created_at)+'</td><td>'+(u.promo_ok?'<span class="ok" style="color:#7ddc7d">yes</span>':'<span class="mut">no</span>')+'</td>'
+        +'<td class="act"><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="sm ghost" data-dqu="'+u.id+'" data-on="'+(u.disqualified?0:1)+'">'+(u.disqualified?"Undo disqualify":"Disqualify")+'</button><button class="sm ghost" data-pw="'+u.id+'">New password</button></div><div class="pwout" id="pw-'+u.id+'"></div></td></tr>';
+    }).join("")||'<tr><td colspan="10" class="mut">No participants yet.</td></tr>';
+    renderLinks();
+  }
+  function owner(l){var m=l.url.match(/tiktok\.com\/@([^/]+)\/video/);if(!m||!l.user.tiktok)return "";return m[1].toLowerCase()===String(l.user.tiktok).toLowerCase()?"":m[1]}
+  function renderLinks(){
+    if(!data)return;
+    var q=$("#q").value.trim().toLowerCase(), old=$("#f-old").checked, lim=Date.now()-3*864e5;
+    var rows=data.links.filter(function(l){
+      if(!l.user)return false;
+      if(q&&(l.user.name+" "+l.url+" "+(l.user.instagram||"")+" "+(l.user.tiktok||"")).toLowerCase().indexOf(q)<0)return false;
+      if(old&&l.views_at&&l.views_at>lim)return false;
+      return true;
+    }).sort(function(a,b){return (b.views||0)-(a.views||0)});
+    $("#links").innerHTML=rows.map(function(l){
+      var stale=!l.views_at||l.views_at<lim;
+      return '<tr class="'+(l.disqualified||l.user.disqualified?"dq":"")+'"><td><b>'+esc(l.user.name)+'</b></td><td><span class="pill '+(l.platform==="tiktok"?"tk":"ig")+'">'+(l.platform==="tiktok"?"TikTok":"IG")+'</span>'+(l.million_at?' <span class="pill m">1M</span>':'')+(owner(l)?' <span class="pill u18" title="The TikTok link belongs to @'+esc(owner(l))+', not to this participant">other account?</span>':'')+'</td>'
+        +'<td><a href="'+esc(l.url)+'" target="_blank" rel="noopener">'+esc(l.url.replace(/^https:\/\/(www\.)?/,""))+'</a>'+(l.note?'<br><span class="mut">'+esc(l.note)+'</span>':'')+'</td><td>'+dt(l.created_at)+'</td>'
+        +'<td class="act"><form class="row vf" data-id="'+l.id+'" style="gap:6px;flex-wrap:nowrap"><input class="views" inputmode="numeric" value="'+(l.views==null?"":l.views)+'" placeholder="views"><button class="sm" type="submit">Save</button></form></td>'
+        +'<td class="'+(stale?"old":"mut")+'">'+(l.views_at?dt(l.views_at,true):"never")+'</td>'
+        +'<td class="act"><div class="row" style="gap:6px;flex-wrap:nowrap"><button class="sm ghost" data-dql="'+l.id+'" data-on="'+(l.disqualified?0:1)+'">'+(l.disqualified?"Count again":"Don't count")+'</button><button class="sm ghost" data-del="'+l.id+'">Delete</button></div></td></tr>';
+    }).join("")||'<tr><td colspan="7" class="mut">No links.</td></tr>';
+  }
+  function load(){return api("").then(function(d){$("#login").hidden=true;$("#app").hidden=false;build(d)})}
+
+  $("#lf").addEventListener("submit",function(e){e.preventDefault();key=$("#key").value;load().then(function(){try{sessionStorage.setItem("ck",key)}catch(e){}}).catch(function(){$("#lerr").hidden=false})});
+  $("#b-reload").addEventListener("click",load);
+  $("#q").addEventListener("input",renderLinks);
+  $("#f-old").addEventListener("change",renderLinks);
+
+  document.addEventListener("submit",function(e){
+    var f=e.target.closest(".vf");if(!f)return;e.preventDefault();
+    var raw=f.querySelector("input").value.replace(/[^\d]/g,""),b=f.querySelector("button");b.disabled=true;
+    api("views",{id:+f.dataset.id,views:raw===""?null:+raw}).then(build).catch(function(){b.disabled=false;alertBox("Could not save. Try again.")});
+  });
+  var sure={};
+  document.addEventListener("click",function(e){
+    var t=e.target;
+    if(t.dataset.dql)api("dq-link",{id:+t.dataset.dql,on:+t.dataset.on===1,note:+t.dataset.on===1?"Not counted":""}).then(build);
+    if(t.dataset.dqu)api("dq-user",{id:+t.dataset.dqu,on:+t.dataset.on===1,note:+t.dataset.on===1?"Disqualified":""}).then(build);
+    if(t.dataset.del){ if(!sure[t.dataset.del]){sure[t.dataset.del]=1;t.textContent="Sure?";setTimeout(function(){delete sure[t.dataset.del];t.textContent="Delete"},3000);return}
+      api("del-link",{id:+t.dataset.del}).then(build); }
+    if(t.dataset.pw){ if(!sure["pw"+t.dataset.pw]){sure["pw"+t.dataset.pw]=1;t.textContent="Sure?";setTimeout(function(){delete sure["pw"+t.dataset.pw];t.textContent="New password"},3000);return}
+      api("reset-pw",{id:+t.dataset.pw}).then(function(r){var id=t.dataset.pw;load().then(function(){var o=document.getElementById("pw-"+id);if(o)o.innerHTML='New password: <span class="temp">'+esc(r.temp)+'</span> · send it to them, they can log in with it.'})}); }
+  });
+  function alertBox(m){var p=document.createElement("p");p.className="err";p.textContent=m;$("#app").prepend(p);setTimeout(function(){p.remove()},4000)}
+
+  $("#b-csv").addEventListener("click",function(){
+    if(!data)return;
+    var users={};data.users.forEach(function(u){users[u.id]=u});
+    var rows=[["Name","Email","Country","Instagram","TikTok","Date of birth","Guardian","Guardian email","Repost OK","Participant disqualified","Platform","Link","Added","Views","Last checked","Reached 1M","Link not counted"]];
+    data.links.forEach(function(l){var u=users[l.user_id]||{};rows.push([u.name,u.email,u.country,u.instagram,u.tiktok,u.dob,u.guardian_name,u.guardian_email,u.promo_ok?"yes":"no",u.disqualified?"yes":"",l.platform,l.url,dt(l.created_at,true),l.views==null?"":l.views,l.views_at?dt(l.views_at,true):"",l.million_at?dt(l.million_at,true):"",l.disqualified?"yes":""])});
+    data.users.filter(function(u){return !data.links.some(function(l){return l.user_id===u.id})}).forEach(function(u){rows.push([u.name,u.email,u.country,u.instagram,u.tiktok,u.dob,u.guardian_name,u.guardian_email,u.promo_ok?"yes":"no",u.disqualified?"yes":"","","","","","","",""])});
+    var csv="﻿"+rows.map(function(r){return r.map(function(c){c=String(c==null?"":c);return /[";\n,]/.test(c)?'"'+c.replace(/"/g,'""')+'"':c}).join(";")}).join("\n");
+    var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([csv],{type:"text/csv"}));a.download="lpal-edit-contest.csv";a.click();
+  });
+
+  if(key)load().catch(function(){});
+})();
+</script>
+</body>
+</html>
