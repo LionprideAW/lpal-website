@@ -65,9 +65,11 @@ const MAIN_EVENT = {
 //   e.g. age: 27, height: "185 cm", weight: "95 kg", achievements: ["European Champion 2024", "LPAL 2 winner"]
 // A row only appears once at least one of the two athletes has that value.
 const MATCHES = [
-  { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
-    b: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
-    division: "Heavyweight 115kg", arm: "Left arm" },
+  // main: true = shown as the main event at the top of the fight card, with the belt
+  { main: true,
+    a: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
+    b: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
+    division: "Light Heavyweight 105kg", arm: "Left arm" },
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
     b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" },
     division: "Middleweight 95kg", arm: "Right arm" },
@@ -294,7 +296,13 @@ const boutHTML = ({ a, b, label, sub, imgA, imgB, main, division, arm }) => {
 };
 
 const me = MAIN_EVENT;
-const mainHTML = boutHTML({
+const mainMatch = MATCHES.find(m => m.main && !m.hidden);
+const mainHTML = mainMatch ? boutHTML({
+  a: mainMatch.a, b: mainMatch.b, main: true, division: mainMatch.division, arm: mainMatch.arm,
+  label: `<span class="tag tag-red">${T("Main event")}</span> ${esc(T(me.title))}`,
+  sub: `<span class="b-reveal">${esc(TD(mainMatch.division))}${mainMatch.arm ? ` &middot; ${esc(TD(mainMatch.arm))}` : ""}</span>`,
+  imgA: bust(mainMatch.a.photo), imgB: bust(mainMatch.b.photo)
+}) : me.hidden ? "" : boutHTML({
   a: me.a, b: me.b, main: true, division: me.title, arm: me.arm,
   label: `<span class="tag tag-red">${T("Main event")}</span> ${esc(T(me.title))}`,
   sub: `<span class="b-reveal">${esc(T(me.reveal))}</span>`,
@@ -302,7 +310,7 @@ const mainHTML = boutHTML({
   imgB: me.b && me.b.photo ? bust(me.b.photo) : "assets/img/bust-v2/silhouette-me-b.webp"
 });
 
-if ($("#bouts")) $("#bouts").innerHTML = (me.hidden ? "" : mainHTML) + MATCHES.filter(m => !m.hidden).map((m, i) => boutHTML({
+if ($("#bouts")) $("#bouts").innerHTML = mainHTML + MATCHES.filter(m => !m.hidden && !m.main).map((m, i) => boutHTML({
   a: m.a, b: m.b, division: m.division, arm: m.arm,
   label: `${esc(TD(m.division))}${m.arm ? ` &middot; ${esc(TD(m.arm))}` : ""}${m.special ? ` &middot; <span class="b-special">“${esc(m.special)}”</span>` : ""}`,
   sub: "",   // no match numbers: the order may still change
@@ -542,7 +550,7 @@ const STORIES = [
     text: "Ellen B. Åkesson will be the first woman ever to pull against two different opponents at the same event.\n\nBoth opponents are elite WAF athletes. The matches will be revealed soon." },
   { id: "world-title-match", tag: "World title", date: "2026-10-09", photo: "world-title-match.jpg",
     title: "The first LPAL World Title Match",
-    text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nThe match will be revealed on 25 October." }
+    text: "The first ever LPAL World Title Match takes place on 9 January 2027 in Cologne, Germany.\n\nSandris Sedis (Latvia) faces Avtandil Tutberidze (Georgia) for the LPAL World Champion belt: 105 kg Light Heavyweight, left arm. Two former WAF World Champions, one belt." }
 ];
 const STORIES_DE = {
   "ellen-signs": { tag: "Neuzugang", title: "Ellen B. Åkesson unterschreibt bei LPAL",
@@ -550,7 +558,7 @@ const STORIES_DE = {
   "ellen-two-opponents": { tag: "Geschichte", title: "Zwei Gegnerinnen, ein Abend",
     text: "Ellen B. Åkesson tritt als erste Frau überhaupt bei einem Event gegen zwei verschiedene Gegnerinnen an.\n\nBeide Gegnerinnen sind WAF-Spitzenathletinnen. Die Matches werden bald bekannt gegeben." },
   "world-title-match": { tag: "Weltmeistertitel", title: "Der erste LPAL-Weltmeisterschaftskampf",
-    text: "Der allererste LPAL-Weltmeisterschaftskampf findet am 9. Januar 2027 in Köln statt.\n\nDie Paarung wird am 25. Oktober bekannt gegeben." }
+    text: "Der allererste LPAL-Weltmeisterschaftskampf findet am 9. Januar 2027 in Köln statt.\n\nSandris Sedis (Lettland) trifft auf Avtandil Tutberidze (Georgien) und kämpft um den LPAL-Weltmeistergürtel: 105 kg Halbschwergewicht, linker Arm. Zwei ehemalige WAF-Weltmeister, ein Gürtel." }
 };
 if (LANG === "de") STORIES.forEach(s => Object.assign(s, STORIES_DE[s.id] || {}));
 const STORY_MS = 7000;

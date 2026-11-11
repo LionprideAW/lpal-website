@@ -10,8 +10,8 @@ const SETTINGS = {
   // Where inquiries go. Fill in before sending the link to sponsors.
   email: "business@lionpride-armwrestling.com",
   whatsapp: "+43 670 7745771",
-  // Show the main event names (keep false until the official reveal on 25 October).
-  revealMainEvent: false
+  // Show the main event names (true since the official announcement).
+  revealMainEvent: true
 };
 
 const STATS = [
@@ -19,7 +19,7 @@ const STATS = [
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
   { n: "2.8M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
-  { n: "11", l: "Matches", s: "Incl. two women's matches" },
+  { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
 ];
 
@@ -94,6 +94,9 @@ const PACKAGES = [
   { id: "t-c3", cat: "spot", zone: "corner", name: "Top corner 3", price: 1000, once: true },
   { id: "t-c4", cat: "spot", zone: "corner", name: "Top corner 4", price: 1000, once: true },
 
+  { id: "title", cat: "matches", name: "World Title Match Partner", price: 6000, once: true,
+    items: ["The first LPAL World Title Match, Sedis vs Tutberidze, carries your name", "Your representative presents the championship belt",
+            "Logo on the athlete introduction graphics", "Clip of the title match with your name in the title, posted on our socials and the athletes' socials after the event"] },
   { id: "challenger", cat: "matches", name: "Challenger Match Partner", price: 3500, tag: "2 available",
     items: ["One of the two challenger matches carries your name: the fight for the No. 1 contender spot in its division", "Announced on stage and on stream as “This match for the No. 1 contender in the [division] is presented by [your brand]”, plus one sentence about your brand", "You hand over the challenge on stage", "Clip with your name in the title, posted on our socials and the athletes' socials after the event"] },
   { id: "match", cat: "matches", name: "Match Partner", price: 2000, tag: "8 available",
@@ -205,12 +208,14 @@ const isShown = p => !p.hide;
 
 
 /* ---------- fight card ---------- */
+// Main event: the first LPAL World Title Match (shown at the top, with the belt).
+const MAIN_EVENT = { title: "LPAL World Title Match", division: "Light Heavyweight 105kg · Left arm",
+  a: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" },
+  b: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" } };
 // One more match, names stay hidden until it is announced.
-const NEXT_MATCH = { title: "One more match to be announced", reveal: "Announced soon", a: {}, b: {} };
+const NEXT_MATCH = { title: "One more match to be announced", reveal: "Announced soon", a: {}, b: {}, hidden: true };
 // followers: combined Instagram + TikTok (only where known)
 const MATCHES = [
-  { a: { first: "Avtandil", last: "Tutberidze", country: "ge", photo: "avtandil-tutberidze", instagram: "tutberidzea___" },
-    b: { first: "Sandris", nick: "Panzer", last: "Sedis", country: "lv", photo: "sandris-sedis", instagram: "panzer_sedis" }, division: "Heavyweight 115kg" },
   { a: { first: "Luka", last: "Tsinadze", country: "ge", photo: "luka-tsinadze", instagram: "tsinadze_" },
     b: { first: "Nemanja", nick: "The Serbian Bull", last: "Grujic", country: "rs", photo: "nemanja-grujic", instagram: "_nemanjagrujic" }, division: "Middleweight 95kg" },
   { a: { first: "Rachid", last: "Ellouah", country: "ma", photo: "rachid-ellouah", instagram: "rachid_hanma", tiktok: "armwrestlingmaroc", followers: 1419800 },
@@ -277,12 +282,18 @@ const side = (x, k, hide) => {
     </div>
   </div>`;
 };
-const bout = (m, main) => `<li class="p-bout${main ? " p-bout-main" : ""}">
-  <p class="p-div">${esc(main ? m.title : m.division)}</p>
-  <div class="p-bout-row">${side(m.a, "a", main && !SETTINGS.revealMainEvent)}<span class="p-vs">vs</span>${side(m.b, "b", main && !SETTINGS.revealMainEvent)}</div>
-  ${main && !SETTINGS.revealMainEvent ? `<p class="p-reveal">${esc(m.reveal)}</p>` : ""}
+const bout = (m, main) => {
+  const hide = main && (m.hidden || !SETTINGS.revealMainEvent);
+  const title = main && !m.hidden;
+  return `<li class="p-bout${main ? " p-bout-main" : ""}${title ? " p-bout-title" : ""}">
+  <p class="p-div">${title ? `<span class="p-tag">Main event</span> ` : ""}${esc(main ? m.title : m.division)}</p>
+  ${title && m.division ? `<p class="p-div-sub">${esc(m.division)}</p>` : ""}
+  <div class="p-bout-row">${side(m.a, "a", hide)}<span class="p-vs">vs</span>${side(m.b, "b", hide)}</div>
+  ${title ? `<img class="p-belt" src="assets/img/lpal-belt.webp" alt="The LPAL World Champion belt" width="1100" height="331" loading="lazy">` : ""}
+  ${hide ? `<p class="p-reveal">${esc(m.reveal)}</p>` : ""}
 </li>`;
-$("#p-bouts").innerHTML = MATCHES.map(m => bout(m, false)).join("") + bout(NEXT_MATCH, true);
+};
+$("#p-bouts").innerHTML = bout(MAIN_EVENT, true) + MATCHES.map(m => bout(m, false)).join("") + bout(NEXT_MATCH, true);
 
 /* ---------- packages + selection (qty for packages with several spots) ---------- */
 const sel = new Map();
