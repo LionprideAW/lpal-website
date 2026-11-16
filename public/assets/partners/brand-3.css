@@ -124,3 +124,8 @@
 .b-buy .p-btn{width:auto}
 .b-next{margin-top:44px;color:#f6b800}
 @media (max-width:600px){.b-buy li{grid-template-columns:1fr auto}.b-buy .p-btn{grid-column:1/-1;width:100%}}
+
+/* savings on the presented-by card */
+.b-save{display:inline-block;background:#53fc18;color:#0b0b0b;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px;padding:6px 12px;transform:rotate(-2deg)}
+.b-was{font-family:var(--display);font-size:26px;line-height:1;color:var(--mut);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
+.b-tip-save{color:#53fc18}

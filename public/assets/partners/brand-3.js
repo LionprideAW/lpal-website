@@ -46,7 +46,7 @@ $("#b-incl").innerHTML = B.included.map(t => `<li><svg viewBox="0 0 24 24" aria-
 $("#b-presented").innerHTML = `<article class="b-card b-card-hero" data-id="${P.id}">
   <div><p class="b-card-tag">Komplettpaket · exklusiv</p><h3>${esc(P.name)}</h3>
   <ul class="b-card-list">${P.items.map(t => `<li>${esc(t)}</li>`).join("")}</ul></div>
-  <div class="b-card-side"><p class="b-price">${eur(P.price)}</p><p class="b-price-note">netto zzgl. MwSt.${allItemsSum > P.price ? ` · statt ${eur(allItemsSum)} einzeln` : ""}</p>
+  <div class="b-card-side">${allItemsSum > P.price ? `<p class="b-save">Du sparst ${eur(allItemsSum - P.price)}</p><p class="b-was">${eur(allItemsSum)}</p>` : ""}<p class="b-price">${eur(P.price)}</p><p class="b-price-note">netto zzgl. MwSt.${allItemsSum > P.price ? ` · alle Pakete einzeln: ${eur(allItemsSum)}` : ""}</p>
   <button type="button" class="p-btn p-btn-red b-add" data-add="${P.id}">Zum Plan hinzufügen</button></div>
 </article>`;
 $("#b-groups").innerHTML = B.groups.map(g => `<h3 class="b-group-h">${esc(g.name)}</h3><div class="b-grid">${g.items.map(i => `<article class="b-card" data-id="${i.id}">
@@ -76,7 +76,7 @@ const render = () => {
       : `<li class="b-li-empty">Noch nichts ausgewählt. Füge Pakete mit „Zum Plan hinzufügen“ hinzu.</li>`);
   const tip = $("#b-tip");
   tip.hidden = pres || t <= P.threshold;
-  if (!tip.hidden) tip.innerHTML = `<p><b>Tipp:</b> Mit ‚${esc(P.name)}‘ bekommst du alles für ${eur(P.price)} – plus Eventname und Erwähnungen.</p><button type="button" class="p-btn p-btn-white p-btn-sm" id="b-switch">Zu Presented by wechseln</button>`;
+  if (!tip.hidden) tip.innerHTML = `<p><b>Tipp:</b> Mit ‚${esc(P.name)}‘ bekommst du alles für ${eur(P.price)} – plus Eventname und Erwähnungen.${t > P.price ? ` <b class="b-tip-save">Du sparst ${eur(t - P.price)}.</b>` : ""}</p><button type="button" class="p-btn p-btn-white p-btn-sm" id="b-switch">Zu Presented by wechseln</button>`;
   const sw = $("#b-switch"); if (sw) sw.addEventListener("click", () => { sel.clear(); sel.add(P.id); render(); });
   $$("[data-rm]").forEach(x => x.addEventListener("click", () => { sel.delete(x.dataset.rm); render(); }));
   $("#b-send").href = mailto(chosen, t);
@@ -101,7 +101,7 @@ function mailto(chosen, t) {
     "Hallo LPAL-Team,", "",
     `wir möchten folgendes Paket für LPAL 4 (9. Jänner 2027, Motorworld Köln) anfragen:`, "",
     ...(chosen.length ? chosen.map(line) : ["- (noch keine Pakete ausgewählt)"]),
-    ...(chosen.some(i => i.id === P.id) ? ["  (alle Pakete der Seite inklusive)"] : []), "",
+    ...(chosen.some(i => i.id === P.id) ? [`  (alle Pakete der Seite inklusive, einzeln ${eur(allItemsSum)}, Ersparnis ${eur(allItemsSum - P.price)})`] : []), "",
     "Bei jeder Buchung inklusive:", ...B.included.map(x => "- " + x + ": 0 €"), "",
     `Gesamt netto zzgl. MwSt.: ${eur(t)}`,
     ...(chosen.some(i => i.price === null) ? ["(zuzüglich der Pakete mit Preis auf Anfrage)"] : []), "",
