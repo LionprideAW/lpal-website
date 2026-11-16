@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/partners/partners-56.css">
-<link rel="stylesheet" href="assets/partners/brand-1.css">
+<link rel="stylesheet" href="assets/partners/brand-2.css">
 <script>
 /* ==========================================================
    BRAND SETTINGS: to make this page for another brand, copy this file,
@@ -37,29 +37,43 @@ window.BRAND = {
     "Logo im Sponsoren-Streifen, der bei jedem Match einmal im Livestream eingeblendet wird"
   ],
 
-  // The big all-in package. Shown above the shop and suggested once the cart is above `threshold`.
+  // The big all-in package. Shown at the end of the shop and suggested once the cart is above `threshold`.
   presented: {
     id: "presented", price: 25000, threshold: 25000,
     name: "Presented by Level",
-    items: ["Eventname „LPAL 4 presented by Level“ auf Poster, Ankündigungen und im Livestream",
-            "Erwähnungen durch die Moderatoren während des Livestreams und in allen Ankündigungen",
-            "Alle Pakete dieser Seite inklusive"]
+    items: ["Alle Pakete dieser Seite zusammen",
+            "Eventname „LPAL 4 presented by Level“ auf Poster, Ankündigungen und im Livestream",
+            "Hauptlogo auf dem Trikot und Hauptlogo am Tisch",
+            "Erwähnungen im Livestream durch die Kommentatoren und durch den Ansager bei der Eröffnung des Events"]
   },
 
-  // Shop items. price: number in euros (net), or null = "Preis auf Anfrage"
+  // Shop items. price: number in euros (net), or null = "Preis auf Anfrage".
+  // zone / jersey: also offered in the 3D table / jersey section.
   groups: [
     { name: "Athleten & Produkte", items: [
-      { id: "nose", name: "Nasenpflaster", tag: "6 Athleten", text: "Die Athleten tragen Level-Nasenpflaster beim Walkout, im Match und in den Interviews.", price: 2000 },
-      { id: "promo", name: "Produkt-Promotion", text: "2 Collab-Posts auf Instagram + Produkte auf dem Tisch bei den 1-on-1-Interviews am Day-1-out (featured auf YouTube, Instagram und TikTok).", price: 1500 },
+      { id: "nose", name: "Nasenstrips", tag: "6 Athleten", text: "Die Athleten tragen Level-Nasenstrips beim Walkout, im Match und in den Interviews.", price: 2000 },
+      { id: "promo", name: "Produkt-Promotion", text: "2 eigene Collab-Posts auf Instagram + eure Produkte auf dem Tisch in den 1-Day-Out-Interviews (featured auf YouTube, Instagram und TikTok).", price: 1500 },
       { id: "chalk", name: "Official Chalk Partner", text: "Level-Chalk im gebrandeten Chalk-Eimer am Tisch, bei jedem Match im Bild.", price: 1500 }
     ]},
+    { name: "Trikot", items: [
+      { id: "shirt-front", jersey: "j-front", name: "Trikot vorne", text: "Euer Logo vorne auf dem offiziellen LPAL-4-Trikot: beim Walkout, am Tisch, auf dem Siegerfoto und in jedem Interview.", price: 3000 },
+      { id: "shirt-back", jersey: "j-back", name: "Trikot hinten", text: "Euer Logo auf dem Rücken, über dem Namen des Athleten.", price: 2000 },
+      { id: "shirt-sleeves", jersey: "j-sleeves", name: "Trikot Ärmel", text: "Euer Logo auf beiden Ärmeln, sichtbar in jeder Nahaufnahme am Tisch.", price: 1500 }
+    ]},
+    { name: "Tisch", items: [
+      { id: "table-main", zone: "main", name: "Tisch Hauptkamera", text: "Die Tischseite zur Hauptkamera: der sichtbarste Logo-Platz des Abends, in jedem Match.", price: 1500 },
+      { id: "table-left", zone: "sides", name: "Tisch links", text: "Logo auf der linken Tischseite, in den Seitenaufnahmen und für das Publikum sichtbar.", price: 500 },
+      { id: "table-right", zone: "sides", name: "Tisch rechts", text: "Logo auf der rechten Tischseite, in den Seitenaufnahmen und für das Publikum sichtbar.", price: 500 },
+      { id: "table-top", zone: "top", name: "Tisch Draufsicht", text: "Logo auf der Tischplatte, in jeder Aufnahme von oben.", price: 1000 }
+    ]},
     { name: "Vor Ort", items: [
-      { id: "booth", name: "Stand im Saal", text: "Den ganzen Tag präsent: beim Qualifier-Turnier ab 12:00 Uhr und bei der Main Show ab 18:00 Uhr. Verkauf erlaubt. Der genaue Ablauf wird im Meeting besprochen.", price: 4000 }
+      { id: "booth", name: "Stand im Saal", text: "Das Event startet um 12:00 Uhr mit dem Qualifier-Turnier, die gestreamte Main Show beginnt um 18:00 Uhr. Euer Stand ist den ganzen Tag dabei: beim Turnier und danach bei der Main Show. Verkauf erlaubt. Der genaue Plan wird im Meeting erklärt.", price: 4000 }
     ]},
     { name: "Livestream", items: [
-      { id: "chat", name: "KICK-Chat-Werbung", text: "Rabattcode und Link regelmäßig im KICK-Chat.", price: 1500 },
-      { id: "breaks", name: "Werbung in den Streampausen", text: "2–3 Videospots.", price: 1500 },
-      { id: "match", name: "Match „presented by“", text: "Mit Grafik im Stream, Match nach Wahl.", price: null }
+      { id: "qr", name: "Logo-zu-QR-Code-Animation", tag: "ganzer Stream", text: "Euer Logo verwandelt sich während des ganzen Livestreams immer wieder in einen QR-Code, in einer Ecke des Bildes. Zuschauer scannen und landen direkt bei euch.", price: 5000 },
+      { id: "chat", name: "KICK-Chat-Werbung", text: "Euer Rabattcode und Link regelmäßig im KICK-Chat.", price: 1500 },
+      { id: "breaks", name: "Werbung in den Streampausen", text: "2–3 Werbespots (Videos) in den Pausen des Livestreams.", price: 1500 },
+      { id: "match", name: "Match „presented by“", text: "Ein Match eurer Wahl mit eurer Grafik im Stream (außer Co-Main- und Main-Event).", price: 1000 }
     ]}
   ]
 };
@@ -256,8 +270,9 @@ window.BRAND = {
         <ul id="b-incl"></ul>
       </div>
 
-      <div id="b-presented"></div>
       <div id="b-groups"></div>
+      <p class="b-group-h b-next">Alles in einem Paket</p>
+      <div id="b-presented"></div>
     </div>
   </section>
 
@@ -290,6 +305,6 @@ window.BRAND = {
   </div>
 </div>
 
-<script src="assets/partners/brand-1.js"></script>
+<script src="assets/partners/brand-2.js"></script>
 </body>
 </html>

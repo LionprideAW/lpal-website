@@ -115,3 +115,12 @@
   .b-logos{gap:12px}
 }
 .p-h2,.p-hero-title,.b-card h4{hyphens:auto;-webkit-hyphens:auto;overflow-wrap:break-word}
+
+/* price rows inside the table and jersey sections */
+.b-buy{list-style:none;margin-top:12px;display:flex;flex-direction:column;gap:8px}
+.b-buy li{display:grid;grid-template-columns:1fr auto auto;gap:12px;align-items:center;background:var(--bg2);border:1px solid var(--line);padding:10px 12px}
+.b-buy li span{font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.04em;font-size:14px;color:#fff}
+.b-buy li b{font-family:var(--display);font-weight:400;font-size:24px;color:#fff}
+.b-buy .p-btn{width:auto}
+.b-next{margin-top:44px;color:#f6b800}
+@media (max-width:600px){.b-buy li{grid-template-columns:1fr auto}.b-buy .p-btn{grid-column:1/-1;width:100%}}

@@ -62,7 +62,7 @@ const render = () => {
     const id = b.dataset.add, on = sel.has(id), incl = pres && id !== P.id;
     b.classList.toggle("on", on); b.disabled = incl;
     b.textContent = incl ? "Im Komplettpaket enthalten" : on ? "Hinzugefügt ✓" : "Zum Plan hinzufügen";
-    b.closest(".b-card").classList.toggle("is-on", on || incl);
+    const card = b.closest(".b-card"); if (card) card.classList.toggle("is-on", on || incl);
   });
   const chosen = pres ? [P] : ITEMS.filter(i => sel.has(i.id));
   const t = total();
@@ -81,15 +81,19 @@ const render = () => {
   $$("[data-rm]").forEach(x => x.addEventListener("click", () => { sel.delete(x.dataset.rm); render(); }));
   $("#b-send").href = mailto(chosen, t);
 };
+const renderShop = () => render();   // used by the table and jersey sections (they have their own "render")
 const toggle = id => {
   if (id === P.id) { if (sel.has(id)) sel.delete(id); else { sel.clear(); sel.add(id); } }
   else if (!isPresented()) sel.has(id) ? sel.delete(id) : sel.add(id);
   render();
 };
-$$(".b-add").forEach(b => b.addEventListener("click", () => {
+document.addEventListener("click", e => {
+  const b = e.target.closest(".b-add"); if (!b || b.disabled) return;
   const was = sel.has(b.dataset.add); toggle(b.dataset.add);
   if (!was) { cartBtn.classList.remove("bump"); void cartBtn.offsetWidth; cartBtn.classList.add("bump"); }
-}));
+});
+// price rows with add buttons, used inside the table and jersey sections
+const buyRows = list => list.length ? `<ul class="b-buy">${list.map(i => `<li><span>${esc(i.name)}</span><b>${eur(i.price)}</b><button type="button" class="p-btn p-btn-outline p-btn-sm b-add" data-add="${i.id}">Zum Plan hinzufügen</button></li>`).join("")}</ul>` : "";
 
 function mailto(chosen, t) {
   const line = i => `- ${i.name}${i.tag ? " (" + i.tag + ")" : ""}: ${eur(i.price)}`;
@@ -117,12 +121,9 @@ render();
    3D TABLE (same model as the main partner page). Drag to spin, pick a zone.
    ========================================================== */
 const ZONES = [
-  { id: "side-short", name: "Kurze Seiten", text: "Die beiden Enden des Tisches, direkt unter den Griffen. Seite A zeigt zur Hauptkamera: der sichtbarste Logo-Platz des Abends." },
-  { id: "side-long", name: "Lange Seiten", text: "Zwei Logos auf jeder langen Seite, so platziert, dass die Athleten sie nie verdecken. In den Seitenaufnahmen und für das Publikum sichtbar." },
-  { id: "corner", name: "Ecken oben", text: "Vier Plätze auf der Tischplatte, einer in jeder Ecke. Von oben in jeder Nahaufnahme zu sehen." },
-  { id: "center", name: "Mitte", text: "Die Mitte der Tischplatte auf beiden Athletenseiten, in jeder Nahaufnahme. Hier steht auch der Chalk-Eimer des Official Chalk Partners." },
-  { id: "legs", name: "Tischbeine", text: "Die 50-cm-Manschetten an allen vier Tischbeinen." },
-  { id: "floor", name: "Boden", text: "Der Boden rund um den Tisch, in jeder Totale jedes Matches zu sehen." }
+  { id: "main", name: "Hauptkamera", hl: ["side-short"], text: "Die Tischseite zur Hauptkamera: der sichtbarste Logo-Platz des Abends, in jedem Match und jeder Wiederholung." },
+  { id: "sides", name: "Links & rechts", hl: ["side-long"], text: "Die beiden langen Tischseiten, in den Seitenaufnahmen und für das Publikum sichtbar." },
+  { id: "top", name: "Draufsicht", hl: ["corner", "center"], text: "Die Tischplatte, in jeder Aufnahme von oben. Hier steht auch der Chalk-Eimer des Official Chalk Partners." }
 ];
 $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : " on"}" data-z="${z.id}">${esc(z.name)}</button>`).join("");
 (function table3d() {
@@ -172,12 +173,15 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   wrap.insertAdjacentHTML("afterbegin", `<div class="t-stage"><div class="t-rig" id="t-rig">${h}</div></div>`);
 
   const rig = $("#t-rig");
-  let cur = "side-short";
+  let cur = "main";
+  const zoneOf = dz => (ZONES.find(z => z.hl.includes(dz)) || {}).id;
   const select = id => {
+    if (!ZONES.some(z => z.id === id)) id = zoneOf(id) || cur;
     cur = id; const z = ZONES.find(z => z.id === id);
     $$("#p-zones .p-zone").forEach(b => b.classList.toggle("on", b.dataset.z === id));
-    $$("[data-zone]", wrap).forEach(el => el.classList.toggle("hl", el.dataset.zone === id));
-    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}`;
+    $$("[data-zone]", wrap).forEach(el => el.classList.toggle("hl", z.hl.includes(el.dataset.zone)));
+    $("#p-zone-info").innerHTML = `<b>${esc(z.name)}</b> ${esc(z.text)}${buyRows(ITEMS.filter(i => i.zone === id))}`;
+    renderShop();
   };
   $$("#p-zones .p-zone").forEach(b => b.addEventListener("click", () => { select(b.dataset.z); idle = 0; }));
   select(cur);
@@ -225,18 +229,18 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
 
   const slides = $$(".jr-slide", wrap), dots = $$(".jr-dot", wrap);
   const OPTS = [
-    { id: "j-front", name: "Brust vorne", text: "Mittig auf der Brust: in jedem Walkout, am Tisch und auf dem Siegerfoto." },
-    { id: "j-back", name: "Rücken", text: "Auf dem Rücken über dem Athletennamen, sichtbar beim Walkout und in den Seitenaufnahmen." },
-    { id: "j-shr", name: "Schulter rechts", text: "Auf der rechten Schulter, sichtbar in jeder Nahaufnahme am Tisch." },
-    { id: "j-shl", name: "Schulter links", text: "Auf der linken Schulter, sichtbar in jeder Nahaufnahme am Tisch." }
+    { id: "j-front", spots: ["j-front"], name: "Vorne", text: "Mittig auf der Brust: in jedem Walkout, am Tisch und auf dem Siegerfoto." },
+    { id: "j-back", spots: ["j-back"], name: "Hinten", text: "Auf dem Rücken über dem Namen des Athleten, sichtbar beim Walkout und in den Seitenaufnahmen." },
+    { id: "j-sleeves", spots: ["j-shr", "j-shl"], name: "Ärmel", text: "Auf beiden Ärmeln, sichtbar in jeder Nahaufnahme am Tisch." }
   ];
   $("#p-jr-opts").innerHTML = OPTS.map(o => `<button class="p-zone" data-jo="${o.id}">${esc(o.name)}</button>`).join("");
   let cur = "j-front", idx = 0, pausedUntil = 0;
   const render = () => {
     const o = OPTS.find(x => x.id === cur);
     $$(".p-zone[data-jo]").forEach(b => b.classList.toggle("on", b.dataset.jo === cur));
-    $$(".jr-spot", wrap).forEach(el => el.classList.toggle("hl", el.dataset.j === cur));
-    $("#p-jr-info").innerHTML = `<b>${esc(o.name)}</b> ${esc(o.text)}`;
+    $$(".jr-spot", wrap).forEach(el => el.classList.toggle("hl", o.spots.includes(el.dataset.j)));
+    $("#p-jr-info").innerHTML = `<b>${esc(o.name)}</b> ${esc(o.text)}${buyRows(ITEMS.filter(i => i.jersey === cur))}`;
+    renderShop();
   };
   const show = k => {
     idx = (k + VIEWS.length) % VIEWS.length;
@@ -245,10 +249,10 @@ $("#p-zones").innerHTML = ZONES.map((z, i) => `<button class="p-zone${i ? "" : "
   };
   const tick = () => { if (Date.now() >= pausedUntil) show(idx + 1); setTimeout(tick, HOLD + FADE); };
   const hold = (ms = 8000) => { pausedUntil = Date.now() + ms; };
-  const BEST = { "j-front": 0, "j-shr": 1, "j-back": 2, "j-shl": 3 };
+  const BEST = { "j-front": 0, "j-sleeves": 1, "j-back": 2 };
   $$(".p-zone[data-jo]").forEach(b => b.addEventListener("click", () => { cur = b.dataset.jo; render(); show(BEST[cur] ?? 0); hold(); }));
   dots.forEach(d => d.addEventListener("click", () => { show(+d.dataset.go); hold(); }));
-  wrap.addEventListener("click", e => { const sp = e.target.closest(".jr-spot"); if (sp) { cur = sp.dataset.j; render(); hold(); } });
+  wrap.addEventListener("click", e => { const sp = e.target.closest(".jr-spot"); if (sp) { cur = (OPTS.find(o => o.spots.includes(sp.dataset.j)) || OPTS[0]).id; render(); hold(); } });
   wrap.addEventListener("pointerenter", () => hold(4000));
   let started = false;
   new IntersectionObserver(es => { if (es[0].isIntersecting && !started) { started = true; setTimeout(tick, HOLD + FADE); } }).observe(wrap);
