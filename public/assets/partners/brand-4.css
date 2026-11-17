@@ -129,3 +129,14 @@
 .b-save{display:inline-block;background:#53fc18;color:#0b0b0b;font-family:var(--cond);font-weight:800;text-transform:uppercase;letter-spacing:.08em;font-size:14px;padding:6px 12px;transform:rotate(-2deg)}
 .b-was{font-family:var(--display);font-size:26px;line-height:1;color:var(--mut);text-decoration:line-through;text-decoration-color:var(--red);text-decoration-thickness:2px}
 .b-tip-save{color:#53fc18}
+
+/* cart on the English sponsor pages */
+.b-cart-field{display:flex;flex-direction:column;gap:6px;margin:0 0 12px}
+.b-cart-field span{font-family:var(--cond);font-weight:700;text-transform:uppercase;letter-spacing:.06em;font-size:12.5px;color:#ccc}
+.b-cart-field i{font-style:normal;text-transform:none;letter-spacing:0;color:var(--mut);font-weight:500}
+.b-cart-field input{background:#0d0d0d;border:1px solid #3a3a3a;border-radius:6px;padding:11px 12px;color:#fff;font:inherit;font-size:16px}
+.b-cart-field input:focus{outline:2px solid var(--red);border-color:transparent}
+.b-cart-wa{margin-top:8px}
+.b-cart-list .p-qty{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-style:normal}
+.b-cart-list .p-qty button{background:#222;border:1px solid #444;color:#fff;width:24px;height:24px;border-radius:5px;cursor:pointer}
+.p-incl{margin:0 0 26px}

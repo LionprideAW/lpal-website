@@ -25,6 +25,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/partners/partners-56.css">
+<link rel="stylesheet" href="assets/partners/brand-4.css">
 </head>
 <body>
 
@@ -333,8 +334,12 @@
     <div class="p-wrap">
       <p class="p-kicker">Packages</p>
       <h2 class="p-h2">From €250 to presenting partner</h2>
-      <p class="p-lead">All prices in EUR, net plus VAT. Add packages to your selection and send one inquiry. Packages can be combined and adjusted.</p>
+      <p class="p-lead">All prices in EUR, net plus VAT. Add packages to your plan: the cart at the bottom shows your total live, and one click sends us your offer by email. Packages can be combined and adjusted.</p>
       <div class="p-filter" id="p-filter" role="tablist"></div>
+      <div class="b-incl p-incl">
+        <p class="b-incl-h">Included with every booking</p>
+        <ul id="p-incl"></ul>
+      </div>
       <div class="p-pack-grid" id="p-packs"></div>
       <p class="p-pack-note"><b>Exclusivity:</b> Official Drink, Official Supplement Partner and Official Category Partners are exclusive in their category. Once one is signed, no competing brand can book a package that shows the same type of product at LPAL 4.</p>
       <div class="p-custom">
@@ -414,8 +419,25 @@
   </div>
 </footer>
 
-<div class="p-cartbar" id="p-cartbar" hidden><span id="p-cart-text"></span><a class="p-btn p-btn-red p-btn-sm" href="#contact">Review &amp; send</a></div>
+<!-- CART (same style as the brand pages) -->
+<button class="b-cart-btn" id="p-cart-btn" type="button" aria-controls="p-cart" aria-expanded="false">
+  <span class="b-cart-ic"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h2l2.4 11h11l2-8H6.2"/><circle cx="9" cy="20" r="1.5"/><circle cx="17" cy="20" r="1.5"/></svg><i id="p-cart-n">0</i></span>
+  <span class="b-cart-sum"><small>Your plan</small><b id="p-cart-total">€0</b></span>
+  <span class="b-cart-open">View</span>
+</button>
+<div class="b-cart" id="p-cart" hidden role="dialog" aria-modal="true" aria-label="Your plan">
+  <div class="b-cart-back" data-cclose></div>
+  <div class="b-cart-panel">
+    <div class="b-cart-head"><h3>Your plan</h3><button type="button" class="b-cart-x" data-cclose aria-label="Close">&times;</button></div>
+    <ul class="b-cart-list" id="p-cart-list"></ul>
+    <div class="b-cart-total"><span>Total net, plus VAT</span><b id="p-cart-total2">€0</b></div>
+    <label class="b-cart-field"><span>Company name <i>(optional)</i></span><input id="p-cart-company" maxlength="80" autocomplete="organization"></label>
+    <a class="p-btn p-btn-red p-btn-block" id="p-cart-send" href="#">Send offer by email</a>
+    <a class="p-btn p-btn-wa p-btn-block b-cart-wa" id="p-cart-wa" href="#" target="_blank" rel="noopener">Send via WhatsApp</a>
+    <p class="b-cart-note">Opens your email app with a ready message to us, listing your packages and the total. No obligation.</p>
+  </div>
+</div>
 
-<script src="assets/partners/partners-65.js"></script>
+<script src="assets/partners/partners-66.js"></script>
 </body>
 </html>

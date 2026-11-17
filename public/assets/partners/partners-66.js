@@ -10,6 +10,12 @@ const SETTINGS = {
   // Where inquiries go. Fill in before sending the link to sponsors.
   email: "business@lionpride-armwrestling.com",
   whatsapp: "+43 670 7745771",
+  // Included with every booking: shown above the packages and at €0 at the top of the cart.
+  included: [
+    "Your logo in the sponsor section on our website",
+    "Your logo on the big screen (still image during the matches)",
+    "Your logo in the sponsor strip, shown once per match in the livestream"
+  ],
   // Show the main event names (true since the official announcement).
   revealMainEvent: true
 };
@@ -317,7 +323,7 @@ const packHTML = p => `<article class="p-pack${p.id === "presenting" || p.id ===
   <h3>${esc(p.name)}</h3>
   ${p.lead ? `<p class="p-price-lead">${esc(p.lead)}</p>` : ""}<p class="p-price">${p.from && typeof p.price === "number" ? "from " : ""}${eur(p.price)}${typeof p.price === "number" ? `<small>${p.neg ? "negotiable · " : ""}net${p.max ? " per spot" : ""}</small>` : ""}</p>
   <ul>${p.items.map(i => `<li>${esc(i)}</li>`).join("")}${p.without ? `<li class="p-without">${esc(p.without)}</li>` : ""}</ul>
-  ${VARIANT === "kick" ? DISCUSS(p.name) : p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to selection</button>`}
+  ${VARIANT === "kick" ? DISCUSS(p.name) : p.link ? `<a class="p-btn p-btn-outline" href="${p.link}">Pick your spot on the table &uarr;</a>` : `<button class="p-btn p-btn-outline p-add" type="button" data-id="${p.id}">Add to plan</button>`}
   ${GROUPS[p.id] ? groupExtra(p.id) : ""}
 </article>`;
 if (!$("#p-packs").children.length) $("#p-packs").innerHTML = PACKAGES.filter(p => p.cat !== "spot" && p.grid !== false && isShown(p)).map(packHTML).join("");
@@ -352,20 +358,61 @@ const renderSel = () => {
   const anyFrom = list.some(p => p.from);
   $("#p-sel-total").innerHTML = list.length ? `Total <b>${anyFrom ? "from " : ""}${eur(total)}</b> <small>net, plus VAT</small>` : "";
   $$(".p-add").forEach(b => { const p = pack(b.dataset.id), q = sel.get(p.id) || 0; b.classList.toggle("on", q > 0);
-    b.textContent = !q ? "Add to selection" : p.max ? (q >= p.max ? `✓ All ${p.max} spots selected` : `✓ ${q} selected · add another`) : "✓ Selected"; });
+    b.textContent = !q ? "Add to plan" : p.max ? (q >= p.max ? `Added ✓ all ${p.max} spots` : `Added ✓ ${q} · add another`) : "Added ✓"; });
   $$("[data-rm]").forEach(b => b.addEventListener("click", () => { sel.delete(b.dataset.rm); renderSel(); }));
   $$("[data-inc]").forEach(b => b.addEventListener("click", () => addPack(b.dataset.inc)));
   $$("[data-dec]").forEach(b => b.addEventListener("click", () => { const q = sel.get(b.dataset.dec) - 1; q ? sel.set(b.dataset.dec, q) : sel.delete(b.dataset.dec); renderSel(); }));
   const n = list.reduce((s, p) => s + sel.get(p.id), 0);
-  $("#p-cartbar").hidden = !n;
-  $("#p-cart-text").textContent = `${n} item${n === 1 ? "" : "s"} · ${anyFrom ? "from " : ""}${eur(total)}`;
+  const totalTxt = `${anyFrom ? "from " : ""}${eur(total)}`;
+  const cartBtn = $("#p-cart-btn");
+  if (cartBtn) {
+    $("#p-cart-n").textContent = n;
+    $("#p-cart-total").textContent = totalTxt;
+    $("#p-cart-total2").textContent = totalTxt;
+    cartBtn.classList.toggle("has", n > 0);
+    $("#p-cart-list").innerHTML =
+      (SETTINGS.included || []).map(x => `<li class="b-li-incl"><span>${esc(x)}<em>Included</em></span><b>€0</b></li>`).join("") +
+      (list.length ? list.map(p => { const q = sel.get(p.id);
+        return `<li><span>${esc(p.name)}${p.max ? `<em class="p-qty"><button type="button" data-dec="${p.id}" aria-label="One less">&minus;</button>${q}<button type="button" data-inc="${p.id}" aria-label="One more">+</button></em>` : ""}</span><b>${p.from ? "from " : ""}${eur(typeof p.price === "number" ? p.price * q : p.price)}</b><button type="button" class="b-li-x" aria-label="Remove ${esc(p.name)}" data-rm="${p.id}">&times;</button></li>`; }).join("")
+        : `<li class="b-li-empty">Nothing selected yet. Add packages with “Add to plan”.</li>`);
+  }
+  const company = (($("#p-cart-company") || {}).value || "").trim();
   const lines = list.map(p => `- ${p.name}${p.max ? ` x${sel.get(p.id)}` : ""}: ${p.from ? "from " : ""}${eur(typeof p.price === "number" ? p.price * sel.get(p.id) : p.price)}`).join("\n");
-  const body = `Hello LPAL team,\n\nWe are interested in partnering with LPAL 4 (9 January 2027, Cologne).\n\nSelected packages:\n${lines || "- (please suggest packages for our budget)"}${total ? `\nTotal: ${anyFrom ? "from " : ""}${eur(total)} net` : ""}\n\nCompany:\nContact person:\nPhone:\n\nThank you!`;
-  $("#p-send").href = `mailto:${SETTINGS.email}?subject=${encodeURIComponent("LPAL 4 partnership inquiry")}&body=${encodeURIComponent(body)}`;
+  const body = [
+    "Hello LPAL team,", "",
+    `we${company ? ` at ${company}` : ""} would like to partner with LPAL 4 (9 January 2027, MOTORWORLD Cologne, live on KICK) with the following packages:`, "",
+    lines || "- (no packages selected yet, please suggest packages for our budget)", "",
+    "Included with every booking:", ...(SETTINGS.included || []).map(x => `- ${x}: €0`), "",
+    `Total: ${totalTxt} net, plus VAT`, "",
+    `Company: ${company}`, "Contact person:", "Phone:", "", "Best regards"
+  ].join("\n");
+  const subject = `LPAL 4 partnership offer${company ? `: ${company}` : ""}`;
+  const mail = `mailto:${SETTINGS.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  $("#p-send").href = mail;
+  if ($("#p-cart-send")) $("#p-cart-send").href = mail;
+  if ($("#p-cart-wa")) $("#p-cart-wa").href = `https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(body)}`;
   document.dispatchEvent(new Event("p-sel"));
   const wa = $("#p-wa"); if (wa) wa.href = `https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(body)}`;
 };
-$$(".p-add").forEach(b => b.addEventListener("click", () => { const p = pack(b.dataset.id); if (sel.has(p.id) && !p.max) sel.delete(p.id); else addPack(p.id); renderSel(); }));
+$$(".p-add").forEach(b => b.addEventListener("click", () => { const p = pack(b.dataset.id), had = sel.has(p.id); if (had && !p.max) sel.delete(p.id); else addPack(p.id); renderSel(); if (!had || p.max) bumpCart(); }));
+/* floating cart: open / close, small bump when something is added */
+const bumpCart = () => { const c = $("#p-cart-btn"); if (!c) return; c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); };
+if ($("#p-cart-btn")) {
+  const cart = $("#p-cart"), cbtn = $("#p-cart-btn");
+  const openCart = () => { cart.hidden = false; cbtn.setAttribute("aria-expanded", "true"); document.documentElement.classList.add("b-noscroll"); };
+  const closeCart = () => { cart.hidden = true; cbtn.setAttribute("aria-expanded", "false"); document.documentElement.classList.remove("b-noscroll"); };
+  cbtn.addEventListener("click", openCart);
+  $$("[data-cclose]", cart).forEach(x => x.addEventListener("click", closeCart));
+  addEventListener("keydown", e => { if (e.key === "Escape" && !cart.hidden) closeCart(); });
+  $("#p-cart-company").addEventListener("input", renderSel);
+  $("#p-cart-list").addEventListener("click", e => {
+    const t = e.target.closest("button"); if (!t) return;
+    if (t.dataset.rm) { sel.delete(t.dataset.rm); renderSel(); }
+    else if (t.dataset.inc) addPack(t.dataset.inc);
+    else if (t.dataset.dec) { const q = sel.get(t.dataset.dec) - 1; q ? sel.set(t.dataset.dec, q) : sel.delete(t.dataset.dec); renderSel(); }
+  });
+  if ($("#p-incl")) $("#p-incl").innerHTML = (SETTINGS.included || []).map(t => `<li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7"/></svg>${esc(t)}</li>`).join("");
+}
 if ($("#p-send")) $("#p-send").insertAdjacentHTML("afterend", `<a class="p-btn p-btn-wa p-btn-block" id="p-wa" href="#" target="_blank" rel="noopener">Send via WhatsApp</a>`);
 if ($("#p-contact-alt")) $("#p-contact-alt").innerHTML = `<a href="mailto:${esc(SETTINGS.email)}">${esc(SETTINGS.email)}</a><br><a href="https://wa.me/${SETTINGS.whatsapp.replace(/\D/g, "")}" target="_blank" rel="noopener">WhatsApp Business ${esc(SETTINGS.whatsapp)}</a>`;
 renderSel();
