@@ -23,7 +23,7 @@ const SETTINGS = {
 const STATS = [
   { n: "5.6M+", l: "Combined followers", s: "Athletes on the card + league, Instagram & TikTok" },
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
-  { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
+  { n: "252K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
   { n: "4.5M", l: "Instagram views", s: "Last 60 days, main LPAL profile" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
@@ -244,7 +244,7 @@ const MATCHES = [
 const COUNTRIES = { at: "Austria", de: "Germany", bg: "Bulgaria", ci: "Ivory Coast", es: "Spain", fr: "France", ge: "Georgia", gr: "Greece", it: "Italy",
   lt: "Lithuania", lv: "Latvia", ma: "Morocco", ro: "Romania", rs: "Serbia", se: "Sweden", sk: "Slovakia", tr: "Turkey" };
 const VIDEOS = [
-  { id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "240K views on YouTube" }
+  { id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "252K views on YouTube" }
 ];
 
 /* ---------- helpers ---------- */

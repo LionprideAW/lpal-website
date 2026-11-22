@@ -25,7 +25,7 @@ vid.src = matchMedia("(max-width: 820px)").matches ? "assets/video/lpal-opener-m
 vid.play().catch(() => {});
 
 /* ---------- most watched YouTube video (click to load) ---------- */
-const VIDEOS = [{ id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "240.000 Views auf YouTube" }];
+const VIDEOS = [{ id: "tLKV5l6-uYM", t: "Larratt vs Toman · LPAL 3", views: "252.000 Views auf YouTube" }];
 $("#p-videos").innerHTML = VIDEOS.map(v => `<div class="p-vid-wrap"><button class="p-vid" data-id="${v.id}" style="background-image:url('https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg'),url('https://i.ytimg.com/vi/${v.id}/hqdefault.jpg')"><span class="p-play"></span><span class="p-vid-t">${esc(v.t)}</span><span class="p-vid-views">${esc(v.views)}</span></button>
   <a class="p-vid-link" href="https://www.youtube.com/watch?v=${v.id}" target="_blank" rel="noopener">Auf YouTube ansehen &rarr;</a></div>`).join("");
 $$(".p-vid").forEach(b => b.addEventListener("click", () => {
