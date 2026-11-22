@@ -20,3 +20,6 @@
 - /partners-lpal4-premium: premium tier (English).
 - /partners-lpal4-levelup: offer made for Level Equipment (German).
 - /partners-lpal4-kick: proposal for KICK.
+
+## Athlete pages (hidden, noindex)
+- /lpal4-athlete-video: guide for the LPAL 4 pre-match intro videos (script, shot list, upload). Drive link goes in window.DRIVE_URL at the top of the file.

@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LPAL 4 | Your intro video</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="How to film your LPAL 4 pre-match intro video: script, shot list and upload.">
+<meta name="theme-color" content="#0b0b0b">
+<meta property="og:title" content="LPAL 4 · Your intro video">
+<meta property="og:description" content="Script, shot list and upload link. Deadline: 6 December.">
+<meta property="og:image" content="https://lpal.eu/assets/img/og-lpal4-2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-lpal2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  /* Paste the Google Drive folder link here (the parent folder with one folder per athlete). */
+  window.DRIVE_URL = "";
+  window.DEADLINE = "Sunday, 6 December 2026";
+</script>
+<style>
+:root{--bg:#0b0b0b;--card:#151515;--card2:#1c1c1c;--line:#2a2a2a;--txt:#f2f2f2;--mute:#a8a8a8;--red:#e3342f;--gold:#f6b800;--green:#53fc18}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 Roboto,system-ui,sans-serif}
+a{color:#fff}
+img,video,svg{display:block;max-width:100%}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.k{margin:0 0 8px;color:var(--red);font:800 13px/1.2 "Roboto Condensed",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+h1,h2,h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;letter-spacing:.01em;line-height:1;margin:0}
+h1{font-size:clamp(48px,11vw,96px)}
+h2{font-size:clamp(36px,7vw,58px);margin-bottom:14px}
+h3{font-size:28px;margin-bottom:8px}
+p{margin:0 0 14px}
+.lead{color:#cfcfcf;font-size:18px;max-width:720px}
+.mute{color:var(--mute)}
+section{padding:64px 0;border-top:1px solid #1a1a1a}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid #1d1d1d}
+.bar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.bar img{height:30px;width:auto}
+.bar nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{flex:none;padding:6px 9px;color:#bbb;text-decoration:none;font:700 13px/1 "Roboto Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;border-radius:4px}
+.bar nav a:hover{color:#fff;background:#1d1d1d}
+
+/* hero */
+.hero{position:relative;padding:72px 0 56px;border:0;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/athlete-video/ex-wide.jpg) center/cover;opacity:.22}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,11,.3),var(--bg))}
+.hero .wrap{position:relative;z-index:1}
+.hero .logo{height:64px;width:auto;margin-bottom:22px}
+.deadline{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:18px 0 26px;padding:12px 16px;border:1px solid rgba(246,184,0,.45);background:rgba(246,184,0,.08);border-radius:6px;font-weight:700}
+.deadline b{color:var(--gold);font:400 26px/1 "Bebas Neue",sans-serif;letter-spacing:.03em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border-radius:6px;background:var(--red);color:#fff;text-decoration:none;font:800 15px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:0;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid #555}
+.btn.off{background:#333;color:#999;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:30px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px}
+.fact b{display:block;font:400 30px/1 "Bebas Neue",sans-serif;color:#fff}
+.fact span{color:var(--mute);font-size:14px;line-height:1.35;display:block;margin-top:6px}
+
+/* tech */
+.tech{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}
+.tip{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.tip i{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#241010;color:var(--red);font:400 20px/1 "Bebas Neue",sans-serif;font-style:normal}
+.tip b{display:block;margin-bottom:2px}
+.tip p{margin:0;color:#c4c4c4;font-size:15px}
+.no{color:#ff6b66}
+
+/* parts */
+.part-h{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.num{flex:none;width:52px;height:52px;border-radius:8px;background:var(--red);display:grid;place-items:center;font:400 32px/1 "Bebas Neue",sans-serif}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 18px}
+.tag{padding:5px 10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);font:700 12px/1 "Roboto Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#ddd}
+.tag.eye{border-color:rgba(83,252,24,.5);color:var(--green)}
+.tag.side{border-color:rgba(246,184,0,.5);color:var(--gold)}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+.fig{background:#000;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fig figcaption{padding:10px 12px;color:var(--mute);font-size:13px;background:#111;border-top:1px solid var(--line)}
+.fig video,.fig img{width:100%;aspect-ratio:16/9;object-fit:cover}
+figure{margin:0}
+.script{position:relative;margin:4px 0 18px;padding:20px 20px 18px;background:linear-gradient(90deg,rgba(227,52,47,.1),transparent 80%),var(--card);border-left:4px solid var(--red);border-radius:0 8px 8px 0}
+.script small{display:block;margin-bottom:8px;color:var(--red);font:800 12px/1 "Roboto Condensed",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.script q{display:block;quotes:none;font-size:19px;line-height:1.55;color:#fff}
+.script em{font-style:normal;color:var(--gold);background:rgba(246,184,0,.1);padding:0 4px;border-radius:3px}
+.copy{position:absolute;top:12px;right:12px;padding:6px 10px;border:1px solid #444;background:#111;color:#ddd;border-radius:4px;font:700 11px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.example{margin:-6px 0 18px;padding:12px 16px;background:#101010;border:1px dashed #333;border-radius:8px;color:#cfcfcf;font-size:15px}
+.example b{color:#fff}
+ol.q,ul.l{margin:0 0 16px;padding-left:22px}
+ol.q li,ul.l li{margin-bottom:8px}
+ol.q li::marker{color:var(--red);font-weight:700}
+ul.l li::marker{color:var(--red)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 18px 6px;margin-bottom:14px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.shot{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.shot svg{width:100%;height:auto;background:#000}
+.shot div{padding:10px 12px}
+.shot b{display:block;font-size:15px}
+.shot span{color:var(--mute);font-size:13px;line-height:1.4;display:block}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;align-items:start}
+.note{padding:14px 16px;border-radius:8px;background:rgba(246,184,0,.08);border:1px solid rgba(246,184,0,.35);color:#eee;font-size:15px}
+.note b{color:var(--gold)}
+
+/* checklist */
+.check{list-style:none;margin:18px 0 22px;padding:0;display:grid;gap:8px}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.check input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--red)}
+.check label:has(input:checked){border-color:rgba(83,252,24,.45);background:#101a0c}
+.check label:has(input:checked) span{color:#9fdc8a;text-decoration:line-through;text-decoration-color:rgba(159,220,138,.5)}
+.prog{height:8px;background:#222;border-radius:99px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+
+/* upload */
+.upload{text-align:center;padding:72px 0 90px;background:radial-gradient(60% 80% at 50% 0,rgba(227,52,47,.18),transparent 70%)}
+.upload .btn{min-height:60px;font-size:17px;padding:0 34px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin:28px auto 30px;max-width:860px}
+.steps div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.steps b{display:block;font:400 24px/1 "Bebas Neue",sans-serif;color:var(--red);margin-bottom:6px}
+code{font:14px/1.4 ui-monospace,Menlo,monospace;background:#1f1f1f;padding:2px 6px;border-radius:4px;color:#ffd;word-break:break-word}
+footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-top:1px solid #1a1a1a}
+
+@media (max-width:820px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .tech,.grid2,.steps{grid-template-columns:1fr}
+  .shots,.three{grid-template-columns:repeat(2,1fr)}
+  section{padding:52px 0}
+  .script q{font-size:17px}
+  .bar nav{display:none}
+  .bar .btn{margin-left:auto;min-height:40px;padding:0 14px;font-size:13px}
+}
+@media (min-width:821px){.bar .btn{min-height:40px;padding:0 16px;font-size:13px}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <img src="assets/img/logo-white-2.png" alt="LPAL">
+    <nav aria-label="Sections">
+      <a href="#setup">Setup</a><a href="#p1">1 Intro</a><a href="#p2">2 Story</a><a href="#p3">3 Your day</a><a href="#p4">4 Training</a><a href="#p5">5 The match</a><a href="#p6">6 Partner</a><a href="#upload">Upload</a>
+    </nav>
+    <a class="btn" href="#upload">Upload</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <img class="logo" src="assets/img/logo-lpal4-2.webp" alt="LPAL 4">
+    <p class="k">For every LPAL 4 athlete</p>
+    <h1>Your intro video</h1>
+    <p class="lead">Before your walkout in Cologne, a short film about <strong>you</strong> plays on the big screen in the hall and live on KICK. Most of the people watching have never heard your name. In two minutes they should know who you are, what you do, and why they should cheer for you.</p>
+    <p class="lead">You film, we edit. This page tells you exactly what to film and how.</p>
+    <div class="deadline"><span>Upload everything by</span><b id="dl">Sunday, 6 December 2026</b></div>
+    <div class="row">
+      <a class="btn" href="#p1">Show me what to film</a>
+      <a class="btn ghost" href="#upload">Upload link</a>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>2–3 min</b><span>Final edit. We cut it from everything you send.</span></div>
+      <div class="fact"><b>4K · 30 fps</b><span>Newer phone or a camera.</span></div>
+      <div class="fact"><b>16:9</b><span>Always film horizontal, never vertical.</span></div>
+      <div class="fact"><b>6 parts</b><span>Intro, story, your day, training, the match, training partner.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="wrap">
+    <p class="k">Before you press record</p>
+    <h2>Camera setup</h2>
+    <p class="lead">These settings are the same for every part. Bad sound or a vertical video cannot be fixed later, so check them before every recording.</p>
+
+    <div class="grid2" style="margin-top:22px">
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Hold the phone horizontally, not vertically">
+          <rect width="480" height="270" fill="#0d0d0d"/>
+          <g transform="translate(40 62)">
+            <rect x="0" y="0" width="230" height="130" rx="18" fill="#1b1b1b" stroke="#53fc18" stroke-width="4"/>
+            <rect x="14" y="12" width="202" height="106" rx="6" fill="#0a0a0a"/>
+            <circle cx="115" cy="56" r="20" fill="#2b2b2b"/><path d="M80 118c4-22 18-34 35-34s31 12 35 34z" fill="#2b2b2b"/>
+            <text x="115" y="168" fill="#53fc18" font-family="Roboto Condensed,Arial" font-weight="800" font-size="20" text-anchor="middle">✓ HORIZONTAL 16:9</text>
+          </g>
+          <g transform="translate(330 30)">
+            <rect x="0" y="0" width="100" height="178" rx="16" fill="#1b1b1b" stroke="#e3342f" stroke-width="4"/>
+            <rect x="9" y="12" width="82" height="154" rx="5" fill="#0a0a0a"/>
+            <circle cx="50" cy="78" r="15" fill="#2b2b2b"/><path d="M26 140c3-20 12-30 24-30s21 10 24 30z" fill="#2b2b2b"/>
+            <path d="M8 8l84 162M92 8L8 170" stroke="#e3342f" stroke-width="5" opacity=".85"/>
+            <text x="50" y="216" fill="#e3342f" font-family="Roboto Condensed,Arial" font-weight="800" font-size="20" text-anchor="middle">✗ VERTICAL</text>
+          </g>
+        </svg>
+        <figcaption>The video plays on a wide screen in the hall and on KICK. Vertical clips cannot be used.</figcaption>
+      </figure>
+      <div>
+        <div class="tip" style="margin-bottom:10px"><i>1</i><div><b>4K at 30 fps</b><p>iPhone: Settings → Camera → Record Video → <strong>4K at 30 fps</strong>. Android: in the camera app, open video settings and choose <strong>4K / UHD, 30 fps</strong>. Or use a camera if you have one.</p></div></div>
+        <div class="tip"><i>2</i><div><b>Main lens, back camera</b><p>Use the normal 1× lens on the back of the phone. No selfie camera, no digital zoom, no filters, no beauty mode, no music.</p></div></div>
+      </div>
+    </div>
+
+    <div class="tech">
+      <div class="tip"><i>3</i><div><b>Stable camera</b><p>For the talking parts, put the phone on a tripod or lean it on books or a shelf at eye height. No shaky hand-held interviews.</p></div></div>
+      <div class="tip"><i>4</i><div><b>Clear sound</b><p>Quiet room. Turn off TV, music, fans and washing machine. Phone not more than 1–1.5 m away from you, or use a clip-on microphone if you have one.</p></div></div>
+      <div class="tip"><i>5</i><div><b>Good light</b><p>Light comes from the side or front (window or lamp). <span class="no">Never</span> sit with a bright window behind you.</p></div></div>
+      <div class="tip"><i>6</i><div><b>Clean the lens</b><p>Wipe the camera lens with a T-shirt before you start. A dirty lens makes everything blurry.</p></div></div>
+      <div class="tip"><i>7</i><div><b>Lock focus</b><p>Tap and hold on your face (or the main subject) on the screen until it says AE/AF lock, so the picture doesn't change while you talk.</p></div></div>
+      <div class="tip"><i>8</i><div><b>Many takes, long clips</b><p>Wait 3 seconds after pressing record before you talk, and 3 seconds at the end. Say important sentences 2–3 times. More material = better edit.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 1 -->
+<section id="p1">
+  <div class="wrap">
+    <div class="part-h"><span class="num">1</span><div><p class="k" style="margin:0">Part 1 · in English</p><h2 style="margin:0">Who you are</h2></div></div>
+    <div class="tags"><span class="tag eye">Look into the lens</span><span class="tag">English</span><span class="tag">Chest up</span><span class="tag">Dark or plain background</span></div>
+
+    <div class="grid2">
+      <div>
+        <p>This is the opening of your film. You look <strong>straight into the camera lens</strong> (not at the screen) and introduce yourself in English: your name, your biggest wins in armwrestling, and who you fight at LPAL 4.</p>
+        <div class="script">
+          <button class="copy" type="button" data-copy="s1">Copy</button>
+          <small>Script</small>
+          <q id="s1">My name is <em>[first and last name]</em>. I'm from <em>[city, country]</em>. I'm <em>[your biggest title, e.g. a multiple-time national champion]</em> in armwrestling, and I'm coming to Cologne, Germany, to compete against <em>[opponent]</em> at LPAL 4.</q>
+        </div>
+        <div class="example"><b>Example:</b> “My name is John Smith. I'm a multiple-time German national champion in armwrestling, and I'm coming to Cologne, Germany, to compete against Max Phillips at LPAL 4.”</div>
+        <ul class="l">
+          <li>Name your <strong>best titles</strong>: national, European or world championships, world cups, big tournaments and super matches. If there are videos of those tournaments, mention them and send the links (Part 7).</li>
+          <li>Say it <strong>4–5 times</strong>: calm, then with more energy. Pick your best one later, we take the strongest.</li>
+          <li>Learn it by heart so you don't read it. An accent is totally fine.</li>
+        </ul>
+      </div>
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Frame: athlete in the middle, chest up, looking into the lens">
+          <defs><radialGradient id="g1" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#050505"/></radialGradient></defs>
+          <rect width="480" height="270" fill="url(#g1)"/>
+          <g stroke="#ffffff" stroke-opacity=".12" stroke-dasharray="4 6"><path d="M160 0v270M320 0v270M0 90h480M0 180h480"/></g>
+          <path d="M150 270c6-58 40-86 90-86s84 28 90 86z" fill="#3a3a3a"/>
+          <rect x="222" y="150" width="36" height="40" rx="10" fill="#4a4a4a"/>
+          <ellipse cx="240" cy="118" rx="40" ry="48" fill="#5a5a5a"/>
+          <circle cx="226" cy="114" r="4" fill="#111"/><circle cx="254" cy="114" r="4" fill="#111"/>
+          <path d="M226 142q14 8 28 0" stroke="#222" stroke-width="3" fill="none"/>
+          <path d="M240 172v40" stroke="#53fc18" stroke-width="0"/>
+          <g font-family="Roboto Condensed,Arial" font-weight="800" font-size="15" fill="#53fc18"><text x="16" y="28">EYES INTO THE LENS</text></g>
+          <g font-family="Roboto Condensed,Arial" font-weight="700" font-size="13" fill="#aaa"><text x="16" y="256">head in the upper third · some space above the head</text></g>
+        </svg>
+        <figcaption>Frame from chest up. Camera at your eye height, about 1–1.5 m away.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section id="p2">
+  <div class="wrap">
+    <div class="part-h"><span class="num">2</span><div><p class="k" style="margin:0">Part 2 · the interview</p><h2 style="margin:0">Your story</h2></div></div>
+    <div class="tags"><span class="tag side">Look to the side, not into the lens</span><span class="tag">Black background</span><span class="tag">At home</span><span class="tag">Filmed from the side</span></div>
+
+    <p class="lead">This is the heart of the film. Imagine nobody knows who you are. Tell your story: where you come from, what you do every day, and how you became an armwrestler. Someone (a friend, partner, family member) sits <strong>next to the camera</strong> and asks you the questions. You look at <strong>that person</strong>, not into the lens.</p>
+
+    <div class="three">
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Frame: athlete on the left third, looking to the right, black background, light from the side">
+          <defs><linearGradient id="g2" x1="0" x2="1"><stop offset="0" stop-color="#000"/><stop offset=".55" stop-color="#9a9a9a"/><stop offset="1" stop-color="#d9d9d9"/></linearGradient></defs>
+          <rect width="480" height="270" fill="#000"/>
+          <path d="M60 270c6-58 40-86 92-86s82 28 88 86z" fill="#1d1d1d"/>
+          <path d="M152 184c40 0 82 28 88 86h-40c-4-46-24-70-48-86z" fill="#4a4a4a" opacity=".6"/>
+          <rect x="134" y="150" width="34" height="40" rx="10" fill="#262626"/>
+          <ellipse cx="152" cy="118" rx="38" ry="48" fill="#262626"/>
+          <path d="M152 70c22 0 38 20 38 48s-16 48-38 48c14-12 20-30 20-48s-6-36-20-48z" fill="url(#g2)" opacity=".9"/>
+          <path d="M188 112l12 14-12 4z" fill="#8a8a8a"/>
+          <circle cx="174" cy="110" r="3.5" fill="#000"/>
+          <path d="M210 112h200" stroke="#f6b800" stroke-width="3" stroke-dasharray="8 8"/><path d="M410 104l16 8-16 8z" fill="#f6b800"/>
+          <g font-family="Roboto Condensed,Arial" font-weight="800" fill="#f6b800" font-size="15"><text x="270" y="98">LOOK AT THE</text><text x="270" y="140">INTERVIEWER</text></g>
+          <text x="16" y="256" font-family="Roboto Condensed,Arial" font-weight="700" font-size="13" fill="#aaa">you on one side · space in front of your face</text>
+        </svg>
+        <figcaption>What the camera sees: you on one side, looking past the camera, dark background.</figcaption>
+      </figure>
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Room setup from above: dark wall, athlete, lamp at the side, camera and interviewer next to each other">
+          <rect width="480" height="270" fill="#0c0c0c"/>
+          <rect x="20" y="16" width="440" height="22" fill="#000" stroke="#333"/>
+          <text x="240" y="31" fill="#888" font-family="Roboto Condensed,Arial" font-weight="700" font-size="12" text-anchor="middle" letter-spacing="2">DARK WALL / CURTAIN · AT LEAST 1.5 M BEHIND YOU</text>
+          <circle cx="240" cy="96" r="24" fill="#e3342f"/><text x="240" y="101" fill="#fff" font-family="Roboto Condensed,Arial" font-weight="800" font-size="13" text-anchor="middle">YOU</text>
+          <path d="M70 70l130 10 0 32-130 10z" fill="#f6b800" opacity=".14"/>
+          <circle cx="62" cy="96" r="14" fill="#f6b800"/><text x="62" y="134" fill="#f6b800" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">LAMP / WINDOW</text>
+          <rect x="216" y="200" width="48" height="28" rx="5" fill="#ddd"/><circle cx="240" cy="200" r="7" fill="#444"/>
+          <text x="240" y="246" fill="#ddd" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">CAMERA</text>
+          <circle cx="322" cy="212" r="18" fill="#f6b800"/><text x="322" y="246" fill="#f6b800" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">INTERVIEWER</text>
+          <path d="M258 108l52 88" stroke="#f6b800" stroke-width="2.5" stroke-dasharray="6 6"/>
+          <path d="M240 122v74" stroke="#666" stroke-width="2"/>
+          <text x="164" y="168" fill="#777" font-family="Roboto Condensed,Arial" font-weight="700" font-size="12">1–1.5 m</text>
+        </svg>
+        <figcaption>Seen from above: the interviewer sits right next to the camera, light from one side.</figcaption>
+      </figure>
+      <div class="box">
+        <h3>How to get a black background</h3>
+        <ul class="l">
+          <li>Film in the evening, or close the curtains.</li>
+          <li>Turn off the ceiling light. Use <strong>one lamp or a window</strong> on one side of you.</li>
+          <li>Sit far away from the wall (1.5 m or more), so the background falls into darkness.</li>
+          <li>Plain T-shirt, no big logos or text. Not black on black.</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:26px">Questions to answer</h3>
+    <p class="mute">The interviewer reads them out. Answer in <strong>full sentences</strong> that also make sense without the question (“I work as a carpenter in…”, not just “Carpenter.”). Speak English if you can. Take your time; 10–15 minutes of talking is perfect.</p>
+    <ol class="q">
+      <li>Who are you? Where are you from, and where do you live now?</li>
+      <li>What do you do for work or school? What exactly does your job look like?</li>
+      <li>Describe one normal day of yours, from the moment you wake up until you go to bed.</li>
+      <li>How and when did you start armwrestling? Who brought you to the sport?</li>
+      <li>What are your biggest wins? Name the tournament and the year (we will look for the footage).</li>
+      <li>What is your hardest loss or toughest moment, and what did you learn from it?</li>
+      <li>What would people never guess about you? Family, kids, pets, other sports, hobbies, a funny story.</li>
+      <li>What does armwrestling mean to you? Why do you do it?</li>
+    </ol>
+    <div class="note"><b>Important:</b> everything you talk about, we need to <strong>see</strong>. If you mention your job, school, your kids, your dog or your car garage, film it or send photos of it (Part 3). A story without pictures can't be used.</div>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section id="p3">
+  <div class="wrap">
+    <div class="part-h"><span class="num">3</span><div><p class="k" style="margin:0">Part 3 · no talking needed</p><h2 style="margin:0">Your day</h2></div></div>
+    <div class="tags"><span class="tag">Work or school</span><span class="tag">Home</span><span class="tag">Hobbies</span><span class="tag">Videos + photos</span></div>
+    <p class="lead">While you tell your story, we show your life. Ask a friend or colleague to film you during a normal day: at work or school, on the way there, at home. Don't look into the camera, just do what you always do.</p>
+
+    <div class="shots">
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="120" width="320" height="60" fill="#1c1c1c"/><rect x="40" y="40" width="70" height="80" fill="#222"/><rect x="200" y="56" width="90" height="64" fill="#222"/><circle cx="158" cy="86" r="8" fill="#e3342f"/><path d="M148 122l4-28h12l4 28z" fill="#e3342f"/></svg>
+        <div><b>Wide</b><span>The whole place: your workshop, office, classroom, building from outside.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="130" width="320" height="50" fill="#1c1c1c"/><circle cx="150" cy="60" r="24" fill="#e3342f"/><path d="M100 180c4-50 24-84 50-84s46 34 50 84z" fill="#e3342f"/><rect x="200" y="110" width="80" height="30" fill="#333"/></svg>
+        <div><b>Medium</b><span>You working, from the waist up. Film from the side or slightly behind.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><path d="M60 180c10-60 50-100 110-110 60 10 90 50 100 110z" fill="#e3342f" opacity=".85"/><rect x="140" y="40" width="70" height="44" rx="6" fill="#444"/><path d="M120 110c20-14 40-18 60-14" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".7"/></svg>
+        <div><b>Close-up / hands</b><span>Hands on tools, keyboard, steering wheel, books. Details tell the story.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="140" width="320" height="40" fill="#262626"/><path d="M110 140h60l10-30h-50z" fill="#e3342f"/><path d="M190 140h60l8-24h-48z" fill="#e3342f" opacity=".7"/><path d="M0 160h320" stroke="#444"/></svg>
+        <div><b>Low angle</b><span>Camera on the floor: feet walking in, arriving at work, getting out of the car.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><path d="M0 180L130 70h60l130 110z" fill="#1c1c1c"/><circle cx="160" cy="70" r="18" fill="#e3342f"/><path d="M128 180c2-40 14-82 32-82s30 42 32 82z" fill="#e3342f"/></svg>
+        <div><b>Follow from behind</b><span>Walk behind you, camera at shoulder height: walking into work, the gym, the hall.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="30" y="30" width="110" height="80" fill="#eee" transform="rotate(-6 85 70)"/><rect x="40" y="40" width="90" height="56" fill="#555" transform="rotate(-6 85 70)"/><rect x="160" y="50" width="120" height="86" fill="#eee" transform="rotate(5 220 93)"/><rect x="170" y="60" width="100" height="60" fill="#e3342f" opacity=".7" transform="rotate(5 220 93)"/></svg>
+        <div><b>Photos</b><span>Old photos: childhood, first tournament, family, your team, medals.</span></div>
+      </div>
+    </div>
+    <ul class="l">
+      <li>Every clip <strong>10–30 seconds</strong>, camera still or moving slowly. Film each thing from 2–3 different angles.</li>
+      <li>At least <strong>5–10 clips</strong> from work or school. If you can't film at work, film the outside of the building, your work clothes, your tools, the drive there.</li>
+      <li>Home and free time too: cooking, kids, pets, other sports, your car, whatever is “you”.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section id="p4">
+  <div class="wrap">
+    <div class="part-h"><span class="num">4</span><div><p class="k" style="margin:0">Part 4 · in the gym</p><h2 style="margin:0">Training</h2></div></div>
+    <div class="tags"><span class="tag">3–4 exercises</span><span class="tag">Sparring at the table</span><span class="tag">Very close + far away</span></div>
+    <p class="lead">Show how hard you work. Film <strong>3–4 of your typical armwrestling exercises</strong> and <strong>sparring at the table</strong> with your training partners. Every exercise from several angles: some very close, some far away.</p>
+
+    <div class="three">
+      <figure class="fig"><video src="assets/athlete-video/ex-close.mp4" poster="assets/athlete-video/ex-close.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Very close:</b> hands, grip, face, veins, chalk, straps.</figcaption></figure>
+      <figure class="fig"><video src="assets/athlete-video/ex-medium.mp4" poster="assets/athlete-video/ex-medium.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Medium:</b> both athletes at the table, faces and arms.</figcaption></figure>
+      <figure class="fig"><video src="assets/athlete-video/ex-wide.mp4" poster="assets/athlete-video/ex-wide.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Wide:</b> the whole table and the room around it.</figcaption></figure>
+    </div>
+    <p class="mute" style="font-size:14px">Examples from LPAL events. In the gym it works the same way.</p>
+    <ul class="l">
+      <li>Each exercise: 1 close clip, 1 medium, 1 wide. Clips 10–30 seconds.</li>
+      <li>Sparring: film from the side of the table, from behind your opponent (your face to the camera), and very close on the hands.</li>
+      <li>Extra: chalking up, wrapping/straps, the walk into the gym, a shout after a heavy set. Real sounds are welcome.</li>
+      <li>Phone horizontal, on a tripod or held steady with two hands. Lots of light in the gym helps.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART 5 -->
+<section id="p5">
+  <div class="wrap">
+    <div class="part-h"><span class="num">5</span><div><p class="k" style="margin:0">Part 5 · same setup as Part 2</p><h2 style="margin:0">The match</h2></div></div>
+    <div class="tags"><span class="tag side">Look to the side</span><span class="tag eye">Last sentence into the lens</span><span class="tag">Black background</span></div>
+    <p class="lead">Now talk about your fight at LPAL 4. Be confident and be yourself. Respect is fine, a little trash talk is fine too, but no insults about family, country or religion.</p>
+
+    <h3>Questions to answer</h3>
+    <ol class="q">
+      <li>Who is your opponent at LPAL 4, and what do you know about him / her?</li>
+      <li>What is your opponent strong at? Where is he / she weak?</li>
+      <li>How will you win this match? (No secrets needed, just your feeling.)</li>
+      <li>How are you preparing for this match?</li>
+      <li>What does it mean to you to fight on a big stage in Cologne, live on KICK?</li>
+    </ol>
+
+    <p>Then look <strong>into the lens</strong> and finish with one strong sentence. Some ideas, say it in your own words:</p>
+    <div class="script">
+      <button class="copy" type="button" data-copy="s5">Copy</button>
+      <small>Closing lines (pick one or make your own)</small>
+      <q id="s5">“<em>[Opponent]</em>, I respect you, but on January 9th in Cologne the win stays with me.”<br>“I didn't train this hard to lose. See you at the table in Cologne.”<br>“LPAL 4, Cologne, January 9th. Watch me.”</q>
+    </div>
+  </div>
+</section>
+
+<!-- PART 6 -->
+<section id="p6">
+  <div class="wrap">
+    <div class="part-h"><span class="num">6</span><div><p class="k" style="margin:0">Part 6 · someone else talks about you</p><h2 style="margin:0">Your training partner</h2></div></div>
+    <div class="tags"><span class="tag side">Partner looks to the side</span><span class="tag">In the gym</span><span class="tag">1–2 minutes</span></div>
+    <p class="lead">Pick <strong>one training partner</strong> (or your coach) who knows you well. He or she talks about you: how hard you train, how long you know each other, and why you will win. While they talk, we show your training and match footage.</p>
+
+    <div class="grid2">
+      <div>
+        <div class="script">
+          <button class="copy" type="button" data-copy="s6">Copy</button>
+          <small>Script for your partner</small>
+          <q id="s6">My name is <em>[name]</em>, I'm <em>[athlete]</em>'s training partner. We have known each other for <em>[number]</em> years and we train together <em>[how often]</em>.</q>
+        </div>
+        <h3>Then they answer</h3>
+        <ol class="q">
+          <li>How hard does <em style="font-style:normal;color:var(--gold)">[athlete]</em> train? Tell one story from training.</li>
+          <li>What makes him / her dangerous at the table?</li>
+          <li>What is he / she like outside the gym?</li>
+          <li>Why will he / she beat <em style="font-style:normal;color:var(--gold)">[opponent]</em> in Cologne?</li>
+        </ol>
+      </div>
+      <div class="box">
+        <h3>How to film it</h3>
+        <ul class="l">
+          <li>Same as Part 2: partner looks at the person asking, next to the camera, not into the lens.</li>
+          <li>Film it in the gym (a table or weights in the background is great), or at home with a dark background.</li>
+          <li>Quiet moment: no music in the gym while recording.</li>
+          <li>Phone horizontal, on a tripod, about 1–1.5 m away.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 7 -->
+<section id="p7">
+  <div class="wrap">
+    <div class="part-h"><span class="num">+</span><div><p class="k" style="margin:0">Extra · what you already have</p><h2 style="margin:0">Your archive</h2></div></div>
+    <p class="lead">Old material makes the story real. Send whatever you have:</p>
+    <ul class="l">
+      <li>Videos of your biggest matches and tournaments (files, or YouTube / Instagram links in a text file).</li>
+      <li>Photos with medals, trophies, belts, on the podium.</li>
+      <li>Childhood photos, your first tournament, old training photos.</li>
+      <li>Photos from work or school if you couldn't film there.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="check">
+  <div class="wrap">
+    <p class="k">Checklist</p>
+    <h2>Before you upload</h2>
+    <p class="mute">Tick what you have. This list is saved only on your phone.</p>
+    <div class="prog"><i id="prog"></i></div>
+    <ul class="check" id="checklist">
+      <li><label><input type="checkbox" data-k="p1"><span><b>Part 1:</b> intro in English, into the lens, 4–5 takes</span></label></li>
+      <li><label><input type="checkbox" data-k="p2"><span><b>Part 2:</b> interview, looking to the side, dark background</span></label></li>
+      <li><label><input type="checkbox" data-k="p3"><span><b>Part 3:</b> 5–10 clips from work / school + home and free time</span></label></li>
+      <li><label><input type="checkbox" data-k="p4"><span><b>Part 4:</b> 3–4 exercises + sparring, close / medium / wide</span></label></li>
+      <li><label><input type="checkbox" data-k="p5"><span><b>Part 5:</b> talking about the match + one closing line into the lens</span></label></li>
+      <li><label><input type="checkbox" data-k="p6"><span><b>Part 6:</b> training partner talks about you</span></label></li>
+      <li><label><input type="checkbox" data-k="p7"><span><b>Extra:</b> old match videos, links, photos</span></label></li>
+      <li><label><input type="checkbox" data-k="tech"><span>Everything <b>horizontal</b>, 4K 30 fps, clear sound</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- UPLOAD -->
+<section class="upload" id="upload">
+  <div class="wrap">
+    <p class="k">Upload</p>
+    <h2>Send us your videos</h2>
+    <p class="lead" style="margin:0 auto 6px">Deadline: <strong style="color:var(--gold)" id="dl2">Sunday, 6 December 2026</strong></p>
+    <div class="steps">
+      <div><b>1 · Open the folder</b>Tap the button below. Open the folder with <strong>your name</strong>.</div>
+      <div><b>2 · Upload originals</b>Upload with the <strong>Google Drive app</strong> or on a computer. <span class="no">Not via WhatsApp</span>: it destroys the quality.</div>
+      <div><b>3 · Name the files</b>Start each file name with the part, e.g. <code>Part1_Intro_take2.mov</code>, <code>Part4_Training_sparring.mp4</code>.</div>
+    </div>
+    <a class="btn" id="drive" href="#" target="_blank" rel="noopener">Open the upload folder</a>
+    <p class="mute" style="margin-top:22px">Questions? Write to us on <a href="https://wa.me/436707745771" target="_blank" rel="noopener">WhatsApp</a> or <a href="mailto:business@lionpride-armwrestling.com">business@lionpride-armwrestling.com</a>.</p>
+  </div>
+</section>
+</main>
+
+<footer>Lion Pride Armwrestling League · LPAL 4 · 9 January 2027 · MOTORWORLD Cologne</footer>
+
+<script>
+(function () {
+  var d = document.getElementById("drive");
+  if (window.DRIVE_URL) { d.href = window.DRIVE_URL; }
+  else { d.textContent = "Upload link coming soon"; d.classList.add("off"); d.removeAttribute("href"); }
+  ["dl", "dl2"].forEach(function (id) { document.getElementById(id).textContent = window.DEADLINE; });
+
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = document.getElementById(b.dataset.copy).innerText.trim();
+      var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); };
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () {});
+    });
+  });
+
+  var KEY = "lpal4-video-check", saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  var boxes = document.querySelectorAll("#checklist input"), bar = document.getElementById("prog");
+  function upd() {
+    var n = 0; boxes.forEach(function (x) { if (x.checked) n++; });
+    bar.style.width = (n / boxes.length * 100) + "%";
+  }
+  boxes.forEach(function (x) {
+    x.checked = !!saved[x.dataset.k];
+    x.addEventListener("change", function () {
+      saved[x.dataset.k] = x.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      upd();
+    });
+  });
+  upd();
+})();
+</script>
+</body>
+</html>
