@@ -1,5 +1,5 @@
 /* ==========================================================
-   LPAL 4 generic sponsor page in English (sponsors.html, ENTRY price tier).
+   LPAL 4 generic sponsor page in English (sponsor-opportunities.html, ENTRY price tier).
    Same as brand-4.js (German, brand pages) but in English, no brand logo,
    and the offer email takes the company name from the cart.
    Everything page-specific is in window.BRAND inside the HTML file.
