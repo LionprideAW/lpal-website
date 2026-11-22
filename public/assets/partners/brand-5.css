@@ -140,3 +140,4 @@
 .b-cart-list .p-qty{display:inline-flex;align-items:center;gap:8px;margin-top:4px;font-style:normal}
 .b-cart-list .p-qty button{background:#222;border:1px solid #444;color:#fff;width:24px;height:24px;border-radius:5px;cursor:pointer}
 .p-incl{margin:0 0 26px}
+#reichweite .d-trend{grid-column:1/-1}

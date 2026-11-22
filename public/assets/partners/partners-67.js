@@ -24,7 +24,7 @@ const STATS = [
   { n: "5.6M+", l: "Combined followers", s: "Athletes on the card + league, Instagram & TikTok" },
   { n: "100K+", l: "Expected live viewers", s: "Free worldwide stream on Kick" },
   { n: "240K", l: "Views on one LPAL 3 match", s: "Larratt vs Toman on YouTube" },
-  { n: "2.8M", l: "Instagram views", s: "Last 30 days, main LPAL profile" },
+  { n: "4.5M", l: "Instagram views", s: "Last 60 days, main LPAL profile" },
   { n: "11", l: "Matches", s: "Incl. the first LPAL World Title Match" },
   { n: "22", l: "Athletes", s: "From 17 countries, incl. world champions" }
 ];
@@ -697,7 +697,7 @@ document.addEventListener("error", e => {
   const chart = document.getElementById("d-chart");
   const draw = () => {
     const data = JSON.parse(chart.dataset.views), W = chart.clientWidth, H = chart.clientHeight;
-    const L = 40, R = 8, T = 14, B = 26, max = 232000;
+    const L = 40, R = 8, T = 14, B = 26, max = Math.ceil(Math.max(...data) / 50000) * 50000;
     const x = i => L + (W - L - R) * i / (data.length - 1), y = v => T + (H - T - B) * (1 - Math.min(v, max) / max);
     const pts = data.map((v, i) => [x(i), y(v)]);
     let d = `M${pts[0][0].toFixed(1)},${pts[0][1].toFixed(1)}`;
@@ -706,11 +706,11 @@ document.addEventListener("error", e => {
       d += ` C${cx.toFixed(1)},${y0.toFixed(1)} ${cx.toFixed(1)},${y1.toFixed(1)} ${x1.toFixed(1)},${y1.toFixed(1)}`;
     }
     const area = `${d} L${x(data.length - 1).toFixed(1)},${y(0)} L${L},${y(0)} Z`;
-    const grid = [0, 116000, 232000].map(v => `<line class="d-grid-l" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="d-ylab" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v ? Math.round(v / 1000) + "K" : "0"}</text>`).join("");
+    const grid = [0, max / 2, max].map(v => `<line class="d-grid-l" x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}"/><text class="d-ylab" x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v ? Math.round(v / 1000) + "K" : "0"}</text>`).join("");
     const xl = JSON.parse(chart.dataset.x || '[["19 Jul",0],["1 Sep",44],["16 Oct",89]]').map(([t, i], k) => `<text class="d-xlab" x="${x(i)}" y="${H - 6}" text-anchor="${k === 0 ? "start" : k === 2 ? "end" : "middle"}">${t}</text>`).join("");
     const start = data.findIndex(v => v > 60000) - 1, peak = data.indexOf(Math.max(...data));
     const mark = start > 0 ? `<g class="d-mark"><line x1="${x(start)}" x2="${x(start)}" y1="${T}" y2="${y(0)}"/></g>` : "";
-    chart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Daily views over the last 90 days" role="img">
+    chart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="Daily views over the last 60 days" role="img">
       <defs><linearGradient id="dGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e1261c" stop-opacity=".45"/><stop offset="1" stop-color="#e1261c" stop-opacity="0"/></linearGradient></defs>
       ${grid}${xl}<path class="d-area" d="${area}"/><path class="d-line" d="${d}"/>${mark}
       <circle class="d-peak" cx="${x(peak)}" cy="${y(data[peak])}" r="4.5"/></svg>`;
@@ -727,12 +727,12 @@ document.addEventListener("error", e => {
     const ease = t => 1 - Math.pow(1 - t, 3);
     const step = now => {
       const p = Math.min(1, (now - t0) / dur);
-      els.forEach(el => { const n = +el.dataset.n, dec = +(el.dataset.dec || 0); el.textContent = fmt(n * ease(p), dec) + (el.dataset.suf || ""); });
+      els.forEach(el => { const n = +el.dataset.n, dec = +(el.dataset.dec || 0); el.textContent = (el.dataset.pre || "") + fmt(n * ease(p), dec) + (el.dataset.suf || ""); });
       if (p < 1) requestAnimationFrame(step);
     };
     requestAnimationFrame(step);
   };
-  const go = () => { board.classList.add("in"); if (reduce) { board.querySelectorAll("[data-n]").forEach(el => { el.textContent = fmt(+el.dataset.n, +(el.dataset.dec || 0)) + (el.dataset.suf || ""); }); } else countUp(); };
+  const go = () => { board.classList.add("in"); if (reduce) { board.querySelectorAll("[data-n]").forEach(el => { el.textContent = (el.dataset.pre || "") + fmt(+el.dataset.n, +(el.dataset.dec || 0)) + (el.dataset.suf || ""); }); } else countUp(); };
   if (!("IntersectionObserver" in window)) return go();
   const io = new IntersectionObserver(es => { if (es[0].isIntersecting) { io.disconnect(); go(); } }, { threshold: 0.12 });
   io.observe(board);
