@@ -18,7 +18,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/partners/partners-56.css">
 <link rel="stylesheet" href="assets/partners/brand-5.css">
-<style>@media (max-width:820px){.b-kpis .d-kpi-main,.b-kpis .d-kpi:last-child{grid-column:1/-1}}</style>
+<style>
+.b-custom{margin-top:34px;padding:26px 26px 28px;border:1px solid rgba(246,184,0,.35);border-left:4px solid #f6b800;background:linear-gradient(90deg,rgba(246,184,0,.08),transparent 70%),#161616}
+.b-shop .b-custom .b-custom-k{margin:0 0 6px;color:#f6b800;font:800 13px/1 "Roboto Condensed",sans-serif;letter-spacing:.18em;text-transform:uppercase}
+.b-custom h3{margin:0 0 10px;font:400 34px/1 "Bebas Neue",sans-serif;color:#fff}
+.b-shop .b-custom p{margin:0 0 18px;color:#bbb;max-width:680px;line-height:1.6}
+.b-custom .p-btn{display:inline-flex;width:auto}
+@media (max-width:820px){.b-kpis .d-kpi-main,.b-kpis .d-kpi:last-child{grid-column:1/-1}}</style>
 <script>
 /* ==========================================================
    PRICE TIER: ENTRY (lowest prices of all LPAL sponsor pages).
@@ -43,7 +49,7 @@ window.BRAND = {
 
   // The all-in package: shown at the end of the shop, suggested once the cart is above `threshold`.
   presented: {
-    id: "presented", price: 21500, threshold: 21500,
+    id: "presented", price: 20000, threshold: 20000,
     name: "Presented by [your brand]",
     items: ["All packages on this page together",
             "Event name “LPAL 4 presented by [your brand]” on the poster, in announcements and in the livestream",
@@ -270,6 +276,13 @@ window.BRAND = {
       <div id="b-groups"></div>
       <p class="b-group-h b-next">Everything in one package</p>
       <div id="b-presented"></div>
+
+      <div class="b-custom">
+        <p class="b-custom-k">Custom package</p>
+        <h3>Need something different?</h3>
+        <p>We can also put together a custom package for your brand, with a different mix of spots and a price that fits it. Tell us what you have in mind and we will make you an offer.</p>
+        <a class="p-btn p-btn-outline" href="mailto:business@lionpride-armwrestling.com?subject=LPAL%204%20custom%20package">Ask for a custom package</a>
+      </div>
     </div>
   </section>
 
