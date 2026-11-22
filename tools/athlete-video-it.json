@@ -185,5 +185,7 @@
  "Long livestream, for example from a World or European Championship? Write the <strong>exact time</strong> when you compete, e.g. <code>European Championship 2025 – 3:42:10</code>.": "Diretta lunga, per esempio da un Mondiale o da un Europeo? Scrivi il <strong>momento esatto</strong> in cui gareggi, es. <code>Europei 2025 – 3:42:10</code>.",
  "<span class=\"no\">Do not screen-record</span> videos on your phone and send them. The quality is lost. Send the link.": "<span class=\"no\">Non fare registrazioni dello schermo</span> dei video sul telefono. La qualità si perde. Manda il link.",
  "Send links on WhatsApp": "Manda i link su WhatsApp",
- "Only tick “Links” in the checklist after you have sent them.": "Spunta «Link» nella checklist solo dopo averli mandati."
+ "Only tick “Links” in the checklist after you have sent them.": "Spunta «Link» nella checklist solo dopo averli mandati.",
+ "Zoom 2× on the phone camera": "Zoom 2× sulla fotocamera del telefono",
+ "On the phone, use the back camera and set the zoom to <strong>2×</strong>: tap <strong>2×</strong> in the camera app, like in the picture. On a camera, use a lens around <strong>30 mm</strong>. No selfie camera, no filters, no beauty mode, no music.": "Sul telefono usa la fotocamera posteriore e imposta lo zoom su <strong>2×</strong>: tocca <strong>2×</strong> nell'app fotocamera, come nell'immagine. Su una videocamera usa un obiettivo di circa <strong>30 mm</strong>. Niente fotocamera selfie, niente filtri, niente modalità bellezza, niente musica."
 }
