@@ -19,6 +19,15 @@
   /* Paste the Google Drive folder link here (the parent folder with one folder per athlete). */
   window.DRIVE_URL = "https://drive.google.com/drive/folders/1SYSoDuAAtrX-kGmfAS2WcVyE1O2k_3xE";
   window.DEADLINE = "Sunday, 6 December 2026";
+  window.LANG = "en";
+  window.T = { soon: "Upload link coming soon", copy: "Copy", copied: "Copied" };
+  window.LANG_PAGES = { en: "lpal4-athlete-video", fr: "lpal4-athlete-video-fr", it: "lpal4-athlete-video-it", ar: "lpal4-athlete-video-ar", ka: "lpal4-athlete-video-ka", tr: "lpal4-athlete-video-tr", es: "lpal4-athlete-video-es" };
+  (function () {
+    try {
+      var s = localStorage.getItem("lpal4-lang");
+      if (s && s !== window.LANG && window.LANG_PAGES[s]) location.replace("/" + window.LANG_PAGES[s] + location.hash);
+    } catch (e) {}
+  })();
 </script>
 <style>
 :root{--bg:#0b0b0b;--card:#151515;--card2:#1c1c1c;--line:#2a2a2a;--txt:#f2f2f2;--mute:#a8a8a8;--red:#e3342f;--gold:#f6b800;--green:#53fc18}
@@ -27,6 +36,7 @@ html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 Roboto,system-ui,sans-serif}
 a{color:#fff}
 img,video,svg{display:block;max-width:100%}
+svg{direction:ltr;unicode-bidi:isolate}
 .wrap{max-width:980px;margin:0 auto;padding:0 20px}
 .k{margin:0 0 8px;color:var(--red);font:800 13px/1.2 "Roboto Condensed",sans-serif;letter-spacing:.2em;text-transform:uppercase}
 h1,h2,h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;letter-spacing:.01em;line-height:1;margin:0}
@@ -42,10 +52,21 @@ section{padding:64px 0;border-top:1px solid #1a1a1a}
 .bar{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid #1d1d1d}
 .bar .wrap{display:flex;align-items:center;gap:14px;height:60px}
 .bar img{height:30px;width:auto}
-.bar nav{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.bar nav{display:flex;gap:4px;margin-inline-start:auto;overflow-x:auto;scrollbar-width:none}
 .bar nav::-webkit-scrollbar{display:none}
 .bar nav a{flex:none;padding:6px 9px;color:#bbb;text-decoration:none;font:700 13px/1 "Roboto Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;border-radius:4px}
 .bar nav a:hover{color:#fff;background:#1d1d1d}
+
+/* language picker */
+.lang{background:#121212;border-bottom:1px solid #1d1d1d}
+.lang .wrap{padding-top:14px;padding-bottom:14px}
+.lang-h{display:flex;align-items:flex-start;gap:8px;margin:0 0 10px;color:var(--gold);font:800 13px/1.45 "Roboto Condensed",Roboto,sans-serif;letter-spacing:.04em}
+.lang-h .pt{flex:none;font-size:18px;line-height:1;animation:bob 1.1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
+.lang-list{display:flex;flex-wrap:wrap;gap:8px}
+.lang-list a{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #333;border-radius:99px;background:#1a1a1a;color:#ddd;text-decoration:none;font:700 15px/1.2 Roboto,"Noto Sans Georgian","Noto Kufi Arabic",sans-serif}
+.lang-list a[aria-current]{border-color:var(--red);background:#2a1110;color:#fff}
+.lang-list img{width:21px;height:16px;border-radius:2px;object-fit:cover}
 
 /* hero */
 .hero{position:relative;padding:72px 0 56px;border:0;overflow:hidden}
@@ -86,14 +107,14 @@ section{padding:64px 0;border-top:1px solid #1a1a1a}
 .fig figcaption{padding:10px 12px;color:var(--mute);font-size:13px;background:#111;border-top:1px solid var(--line)}
 .fig video,.fig img{width:100%;aspect-ratio:16/9;object-fit:cover}
 figure{margin:0}
-.script{position:relative;margin:4px 0 18px;padding:20px 20px 18px;background:linear-gradient(90deg,rgba(227,52,47,.1),transparent 80%),var(--card);border-left:4px solid var(--red);border-radius:0 8px 8px 0}
+.script{position:relative;margin:4px 0 18px;padding:20px 20px 18px;background:linear-gradient(90deg,rgba(227,52,47,.1),transparent 80%),var(--card);border-inline-start:4px solid var(--red);border-start-start-radius:0;border-end-start-radius:0;border-start-end-radius:8px;border-end-end-radius:8px}
 .script small{display:block;margin-bottom:8px;color:var(--red);font:800 12px/1 "Roboto Condensed",sans-serif;letter-spacing:.16em;text-transform:uppercase}
 .script q{display:block;quotes:none;font-size:19px;line-height:1.55;color:#fff}
 .script em{font-style:normal;color:var(--gold);background:rgba(246,184,0,.1);padding:0 4px;border-radius:3px}
-.copy{position:absolute;top:12px;right:12px;padding:6px 10px;border:1px solid #444;background:#111;color:#ddd;border-radius:4px;font:700 11px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.copy{position:absolute;top:12px;inset-inline-end:12px;padding:6px 10px;border:1px solid #444;background:#111;color:#ddd;border-radius:4px;font:700 11px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
 .example{margin:-6px 0 18px;padding:12px 16px;background:#101010;border:1px dashed #333;border-radius:8px;color:#cfcfcf;font-size:15px}
 .example b{color:#fff}
-ol.q,ul.l{margin:0 0 16px;padding-left:22px}
+ol.q,ul.l{margin:0 0 16px;padding-inline-start:22px}
 ol.q li,ul.l li{margin-bottom:8px}
 ol.q li::marker{color:var(--red);font-weight:700}
 ul.l li::marker{color:var(--red)}
@@ -117,10 +138,16 @@ ul.l li::marker{color:var(--red)}
 .prog{height:8px;background:#222;border-radius:99px;overflow:hidden;margin-top:6px}
 .prog i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
 
+/* links box */
+.links-box{max-width:860px;margin:34px auto 0;text-align:start;padding:22px 22px 20px;border:2px solid var(--red);border-radius:10px;background:linear-gradient(180deg,rgba(227,52,47,.12),rgba(227,52,47,.03)),var(--card)}
+.links-box h3{font-size:32px;margin-bottom:10px}
+.btn.wa{background:#1faa53}
+.check label.must{border-color:rgba(227,52,47,.6);background:#1d1010}
+
 /* upload */
 .upload{text-align:center;padding:72px 0 90px;background:radial-gradient(60% 80% at 50% 0,rgba(227,52,47,.18),transparent 70%)}
 .upload .btn{min-height:60px;font-size:17px;padding:0 34px}
-.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:left;margin:28px auto 30px;max-width:860px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:start;margin:28px auto 30px;max-width:860px}
 .steps div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
 .steps b{display:block;font:400 24px/1 "Bebas Neue",sans-serif;color:var(--red);margin-bottom:6px}
 code{font:14px/1.4 ui-monospace,Menlo,monospace;background:#1f1f1f;padding:2px 6px;border-radius:4px;color:#ffd;word-break:break-word}
@@ -135,7 +162,7 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
   section{padding:52px 0}
   .script q{font-size:17px}
   .bar nav{display:none}
-  .bar .btn{margin-left:auto;min-height:40px;padding:0 14px;font-size:13px}
+  .bar .btn{margin-inline-start:auto;min-height:40px;padding:0 14px;font-size:13px}
 }
 @media (min-width:821px){.bar .btn{min-height:40px;padding:0 16px;font-size:13px}}
 </style>
@@ -153,6 +180,20 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
 </header>
 
 <main>
+<div class="lang" data-notr>
+  <div class="wrap">
+    <p class="lang-h" dir="ltr"><span class="pt" aria-hidden="true">👇</span><span>Choose your language · Choisis ta langue · Scegli la tua lingua · اختر لغتك · აირჩიე ენა · Dilini seç · Elige tu idioma</span></p>
+    <div class="lang-list" id="lang-list">
+      <a href="/lpal4-athlete-video" data-l="en" lang="en"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/gb.svg" alt="" onerror="this.remove()">English</a>
+      <a href="/lpal4-athlete-video-fr" data-l="fr" lang="fr"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/fr.svg" alt="" onerror="this.remove()">Français</a>
+      <a href="/lpal4-athlete-video-it" data-l="it" lang="it"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/it.svg" alt="" onerror="this.remove()">Italiano</a>
+      <a href="/lpal4-athlete-video-ar" data-l="ar" lang="ar" dir="rtl"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ma.svg" alt="" onerror="this.remove()">العربية</a>
+      <a href="/lpal4-athlete-video-ka" data-l="ka" lang="ka"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ge.svg" alt="" onerror="this.remove()">ქართული</a>
+      <a href="/lpal4-athlete-video-tr" data-l="tr" lang="tr"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/tr.svg" alt="" onerror="this.remove()">Türkçe</a>
+      <a href="/lpal4-athlete-video-es" data-l="es" lang="es"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/es.svg" alt="" onerror="this.remove()">Español</a>
+    </div>
+  </div>
+</div>
 <section class="hero">
   <div class="wrap">
     <img class="logo" src="assets/img/logo-lpal4-2.webp" alt="LPAL 4">
@@ -216,11 +257,11 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
     </div>
     <div class="note" style="margin-top:14px;display:flex;gap:14px;align-items:flex-start">
       <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true" style="flex:none"><path d="M8 10h22v16H18l-7 6v-6H8z" fill="#1d1d1d" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 18h6v14h-3v5l-6-5h-9v-4" fill="none" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/></svg>
-      <div><b style="font-size:17px">Language</b><br>The whole video is best in <strong>English</strong>. <strong>Part 1 must be in English.</strong> If your English isn't good enough for the rest, speak your own language, but <strong>slowly and clearly</strong>, so we can translate it easily.</div>
+      <div><b style="font-size:17px">Language</b><br/>The whole video is best in <strong>English</strong>. <strong>Part 1 must be in English.</strong> If your English isn't good enough for the rest, speak your own language, but <strong>slowly and clearly</strong>, so we can translate it easily.</div>
     </div>
     <div class="note" style="margin-top:14px;display:flex;gap:14px;align-items:flex-start">
       <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true" style="flex:none"><path d="M17 6l-11 6 4 9 5-2v23h18V19l5 2 4-9-11-6c-1 4-4 6-7 6s-6-2-7-6z" fill="#1d1d1d" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/></svg>
-      <div><b style="font-size:17px">What to wear</b><br>A <strong>Lion Pride T-shirt</strong> if you have one. Otherwise a normal T-shirt in <strong>one dark colour</strong> (black, dark grey, navy). A small brand logo like Nike or Adidas is fine. No big prints or text.</div>
+      <div><b style="font-size:17px">What to wear</b><br/>A <strong>Lion Pride T-shirt</strong> if you have one. Otherwise a normal T-shirt in <strong>one dark colour</strong> (black, dark grey, navy). A small brand logo like Nike or Adidas is fine. No big prints or text.</div>
     </div>
   </div>
 </section>
@@ -237,11 +278,11 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
         <div class="script">
           <button class="copy" type="button" data-copy="s1">Copy</button>
           <small>Script</small>
-          <q id="s1">My name is <em>[first and last name]</em>. I'm from <em>[city, country]</em>. I'm <em>[your biggest title, e.g. a multiple-time national champion]</em> in armwrestling, and I'm coming to Cologne, Germany, to compete against <em>[opponent]</em> at LPAL 4.</q>
+          <q id="s1" dir="ltr">My name is <em>[first and last name]</em>. I'm from <em>[city, country]</em>. I'm <em>[your biggest title, e.g. a multiple-time national champion]</em> in armwrestling, and I'm coming to Cologne, Germany, to compete against <em>[opponent]</em> at LPAL 4.</q>
         </div>
-        <div class="example"><b>Example:</b> “My name is John Smith. I'm a multiple-time German national champion in armwrestling, and I'm coming to Cologne, Germany, to compete against Max Phillips at LPAL 4.”</div>
+        <div class="example"><b>Example:</b> <span dir="ltr">“My name is John Smith. I'm a multiple-time German national champion in armwrestling, and I'm coming to Cologne, Germany, to compete against Max Phillips at LPAL 4.”</span></div>
         <ul class="l">
-          <li>Name your <strong>best titles</strong>: national, European or world championships, world cups and big tournaments. If there are videos of those tournaments, mention them and paste the links into the text file in your folder.</li>
+          <li>Name your <strong>best titles</strong>: national, European or world championships, world cups and big tournaments. If there are videos of those tournaments, mention them and send us the links on WhatsApp (see the end of this page).</li>
           <li>Say it <strong>4–5 times</strong>: calm, then with more energy. Pick your best one later, we take the strongest.</li>
           <li>Learn it by heart so you don't read it. An accent is totally fine.</li>
         </ul>
@@ -435,7 +476,7 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
     <div class="script">
       <button class="copy" type="button" data-copy="s5">Copy</button>
       <small>Closing lines (pick one or make your own)</small>
-      <q id="s5">“<em>[Opponent]</em>, I respect you, but on January 9th in Cologne the win stays with me.”<br>“I didn't train this hard to lose. See you at the table in Cologne.”<br>“<em>[Opponent]</em>, be ready for the toughest match of your life.”<br>“<em>[Opponent]</em>, you will feel power you have never felt before.”<br>“<em>[Opponent]</em>, with <em>[your country]</em> behind me, I can't be stopped. Prepare to lose.”</q>
+      <q id="s5">“<em>[Opponent]</em>, I respect you, but on January 9th in Cologne the win stays with me.”<br/>“I didn't train this hard to lose. See you at the table in Cologne.”<br/>“<em>[Opponent]</em>, be ready for the toughest match of your life.”<br/>“<em>[Opponent]</em>, you will feel power you have never felt before.”<br/>“<em>[Opponent]</em>, with <em>[your country]</em> behind me, I can't be stopped. Prepare to lose.”</q>
     </div>
   </div>
 </section>
@@ -481,7 +522,7 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
     <div class="part-h"><span class="num">+</span><div><p class="k" style="margin:0">Extra · what you already have</p><h2 style="margin:0">Your archive</h2></div></div>
     <p class="lead">Old material makes the story real. Send whatever you have:</p>
     <ul class="l">
-      <li>Videos of your biggest matches and tournaments: upload the files, or paste the <strong>YouTube and Instagram links into the text file</strong> in your folder.</li>
+      <li>Videos of your biggest matches and tournaments: upload the files to your folder. <strong>YouTube and Instagram links: send them on WhatsApp</strong> (see the end of this page).</li>
       <li>Photos with medals, trophies, belts, on the podium.</li>
       <li>Childhood photos, your first tournament, old training photos.</li>
       <li>Photos from work or school if you couldn't film there.</li>
@@ -503,7 +544,8 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
       <li><label><input type="checkbox" data-k="p4"><span><b>Part 4:</b> 3–4 exercises + sparring, close / medium / wide</span></label></li>
       <li><label><input type="checkbox" data-k="p5"><span><b>Part 5:</b> talking about the match + one closing line into the lens</span></label></li>
       <li><label><input type="checkbox" data-k="p6"><span><b>Part 6:</b> training partner talks about you</span></label></li>
-      <li><label><input type="checkbox" data-k="p7"><span><b>Extra:</b> old match videos, links, photos</span></label></li>
+      <li><label><input type="checkbox" data-k="p7"><span><b>Extra:</b> old match videos and photos</span></label></li>
+      <li><label class="must"><input type="checkbox" data-k="links"><span><b>Links:</b> all YouTube and Instagram links of your matches sent on WhatsApp, with the exact time for long livestreams</span></label></li>
       <li><label><input type="checkbox" data-k="tech"><span>Everything <b>horizontal</b>, 4K 30 fps, clear sound</span></label></li>
     </ul>
   </div>
@@ -514,15 +556,26 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
   <div class="wrap">
     <p class="k">Upload</p>
     <h2>Send us your videos</h2>
-    <p class="lead" style="margin:0 auto 6px">Deadline: <strong style="color:var(--gold)" id="dl2">Sunday, 6 December 2026</strong></p>
+    <p class="lead" style="margin:0 auto 6px">Deadline: <strong id="dl2" style="color:var(--gold)">Sunday, 6 December 2026</strong></p>
     <div class="steps">
       <div><b>1 · Open the folder</b>Tap the button below. Open the folder with <strong>your name</strong>.</div>
       <div><b>2 · Upload originals</b>Upload with the <strong>Google Drive app</strong> or on a computer. <span class="no">Not via WhatsApp</span>: it destroys the quality.</div>
-      <div><b>3 · Name the files</b>Start each file name with the part, e.g. <code>Part1_Intro_take2.mov</code>, <code>Part4_Training_sparring.mp4</code>. YouTube and Instagram links go into the text file in your folder.</div>
+      <div><b>3 · Name the files</b>Start each file name with the part, e.g. <code>Part1_Intro_take2.mov</code>, <code>Part4_Training_sparring.mp4</code>.</div>
     </div>
     <a class="btn" id="drive" href="#" target="_blank" rel="noopener">Open the upload folder</a>
     <p style="margin:16px 0 0;font:400 30px/1.1 'Bebas Neue',Impact,sans-serif;letter-spacing:.02em;color:var(--gold)">Open the folder with your name.</p>
-    <p class="mute" style="margin-top:22px">Questions? Write to us on <a href="https://wa.me/436707745771" target="_blank" rel="noopener">WhatsApp</a> or <a href="mailto:business@lionpride-armwrestling.com">business@lionpride-armwrestling.com</a>.</p>
+    <div class="links-box" id="links">
+      <p class="k">Super important</p>
+      <h3>Your match links on WhatsApp</h3>
+      <p>Send us <strong>every YouTube and Instagram link</strong> of your matches on <strong>WhatsApp</strong>. Every video is important.</p>
+      <ul class="l">
+        <li>Long livestream, for example from a World or European Championship? Write the <strong>exact time</strong> when you compete, e.g. <code>European Championship 2025 – 3:42:10</code>.</li>
+        <li><span class="no">Do not screen-record</span> videos on your phone and send them. The quality is lost. Send the link.</li>
+      </ul>
+      <a class="btn wa" href="https://wa.me/436707745771" rel="noopener" target="_blank">Send links on WhatsApp</a>
+      <p class="mute" style="margin:12px 0 0;font-size:14px">Only tick “Links” in the checklist after you have sent them.</p>
+    </div>
+    <p class="mute" style="margin-top:22px">Questions? Write to us on <a href="https://wa.me/436707745771" rel="noopener" target="_blank">WhatsApp</a> or <a href="mailto:business@lionpride-armwrestling.com">business@lionpride-armwrestling.com</a>.</p>
   </div>
 </section>
 </main>
@@ -533,13 +586,17 @@ footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-to
 (function () {
   var d = document.getElementById("drive");
   if (window.DRIVE_URL) { d.href = window.DRIVE_URL; }
-  else { d.textContent = "Upload link coming soon"; d.classList.add("off"); d.removeAttribute("href"); }
+  else { d.textContent = window.T.soon; d.classList.add("off"); d.removeAttribute("href"); }
+  document.querySelectorAll("#lang-list a").forEach(function (a) {
+    if (a.dataset.l === window.LANG) a.setAttribute("aria-current", "page");
+    a.addEventListener("click", function () { try { localStorage.setItem("lpal4-lang", a.dataset.l); } catch (e) {} });
+  });
   ["dl", "dl2"].forEach(function (id) { document.getElementById(id).textContent = window.DEADLINE; });
 
   document.querySelectorAll("[data-copy]").forEach(function (b) {
     b.addEventListener("click", function () {
       var t = document.getElementById(b.dataset.copy).innerText.trim();
-      var done = function () { b.textContent = "Copied"; setTimeout(function () { b.textContent = "Copy"; }, 1500); };
+      var done = function () { b.textContent = window.T.copied; setTimeout(function () { b.textContent = window.T.copy; }, 1500); };
       if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () {});
     });
   });

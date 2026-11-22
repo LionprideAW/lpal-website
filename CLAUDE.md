@@ -23,3 +23,4 @@
 
 ## Athlete pages (hidden, noindex)
 - /lpal4-athlete-video: guide for the LPAL 4 pre-match intro videos (script, shot list, upload). Drive link goes in window.DRIVE_URL at the top of the file.
+- Translated copies: /lpal4-athlete-video-fr, -it, -ar (right-to-left), -ka, -tr, -es. Edit only the English page, add the new or changed texts to tools/athlete-video-<lang>.json, then run `python3 tools/make-athlete-video.py` to rebuild them. The Part 1 script stays in English in every language.

@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LPAL 4 | Tanıtım videon</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="LPAL 4 maç öncesi tanıtım videonu nasıl çekersin: metin, çekim listesi ve yükleme.">
+<meta name="theme-color" content="#0b0b0b">
+<meta property="og:title" content="LPAL 4 · Tanıtım videon">
+<meta property="og:description" content="Metin, çekim listesi ve yükleme linki. Son tarih: 6 Aralık.">
+<meta property="og:image" content="https://lpal.eu/assets/img/og-lpal4-2.jpg">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-lpal2.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto+Condensed:wght@500;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<script>
+  /* Paste the Google Drive folder link here (the parent folder with one folder per athlete). */
+  window.DRIVE_URL = "https://drive.google.com/drive/folders/1SYSoDuAAtrX-kGmfAS2WcVyE1O2k_3xE";
+  window.DEADLINE = "6 Aralık 2026 Pazar";
+  window.LANG = "tr";
+  window.T = { soon: "Yükleme linki yakında", copy: "Kopyala", copied: "Kopyalandı" };
+  window.LANG_PAGES = { en: "lpal4-athlete-video", fr: "lpal4-athlete-video-fr", it: "lpal4-athlete-video-it", ar: "lpal4-athlete-video-ar", ka: "lpal4-athlete-video-ka", tr: "lpal4-athlete-video-tr", es: "lpal4-athlete-video-es" };
+  (function () {
+    try {
+      var s = localStorage.getItem("lpal4-lang");
+      if (s && s !== window.LANG && window.LANG_PAGES[s]) location.replace("/" + window.LANG_PAGES[s] + location.hash);
+    } catch (e) {}
+  })();
+</script>
+<style>
+:root{--bg:#0b0b0b;--card:#151515;--card2:#1c1c1c;--line:#2a2a2a;--txt:#f2f2f2;--mute:#a8a8a8;--red:#e3342f;--gold:#f6b800;--green:#53fc18}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.6 Roboto,system-ui,sans-serif}
+a{color:#fff}
+img,video,svg{display:block;max-width:100%}
+svg{direction:ltr;unicode-bidi:isolate}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.k{margin:0 0 8px;color:var(--red);font:800 13px/1.2 "Roboto Condensed",sans-serif;letter-spacing:.2em;text-transform:uppercase}
+h1,h2,h3{font-family:"Bebas Neue",Impact,sans-serif;font-weight:400;letter-spacing:.01em;line-height:1;margin:0}
+h1{font-size:clamp(48px,11vw,96px)}
+h2{font-size:clamp(36px,7vw,58px);margin-bottom:14px}
+h3{font-size:28px;margin-bottom:8px}
+p{margin:0 0 14px}
+.lead{color:#cfcfcf;font-size:18px;max-width:720px}
+.mute{color:var(--mute)}
+section{padding:64px 0;border-top:1px solid #1a1a1a}
+
+/* top bar */
+.bar{position:sticky;top:0;z-index:20;background:rgba(11,11,11,.92);backdrop-filter:blur(8px);border-bottom:1px solid #1d1d1d}
+.bar .wrap{display:flex;align-items:center;gap:14px;height:60px}
+.bar img{height:30px;width:auto}
+.bar nav{display:flex;gap:4px;margin-inline-start:auto;overflow-x:auto;scrollbar-width:none}
+.bar nav::-webkit-scrollbar{display:none}
+.bar nav a{flex:none;padding:6px 9px;color:#bbb;text-decoration:none;font:700 13px/1 "Roboto Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;border-radius:4px}
+.bar nav a:hover{color:#fff;background:#1d1d1d}
+
+/* language picker */
+.lang{background:#121212;border-bottom:1px solid #1d1d1d}
+.lang .wrap{padding-top:14px;padding-bottom:14px}
+.lang-h{display:flex;align-items:flex-start;gap:8px;margin:0 0 10px;color:var(--gold);font:800 13px/1.45 "Roboto Condensed",Roboto,sans-serif;letter-spacing:.04em}
+.lang-h .pt{flex:none;font-size:18px;line-height:1;animation:bob 1.1s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(4px)}}
+.lang-list{display:flex;flex-wrap:wrap;gap:8px}
+.lang-list a{display:inline-flex;align-items:center;gap:8px;padding:8px 13px;border:1px solid #333;border-radius:99px;background:#1a1a1a;color:#ddd;text-decoration:none;font:700 15px/1.2 Roboto,"Noto Sans Georgian","Noto Kufi Arabic",sans-serif}
+.lang-list a[aria-current]{border-color:var(--red);background:#2a1110;color:#fff}
+.lang-list img{width:21px;height:16px;border-radius:2px;object-fit:cover}
+
+/* hero */
+.hero{position:relative;padding:72px 0 56px;border:0;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:url(assets/athlete-video/ex-wide.jpg) center/cover;opacity:.22}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(11,11,11,.3),var(--bg))}
+.hero .wrap{position:relative;z-index:1}
+.hero .logo{height:64px;width:auto;margin-bottom:22px}
+.deadline{display:inline-flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:18px 0 26px;padding:12px 16px;border:1px solid rgba(246,184,0,.45);background:rgba(246,184,0,.08);border-radius:6px;font-weight:700}
+.deadline b{color:var(--gold);font:400 26px/1 "Bebas Neue",sans-serif;letter-spacing:.03em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:0 22px;border-radius:6px;background:var(--red);color:#fff;text-decoration:none;font:800 15px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;border:0;cursor:pointer}
+.btn.ghost{background:transparent;border:1px solid #555}
+.btn.off{background:#333;color:#999;pointer-events:none}
+.row{display:flex;flex-wrap:wrap;gap:10px}
+
+/* facts */
+.facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:30px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px}
+.fact b{display:block;font:400 30px/1 "Bebas Neue",sans-serif;color:#fff}
+.fact span{color:var(--mute);font-size:14px;line-height:1.35;display:block;margin-top:6px}
+
+/* tech */
+.tech{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:22px}
+.tip{display:flex;gap:14px;background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.tip i{flex:none;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:#241010;color:var(--red);font:400 20px/1 "Bebas Neue",sans-serif;font-style:normal}
+.tip b{display:block;margin-bottom:2px}
+.tip p{margin:0;color:#c4c4c4;font-size:15px}
+.no{color:#ff6b66}
+
+/* parts */
+.part-h{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.num{flex:none;width:52px;height:52px;border-radius:8px;background:var(--red);display:grid;place-items:center;font:400 32px/1 "Bebas Neue",sans-serif}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 18px}
+.tag{padding:5px 10px;border-radius:99px;background:var(--card2);border:1px solid var(--line);font:700 12px/1 "Roboto Condensed",sans-serif;letter-spacing:.08em;text-transform:uppercase;color:#ddd}
+.tag.eye{border-color:rgba(83,252,24,.5);color:var(--green)}
+.tag.side{border-color:rgba(246,184,0,.5);color:var(--gold)}
+.grid2{display:grid;grid-template-columns:1.05fr .95fr;gap:22px;align-items:start}
+.fig{background:#000;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.fig figcaption{padding:10px 12px;color:var(--mute);font-size:13px;background:#111;border-top:1px solid var(--line)}
+.fig video,.fig img{width:100%;aspect-ratio:16/9;object-fit:cover}
+figure{margin:0}
+.script{position:relative;margin:4px 0 18px;padding:20px 20px 18px;background:linear-gradient(90deg,rgba(227,52,47,.1),transparent 80%),var(--card);border-inline-start:4px solid var(--red);border-start-start-radius:0;border-end-start-radius:0;border-start-end-radius:8px;border-end-end-radius:8px}
+.script small{display:block;margin-bottom:8px;color:var(--red);font:800 12px/1 "Roboto Condensed",sans-serif;letter-spacing:.16em;text-transform:uppercase}
+.script q{display:block;quotes:none;font-size:19px;line-height:1.55;color:#fff}
+.script em{font-style:normal;color:var(--gold);background:rgba(246,184,0,.1);padding:0 4px;border-radius:3px}
+.copy{position:absolute;top:12px;inset-inline-end:12px;padding:6px 10px;border:1px solid #444;background:#111;color:#ddd;border-radius:4px;font:700 11px/1 "Roboto Condensed",sans-serif;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.example{margin:-6px 0 18px;padding:12px 16px;background:#101010;border:1px dashed #333;border-radius:8px;color:#cfcfcf;font-size:15px}
+.example b{color:#fff}
+ol.q,ul.l{margin:0 0 16px;padding-inline-start:22px}
+ol.q li,ul.l li{margin-bottom:8px}
+ol.q li::marker{color:var(--red);font-weight:700}
+ul.l li::marker{color:var(--red)}
+.box{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 18px 6px;margin-bottom:14px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.shot{background:var(--card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.shot svg{width:100%;height:auto;background:#000}
+.shot div{padding:10px 12px}
+.shot b{display:block;font-size:15px}
+.shot span{color:var(--mute);font-size:13px;line-height:1.4;display:block}
+.three{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0;align-items:start}
+.note{padding:14px 16px;border-radius:8px;background:rgba(246,184,0,.08);border:1px solid rgba(246,184,0,.35);color:#eee;font-size:15px}
+.note b{color:var(--gold)}
+
+/* checklist */
+.check{list-style:none;margin:18px 0 22px;padding:0;display:grid;gap:8px}
+.check label{display:flex;gap:12px;align-items:flex-start;padding:13px 14px;background:var(--card);border:1px solid var(--line);border-radius:8px;cursor:pointer}
+.check input{flex:none;width:22px;height:22px;margin:1px 0 0;accent-color:var(--red)}
+.check label:has(input:checked){border-color:rgba(83,252,24,.45);background:#101a0c}
+.check label:has(input:checked) span{color:#9fdc8a;text-decoration:line-through;text-decoration-color:rgba(159,220,138,.5)}
+.prog{height:8px;background:#222;border-radius:99px;overflow:hidden;margin-top:6px}
+.prog i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+
+/* links box */
+.links-box{max-width:860px;margin:34px auto 0;text-align:start;padding:22px 22px 20px;border:2px solid var(--red);border-radius:10px;background:linear-gradient(180deg,rgba(227,52,47,.12),rgba(227,52,47,.03)),var(--card)}
+.links-box h3{font-size:32px;margin-bottom:10px}
+.btn.wa{background:#1faa53}
+.check label.must{border-color:rgba(227,52,47,.6);background:#1d1010}
+
+/* upload */
+.upload{text-align:center;padding:72px 0 90px;background:radial-gradient(60% 80% at 50% 0,rgba(227,52,47,.18),transparent 70%)}
+.upload .btn{min-height:60px;font-size:17px;padding:0 34px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;text-align:start;margin:28px auto 30px;max-width:860px}
+.steps div{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:16px}
+.steps b{display:block;font:400 24px/1 "Bebas Neue",sans-serif;color:var(--red);margin-bottom:6px}
+code{font:14px/1.4 ui-monospace,Menlo,monospace;background:#1f1f1f;padding:2px 6px;border-radius:4px;color:#ffd;word-break:break-word}
+footer{padding:28px 0 40px;color:#777;font-size:13px;text-align:center;border-top:1px solid #1a1a1a}
+
+@media (max-width:820px){
+  .facts{grid-template-columns:repeat(2,1fr)}
+  .fact:last-child{grid-column:1/-1}
+  .tech,.grid2,.steps{grid-template-columns:1fr}
+  .shots{grid-template-columns:repeat(2,1fr)}
+  .three{grid-template-columns:1fr}
+  section{padding:52px 0}
+  .script q{font-size:17px}
+  .bar nav{display:none}
+  .bar .btn{margin-inline-start:auto;min-height:40px;padding:0 14px;font-size:13px}
+}
+@media (min-width:821px){.bar .btn{min-height:40px;padding:0 16px;font-size:13px}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="wrap">
+    <img src="assets/img/logo-white-2.png" alt="LPAL">
+    <nav aria-label="Bölümler">
+      <a href="#setup">Ayarlar</a><a href="#p1">1 Giriş</a><a href="#p2">2 Hikâye</a><a href="#p3">3 Günün</a><a href="#p4">4 Antrenman</a><a href="#p5">5 Maç</a><a href="#p6">6 Partner</a><a href="#upload">Yükleme</a>
+    </nav>
+    <a class="btn" href="#upload">Yükle</a>
+  </div>
+</header>
+
+<main>
+<div class="lang" data-notr>
+  <div class="wrap">
+    <p class="lang-h" dir="ltr"><span class="pt" aria-hidden="true">👇</span><span>Choose your language · Choisis ta langue · Scegli la tua lingua · اختر لغتك · აირჩიე ენა · Dilini seç · Elige tu idioma</span></p>
+    <div class="lang-list" id="lang-list">
+      <a href="/lpal4-athlete-video" data-l="en" lang="en"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/gb.svg" alt="" onerror="this.remove()">English</a>
+      <a href="/lpal4-athlete-video-fr" data-l="fr" lang="fr"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/fr.svg" alt="" onerror="this.remove()">Français</a>
+      <a href="/lpal4-athlete-video-it" data-l="it" lang="it"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/it.svg" alt="" onerror="this.remove()">Italiano</a>
+      <a href="/lpal4-athlete-video-ar" data-l="ar" lang="ar" dir="rtl"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ma.svg" alt="" onerror="this.remove()">العربية</a>
+      <a href="/lpal4-athlete-video-ka" data-l="ka" lang="ka"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/ge.svg" alt="" onerror="this.remove()">ქართული</a>
+      <a href="/lpal4-athlete-video-tr" data-l="tr" lang="tr"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/tr.svg" alt="" onerror="this.remove()">Türkçe</a>
+      <a href="/lpal4-athlete-video-es" data-l="es" lang="es"><img src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/es.svg" alt="" onerror="this.remove()">Español</a>
+    </div>
+  </div>
+</div>
+<section class="hero">
+  <div class="wrap">
+    <img class="logo" src="assets/img/logo-lpal4-2.webp" alt="LPAL 4">
+    <p class="k">Her LPAL 4 sporcusu için</p>
+    <h1>Tanıtım videon</h1>
+    <p class="lead">Köln'deki girişinden önce <strong>senin</strong> hakkında kısa bir film salondaki dev ekranda ve KICK'te canlı yayında oynatılacak. İzleyenlerin çoğu adını hiç duymadı. Filmden sonra kim olduğunu, ne yaptığını ve neden seni desteklemeleri gerektiğini bilmeliler.</p>
+    <p class="lead">Sen çek, biz kurgulayalım. Bu sayfa neyi ve nasıl çekeceğini tam olarak anlatıyor.</p>
+    <div class="deadline"><span>Her şeyi şu tarihe kadar yükle:</span><b id="dl">6 Aralık 2026 Pazar</b></div>
+    <div class="row">
+      <a class="btn" href="#p1">Ne çekeceğimi göster</a>
+      <a class="btn ghost" href="#upload">Yükleme linki</a>
+    </div>
+    <div class="facts">
+      <div class="fact"><b>4K · 30 fps</b><span>Yeni bir telefon ya da kamera.</span></div>
+      <div class="fact"><b>16:9</b><span>Her zaman yatay çek, asla dikey değil.</span></div>
+      <div class="fact"><b>6 bölüm</b><span>Giriş, hikâye, günün, antrenman, maç, antrenman partneri.</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- SETUP -->
+<section id="setup">
+  <div class="wrap">
+    <p class="k">Kayda basmadan önce</p>
+    <h2>Kamera ayarları</h2>
+    <p class="lead">Bu ayarlar her bölüm için aynı. Kötü ses ya da dikey video sonradan düzeltilemez, bu yüzden her kayıttan önce kontrol et.</p>
+
+    <div class="grid2" style="margin-top:22px">
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Telefonu yatay tut, dikey değil">
+          <rect width="480" height="270" fill="#0d0d0d"/>
+          <g transform="translate(40 62)">
+            <rect x="0" y="0" width="230" height="130" rx="18" fill="#1b1b1b" stroke="#53fc18" stroke-width="4"/>
+            <rect x="14" y="12" width="202" height="106" rx="6" fill="#0a0a0a"/>
+            <circle cx="115" cy="56" r="20" fill="#2b2b2b"/><path d="M80 118c4-22 18-34 35-34s31 12 35 34z" fill="#2b2b2b"/>
+            <text x="115" y="168" fill="#53fc18" font-family="Roboto Condensed,Arial" font-weight="800" font-size="20" text-anchor="middle">✓ YATAY 16:9</text>
+          </g>
+          <g transform="translate(330 30)">
+            <rect x="0" y="0" width="100" height="178" rx="16" fill="#1b1b1b" stroke="#e3342f" stroke-width="4"/>
+            <rect x="9" y="12" width="82" height="154" rx="5" fill="#0a0a0a"/>
+            <circle cx="50" cy="78" r="15" fill="#2b2b2b"/><path d="M26 140c3-20 12-30 24-30s21 10 24 30z" fill="#2b2b2b"/>
+            <path d="M8 8l84 162M92 8L8 170" stroke="#e3342f" stroke-width="5" opacity=".85"/>
+            <text x="50" y="216" fill="#e3342f" font-family="Roboto Condensed,Arial" font-weight="800" font-size="20" text-anchor="middle">✗ DİKEY</text>
+          </g>
+        </svg>
+        <figcaption>Video salonda geniş bir ekranda ve KICK'te oynatılıyor. Dikey videolar kullanılamaz.</figcaption>
+      </figure>
+      <div>
+        <div class="tip" style="margin-bottom:10px"><i>1</i><div><b>30 fps'de 4K</b><p>iPhone: Ayarlar → Kamera → Video Kaydı → <strong>4K, 30 fps</strong>. Android: kamera uygulamasında video ayarlarını aç ve <strong>4K / UHD, 30 fps</strong> seç. Kameran varsa onu da kullanabilirsin.</p></div></div>
+        <div class="tip"><i>2</i><div><b>2× lens, arka kamera</b><p>Telefonda arka kamerayı kullan ve <strong>2×</strong>'e dokun. Kamerada yaklaşık <strong>30 mm</strong> bir lens kullan. Selfie kamerası yok, filtre yok, güzellik modu yok, müzik yok.</p></div></div>
+      </div>
+    </div>
+
+    <div class="tech">
+      <div class="tip"><i>3</i><div><b>Sabit kamera</b><p>Konuştuğun bölümlerde telefonu bir tripoda koy ya da göz hizasında kitaplara veya bir rafa daya. Elde sallanan röportaj olmasın.</p></div></div>
+      <div class="tip"><i>4</i><div><b>Temiz ses</b><p>Sessiz bir oda. Televizyonu, müziği, vantilatörleri ve çamaşır makinesini kapat. Telefon senden en fazla 2 m uzakta olsun ya da varsa yaka mikrofonu kullan.</p></div></div>
+      <div class="tip"><i>5</i><div><b>İyi ışık</b><p>Işık yandan ya da önden gelsin (pencere veya lamba). Arkanda parlak bir pencereyle <span class="no">asla</span> oturma.</p></div></div>
+      <div class="tip"><i>6</i><div><b>Lensi temizle</b><p>Başlamadan önce kamera lensini bir tişörtle sil. Kirli lens her şeyi bulanık yapar.</p></div></div>
+      <div class="tip"><i>7</i><div><b>Odağı kilitle</b><p>Ekranda yüzüne (ya da ana konuya) "AE/AF kilidi" yazana kadar basılı tut, böylece konuşurken görüntü değişmez.</p></div></div>
+      <div class="tip"><i>8</i><div><b>Çok çekim, uzun klipler</b><p>Kayda bastıktan sonra konuşmadan önce 3 saniye bekle, sonunda da 3 saniye. Önemli cümleleri 2–3 kez söyle. Daha çok malzeme = daha iyi kurgu.</p></div></div>
+    </div>
+    <div class="note" style="margin-top:14px;display:flex;gap:14px;align-items:flex-start">
+      <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true" style="flex:none"><path d="M8 10h22v16H18l-7 6v-6H8z" fill="#1d1d1d" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/><path d="M34 18h6v14h-3v5l-6-5h-9v-4" fill="none" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div><b style="font-size:17px">Dil</b><br/>En iyisi videonun tamamının <strong>İngilizce</strong> olması. <strong>1. bölüm mutlaka İngilizce olmalı.</strong> İngilizcen geri kalanı için yetmiyorsa kendi dilinde konuş, ama <strong>yavaş ve net</strong>, böylece kolayca çevirebiliriz.</div>
+    </div>
+    <div class="note" style="margin-top:14px;display:flex;gap:14px;align-items:flex-start">
+      <svg viewBox="0 0 48 48" width="40" height="40" aria-hidden="true" style="flex:none"><path d="M17 6l-11 6 4 9 5-2v23h18V19l5 2 4-9-11-6c-1 4-4 6-7 6s-6-2-7-6z" fill="#1d1d1d" stroke="#f6b800" stroke-width="2.5" stroke-linejoin="round"/></svg>
+      <div><b style="font-size:17px">Ne giymeli</b><br/>Varsa bir <strong>Lion Pride tişörtü</strong>. Yoksa <strong>tek renk, koyu</strong> normal bir tişört (siyah, koyu gri, lacivert). Nike veya Adidas gibi küçük bir marka logosu olabilir. Büyük baskı veya yazı olmasın.</div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 1 -->
+<section id="p1">
+  <div class="wrap">
+    <div class="part-h"><span class="num">1</span><div><p class="k" style="margin:0">1. bölüm · İngilizce</p><h2 style="margin:0">Sen kimsin</h2></div></div>
+    <div class="tags"><span class="tag eye">Lense bak</span><span class="tag">İngilizce</span><span class="tag">Göğüsten yukarı</span><span class="tag">Koyu veya düz arka plan</span></div>
+
+    <div class="grid2">
+      <div>
+        <p>Bu filminin açılışı. <strong>Doğrudan kameranın lensine</strong> bakıyorsun (ekrana değil) ve kendini İngilizce tanıtıyorsun: adın, bilek güreşindeki en büyük başarıların ve LPAL 4'te kiminle karşılaşacağın. Diğer bölümlerde kendi dilinde konuşsan bile <strong>bu bölüm İngilizce olmalı</strong>. Aşağıdaki metni İngilizce söyle.</p>
+        <div class="script">
+          <button class="copy" type="button" data-copy="s1">Kopyala</button>
+          <small>Metin (İngilizce söyle)</small>
+          <q id="s1" dir="ltr">My name is <em>[first and last name]</em>. I'm from <em>[city, country]</em>. I'm <em>[your biggest title, e.g. a multiple-time national champion]</em> in armwrestling, and I'm coming to Cologne, Germany, to compete against <em>[opponent]</em> at LPAL 4.</q>
+        </div>
+        <div class="example"><b>Örnek:</b> <span dir="ltr">“My name is John Smith. I'm a multiple-time German national champion in armwrestling, and I'm coming to Cologne, Germany, to compete against Max Phillips at LPAL 4.”</span></div>
+        <ul class="l">
+          <li><strong>En iyi unvanlarını</strong> söyle: ulusal, Avrupa veya dünya şampiyonaları, dünya kupaları ve büyük turnuvalar. Bu turnuvaların videoları varsa bahset ve linkleri bize WhatsApp'tan gönder (bu sayfanın sonuna bak).</li>
+          <li><strong>4–5 kez</strong> söyle: önce sakin, sonra daha enerjik. En iyi çekimi biz seçeriz.</li>
+          <li>Okumamak için ezberle. Aksan hiç sorun değil.</li>
+        </ul>
+      </div>
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Kadraj: sporcu ortada, göğüsten yukarı, lense bakıyor">
+          <defs><radialGradient id="g1" cx="50%" cy="40%" r="60%"><stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#050505"/></radialGradient></defs>
+          <rect width="480" height="270" fill="url(#g1)"/>
+          <g stroke="#ffffff" stroke-opacity=".12" stroke-dasharray="4 6"><path d="M160 0v270M320 0v270M0 90h480M0 180h480"/></g>
+          <path d="M150 270c6-58 40-86 90-86s84 28 90 86z" fill="#3a3a3a"/>
+          <rect x="222" y="150" width="36" height="40" rx="10" fill="#4a4a4a"/>
+          <ellipse cx="240" cy="118" rx="40" ry="48" fill="#5a5a5a"/>
+          <circle cx="226" cy="114" r="4" fill="#111"/><circle cx="254" cy="114" r="4" fill="#111"/>
+          <path d="M226 142q14 8 28 0" stroke="#222" stroke-width="3" fill="none"/>
+          <path d="M240 172v40" stroke="#53fc18" stroke-width="0"/>
+          <g font-family="Roboto Condensed,Arial" font-weight="800" font-size="15" fill="#53fc18"><text x="16" y="28">GÖZLER LENSTE</text></g>
+          <g font-family="Roboto Condensed,Arial" font-weight="700" font-size="13" fill="#aaa"><text x="16" y="256">baş üst üçte birde · başın üstünde biraz boşluk</text></g>
+        </svg>
+        <figcaption>Göğüsten yukarı kadraj. Kamera göz hizasında, 2× lens, yaklaşık 1,5–2 m uzakta.</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- PART 2 -->
+<section id="p2">
+  <div class="wrap">
+    <div class="part-h"><span class="num">2</span><div><p class="k" style="margin:0">2. bölüm · röportaj</p><h2 style="margin:0">Hikâyen</h2></div></div>
+    <div class="tags"><span class="tag side">Yana bak, lense değil</span><span class="tag">Siyah arka plan</span><span class="tag">Evde</span><span class="tag">Yandan çekim</span></div>
+
+    <p class="lead">Bu filmin kalbi. Kimsenin seni tanımadığını düşün. Hikâyeni anlat: nereden geldiğini, her gün ne yaptığını ve nasıl bilek güreşçisi olduğunu. Biri (bir arkadaş, partnerin, bir aile üyesi) <strong>kameranın hemen yanında</strong> oturur ve sana soruları sorar. Sen lense değil, <strong>o kişiye</strong> bakarsın.</p>
+
+    <div class="three">
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Yakın kadraj: yüz hafifçe yana dönük, gözler kameranın yanındaki röportajcıda, koyu arka plan, yandan sıcak ışık">
+          <defs>
+            <radialGradient id="bg2" cx="70%" cy="40%" r="70%"><stop offset="0" stop-color="#2a1a10"/><stop offset=".6" stop-color="#0c0806"/><stop offset="1" stop-color="#000"/></radialGradient>
+            <linearGradient id="skin" x1="0" x2="1"><stop offset="0" stop-color="#3a2a22"/><stop offset=".45" stop-color="#8a6450"/><stop offset=".8" stop-color="#d7a98a"/><stop offset="1" stop-color="#e9c1a4"/></linearGradient>
+            <linearGradient id="tee" x1="0" x2="1"><stop offset="0" stop-color="#0e0e0e"/><stop offset=".7" stop-color="#262626"/><stop offset="1" stop-color="#3a3a3a"/></linearGradient>
+          </defs>
+          <rect width="480" height="270" fill="url(#bg2)"/>
+          <path d="M40 270c10-40 60-64 150-66 92 2 140 26 152 66z" fill="url(#tee)"/>
+          <path d="M162 186h56v34c-10 8-46 8-56 0z" fill="#6e5040"/>
+          <ellipse cx="140" cy="118" rx="11" ry="20" fill="#5a4034"/>
+          <path d="M136 112c0-48 30-76 66-76 40 0 62 30 62 74 0 50-26 92-62 92-38 0-66-40-66-90z" fill="url(#skin)"/>
+          <path d="M134 98c2-44 34-66 70-64 34 2 56 24 60 56-16-22-44-30-74-28-24 2-44 14-56 36z" fill="#1c140f"/>
+          <path d="M170 96q16-7 30 0M218 94q16-7 30 2" stroke="#2a1c14" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <ellipse cx="186" cy="112" rx="13" ry="7" fill="#efe6df"/><ellipse cx="233" cy="111" rx="12" ry="7" fill="#efe6df"/>
+          <circle cx="193" cy="112" r="5.4" fill="#3b2a1e"/><circle cx="240" cy="111" r="5.2" fill="#3b2a1e"/>
+          <circle cx="193" cy="112" r="2.4" fill="#000"/><circle cx="240" cy="111" r="2.3" fill="#000"/>
+          <path d="M216 116c4 12 10 22 14 30-4 4-10 5-16 3" stroke="#7a5442" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M194 164q18 8 36-2" stroke="#6a4030" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M262 112h132" stroke="#f6b800" stroke-width="3" stroke-dasharray="8 8"/><path d="M394 104l16 8-16 8z" fill="#f6b800"/>
+          <g font-family="Roboto Condensed,Arial" font-weight="800" font-size="16" fill="#f6b800"><text x="284" y="70">✓ GÖZLER</text><text x="284" y="90">RÖPORTAJCIDA</text></g>
+          <g font-family="Roboto Condensed,Arial" font-weight="700" font-size="12.5" fill="#bbb"><text x="284" y="138">kameranın hemen</text><text x="284" y="154">yanında oturuyor</text></g>
+          <g transform="translate(330 186)">
+            <circle cx="30" cy="30" r="24" fill="#333"/>
+            <ellipse cx="21" cy="27" rx="5" ry="3.5" fill="#ddd"/><ellipse cx="39" cy="27" rx="5" ry="3.5" fill="#ddd"/>
+            <circle cx="21" cy="27" r="2.4" fill="#111"/><circle cx="39" cy="27" r="2.4" fill="#111"/>
+            <path d="M11 11l38 38M49 11L11 49" stroke="#e3342f" stroke-width="4.5" stroke-linecap="round"/>
+            <text x="62" y="26" font-family="Roboto Condensed,Arial" font-weight="800" font-size="13" fill="#e3342f">✗ LENSE</text>
+            <text x="62" y="43" font-family="Roboto Condensed,Arial" font-weight="800" font-size="13" fill="#e3342f">BAKMA</text>
+          </g>
+        </svg>
+        <figcaption>Podcast çekimi gibi: yakın, yüz hafifçe yana dönük, gözler soruları soran kişide. Koyu arka plan, ışık bir yandan. Profil çekimi değil.</figcaption>
+      </figure>
+      <figure class="fig">
+        <svg viewBox="0 0 480 270" role="img" aria-label="Yukarıdan düzen: koyu duvar, sporcu, yanda lamba, kamera ve röportajcı yan yana">
+          <rect width="480" height="270" fill="#0c0c0c"/>
+          <rect x="20" y="16" width="440" height="22" fill="#000" stroke="#333"/>
+          <text x="240" y="31" fill="#888" font-family="Roboto Condensed,Arial" font-weight="700" font-size="12" text-anchor="middle" letter-spacing="2">KOYU DUVAR · ARKANDA EN AZ 1,5 M</text>
+          <circle cx="240" cy="96" r="24" fill="#e3342f"/><text x="240" y="101" fill="#fff" font-family="Roboto Condensed,Arial" font-weight="800" font-size="13" text-anchor="middle">SEN</text>
+          <path d="M70 70l130 10 0 32-130 10z" fill="#f6b800" opacity=".14"/>
+          <circle cx="62" cy="96" r="14" fill="#f6b800"/><text x="62" y="134" fill="#f6b800" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">LAMBA / PENCERE</text>
+          <rect x="216" y="200" width="48" height="28" rx="5" fill="#ddd"/><circle cx="240" cy="200" r="7" fill="#444"/>
+          <text x="240" y="246" fill="#ddd" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">KAMERA</text>
+          <circle cx="322" cy="212" r="18" fill="#f6b800"/><text x="322" y="246" fill="#f6b800" font-family="Roboto Condensed,Arial" font-weight="800" font-size="12" text-anchor="middle">RÖPORTAJCIDA</text>
+          <path d="M258 108l52 88" stroke="#f6b800" stroke-width="2.5" stroke-dasharray="6 6"/>
+          <path d="M240 122v74" stroke="#666" stroke-width="2"/>
+          <text x="164" y="168" fill="#777" font-family="Roboto Condensed,Arial" font-weight="700" font-size="12">1,5–2 m</text>
+        </svg>
+        <figcaption>Yukarıdan görünüm: röportajcı kameranın hemen yanında oturuyor, ışık bir yandan geliyor.</figcaption>
+      </figure>
+      <div class="box">
+        <h3>Siyah arka plan nasıl olur</h3>
+        <ul class="l">
+          <li>Akşam çek ya da perdeleri kapat.</li>
+          <li>Tavan ışığını kapat. Sadece bir yanında <strong>bir lamba ya da pencere</strong> olsun.</li>
+          <li>Duvardan uzak otur (1,5 m veya daha fazla), böylece arka plan karanlıkta kalır.</li>
+          <li>Tek renk, koyu bir tişört giy (yukarıdaki “Ne giymeli” kısmına bak).</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 style="margin-top:26px">Sorular</h3>
+    <p class="mute">Röportajcı soruları sesli okur. Soru olmadan da anlaşılan <strong>tam cümlelerle</strong> cevap ver (“…'da marangoz olarak çalışıyorum”, sadece “Marangoz.” değil). En iyisi İngilizce; olmazsa kendi dilinde yavaş ve net konuş. Acele etme; 10–15 dakika konuşmak mükemmel.</p>
+    <ol class="q">
+      <li>Sen kimsin? Nerelisin ve şu an nerede yaşıyorsun?</li>
+      <li>Ne iş yapıyorsun ya da ne okuyorsun? İşin tam olarak nasıl bir iş?</li>
+      <li>Sıradan bir gününü anlat, uyandığın andan yatana kadar.</li>
+      <li>Bilek güreşine nasıl ve ne zaman başladın? Seni bu spora kim getirdi?</li>
+      <li>En büyük başarıların neler? Turnuvayı ve yılı söyle (görüntüleri biz ararız).</li>
+      <li>En zor yenilgin ya da en zor anın neydi ve ondan ne öğrendin?</li>
+      <li>İnsanların senin hakkında asla tahmin edemeyeceği şey ne? Aile, çocuklar, hayvanlar, başka sporlar, hobiler, komik bir hikâye.</li>
+      <li>Bilek güreşi senin için ne demek? Neden yapıyorsun?</li>
+    </ol>
+    <div class="note"><b>Önemli:</b> anlattığın her şeyi <strong>görmemiz</strong> gerekiyor. İşinden, okulundan, çocuklarından, köpeğinden ya da garajından bahsediyorsan, onu çek veya fotoğraf gönder (3. bölüm). Görüntüsü olmayan hikâye kullanılamaz.</div>
+  </div>
+</section>
+
+<!-- PART 3 -->
+<section id="p3">
+  <div class="wrap">
+    <div class="part-h"><span class="num">3</span><div><p class="k" style="margin:0">3. bölüm · konuşmana gerek yok</p><h2 style="margin:0">Günün</h2></div></div>
+    <div class="tags"><span class="tag">İş veya okul</span><span class="tag">Ev</span><span class="tag">Hobiler</span><span class="tag">Video + fotoğraf</span></div>
+    <p class="lead">Sen hikâyeni anlatırken biz hayatını gösteriyoruz. Bir arkadaşından ya da iş arkadaşından seni sıradan bir günde çekmesini iste: işte veya okulda, yolda, evde. Kameraya bakma, her zaman ne yapıyorsan onu yap.</p>
+
+    <div class="shots">
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="120" width="320" height="60" fill="#1c1c1c"/><rect x="40" y="40" width="70" height="80" fill="#222"/><rect x="200" y="56" width="90" height="64" fill="#222"/><circle cx="158" cy="86" r="8" fill="#e3342f"/><path d="M148 122l4-28h12l4 28z" fill="#e3342f"/></svg>
+        <div><b>Geniş çekim</b><span>Bütün mekân: atölyen, ofisin, sınıfın, binanın dışı.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="130" width="320" height="50" fill="#1c1c1c"/><circle cx="150" cy="60" r="24" fill="#e3342f"/><path d="M100 180c4-50 24-84 50-84s46 34 50 84z" fill="#e3342f"/><rect x="200" y="110" width="80" height="30" fill="#333"/></svg>
+        <div><b>Orta çekim</b><span>Çalışırken sen, belden yukarı. Yandan ya da biraz arkadan çek.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><path d="M60 180c10-60 50-100 110-110 60 10 90 50 100 110z" fill="#e3342f" opacity=".85"/><rect x="140" y="40" width="70" height="44" rx="6" fill="#444"/><path d="M120 110c20-14 40-18 60-14" stroke="#fff" stroke-width="10" stroke-linecap="round" opacity=".7"/></svg>
+        <div><b>Yakın çekim / eller</b><span>Aletlerde, klavyede, direksiyonda, kitaplarda eller. Detaylar hikâyeyi anlatır.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="0" y="140" width="320" height="40" fill="#262626"/><path d="M110 140h60l10-30h-50z" fill="#e3342f"/><path d="M190 140h60l8-24h-48z" fill="#e3342f" opacity=".7"/><path d="M0 160h320" stroke="#444"/></svg>
+        <div><b>Alt açı</b><span>Kamera yerde: içeri giren ayaklar, işe varış, arabadan iniş.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><path d="M0 180L130 70h60l130 110z" fill="#1c1c1c"/><circle cx="160" cy="70" r="18" fill="#e3342f"/><path d="M128 180c2-40 14-82 32-82s30 42 32 82z" fill="#e3342f"/></svg>
+        <div><b>Arkadan takip</b><span>Arkandan yürü, kamera omuz hizasında: işe, spor salonuna, salona giriş.</span></div>
+      </div>
+      <div class="shot">
+        <svg viewBox="0 0 320 180" aria-hidden="true"><rect width="320" height="180" fill="#101010"/><rect x="30" y="30" width="110" height="80" fill="#eee" transform="rotate(-6 85 70)"/><rect x="40" y="40" width="90" height="56" fill="#555" transform="rotate(-6 85 70)"/><rect x="160" y="50" width="120" height="86" fill="#eee" transform="rotate(5 220 93)"/><rect x="170" y="60" width="100" height="60" fill="#e3342f" opacity=".7" transform="rotate(5 220 93)"/></svg>
+        <div><b>Fotoğraflar</b><span>Eski fotoğraflar: çocukluk, ilk turnuva, aile, takımın, madalyalar.</span></div>
+      </div>
+    </div>
+    <ul class="l">
+      <li>Her klip <strong>10–30 saniye</strong>, kamera sabit ya da yavaş hareket ediyor. Her şeyi 2–3 farklı açıdan çek.</li>
+      <li>İşten veya okuldan en az <strong>5–10 klip</strong>. İşte çekemiyorsan binanın dışını, iş kıyafetlerini, aletlerini, yolu çek.</li>
+      <li>Ev ve boş zaman da: yemek yapmak, çocuklar, hayvanlar, başka sporlar, araban, “sen” olan her şey.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART 4 -->
+<section id="p4">
+  <div class="wrap">
+    <div class="part-h"><span class="num">4</span><div><p class="k" style="margin:0">4. bölüm · spor salonunda</p><h2 style="margin:0">Antrenman</h2></div></div>
+    <div class="tags"><span class="tag">3–4 egzersiz</span><span class="tag">Masada sparring</span><span class="tag">Çok yakın + uzaktan</span></div>
+    <p class="lead">Ne kadar sıkı çalıştığını göster. <strong>Tipik 3–4 bilek güreşi egzersizini</strong> ve antrenman partnerlerinle <strong>masada sparring</strong>'i çek. Her egzersizi birkaç açıdan: bazıları çok yakın, bazıları uzaktan.</p>
+
+    <div class="three">
+      <figure class="fig"><video src="assets/athlete-video/ex-close.mp4" poster="assets/athlete-video/ex-close.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Çok yakın:</b> eller, kavrama, yüz, damarlar, magnezyum, kayışlar.</figcaption></figure>
+      <figure class="fig"><video src="assets/athlete-video/ex-medium.mp4" poster="assets/athlete-video/ex-medium.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Orta:</b> masada iki sporcu, yüzler ve kollar.</figcaption></figure>
+      <figure class="fig"><video src="assets/athlete-video/ex-wide.mp4" poster="assets/athlete-video/ex-wide.jpg" muted loop playsinline autoplay preload="metadata"></video><figcaption><b style="color:#fff">Geniş:</b> bütün masa ve çevresindeki salon.</figcaption></figure>
+    </div>
+    <p class="mute" style="font-size:14px">LPAL etkinliklerinden örnekler. Spor salonunda da aynı şekilde.</p>
+    <ul class="l">
+      <li>Her egzersiz: 1 yakın, 1 orta, 1 geniş klip. Klipler 10–30 saniye.</li>
+      <li>Sparring: masanın yanından, rakibinin arkasından (yüzün kameraya dönük) ve ellere çok yakından çek.</li>
+      <li>Ekstra: magnezyum sürmek, bandaj/kayış, salona giriş, ağır bir setten sonra bir bağırış. Gerçek sesler çok iyi.</li>
+      <li>Telefon yatay, tripodda ya da iki elle sabit tutulmuş. Salonda bol ışık işe yarar.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PART 5 -->
+<section id="p5">
+  <div class="wrap">
+    <div class="part-h"><span class="num">5</span><div><p class="k" style="margin:0">5. bölüm · 2. bölümle aynı düzen</p><h2 style="margin:0">Maç</h2></div></div>
+    <div class="tags"><span class="tag side">Yana bak</span><span class="tag eye">Son cümle lense</span><span class="tag">Siyah arka plan</span></div>
+    <p class="lead">Şimdi LPAL 4'teki maçından bahset. Kendinden emin ol ve kendin ol. Saygı iyidir, biraz trash talk da olur, ama aile, ülke veya din hakkında hakaret yok.</p>
+
+    <h3>Sorular</h3>
+    <ol class="q">
+      <li>LPAL 4'teki rakibin kim ve onun hakkında ne biliyorsun?</li>
+      <li>Rakibin nerede güçlü? Nerede zayıf?</li>
+      <li>Bu maçı nasıl kazanacaksın? (Sır vermene gerek yok, sadece hissin.)</li>
+      <li>Bu maça nasıl hazırlanıyorsun?</li>
+      <li>Köln'de büyük bir sahnede, KICK'te canlı yayında yarışmak senin için ne demek?</li>
+    </ol>
+
+    <p>Sonra <strong>lense</strong> bak ve güçlü bir cümleyle bitir. Birkaç fikir, kendi kelimelerinle söyle:</p>
+    <div class="script">
+      <button class="copy" type="button" data-copy="s5">Kopyala</button>
+      <small>Kapanış cümleleri (birini seç ya da kendin yaz)</small>
+      <q id="s5">“<em>[Rakip]</em>, sana saygım var, ama 9 Ocak'ta Köln'de galibiyet benimle kalacak.”<br/>“Bu kadar sıkı kaybetmek için çalışmadım. Köln'de masada görüşürüz.”<br/>“<em>[Rakip]</em>, hayatının en zor maçına hazır ol.”<br/>“<em>[Rakip]</em>, daha önce hiç hissetmediğin bir güç hissedeceksin.”<br/>“<em>[Rakip]</em>, arkamda <em>[ülken]</em> varken beni kimse durduramaz. Kaybetmeye hazırlan.”</q>
+    </div>
+  </div>
+</section>
+
+<!-- PART 6 -->
+<section id="p6">
+  <div class="wrap">
+    <div class="part-h"><span class="num">6</span><div><p class="k" style="margin:0">6. bölüm · başka biri senden bahsediyor</p><h2 style="margin:0">Antrenman partnerin</h2></div></div>
+    <div class="tags"><span class="tag side">Partner yana bakar</span><span class="tag">Spor salonunda</span><span class="tag">1–2 dakika</span></div>
+    <p class="lead">Seni iyi tanıyan <strong>bir antrenman partneri</strong> (ya da antrenörün) seç. O senden bahseder: ne kadar sıkı çalıştığını, ne zamandır tanıştığınızı ve neden kazanacağını. O konuşurken biz senin antrenman ve maç görüntülerini gösteririz.</p>
+
+    <div class="grid2">
+      <div>
+        <div class="script">
+          <button class="copy" type="button" data-copy="s6">Kopyala</button>
+          <small>Partnerin için metin</small>
+          <q id="s6">Benim adım <em>[isim]</em>, <em>[sporcu]</em>'nun antrenman partneriyim. <em>[sayı]</em> yıldır tanışıyoruz ve <em>[ne sıklıkla]</em> birlikte antrenman yapıyoruz.</q>
+        </div>
+        <h3>Sonra şunları cevaplar</h3>
+        <ol class="q">
+          <li><em style="font-style:normal;color:var(--gold)">[sporcu]</em> ne kadar sıkı çalışıyor? Antrenmandan bir hikâye anlat.</li>
+          <li>Onu masada tehlikeli yapan ne?</li>
+          <li>Spor salonu dışında nasıl biri?</li>
+          <li>Köln'de <em style="font-style:normal;color:var(--gold)">[rakip]</em>'i neden yenecek?</li>
+        </ol>
+      </div>
+      <div class="box">
+        <h3>Nasıl çekilir</h3>
+        <ul class="l">
+          <li>2. bölümdeki gibi: partner, kameranın yanında soruları soran kişiye bakar, lense değil.</li>
+          <li>Spor salonunda çek (arkada bir masa veya ağırlıklar harika olur) ya da evde koyu bir arka planla.</li>
+          <li>Sessiz bir an: kayıt sırasında salonda müzik olmasın.</li>
+          <li>Telefon yatay, tripodda, 2× lens, yaklaşık 1,5–2 m uzakta.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PART 7 -->
+<section id="p7">
+  <div class="wrap">
+    <div class="part-h"><span class="num">+</span><div><p class="k" style="margin:0">Ekstra · zaten elinde olanlar</p><h2 style="margin:0">Arşivin</h2></div></div>
+    <p class="lead">Eski malzeme hikâyeyi gerçek yapar. Elinde ne varsa gönder:</p>
+    <ul class="l">
+      <li>En büyük maç ve turnuvalarının videoları: dosyaları klasörüne yükle. <strong>YouTube ve Instagram linkleri: WhatsApp'tan gönder</strong> (bu sayfanın sonuna bak).</li>
+      <li>Madalyalarla, kupalarla, kemerlerle, podyumda fotoğraflar.</li>
+      <li>Çocukluk fotoğrafları, ilk turnuvan, eski antrenman fotoğrafları.</li>
+      <li>Orada çekim yapamadıysan işten veya okuldan fotoğraflar.</li>
+    </ul>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section id="check">
+  <div class="wrap">
+    <p class="k">Kontrol listesi</p>
+    <h2>Yüklemeden önce</h2>
+    <p class="mute">Elinde olanları işaretle. Bu liste sadece senin telefonunda kaydedilir.</p>
+    <div class="prog"><i id="prog"></i></div>
+    <ul class="check" id="checklist">
+      <li><label><input type="checkbox" data-k="p1"><span><b>1. bölüm:</b> İngilizce giriş, lense bakarak, 4–5 çekim</span></label></li>
+      <li><label><input type="checkbox" data-k="p2"><span><b>2. bölüm:</b> röportaj, yana bakarak, koyu arka plan</span></label></li>
+      <li><label><input type="checkbox" data-k="p3"><span><b>3. bölüm:</b> işten / okuldan 5–10 klip + ev ve boş zaman</span></label></li>
+      <li><label><input type="checkbox" data-k="p4"><span><b>4. bölüm:</b> 3–4 egzersiz + sparring, yakın / orta / geniş</span></label></li>
+      <li><label><input type="checkbox" data-k="p5"><span><b>5. bölüm:</b> maç hakkında konuşma + lense bir kapanış cümlesi</span></label></li>
+      <li><label><input type="checkbox" data-k="p6"><span><b>6. bölüm:</b> antrenman partnerin senden bahsediyor</span></label></li>
+      <li><label><input type="checkbox" data-k="p7"><span><b>Ekstra:</b> eski maç videoları ve fotoğraflar</span></label></li>
+      <li><label class="must"><input type="checkbox" data-k="links"><span><b>Linkler:</b> maçlarının tüm YouTube ve Instagram linkleri WhatsApp'tan gönderildi, uzun canlı yayınlarda tam zamanıyla</span></label></li>
+      <li><label><input type="checkbox" data-k="tech"><span>Her şey <b>yatay</b>, 4K 30 fps, temiz ses</span></label></li>
+    </ul>
+  </div>
+</section>
+
+<!-- UPLOAD -->
+<section class="upload" id="upload">
+  <div class="wrap">
+    <p class="k">Yükle</p>
+    <h2>Videolarını bize gönder</h2>
+    <p class="lead" style="margin:0 auto 6px">Son tarih: <strong id="dl2" style="color:var(--gold)">6 Aralık 2026 Pazar</strong></p>
+    <div class="steps">
+      <div><b>1 · Klasörü aç</b>Aşağıdaki butona dokun. <strong>Adının yazdığı</strong> klasörü aç.</div>
+      <div><b>2 · Orijinalleri yükle</b><strong>Google Drive uygulamasıyla</strong> ya da bilgisayardan yükle. <span class="no">WhatsApp'tan değil</span>: kaliteyi mahvediyor.</div>
+      <div><b>3 · Dosyalara isim ver</b>Her dosya adına bölümle başla, ör. <code>Part1_Intro_take2.mov</code>, <code>Part4_Training_sparring.mp4</code>.</div>
+    </div>
+    <a class="btn" id="drive" href="#" target="_blank" rel="noopener">Yükleme klasörünü aç</a>
+    <p style="margin:16px 0 0;font:400 30px/1.1 'Bebas Neue',Impact,sans-serif;letter-spacing:.02em;color:var(--gold)">Adının yazdığı klasörü aç.</p>
+    <div class="links-box" id="links">
+      <p class="k">Çok önemli</p>
+      <h3>Maç linklerin WhatsApp'tan</h3>
+      <p>Maçlarının <strong>tüm YouTube ve Instagram linklerini</strong> bize <strong>WhatsApp</strong>'tan gönder. Her video önemli.</p>
+      <ul class="l">
+        <li>Uzun bir canlı yayın mı, örneğin Dünya veya Avrupa Şampiyonası? Yarıştığın <strong>tam zamanı</strong> yaz, ör. <code>Avrupa Şampiyonası 2025 – 3:42:10</code>.</li>
+        <li>Videoları telefonda <span class="no">ekran kaydı alıp gönderme</span>. Kalite kaybolur. Linki gönder.</li>
+      </ul>
+      <a class="btn wa" href="https://wa.me/436707745771" rel="noopener" target="_blank">Linkleri WhatsApp'tan gönder</a>
+      <p class="mute" style="margin:12px 0 0;font-size:14px">Kontrol listesindeki “Linkler” kutusunu ancak gönderdikten sonra işaretle.</p>
+    </div>
+    <p class="mute" style="margin-top:22px">Sorun mu var? Bize <a href="https://wa.me/436707745771" rel="noopener" target="_blank">WhatsApp</a>'tan ya da <a href="mailto:business@lionpride-armwrestling.com">business@lionpride-armwrestling.com</a> adresine yaz.</p>
+  </div>
+</section>
+</main>
+
+<footer>Lion Pride Armwrestling League · LPAL 4 · 9 Ocak 2027 · MOTORWORLD Köln</footer>
+
+<script>
+(function () {
+  var d = document.getElementById("drive");
+  if (window.DRIVE_URL) { d.href = window.DRIVE_URL; }
+  else { d.textContent = window.T.soon; d.classList.add("off"); d.removeAttribute("href"); }
+  document.querySelectorAll("#lang-list a").forEach(function (a) {
+    if (a.dataset.l === window.LANG) a.setAttribute("aria-current", "page");
+    a.addEventListener("click", function () { try { localStorage.setItem("lpal4-lang", a.dataset.l); } catch (e) {} });
+  });
+  ["dl", "dl2"].forEach(function (id) { document.getElementById(id).textContent = window.DEADLINE; });
+
+  document.querySelectorAll("[data-copy]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var t = document.getElementById(b.dataset.copy).innerText.trim();
+      var done = function () { b.textContent = window.T.copied; setTimeout(function () { b.textContent = window.T.copy; }, 1500); };
+      if (navigator.clipboard) navigator.clipboard.writeText(t).then(done, function () {});
+    });
+  });
+
+  var KEY = "lpal4-video-check", saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch (e) {}
+  var boxes = document.querySelectorAll("#checklist input"), bar = document.getElementById("prog");
+  function upd() {
+    var n = 0; boxes.forEach(function (x) { if (x.checked) n++; });
+    bar.style.width = (n / boxes.length * 100) + "%";
+  }
+  boxes.forEach(function (x) {
+    x.checked = !!saved[x.dataset.k];
+    x.addEventListener("change", function () {
+      saved[x.dataset.k] = x.checked;
+      try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+      upd();
+    });
+  });
+  upd();
+})();
+</script>
+</body>
+</html>
