@@ -188,5 +188,8 @@
  "✗ Not into the phone / camera": "✗ Telefona / kameraya değil",
  "✓ Eyes straight into the lens": "✓ Gözler doğrudan lense",
  "Space above the head": "Başın üstünde boşluk",
- "Bottom of the frame: chest": "Kadrajın altı: göğüs"
+ "Bottom of the frame: chest": "Kadrajın altı: göğüs",
+ "This example is a vertical clip. You film the same look horizontally (16:9).": "Bu örnek dikey bir video. Sen aynı görüntüyü yatay (16:9) çek.",
+ "<i>Space above the head</i>": "<i>Başın üstünde boşluk</i>",
+ "<i>Bottom of the frame: chest</i>": "<i>Kadrajın altı: göğüs</i>"
 }

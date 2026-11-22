@@ -188,5 +188,8 @@
  "✗ Not into the phone / camera": "✗ ليس على الهاتف / الكاميرا",
  "✓ Eyes straight into the lens": "✓ العينان مباشرة في العدسة",
  "Space above the head": "مساحة فوق الرأس",
- "Bottom of the frame: chest": "أسفل الإطار: الصدر"
+ "Bottom of the frame: chest": "أسفل الإطار: الصدر",
+ "This example is a vertical clip. You film the same look horizontally (16:9).": "هذا المثال فيديو عمودي. أنت صوّر نفس اللقطة بشكل أفقي (16:9).",
+ "<i>Space above the head</i>": "<i>مساحة فوق الرأس</i>",
+ "<i>Bottom of the frame: chest</i>": "<i>أسفل الإطار: الصدر</i>"
 }

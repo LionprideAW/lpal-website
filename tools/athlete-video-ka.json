@@ -188,5 +188,8 @@
  "✗ Not into the phone / camera": "✗ არა ტელეფონში / კამერაში",
  "✓ Eyes straight into the lens": "✓ თვალები პირდაპირ ობიექტივში",
  "Space above the head": "სივრცე თავს ზემოთ",
- "Bottom of the frame: chest": "კადრის ქვედა კიდე: მკერდი"
+ "Bottom of the frame: chest": "კადრის ქვედა კიდე: მკერდი",
+ "This example is a vertical clip. You film the same look horizontally (16:9).": "ეს მაგალითი ვერტიკალური ვიდეოა. შენ იგივე კადრი ჰორიზონტალურად გადაიღე (16:9).",
+ "<i>Space above the head</i>": "<i>სივრცე თავს ზემოთ</i>",
+ "<i>Bottom of the frame: chest</i>": "<i>კადრის ქვედა კიდე: მკერდი</i>"
 }

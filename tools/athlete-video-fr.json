@@ -192,5 +192,8 @@
  "✗ Not into the phone / camera": "✗ Pas dans le téléphone / la caméra",
  "✓ Eyes straight into the lens": "✓ Les yeux droit dans l'objectif",
  "Space above the head": "Espace au-dessus de la tête",
- "Bottom of the frame: chest": "Bas du cadre : la poitrine"
+ "Bottom of the frame: chest": "Bas du cadre : la poitrine",
+ "This example is a vertical clip. You film the same look horizontally (16:9).": "Cet exemple est une vidéo verticale. Toi, tu filmes le même rendu à l'horizontale (16:9).",
+ "<i>Space above the head</i>": "<i>Espace au-dessus de la tête</i>",
+ "<i>Bottom of the frame: chest</i>": "<i>Bas du cadre : la poitrine</i>"
 }
