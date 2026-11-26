@@ -140,8 +140,8 @@ const PACKAGES = [
     items: ["2-second brand intro on 30+ match clips", "Name in every clip description", "Clips stay online with no time limit"] },
   { id: "opener", cat: "stream", name: "Show Opener", price: 1500, once: true,
     items: ["Two spots up to 30 seconds before the show starts", "Your still image until the first match"] },
-  { id: "spot", cat: "stream", name: "Commercial Break Video", price: 500, tag: "Max. 4 per night",
-    items: ["Your commercial video (up to 30 seconds) in a break of the livestream", "Kept in the recording"] },
+  { id: "spot", cat: "stream", name: "Commercial Break Video", price: 1000, tag: "Max. 4 per night",
+    items: ["2–4 commercial breaks in the livestream, each 2–3 minutes max.", "Your video plays 2 times in these breaks", "Kept in the recording"] },
 
   { id: "walkout", cat: "arena", name: "Walkout Partner", price: 5000, once: true,
     items: ["WWE-style walkouts with music, lights and pyro: your brand in every one",
@@ -209,7 +209,7 @@ if (VARIANT === "premium") {
     if (p.tag && /save €/i.test(p.tag)) p.tag = undefined;
   });
   KEEP("led").cat = "arena"; KEEP("led").name = "LED Screen Partner";
-  KEEP("spot").hide = false; KEEP("spot").price = 1000; // commercial break video on the premium page
+  KEEP("spot").hide = false; KEEP("spot").price = 2000; // commercial break video on the premium page
 }
 const isShown = p => !p.hide;
 
