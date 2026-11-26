@@ -15,8 +15,9 @@
 - Bump the number in an asset file name (e.g. main-93.js → main-94.js) when changing it, because /assets is cached.
 
 ## Sponsor pages and price tiers (hidden, noindex)
-- /sponsor-opportunities: ENTRY tier, the lowest prices (generic, English, no brand). Total of all packages €24,500, "Presented by" €20,000. Custom packages on request.
+- /sponsor-opportunities: ENTRY tier, the lowest prices (generic, English, no brand). Total of all packages €23,500, "Presented by" €20,000. Custom packages on request.
 - /partners-lpal4: standard tier (English).
+- Commercial break video (one spot up to 30 s): €500 on /sponsor-opportunities and /partners-lpal4, €1,000 on /partners-lpal4-premium.
 - /partners-lpal4-premium: premium tier (English).
 - /partners-lpal4-levelup: offer made for Level Equipment (German).
 - /partners-lpal4-kick: proposal for KICK.
